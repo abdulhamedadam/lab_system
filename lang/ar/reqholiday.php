@@ -1,0 +1,16 @@
+<?php return array (
+  'create' => 'انشاء',
+  'Emp_ID' => 'الرقم التعريفي',
+  'Num_Days' => 'عدد الايام',
+  'Start_Date' => 'تاريخ البدأ',
+  'End_Date' => 'تاريخ الانتهاء',
+  'Holiday_Type' => 'نوع الأجازة',
+  'Reason' => 'السبب',
+  'Action' => 'العمليه',
+  'Fill_Data' => 'ملىء البيانات',
+  'Number_Of_Days' => 'عدد الايام',
+  'Show_Data' => 'عرض البيانات',
+  'Employee_ID' => 'الرقم التعريفي',
+  'Type' => 'النوع',
+  'Employee ID' => 'Employee ID',
+);

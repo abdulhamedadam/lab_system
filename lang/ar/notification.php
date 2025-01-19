@@ -1,0 +1,16 @@
+<?php return array (
+  'send_invitation_massage_accept' => 'تم الموافقة على دعوة للانضام اى الرحلة',
+  'send_invitation_massage' => 'تم ارسال دعوة للانضام اى الرحلة',
+  'send_invitation' => 'دعوة للرحلة',
+  'create' => 'create',
+  'mainData' => 'mainData',
+  'send_to' => 'send_to',
+  'select' => 'select',
+  'title' => 'title',
+  'details' => 'details',
+  'ID' => 'ID',
+  'Title' => 'Title',
+  'Details' => 'Details',
+  'Action' => 'Action',
+  'Send_To' => 'Send_To',
+);

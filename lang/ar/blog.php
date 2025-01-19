@@ -1,0 +1,16 @@
+<?php return array (
+  'main_image' => 'الصورة الرئيسية',
+  'mainData' => 'البايانات الاساسية',
+  'details' => 'التفاصيل',
+  'images' => 'الصور',
+  'create' => 'انشاء',
+  'ID' => '#',
+  'title' => 'العنوان',
+  'date_at' => 'التاريخ',
+  'publisher' => 'الناشر',
+  'Action' => 'العمليه',
+  'name' => 'name',
+  'parant' => 'parant',
+  'code' => 'code',
+  'account_num' => 'account_num',
+);
