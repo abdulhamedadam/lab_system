@@ -126,3 +126,72 @@ function get_app_config_data($key){
     $data=\App\Models\AppConfig::where('key',$key)->first();
     return $data->value;
 }
+/***************************************************************/
+function AddButton($route)
+{
+     $button='
+            <div class="d-flex">
+                <a href="'.$route.'" class="btn btn-icon btn-sm btn-primary flex-shrink-0 ms-4">
+                    <span class="svg-icon svg-icon-2">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <rect opacity="0.5" x="11.364" y="20.364" width="16" height="2" rx="1" transform="rotate(-90 11.364 20.364)" fill="currentColor"/>
+                            <rect x="4.36396" y="11.364" width="16" height="2" rx="1" fill="currentColor"/>
+                        </svg>
+                    </span>
+
+                </a>
+            </div>';
+
+     echo $button;
+}
+/****************************************************************/
+function PageTitle($title, $breadcrumbs)
+{
+    $breadcrumbItems = '';
+    foreach ($breadcrumbs as $breadcrumb) {
+        if (isset($breadcrumb['link']) && $breadcrumb['link'] !== '') {
+            $breadcrumbItems .= '<li class="breadcrumb-item text-muted"><a href="'.$breadcrumb['link'].'" class="text-muted text-hover-primary">'.$breadcrumb['label'].'</a></li>';
+        } else {
+            $breadcrumbItems .= '<li class="breadcrumb-item text-muted">'.$breadcrumb['label'].'</li>';
+        }
+        $breadcrumbItems .= '<li class="breadcrumb-item"><span class="bullet bg-gray-400 w-5px h-2px"></span></li>';
+    }
+    $breadcrumbItems = rtrim($breadcrumbItems, '<li class="breadcrumb-item"><span class="bullet bg-gray-400 w-5px h-2px"></span></li>');
+
+    $pageTitle = '
+    <div class="page-title d-flex flex-column justify-content-center flex-wrap me-3">
+        <h1 class="page-heading d-flex text-dark fw-bold fs-3 flex-column justify-content-center my-0">'.$title.'</h1>
+        <ul class="breadcrumb breadcrumb-separatorless fw-semibold fs-7 my-0 pt-1">
+            '.$breadcrumbItems.'
+        </ul>
+    </div>';
+
+    echo $pageTitle;
+}
+
+/**********************************************************/
+function generateTable(array $headers)
+{
+
+    $table = '<div class="card-body">
+                    <div class="">
+                        <table id="table" class="table table-bordered">
+                            <thead>
+                                <tr class="fw-bold fs-6 text-gray-800">';
+
+    foreach ($headers as $header) {
+        $table .= '<th style="text-align: center;">' . htmlspecialchars(trans($header)) . '</th>';
+    }
+
+    $table .= '</tr>
+                    </thead>
+                    <tbody>
+                    </tbody>
+                </table>
+            </div>
+        </div>';
+
+    echo $table;
+
+}
+

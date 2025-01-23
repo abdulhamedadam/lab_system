@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Admin\app_setting\NotificationController;
 use App\Http\Controllers\Admin\app_setting\DiscountController;
+use App\Http\Controllers\Admin\ClientController;
 use App\Http\Controllers\Admin\Finance\Accounts_Type_C;
 use App\Http\Controllers\Admin\Finance\AccountController;
 use App\Http\Controllers\Admin\Finance\AccountingEntryController;
@@ -92,10 +93,7 @@ Route::group(
             return ' test admin ';
         });
 
-        Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
-        Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
-        Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
-
+        Route::resource('clients',ClientController::class);
 
         /************************** MAINDATA *****************************/
         Route::resource('mdata', MaindataController::class);
