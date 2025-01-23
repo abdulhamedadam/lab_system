@@ -175,6 +175,7 @@ return [
         App\Providers\RepositoryServiceProvider::class,
         Spatie\Permission\PermissionServiceProvider::class,
         SimpleSoftwareIO\QrCode\QrCodeServiceProvider::class,
+        Mckenziearts\Notify\LaravelNotifyServiceProvider::class
 
     ])->toArray(),
 

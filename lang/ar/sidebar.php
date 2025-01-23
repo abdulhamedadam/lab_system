@@ -89,4 +89,6 @@
   'App_setting' => 'اعدادات الموقع',
   'freezing_days' => 'أيام التجميد',
   'Expenditures' => 'النفقات',
+  'general_settings' => 'الاعدادات العامة',
+  'employee_data' => 'بيانات الموظفين',
 );

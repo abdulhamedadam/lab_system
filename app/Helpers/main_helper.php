@@ -2,7 +2,9 @@
 
 
 
+use App\Interfaces\BasicRepositoryInterface;
 use App\Traits\ImageProcessing;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 
 
@@ -125,4 +127,76 @@ function get_session_attendance($member_id,$additional_sub_id)
 function get_app_config_data($key){
     $data=\App\Models\AppConfig::where('key',$key)->first();
     return $data->value;
+}
+
+
+/*----------------------------------------------*/
+if (!function_exists('createRepository')) {
+    function createRepository(BasicRepositoryInterface $basicRepository, $model)
+    {
+        $repository = clone $basicRepository;
+        $repository->set_model($model);
+        return $repository;
+    }
+}
+
+if (!function_exists('count_branches')) {
+    function count_branches()
+    {
+        $query = DB::table('tbl_branches');
+        $count = $query->count();
+
+        return $count;
+    }
+}
+
+if (!function_exists('count_areas')) {
+    function count_areas($parent_id = null)
+    {
+        $query = DB::table('tbl_area_settings');
+
+        if (is_null($parent_id)) {
+            $nullCount = $query->whereNull('parent_id')->count();
+
+            return $nullCount;
+        }
+
+        $notNullCount = $query->whereNotNull('parent_id')->count();
+
+        return $notNullCount;
+    }
+}
+
+if (!function_exists('test')) {
+    function test($data)
+    {
+        $startTime = microtime(true);
+        echo '<pre>';
+        print_r($data);
+        die();
+        $endTime = microtime(true);
+        $executionTime = $endTime - $startTime;
+
+        echo "Execution Time: $executionTime seconds";
+    }
+
+    if (!function_exists('formatFileSize')) {
+        function formatFileSize($destination)
+        {
+            $bytes = filesize($destination);
+            if ($bytes >= 1073741824) {
+                return number_format($bytes / 1073741824, 2) . ' GB';
+            } elseif ($bytes >= 1048576) {
+                return number_format($bytes / 1048576, 2) . ' MB';
+            } elseif ($bytes >= 1024) {
+                return number_format($bytes / 1024, 2) . ' KB';
+            } elseif ($bytes > 1) {
+                return $bytes . ' bytes';
+            } elseif ($bytes == 1) {
+                return $bytes . ' byte';
+            } else {
+                return '0 bytes';
+            }
+        }
+    }
 }

@@ -16,7 +16,7 @@ class SiteData extends Model
         'tax_number','transport_value','image_print'];
     public $translatable = ['name', 'address', 'description', 'contract_terms'];
 
-    public function getImageAttribute($value)
+    public function getImageeAttribute($value)
     {
         if (!empty($value)) {
             $image_path = Storage::disk('images')->url($value);

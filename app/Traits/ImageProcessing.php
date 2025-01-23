@@ -33,7 +33,6 @@ trait  ImageProcessing
         elseif ($mime == 'image/webp')
             $extension = '.webp';
         return $extension;
-
     }
 
     function checkFolder($folderPath)
@@ -49,6 +48,25 @@ trait  ImageProcessing
             // Create the folder
             File::makeDirectory($folderPath, 0755, true);
         }
+    }
+
+    /****************************************************************/
+    public function saveFile($file, $folder = null)
+    {
+        $str_random = Str::random(8);
+        $extension = $file->getClientOriginalExtension();
+        $fileName = $str_random . time() . '.' . $extension;
+
+        if (!empty($folder)) {
+            $upload_path = storage_path('app/files') . '/' . $folder;
+        } else {
+            $upload_path = storage_path('app/files');
+        }
+        $this->checkFolder($upload_path);
+        $file->move($upload_path, $fileName);
+        $filePath = $folder . '/' . $fileName;
+        // dd($filePath);
+        return $filePath;
     }
 
     public function saveImage($image, $folder = null)
@@ -91,7 +109,6 @@ trait  ImageProcessing
         $imgpath = $folder . '/' . $imgpath;
 
         return $imgpath;
-
     }
 
     public function aspect4height($image, $width, $height, $folder)
@@ -117,7 +134,6 @@ trait  ImageProcessing
         $imgpath = $folder . '/' . $imgpath;
 
         return $imgpath;
-
     }
 
     public function saveImageAndThumbnail($Thefile, $folder, $thumb = false)

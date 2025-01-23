@@ -73,4 +73,6 @@
   'Discount' => 'Discount',
   'Account_type' => 'Account_type',
   'Expenditures' => 'Expenditures',
+  'general_settings' => 'general_settings',
+  'employee_data' => 'employee_data',
 );

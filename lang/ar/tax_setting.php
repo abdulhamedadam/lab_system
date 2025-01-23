@@ -12,12 +12,6 @@
   'Action' => 'العمليه',
   'account_id' => 'عنوان الحساب',
   'status' => 'الحاله',
-<<<<<<< HEAD
-  'attribute' => 'attribute',
-  'value' => 'value',
+'attribute' => 'attribute',
+'value' => 'value',
 );
-=======
-    'attribute' => 'attribute',
-    'value' => 'value',
-);
->>>>>>> bfe1015f4fee105d8bacb12c913adaf65c23fc49

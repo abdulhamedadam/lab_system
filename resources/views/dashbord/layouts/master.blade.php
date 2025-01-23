@@ -118,7 +118,7 @@
         <!--begin::Javascript-->
 
         @include('dashbord.layouts.footer-scripts')
-
+        @include('notify::components.notify')
         <!--end::Javascript-->
         </body>
         <!--end::Body-->

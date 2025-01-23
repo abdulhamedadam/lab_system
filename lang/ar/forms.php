@@ -41,5 +41,6 @@
   'notactive' => 'notactive',
   'with' => 'with',
   'without' => 'without',
-  'save' => 'save',
+  'save' => 'حفظ',
+  'add' => 'اضافة',
 );
