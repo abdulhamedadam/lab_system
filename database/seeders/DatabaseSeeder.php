@@ -20,10 +20,13 @@ class DatabaseSeeder extends Seeder
 $this->call(HrTypeSettingSeeder::class);
 $this->call(EmployeesTableSeeder::class);
 $this->call(PermissionsSeeder::class);*/
-$this->call(accountsSeeder::class);
-        ini_set('memory_limit', '-1');
+// $this->call(accountsSeeder::class);
+        // ini_set('memory_limit', '-1');
 
-
+        $this->call(CreateAdminUserSeeder::class);
+        $this->call(BranchesSeeder::class);
+        $this->call(AreaSettingsSeeder::class);
+        $this->call(SiteDataSeeder::class);
 
     }
 }

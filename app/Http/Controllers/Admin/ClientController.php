@@ -3,101 +3,134 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Admin\clients\SaveRequests;
+use App\Http\Requests\Admin\clients\updateRequests;
+use App\Interfaces\BasicRepositoryInterface;
+use App\Models\Admin\AreaSetting;
+use App\Models\Admin\Branch;
+use App\Models\Admin\Employee;
+use App\Models\Admin\EmployeeFiles;
 use App\Models\Clients;
+use App\Services\ClientService;
+use App\Traits\ImageProcessing;
+use App\Traits\ValidationMessage;
 use Illuminate\Http\Request;
 use DataTables;
+
 class ClientController extends Controller
 {
-    protected $admin_view='dashbord.clients';
+    use ImageProcessing;
+    use ValidationMessage;
+
+    protected $admin_view = 'dashbord.clients';
+    protected $AreasSettingRepository;
+    protected $ClientsRepository;
+    protected $clientService;
+
+    public function __construct(BasicRepositoryInterface $basicRepository, ClientService $clientService)
+    {
+        $this->AreasSettingRepository = createRepository($basicRepository, new AreaSetting());
+        $this->ClientsRepository = createRepository($basicRepository, new Clients());
+        $this->clientService = $clientService;
+
+    }
+
+
     public function index(Request $request)
     {
         if ($request->ajax()) {
             $allData = Clients::select('*');
             return Datatables::of($allData)
                 ->addColumn('action', function ($row) {
-                    return '<a href="#" class="btn btn-sm btn-light btn-active-light-primary"
-                    data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end">' . trans('forms.action') . '
-                    <span class="svg-icon svg-icon-5 m-0">
-                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none"
-                        xmlns="http://www.w3.org/2000/svg">
-                            <path d="M11.4343 12.7344L7.25 8.55005C6.83579
-                            8.13583 6.16421 8.13584 5.75 8.55005C5.33579
-                            8.96426 5.33579 9.63583 5.75 10.05L11.2929
-                            15.5929C11.6834 15.9835 12.3166 15.9835
-                            12.7071 15.5929L18.25 10.05C18.6642 9.63584
-                            18.6642 8.96426 18.25 8.55005C17.8358 8.13584
-                            17.1642 8.13584 16.75 8.55005L12.5657
-                            12.7344C12.2533 13.0468 11.7467 13.0468
-                            11.4343 12.7344Z" fill="currentColor" />
-                        </svg>
-                    </span>
-                </a>
-                <div class="menu menu-sub menu-sub-dropdown menu-column menu-rounded menu-gray-600 menu-state-bg-light-primary fw-semibold fs-7 w-125px py-4" data-kt-menu="true">
-                    <div class="menu-item px-3">
-                        <a href="' . route('admin.Members.edit', $row->id) . '"
-                           title="' . trans('forms.edit_btn') . '" class="menu-link px-3"
-                        >' . trans('forms.edit_btn') . '</a>
-                    </div>
-                    <div class="menu-item px-3">
-                        <a href="' . route('admin.Members.show', $row->id) . '"
-                           title="' . trans('forms.details') . '" class="menu-link px-3"
-                        >' . trans('forms.details') . '</a>
-                    </div>
-                    <div class="menu-item px-3">
-                        <a href="' . route('admin.Members.delete', $row->id) . '"  data-kt-table-delete="delete_row2"  title="' . trans('forms.delete_btn') . '" class="menu-link px-3">' . trans('forms.delete_btn') . '</a>
+                    return '
+    <div class="btn-group btn-group-sm">
+        <a href="' . route('admin.clients.edit', $row->id) . '" class="btn btn-sm btn-primary" title="' . trans('clients.edit') . '" style="font-size: 16px;">
+            <i class="bi bi-pencil-square"></i>
+        </a>
+        <a onclick="return confirm(\'Are You Sure To Delete?\')"  href="' . route('admin.delete_client', $row->id) . '"  class="btn btn-sm btn-danger" title="' . trans('clients.delete') . '" style="font-size: 16px;" onclick="return confirm(\'' . trans('employees.confirm_delete') . '\')">
+            <i class="bi bi-trash3"></i>
+        </a>
 
-                    </div>
-                </div>';
+        <a href="#" class="btn btn-sm btn-info" title="' . trans('clients.companies') . '" style="font-size: 16px;">
+            <i class="bi bi-building"></i>
+        </a>
+        <a href="#" class="btn btn-sm btn-secondary" title="' . trans('clients.projects') . '" style="font-size: 16px;">
+            <i class="bi bi-kanban"></i>
+        </a>
+        <a href="#" class="btn btn-sm btn-success" title="' . trans('clients.financials') . '" style="font-size: 16px;">
+            <i class="bi bi-cash-coin"></i>
+        </a>
+    </div>
+';
                 })
-                ->rawColumns(['action'])
+                ->rawColumns(['image', 'action'])
                 ->make(true);
         }
-        return view($this->admin_view.'.index');
+        return view($this->admin_view . '.index');
     }
 
     /***********************************************/
     public function create()
     {
-        //
+        $data['client_code'] = $this->ClientsRepository->getLastFieldValue('client_code');
+        $data['governates'] = $this->AreasSettingRepository->getBywhere(array('parent_id' => null));
+        return view($this->admin_view . '.form', $data);
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(Request $request)
+    /***********************************************/
+    public function store(SaveRequests $request)
     {
-        //
+        try {
+
+
+            $this->clientService->store($request);
+            toastr()->addSuccess(trans('forms.success'));
+            return redirect()->route('admin.clients.index');
+        } catch (\Exception $e) {
+            dd($e->getMessage());
+            return redirect()->back()->withErrors(['error' => $e->getMessage()]);
+        }
+
     }
 
-    /**
-     * Display the specified resource.
-     */
+    /***********************************************/
     public function show(string $id)
     {
         //
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
+    /***********************************************/
     public function edit(string $id)
     {
-        //
+        $data['client_code'] = $this->ClientsRepository->getLastFieldValue('client_code');
+        $data['governates'] = $this->AreasSettingRepository->getBywhere(array('parent_id' => null));
+        $data['all_data']=  $this->ClientsRepository->getById($id);
+        return view($this->admin_view . '.edit', $data);
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, string $id)
+    /***********************************************/
+    public function update(UpdateRequests $request, string $id)
     {
-        //
+        try {
+            $this->clientService->update($request,$id);
+            toastr()->addSuccess(trans('forms.success'));
+            return redirect()->route('admin.clients.index');
+        } catch (\Exception $e) {
+            dd($e->getMessage());
+            return redirect()->back()->withErrors(['error' => $e->getMessage()]);
+        }
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
+    /***********************************************/
     public function destroy(string $id)
     {
-        //
+        try {
+            $this->ClientsRepository->delete($id);
+            toastr()->addSuccess(trans('forms.success'));
+            return redirect()->route('admin.clients.index');
+        } catch (\Exception $e) {
+            dd($e->getMessage());
+            return redirect()->back()->withErrors(['error' => $e->getMessage()]);
+        }
     }
 }

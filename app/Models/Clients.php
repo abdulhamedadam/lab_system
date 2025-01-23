@@ -11,4 +11,10 @@ class Clients extends Model
 
     protected $table='tbl_clients';
     protected $guarded=[];
+
+
+    public function scopeLastClientCode($query)
+    {
+        return $query->orderBy('id', 'desc')->pluck('client_code')->first();
+    }
 }

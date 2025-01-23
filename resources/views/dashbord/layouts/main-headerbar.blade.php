@@ -290,7 +290,7 @@
                         <!--end::Menu separator-->
                         <!--begin::Menu item-->
                         <div class="menu-item px-5">
-                            <a href="{{route('admin.UserManagement.users.edit',auth('admin')->user()->id)}}" class="menu-link px-5">My Profile</a>
+                            <a href="" class="menu-link px-5">My Profile</a>
                         </div>
                         <!--end::Menu item-->
 

@@ -2,7 +2,9 @@
 
 
 
+use App\Interfaces\BasicRepositoryInterface;
 use App\Traits\ImageProcessing;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 
 
@@ -126,6 +128,7 @@ function get_app_config_data($key){
     $data=\App\Models\AppConfig::where('key',$key)->first();
     return $data->value;
 }
+
 /***************************************************************/
 function AddButton($route)
 {
@@ -143,6 +146,27 @@ function AddButton($route)
             </div>';
 
      echo $button;
+}
+
+/****************************************************************/
+function BackButton($route)
+{
+    $button='
+            <div class="d-flex">
+                <a href="'.$route.'" class="btn btn-icon btn-sm btn-primary flex-shrink-0 ms-4">
+                    <span class="svg-icon svg-icon-2">
+                                   <svg width="24" height="24" viewBox="0 0 24 24" fill="none"
+                                        xmlns="http://www.w3.org/2000/svg">
+                                       <path
+                                           d="M17.6 4L9.6 12L17.6 20H13.6L6.3 12.7C5.9 12.3 5.9 11.7 6.3 11.3L13.6 4H17.6Z"
+                                           fill="currentColor"/>
+                                   </svg>
+                    </span>
+
+                </a>
+            </div>';
+
+    echo $button;
 }
 /****************************************************************/
 function PageTitle($title, $breadcrumbs)
@@ -175,7 +199,7 @@ function generateTable(array $headers)
 
     $table = '<div class="card-body">
                     <div class="">
-                        <table id="table" class="table table-bordered">
+                        <table id="table1" class="table table-bordered">
                             <thead>
                                 <tr class="fw-bold fs-6 text-gray-800">';
 
@@ -193,5 +217,129 @@ function generateTable(array $headers)
 
     echo $table;
 
+}
+
+
+
+
+/*----------------------------------------------*/
+if (!function_exists('createRepository')) {
+    function createRepository(BasicRepositoryInterface $basicRepository, $model)
+    {
+        $repository = clone $basicRepository;
+        $repository->set_model($model);
+        return $repository;
+    }
+}
+
+if (!function_exists('count_branches')) {
+    function count_branches()
+    {
+        $query = DB::table('tbl_branches');
+        $count = $query->count();
+
+        return $count;
+    }
+}
+
+if (!function_exists('count_areas')) {
+    function count_areas($parent_id = null)
+    {
+        $query = DB::table('tbl_area_settings');
+
+        if (is_null($parent_id)) {
+            $nullCount = $query->whereNull('parent_id')->count();
+
+            return $nullCount;
+        }
+
+        $notNullCount = $query->whereNotNull('parent_id')->count();
+
+        return $notNullCount;
+    }
+}
+
+if (!function_exists('test')) {
+    function test($data)
+    {
+        $startTime = microtime(true);
+        echo '<pre>';
+        print_r($data);
+        die();
+        $endTime = microtime(true);
+        $executionTime = $endTime - $startTime;
+
+        echo "Execution Time: $executionTime seconds";
+    }
+
+    if (!function_exists('formatFileSize')) {
+        function formatFileSize($destination)
+        {
+            $bytes = filesize($destination);
+            if ($bytes >= 1073741824) {
+                return number_format($bytes / 1073741824, 2) . ' GB';
+            } elseif ($bytes >= 1048576) {
+                return number_format($bytes / 1048576, 2) . ' MB';
+            } elseif ($bytes >= 1024) {
+                return number_format($bytes / 1024, 2) . ' KB';
+            } elseif ($bytes > 1) {
+                return $bytes . ' bytes';
+            } elseif ($bytes == 1) {
+                return $bytes . ' byte';
+            } else {
+                return '0 bytes';
+            }
+        }
+    }
+}
+
+/************************************************/
+/**********************************************/
+if (!function_exists('generateCardHeader')) {
+    function generateCardHeader($card_title,$route,$add_button_title)
+    {
+        if ($add_button_title != ' ')
+        {
+            $button='<a class="btn btn-primary" href="'. route($route) .'">
+                                <i class="bi bi-plus fs-1"></i>'. htmlspecialchars(trans($add_button_title)).'
+                            </a>';
+        }else{
+            $button='';
+        }
+        $header = '
+         <div class="card-header">
+                    <h3 class="card-title">'. htmlspecialchars(trans($card_title)).'</h3>
+                    <div class="card-toolbar">
+                        <div class="text-center">
+                          '.$button.'
+                        </div>
+                    </div>
+                </div>
+        ';
+
+        echo $header;
+    }
+}
+/***********************************************/
+if (!function_exists('form_icon')) {
+    function form_icon($type)
+    {
+        $icons = [
+            'text' => '<i class="bi bi-pencil-square fs-4"></i>',
+            'date' => '<i class="bi bi-calendar-event fs-4"></i>',
+            'select' => '<i class="bi bi-list-ul fs-4"></i>',
+            'number' => '<i class="bi bi-hash fs-4"></i>',
+            'email' => '<i class="bi bi-envelope fs-4"></i>',
+            'password' => '<i class="bi bi-key fs-4"></i>',
+            'image' => '<i class="bi bi-image fs-4"></i>',
+            'phone' => '<i class="bi bi-telephone fs-4"></i>',
+            'file' => '<i class="bi bi-file-earmark fs-4"></i>',
+            'checkbox' => '<i class="bi bi-check2-square fs-4"></i>',
+            'address' => '<i class="bi bi-geo-alt fs-4"></i>',
+        ];
+
+        // Return the icon if it exists, otherwise return a default icon
+        return $icons[$type] ?? '<i class="bi bi-question-circle fs-4"></i>';
+    }
 }
 

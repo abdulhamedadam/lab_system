@@ -1,10 +1,13 @@
 <?php return array (
   'clients' => 'العملاء',
   'clients_table' => 'جدول العملاء',
-  'ID' => 'ID',
-  'name' => 'name',
-  'phone' => 'phone',
-  'email' => 'email',
-  'projects' => 'projects',
-  'action' => 'action',
+    'ID' => 'المعرف',
+    'name' => 'الاسم',
+    'phone' => 'رقم الهاتف',
+    'email' => 'البريد الإلكتروني',
+    'projects' => 'المشروعات',
+    'action' => 'الإجراء',
+    'address1' => 'العنوان 1',
+    'commercial_register' => 'السجل التجاري',
+
 );

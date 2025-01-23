@@ -1,4 +1,10 @@
 @extends('dashbord.layouts.master')
+<style>
+
+    .btn:not(.btn-outline):not(.btn-dashed):not(.border-hover):not(.border-active):not(.btn-flush):not(.btn-icon).btn-sm, .btn-group-sm > .btn:not(.btn-outline):not(.btn-dashed):not(.border-hover):not(.border-active):not(.btn-flush):not(.btn-icon) {
+        padding: 10px 12px !important;
+    }
+</style>
 @section('toolbar')
     <div id="kt_app_toolbar_container" class="app-container container-xxl d-flex flex-stack">
         @php
@@ -25,14 +31,15 @@
 
     <div id="kt_app_content_container" class="app-container container-xxxl">
 
-        <div class="card card-flush" style="border-top: 3px solid #007bff;">
+        <div class="card shadow-sm" style="border-top: 3px solid #007bff;">
              @php
              $headers=[
                        'client.ID',
                        'client.name',
                        'client.phone',
                        'client.email',
-                       'client.projects',
+                       'client.address1',
+                       'client.commercial_register',
                        'client.action',
 
                      ];
@@ -57,168 +64,152 @@
 @stop
 @section('js')
 
-
-
-
     <script>
 
-        var KTDatatablesServerSide = function () {
+        $(document).ready(function() {
+            //datatables
+            table = $('#table1').DataTable({
+                "language": {
+                    url: "{{ asset('assets/Arabic.json') }}"
+                },
+                "processing": true,
+                "serverSide": true,
+                "order": [],
+                "ajax": {
+                    url: "{{ route('admin.clients.index') }}",
+                },
+                "columns": [
+                    {data: 'id', className: 'text-center no-export'},
+                    {data: 'name', className: 'text-center'},
+                    {data: 'phone', className: 'text-center'},
+                    {data: 'email', className: 'text-center'},
+                    {data: 'address1', className: 'text-center'},
+                    {data: 'commercial_register', className: 'text-center'},
+                    {data: 'action', name: 'action', orderable: false, className: 'text-center no-export'},
+                ],
+                "columnDefs": [
+                    {
+                        "targets": [ 1,-1 ], //last column
+                        "orderable": false, //set not orderable
+                    },
+                    {
+                        "targets": [1],
+                        "createdCell": function(td, cellData, rowData, row, col) {
+                            $(td).css({
+                                'font-weight': '600',
+                                'text-align': 'center',
+                                'color': '#6610f2',
 
-            var table;
-            var dt;
-            var filterPayment;
-
-            var initDatatable = function () {
-                dt = $('#table').DataTable({
-                    searchDelay: 500,
-                    processing: true,
-                    serverSide: true,
-                    dom: "<'row'<'col-sm-12 col-md-4'l><'col-sm-12 col-md-4'f><'col-sm-12 col-md-4'B>>" +
-                        "<'row'<'col-sm-12'tr>>" +
-                        "<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>",
-                    ajax: "{{route('admin.clients.index')}}",
-                    columns: [
-                        {data: 'id', className: 'text-center no-export'},
-                        {data: 'name', className: 'text-center'},
-                        {data: 'phone', className: 'text-center'},
-                        {data: 'email', className: 'text-center'},
-                        {data: 'projects', className: 'text-center'},
-                        {data: 'action', name: 'action', orderable: false, className: 'text-center no-export'},
-                    ],
-                    order: [[0, 'desc']],
-                    columnDefs: [
-                        {
-                            "targets": [0, 1, 2, 3, 4],
-                            "createdCell": function (td, cellData, rowData, row, col) {
-                                $(td).css({
-                                    'font-weight': '600',
-                                    'text-align': 'center',
-
-                                });
-                            }
-                        },
-                    ],
-                    buttons: [
-                        {
-                            extend: 'excelHtml5',
-                            text: '<i class="bi bi-file-earmark-spreadsheet-fill"></i>',
-                            exportOptions: {
-                                columns: ':visible:not(.no-export)'
-                            }
-                        }
-                    ]
-                });
-
-                table = dt.$;
-
-                dt.on('draw', function () {
-                    KTMenu.createInstances();
-                });
-            }
-            var handleDeleteRows = function () {
-                const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
-                KTUtil.on(document.body, '[data-kt-table-delete="delete_row"]', 'click', function (e) {
-                    e.preventDefault();
-                    const parent = e.target.closest('tr');
-                    var action = e.target.getAttribute('href');
-
-                    Swal.fire({
-                        text: "{{ trans('forms.delete_quetion') }}?",
-                        icon: "warning",
-                        showCancelButton: true,
-                        buttonsStyling: false,
-                        confirmButtonText: "{{ trans('forms.delete_btn') }}",
-                        cancelButtonText: "{{ trans('forms.action_no') }}",
-                        customClass: {
-                            confirmButton: "btn fw-bold btn-danger",
-                            cancelButton: "btn fw-bold btn-active-light-primary"
-                        }
-                    }).then(function (result) {
-                        if (result.value) {
-                            Swal.fire({
-                                imageUrl: 'https://media.tenor.com/C7KormPGIwQAAAAi/epic-loading.gif',
-                                imageWidth: 200,
-                                imageHeight: 200,
-                                buttonsStyling: false,
-                                showConfirmButton: false,
-                                timer: 2000,
-                                allowOutsideClick: false,
-                                allowEscapeKey: false
-                            }).then(function () {
-                                if (action) {
-                                    fetch(action, {
-                                        method: 'DELETE',
-                                        headers: {
-                                            'Content-Type': 'application/json',
-                                            'X-CSRF-TOKEN': csrfToken,
-
-
-                                        },
-
-                                    })
-                                        .then(response => {
-                                            if (!response.ok) {
-                                                throw new Error('Network response was not ok');
-                                            }
-                                            return response.json();
-                                        })
-
-                                        .then(data => {
-                                            Swal.fire({
-                                                text: "{{ trans('forms.Delete') }}",
-                                                icon: "success",
-                                                buttonsStyling: false,
-                                                confirmButtonText: "{{ trans('forms.action_done') }}",
-                                                customClass: {
-                                                    confirmButton: "btn fw-bold btn-primary",
-                                                }
-                                            }).then(function () {
-                                                dt.draw();
-                                            });
-                                        })
-                                        .catch(error => {
-                                            console.error('Error deleting:', error);
-                                            Swal.fire({
-                                                text: "{{ trans('forms.Delete') }}",
-                                                icon: "success",
-                                                buttonsStyling: false,
-                                                confirmButtonText: "{{ trans('forms.action_done') }}",
-                                                customClass: {
-                                                    confirmButton: "btn fw-bold btn-primary",
-                                                }
-                                            }).then(function () {
-                                                dt.draw();
-                                            });
-                                        });
-                                }
-                            });
-                        } else if (result.dismiss === 'cancel') {
-                            Swal.fire({
-                                text: "{{ trans('forms.Delete') }}",
-                                icon: "error",
-                                buttonsStyling: false,
-                                confirmButtonText: "{{ trans('forms.action_done') }}",
-                                customClass: {
-                                    confirmButton: "btn fw-bold btn-primary",
-                                }
+                                'vertical-align': 'middle',
                             });
                         }
-                    });
-                });
-            };
+                    },
+                    {
+                        "targets": [3,4],
+                        "createdCell": function(td, cellData, rowData, row, col) {
+                            $(td).css({
+                                'font-weight': '600',
+                                'text-align': 'center',
+                                'vertical-align': 'middle',
+                            });
+                        }
+                    },
+                    {
+                        "targets": [2],
+                        "createdCell": function(td, cellData, rowData, row, col) {
+                            $(td).css({
+                                'font-weight': '600',
+                                'text-align': 'center',
+                                'color': 'green',
+                                'vertical-align': 'middle',
+                            });
+                        }
+                    },
 
-            return {
-                init: function () {
-                    initDatatable();
-                    handleDeleteRows();
-                }
-            }
-        }();
-        // On document ready
-        KTUtil.onDOMContentLoaded(function () {
-            KTDatatablesServerSide.init();
+                    {
+                        "targets": [5],
+                        "createdCell": function(td, cellData, rowData, row, col) {
+                            $(td).css({
+                                'font-weight': '600',
+                                'text-align': 'center',
+                                'color': 'red',
+                                'vertical-align': 'middle',
+                            });
+                        }
+                    },
+
+
+
+                ],
+                "order" : [],
+                "dom": '<"row align-items-center"<"col-md-3"l><"col-md-6"f><"col-md-3"B>>rt<"row align-items-center"<"col-md-6"i><"col-md-6"p>>',
+                "buttons": [
+                    {
+                        "extend": 'excel',
+                        "text": '<i class="bi bi-file-earmark-excel"></i>إكسل',
+                        "className": 'btn btn-dark'
+                    },
+                    {
+                        "extend": 'copy',
+                        "text": '<i class="bi bi-clipboard"></i>نسخ',
+                        "className": 'btn btn-primary'
+                    }
+                ],
+
+                "language": {
+                    "lengthMenu": "عرض _MENU_ سجلات",
+                    "zeroRecords": "لا توجد سجلات",
+                    "info": "عرض الصفحة _PAGE_ من _PAGES_",
+                    "infoEmpty": "لا توجد سجلات",
+                    "infoFiltered": "(مرشح من _MAX_ إجمالي السجلات)",
+                    "search": "بحث:",
+                    "paginate": {
+                        "first": "الأول",
+                        "last": "الأخير",
+                        "next": "التالي",
+                        "previous": "السابق"
+                    }
+                },
+                "lengthMenu": [[5, 10, 25, 50, -1], [5, 10, 25, 50, "الكل"]],
+            });
+
+            $("input").change(function(){
+                $(this).parent().parent().removeClass('has-error');
+                $(this).next().empty();
+            });
+            $("textarea").change(function(){
+                $(this).parent().parent().removeClass('has-error');
+                $(this).next().empty();
+            });
+            $("select").change(function(){
+                $(this).parent().parent().removeClass('has-error');
+                $(this).next().empty();
+            });
         });
     </script>
+
+    <script>
+        function confirmDelete(clientId) {
+            Swal.fire({
+                title: '{{ trans("employees.confirm_delete") }}',
+                text: '{{ trans("clients.delete_warning") }}',
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#d33',
+                cancelButtonColor: '#3085d6',
+                confirmButtonText: '{{ trans("employees.yes_delete") }}',
+                cancelButtonText: '{{ trans("employees.cancel") }}'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    document.getElementById('delete-form-' + clientId).submit();
+                }
+            });
+        }
+    </script>
+
+
+
+
 
 @endsection
 
