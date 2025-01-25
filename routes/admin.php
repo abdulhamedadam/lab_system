@@ -45,6 +45,26 @@ Route::group(
 
         Route::resource('clients',ClientController::class);
         Route::get('delete/{id}',[ClientController::class,'destroy'])->name('delete_client');
+        /********************************************************************************************************************************/
+        Route::get('clients/{id}/companies',[ClientController::class,'companies'])->name('client_companies');
+        Route::post('clients/{id}/companies/save',[ClientController::class,'store_company'])->name('client_store_company');
+        Route::get('clients/companies/edit/{id}',[ClientController::class,'edit_company'])->name('client_edit_company');
+        Route::post('clients/companies/update/{id}',[ClientController::class,'update_company'])->name('client_update_company');
+        Route::get('clients/companies/delete/{id}',[ClientController::class,'delete_company'])->name('client_delete_company');
+        /********************************************************************************************************************************/
+        Route::get('clients/{id}/projects',[ClientController::class,'projects'])->name('client_projects');
+        Route::post('clients/{id}/projects/save',[ClientController::class,'store_project'])->name('client_store_project');
+        Route::get('clients/projects/edit/{id}',[ClientController::class,'edit_project'])->name('client_edit_project');
+        Route::post('clients/projects/update/{id}',[ClientController::class,'update_project'])->name('client_update_project');
+        Route::get('clients/projects/delete/{id}',[ClientController::class,'delete_project'])->name('client_delete_project');
+        /********************************************************************************************************************************/
+        Route::resource('company',\App\Http\Controllers\Admin\CompanyController::class);
+        Route::get('company/delete/{id}',[\App\Http\Controllers\Admin\CompanyController::class,'destroy'])->name('delete_company');
+        /********************************************************************************************************************************/
+        Route::resource('project',\App\Http\Controllers\Admin\ProjectController::class);
+        Route::get('project/delete/{id}',[\App\Http\Controllers\Admin\ProjectController::class,'destroy'])->name('delete_project');
+        Route::get('get_company/{id}',[\App\Http\Controllers\Admin\ProjectController::class,'get_company'])->name('get_company');
+        /********************************************************************************************************************************/
         /************************** MAINDATA *****************************/
         Route::resource('mdata', MaindataController::class);
         /************************** About *****************************/

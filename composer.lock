@@ -3537,16 +3537,16 @@
         },
         {
             "name": "mckenziearts/laravel-notify",
-            "version": "v2.5",
+            "version": "v2.6",
             "source": {
                 "type": "git",
                 "url": "https://github.com/mckenziearts/laravel-notify.git",
-                "reference": "eafcd81abd0afd780176b7a09a87f7dae87c994f"
+                "reference": "d59b86da7453353e6d3d69385a2bd29aa19a8983"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/mckenziearts/laravel-notify/zipball/eafcd81abd0afd780176b7a09a87f7dae87c994f",
-                "reference": "eafcd81abd0afd780176b7a09a87f7dae87c994f",
+                "url": "https://api.github.com/repos/mckenziearts/laravel-notify/zipball/d59b86da7453353e6d3d69385a2bd29aa19a8983",
+                "reference": "d59b86da7453353e6d3d69385a2bd29aa19a8983",
                 "shasum": ""
             },
             "require": {
@@ -3603,7 +3603,7 @@
                     "type": "custom"
                 }
             ],
-            "time": "2024-05-23T17:16:27+00:00"
+            "time": "2025-01-23T18:45:09+00:00"
         },
         {
             "name": "monolog/monolog",

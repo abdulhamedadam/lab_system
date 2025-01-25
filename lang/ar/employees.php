@@ -66,4 +66,5 @@
   'financials' => 'financials',
   'yes_delete' => 'yes_delete',
   'cancel' => 'cancel',
+  '' => '',
 );

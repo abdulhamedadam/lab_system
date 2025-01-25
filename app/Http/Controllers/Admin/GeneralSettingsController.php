@@ -130,7 +130,7 @@ class GeneralSettingsController extends Controller
     }
 
     /*****************************************************/
-    public function add_branch(GeneralSettingsRequest $request)
+    public function add_branch(Request $request)
     {
         try {
             // dd($request->all());
@@ -217,7 +217,7 @@ class GeneralSettingsController extends Controller
     }
 
     /*****************************************************/
-    public function add_governorate(AddGovernorateRequest $request)
+    public function add_governorate(Request $request)
     {
         try {
             // dd($request->all());
@@ -308,7 +308,7 @@ class GeneralSettingsController extends Controller
     }
 
     /*****************************************************/
-    public function add_area(AddAreaRequest $request)
+    public function add_area(Request $request)
     {
         try {
             // dd($request->all());

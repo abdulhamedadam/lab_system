@@ -91,7 +91,9 @@
   'Expenditures' => 'النفقات',
   'general_settings' => 'الاعدادات العامة',
   'employee_data' => 'بيانات الموظفين',
-    'clients' => 'العملاء',
-    'companies' => ' الشركات المنفذة',
-    'projects' => 'المشاريع',
+  'clients' => 'العملاء',
+  'companies' => ' الشركات المنفذة',
+  'projects' => 'المشاريع',
+    'dashboard' => 'لوحة التحكم',
+
 );
