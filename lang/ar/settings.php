@@ -49,5 +49,9 @@
   'commercial_registration_number' => 'رقم السجل التجاري',
   'contract_terms' => 'شروط العقد',
   'image_print' => 'صورة الطباعة',
-  'add_siteData' => 'add_siteData',
+  'sarf_band' => 'بنود الصرف',
+  'add_sarf_band' => 'اضافة بند صرف',
+  'branch' => 'الفرع',
+  'branch_id' => 'الفرع',
+  'select_branch' => 'اختر الفرع',
 );

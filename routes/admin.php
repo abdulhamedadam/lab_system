@@ -125,6 +125,15 @@ Route::group(
         Route::get('/employee_delete_file/{id}', [EmployeesController::class, 'delete_file'])->name('employee_delete_file');
         Route::get('/get_area/{id}', [GeneralSettingsController::class, 'get_area_list'])->name('get_area');
 
+        Route::get('/sarf_bands', [GeneralSettingsController::class, 'sarf_bands'])->name('sarf_bands');
+        Route::post('/sarf_band/create', [GeneralSettingsController::class, 'add_sarf_band'])->name('add_sarf_band');
+        Route::get('/sarf_band/edit/{id}', [GeneralSettingsController::class, 'edit_sarf_band'])->name('edit_sarf_band');
+        Route::get('/sarf_band/delete/{id}', [GeneralSettingsController::class, 'delete_sarf_band'])->name('delete_sarf_band');
+        Route::get('/get_ajax_sarf_bands', [GeneralSettingsController::class, 'get_ajax_sarf_bands'])->name('get_ajax_sarf_bands');
+
+        Route::resource('masrofat',\App\Http\Controllers\Admin\MasrofatController::class);
+        Route::get('masrofat/delete/{id}',[\App\Http\Controllers\Admin\MasrofatController::class,'destroy'])->name('delete_masrofat');
+
     });
 
 

@@ -13,14 +13,14 @@
                     <div id="kt_app_content_container" class="" style="padding-top: 20px" >
                         <div class="card shadow-sm" style="border-top: 3px solid #007bff;">
                             <div class="card-header">
-                                <h3 class="card-title">{{ trans('settings.branches') }}</h3>
-                                {{-- <div class="card-toolbar">
+                                <h3 class="card-title">{{ trans('settings.sarf_band') }}</h3>
+                                <div class="card-toolbar">
                                     <div class="text-center">
-                                        <a class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modalbranches" >
+                                        <a class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modalSarfBands" >
                                             <i class="bi bi-plus fs-1"></i> {{ trans('settings.add') }}
                                         </a>
                                     </div>
-                                </div> --}}
+                                </div>
                             </div>
 
 
@@ -49,11 +49,11 @@
 
 
 
-    <div class="modal fade" tabindex="-1" id="modalbranches">
+    <div class="modal fade" tabindex="-1" id="modalSarfBands">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h3 class="modal-title"><?=trans('settings.add_branch')?></h3>
+                    <h3 class="modal-title"><?=trans('settings.add_sarf_band')?></h3>
 
 
                     <div class="btn btn-icon btn-sm btn-active-light-primary ms-2" data-bs-dismiss="modal" aria-label="Close">
@@ -61,7 +61,7 @@
                     </div>
 
                 </div>
-                <form method="post" action="{{route('admin.add_branch')}}" enctype="multipart/form-data" id="form">
+                <form method="post" action="{{route('admin.add_sarf_band')}}" enctype="multipart/form-data" id="form">
                     @csrf
                     <input type="hidden" name="row_id" id="row_id" value="">
                     <div class="row col-md-12" style="margin: 10px">
@@ -111,11 +111,11 @@
                         url: "{{ asset('assets/Arabic.json') }}" // Assuming the file is placed in the public directory
                     },
                     ajax: {
-                        url: "{{ route('admin.get_ajax_branches') }}",
+                        url: "{{ route('admin.get_ajax_sarf_bands') }}",
                     },
                     columns: [
                         { data: 'id', className: 'text-center' },
-                        { data: 'name', className: 'text-center' },
+                        { data: 'title', className: 'text-center' },
                         { data: 'action', className: 'text-center' },
                     ],
 
@@ -133,17 +133,6 @@
                                 });
                             }
                         },
-                        // {
-                        //     "targets": [3,2],
-                        //     "createdCell": function(td, cellData, rowData, row, col) {
-                        //         $(td).css({
-                        //             'font-weight': '600',
-                        //             'text-align': 'center',
-                        //             'vertical-align': 'middle',
-                        //         });
-                        //     }
-                        // },
-
                     ],
 
                 });
@@ -163,17 +152,17 @@
 
 
     <script>
-        function edit_branch(id)
+        function edit_sarf_band(id)
         {
             $.ajax({
-                url: "{{ route('admin.edit_branch', ['id' => '__id__']) }}".replace('__id__', id),
+                url: "{{ route('admin.edit_sarf_band', ['id' => '__id__']) }}".replace('__id__', id),
                 type: "get",
                 dataType: "json",
                 success: function (data) {
                     var allData = data.all_data;
                     // console.log(allData);
                     $('#row_id').val(allData.id);
-                    $('#name').val(allData.name);
+                    $('#name').val(allData.title);
 
                 },
             });
@@ -181,6 +170,6 @@
     </script>
 
     <script type="text/javascript" src="{{ asset('vendor/jsvalidation/js/jsvalidation.js') }}"></script>
-{{--    {!! JsValidator::formRequest('App\Http\Requests\Admin\Setting\GeneralSettingsRequest', '#form') !!}--}}
+    {!! JsValidator::formRequest('App\Http\Requests\Admin\Setting\GeneralSettingsRequest', '#form') !!}
     {{--  {!! JsValidator::formRequest('App\Http\Requests\Admin\Cases\CaseSettings', '#add_setting_form') !!} --}}
 @endsection

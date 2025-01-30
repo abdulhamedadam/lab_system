@@ -242,6 +242,16 @@ if (!function_exists('count_branches')) {
     }
 }
 
+if (!function_exists('count_sarf_band')) {
+    function count_sarf_band()
+    {
+        $query = DB::table('tbl_sarf_bands');
+        $count = $query->count();
+
+        return $count;
+    }
+}
+
 if (!function_exists('count_areas')) {
     function count_areas($parent_id = null)
     {

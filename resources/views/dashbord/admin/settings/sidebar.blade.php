@@ -69,6 +69,19 @@
                                 </li>
                                 <hr class="nav-separator">
 
+                                <li class="nav-item">
+                                    <a href="{{ route('admin.sarf_bands') }}" class="nav-link @if (Route::is('admin.sarf_bands')) active @endif" style=" width: 100%;">
+                            <span style="display: flex; justify-content: space-between; align-items: center;">
+                                <span>
+                                    <i class="far fa-circle nav-icon text-warning"></i>
+                                    {{trans('settings.sarf_band')}}
+                                </span>
+                                <span class="badge badge-danger" style="order: 1; margin-left: 5px;">{{count_sarf_band()}}</span>
+                            </span>
+                                    </a>
+                                </li>
+                                <hr class="nav-separator">
+
                             </ul>
                         </nav>
                     </div>

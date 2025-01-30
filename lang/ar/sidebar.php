@@ -94,6 +94,6 @@
   'clients' => 'العملاء',
   'companies' => ' الشركات المنفذة',
   'projects' => 'المشاريع',
-    'dashboard' => 'لوحة التحكم',
-
+  'dashboard' => 'لوحة التحكم',
+  'masrofat' => 'masrofat',
 );

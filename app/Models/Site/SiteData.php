@@ -2,6 +2,7 @@
 
 namespace App\Models\Site;
 
+use App\Models\Admin\Branch;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Storage;
@@ -13,7 +14,7 @@ class SiteData extends Model
 
     protected $fillable = ['image', 'name', 'email', 'address', 'fax', 'phone', 'description'
         , 'video', 'maplocation', 'contract_terms', 'discount_ratio', 'commercial_registration_number',
-        'tax_number','transport_value','image_print'];
+        'tax_number','transport_value','image_print', 'branch_id'];
     public $translatable = ['name', 'address', 'description', 'contract_terms'];
 
     public function getImageeAttribute($value)
@@ -43,5 +44,9 @@ class SiteData extends Model
         }
     }
 
+    public function branch()
+    {
+        return $this->belongsTo(Branch::class, 'branch_id');
+    }
 
 }

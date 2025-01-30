@@ -106,6 +106,16 @@
                     </a>
                 </div>
 
+                <div class="menu-item">
+                    <a class="menu-link {{ request()->routeIs(['admin.masrofat.index']) ? 'active' : '' }}"
+                       href="{{ route('admin.masrofat.index') }}">
+                               <span class="svg-icon svg-icon-2" style="margin-left: 5px">
+                                        <i class="bi bi-diagram-3 text-success fs-2x"></i>
+                                </span>
+                        <span class="menu-title">{{ trans('sidebar.masrofat') }}</span>
+                    </a>
+                </div>
+
             </div>
         </div>
     </div>

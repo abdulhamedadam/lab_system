@@ -12,6 +12,7 @@ use App\Models\Admin\AreaSetting;
 use App\Models\Admin\Branch;
 use App\Models\Admin\CaseSettings;
 use App\Models\Admin\GeneralSetting;
+use App\Models\Admin\SarfBand;
 use App\Models\Site\SiteData;
 use App\Traits\ImageProcessing;
 use App\Traits\ValidationMessage;
@@ -32,12 +33,14 @@ class GeneralSettingsController extends Controller
     protected $BranchesRepository;
     protected $AreasRepository;
     protected $SiteDataRepository;
+    protected $SarfBandRepository;
 
     public function __construct(BasicRepositoryInterface $basicRepository)
     {
         $this->BranchesRepository = createRepository($basicRepository, new Branch());
         $this->AreasRepository = createRepository($basicRepository, new AreaSetting());
         $this->SiteDataRepository = createRepository($basicRepository, new SiteData());
+        $this->SarfBandRepository = createRepository($basicRepository, new SarfBand());
     }
     /***********************************************************/
 
@@ -67,9 +70,10 @@ class GeneralSettingsController extends Controller
                         return '<a data-bs-toggle="modal" data-bs-target="#modalbranches" onclick="edit_branch(' . $row->id . ')" class="btn btn-sm btn-warning" title="">
                             <i class="bi bi-pencil"></i>
                         </a>
-                        <a onclick="return confirm(\'Are You Sure To Delete?\')" href="' . route('admin.delete_branch', $row->id) . '"  class="btn btn-sm btn-danger">
-                            <i class="bi bi-trash"></i>
-                        </a>';
+                        ';
+                        // <a onclick="return confirm(\'Are You Sure To Delete?\')" href="' . route('admin.delete_branch', $row->id) . '"  class="btn btn-sm btn-danger">
+                        //     <i class="bi bi-trash"></i>
+                        // </a>
                     })
                     ->rawColumns(['action'])
                     ->make(true);
@@ -419,6 +423,7 @@ class GeneralSettingsController extends Controller
 
     public function edit_siteData($id)
     {
+        $branches = Branch::all();
         $siteData = $this->SiteDataRepository->getById($id);
 
         // Build translatable data
@@ -434,6 +439,7 @@ class GeneralSettingsController extends Controller
         $siteData->image_print = $siteData->image_print ? asset('images/' . $siteData->image_print) : null;
 
         return response()->json([
+            'branches' => $branches,
             'all_data' => $siteData,
             'translations' => $translations,
         ]);
@@ -448,6 +454,7 @@ class GeneralSettingsController extends Controller
 
             $siteData->name = $request->name;
             $siteData->email = $request->email;
+            $siteData->branch_id = $request->branch_id;
             $siteData->fax = $request->fax;
             $siteData->phone = $request->phone;
             $siteData->video = $request->video;
@@ -459,22 +466,19 @@ class GeneralSettingsController extends Controller
             $siteData->description = $request->description;
             $siteData->contract_terms = $request->contract_terms;
 
-            // Handle image upload
             if ($request->hasFile('image')) {
                 $imagePath = $request->file('image')->store('site_images', 'images');
                 $siteData->image = $imagePath;
             }
 
-            // Handle image_print upload
             if ($request->hasFile('image_print')) {
                 $imagePrintPath = $request->file('image_print')->store('site_images', 'images');
                 $siteData->image_print = $imagePrintPath;
             }
 
-            // Save the data
             $siteData->save();
 
-            notify()->success(trans('siteData_added_successfully'), '');
+            // notify()->success(trans('siteData_added_successfully'), '');
             return redirect()->route('admin.siteData');
 
         } catch (\Exception $e) {
@@ -484,4 +488,87 @@ class GeneralSettingsController extends Controller
 
     }
 
+    public function sarf_bands()
+    {
+        return view('dashbord.admin.settings.sarf_band');
+    }
+
+    /***********************************************************/
+    public function get_ajax_sarf_bands()
+    {
+        if (request()->ajax()) {
+            try {
+                $data = $this->SarfBandRepository->getAll();
+
+                $counter = 0;
+
+                return DataTables::of($data)
+                    ->addColumn('id', function () use (&$counter) {
+                        $counter++;
+                        return $counter;
+                    })
+                    ->addColumn('title', function ($row) {
+                        return $row->title;
+                    })
+                    ->addColumn('action', function ($row) {
+                        return '<a data-bs-toggle="modal" data-bs-target="#modalSarfBands" onclick="edit_sarf_band(' . $row->id . ')" class="btn btn-sm btn-warning" title="">
+                            <i class="bi bi-pencil"></i>
+                        </a>
+                        <a onclick="return confirm(\'Are You Sure To Delete?\')" href="' . route('admin.delete_sarf_band', $row->id) . '"  class="btn btn-sm btn-danger">
+                            <i class="bi bi-trash"></i>
+                        </a>';
+                    })
+                    ->rawColumns(['action'])
+                    ->make(true);
+            } catch (\Exception $e) {
+                Log::error('Error in get_ajax_sarf_bands: ' . $e->getMessage());
+                return response()->json(['error' => $e->getMessage()]);
+            }
+        }
+    }
+
+    /*****************************************************/
+    public function add_sarf_band(Request $request)
+    {
+        try {
+            // dd($request->all());
+            $sarf_band_Model = new SarfBand();
+            $data = $sarf_band_Model->add_sarf_band_data($request);
+            if(empty($request->row_id))
+            {
+                $this->SarfBandRepository->create($data);
+
+            }else{
+                $this->SarfBandRepository->update($request->row_id, $data);
+            }
+            notify()->success(trans('sarf_band_added_successfully'), '');
+            return redirect()->route('admin.sarf_bands');
+
+        } catch (\Exception $e) {
+            test($e->getMessage());
+            return redirect()->back()->withErrors(['error' => $e->getMessage()]);
+        }
+
+    }
+    /*****************************************************/
+    public function delete_sarf_band(Request $request,$id)
+    {
+        try {
+            $bsarf_band = $this->SarfBandRepository->getById($id);
+            $this->SarfBandRepository->delete($id);
+            notify()->success(trans('sarf_band_deleted_successfully'), '');
+            return redirect()->route('admin.sarf_bands');
+
+        } catch (\Exception $e) {
+            test($e->getMessage());
+            return redirect()->back()->withErrors(['error' => $e->getMessage()]);
+        }
+    }
+
+    /****************************************************/
+    public function edit_sarf_band($id)
+    {
+        $data['all_data']=$this->SarfBandRepository->getById($id);
+        return response()->json($data);
+    }
 }
