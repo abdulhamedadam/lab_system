@@ -28,99 +28,59 @@
     <!--begin::Authentication - Sign-in -->
     <div class="d-flex flex-column flex-lg-row flex-column-fluid">
         <!--begin::Aside-->
-        <div class="d-flex flex-lg-row-fluid w-lg-50 bgi-size-cover bgi-position-center"
-             style="background-image: url({{URL::asset('assets/media/misc/٢٣.png')}})">
-            <!--begin::Content-->
-            <div class="d-flex flex-column flex-center p-6 p-lg-10 w-100">
-                <!--begin::Logo-->
 
-                <!--end::Logo-->
-                <!--begin::Image-->
-                <img class="d-none d-lg-block mx-auto w-300px w-lg-75 w-xl-500px mb-10 mb-lg-20"
-                     src="{{asset('assets/media/auth/palm-recognition.png')}}" alt=""/>
-                <!--end::Image-->
-
-            </div>
-            <!--end::Content-->
-        </div>
         <!--begin::Aside-->
         <!--begin::Body-->
         <div class="d-flex flex-column flex-lg-row-fluid w-lg-50 p-10">
-            <!--begin::Form-->
             <div class="d-flex flex-center flex-column flex-lg-row-fluid">
-                <!--begin::Wrapper-->
-                <div class="w-lg-500px p-10">
-                    <!--begin::Form-->
-                    <form method="POST" action="{{ route('admin.login') }}" class="form w-100">
-                    @csrf
-                    <!--begin::Heading-->
-                        <div class="text-center mb-11">
-                            <!--begin::Title-->
-                            <h1 class="text-dark fw-bolder mb-3">Sign In</h1>
-                            <!--end::Title-->
+                <div class="w-lg-500px">
+                    <div class="card shadow-sm">
+                        <div class="card-body p-10">
+                            <form method="POST" action="{{ route('admin.login') }}" class="form w-100">
+                                @csrf
+                                <div class="text-center mb-4">
+                                    <h1 class="text-dark fw-bolder mb-3">Sign In</h1>
+                                </div>
 
+                                <div class="mb-3">
+                                    <input type="text" placeholder="Email" name="email" autocomplete="off"
+                                           class="form-control bg-transparent"/>
+                                </div>
+
+                                <div class="mb-3">
+                                    <input type="password" placeholder="Password" name="password" autocomplete="off"
+                                           class="form-control bg-transparent"/>
+                                </div>
+
+                                @if (Route::has('admin.password.request'))
+                                    <div class="d-flex justify-content-between align-items-center mb-3">
+                                        <div></div>
+                                        <a href="{{ route('admin.password.request') }}" class="link-primary">Forgot Password?</a>
+                                    </div>
+                                @endif
+
+                                <div class="d-grid mb-3">
+                                    <button type="submit" id="kt_sign_in_submit" class="btn btn-primary">
+                                        <span class="indicator-label">Sign In</span>
+                                        <span class="indicator-progress">Please wait...
+                                    <span class="spinner-border spinner-border-sm align-middle ms-2"></span>
+                                </span>
+                                    </button>
+                                </div>
+
+                                @if (Route::has('admin.register'))
+                                    <div class="text-center text-gray-500 fw-semibold fs-6">
+                                        Not a Member yet?
+                                        <a href="{{route('admin.register')}}" class="link-primary">Sign up</a>
+                                    </div>
+                                @endif
+                            </form>
                         </div>
-                        <!--begin::Heading-->
-
-                        <!--begin::Input group=-->
-                        <div class="fv-row mb-8">
-                            <!--begin::Email-->
-                            <input type="text" placeholder="Email" name="email" autocomplete="off"
-                                   class="form-control bg-transparent"/>
-                            <!--end::Email-->
-                        </div>
-                        <!--end::Input group=-->
-                        <div class="fv-row mb-3">
-                            <!--begin::Password-->
-                            <input type="password" placeholder="Password" name="password" autocomplete="off"
-                                   class="form-control bg-transparent"/>
-                            <!--end::Password-->
-                        </div>
-                        <!--end::Input group=-->
-                    @if (Route::has('admin.password.request'))
-
-                        <!--begin::Wrapper-->
-                            <div class="d-flex flex-stack flex-wrap gap-3 fs-base fw-semibold mb-8">
-                                <div></div>
-                                <!--begin::Link-->
-                                <a href="{{ route('admin.password.request') }}" class="link-primary">Forgot Password
-                                    ?</a>
-                                <!--end::Link-->
-                            </div>
-                            <!--end::Wrapper-->
-                    @endif
-                    <!--begin::Submit button-->
-                        <div class="d-grid mb-10">
-                            <button type="submit" id="kt_sign_in_submit" class="btn btn-primary">
-                                <!--begin::Indicator label-->
-                                <span class="indicator-label">Sign In</span>
-                                <!--end::Indicator label-->
-                                <!--begin::Indicator progress-->
-                                <span class="indicator-progress">Please wait...
-                                    <span class="spinner-border spinner-border-sm align-middle ms-2"></span></span>
-                                <!--end::Indicator progress-->
-                            </button>
-                        </div>
-                        <!--end::Submit button-->
-                        <!--begin::Sign up-->
-                        @if (Route::has('admin.register'))
-
-                            <div class="text-gray-500 text-center fw-semibold fs-6">Not a Member yet?
-                                <a href="{{route('admin.register')}}"
-                                   class="link-primary">Sign up</a>
-
-                            <!--  <a href="{{url('signup')}}" class="link-primary">Sign Up -->
-                            </div>
-                    @endif
-                    <!--end::Sign up-->
-                    </form>
-                    <!--end::Form-->
+                    </div>
                 </div>
-                <!--end::Wrapper-->
             </div>
-            <!--end::Form-->
-
         </div>
+
         <!--end::Body-->
     </div>
     <!--end::Authentication - Sign-in-->
