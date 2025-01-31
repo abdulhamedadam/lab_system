@@ -2,11 +2,11 @@
 @section('toolbar')
     <div id="kt_app_toolbar_container" class="app-container container-xxl d-flex flex-stack">
         @php
-            $title = trans('client.clients');
+            $title = trans('masrofat.masrofat');
          $breadcrumbs = [
                   ['label' => trans('Toolbar.home'), 'link' => route('admin.company.index')],
-                  ['label' => trans('Toolbar.companies'), 'link' => ''],
-                  ['label' => trans('client.companies_table'), 'link' => '']
+                  ['label' => trans('Toolbar.masrofat'), 'link' => ''],
+                  ['label' => trans('masrofat.masrofat_table'), 'link' => '']
                   ];
 
           PageTitle($title, $breadcrumbs);
@@ -15,7 +15,7 @@
 
         <div class="d-flex align-items-center gap-2 gap-lg-3">
 
-            {{ BackButton(route('admin.company.index'))}}
+            {{ BackButton(route('admin.masrofat.index'))}}
 
         </div>
     </div>
@@ -27,84 +27,65 @@
 
         <div class="card shadow-sm" style="border-top: 3px solid #007bff;">
             @php
-                generateCardHeader('company.add_company','admin.company.index',' ')
+                generateCardHeader('masrofat.add_masrofat','admin.masrofat.index',' ')
             @endphp
 
 
-            <form action="{{ route('admin.company.store') }}" method="post" enctype="multipart/form-data" id="store_form">
+            <form action="{{ route('admin.masrofat.store') }}" method="post" enctype="multipart/form-data" id="store_form">
                 @csrf
                 <div class="card-body">
                     <div class="col-md-12 row" style="margin-top: 10px">
 
                         <div class="col-md-4">
-                            <label for="first_name" class="form-label">{{ trans('company.client') }}</label>
+                            <label for="first_name" class="form-label">{{ trans('masrofat.employee') }}</label>
                             <div class="input-group flex-nowrap">
                                 <span class="input-group-text" id="basic-addon3">{!! form_icon('select') !!}</span>
-                                <select class="form-select rounded-start-0" name="client_id" id="client_id">
-                                    <option value="">{{trans('clients.select')}}</option>
-                                    @foreach($clients as $item)
-                                        <option value="{{$item->id}}" {{ old('client_id') == $item->id ? 'selected' : '' }}>{{$item->name}}</option>
+                                <select class="form-select rounded-start-0" name="emp_id" id="emp_id">
+                                    <option value="">{{trans('masrofat.select')}}</option>
+                                    @foreach($employees as $item)
+                                        <option value="{{$item->id}}" {{ old('emp_id') == $item->id ? 'selected' : '' }}>{{$item->first_name . ' ' . $item->last_name}}</option>
                                     @endforeach
                                 </select>
                             </div>
-                            @error('client_id')
+                            @error('emp_id')
                             <span class="invalid-feedback d-block" role="alert">{{ $message }}</span>
                             @enderror
                         </div>
 
                         <div class="col-md-4">
-                            <label for="first_name" class="form-label">{{ trans('company.company_code') }}</label>
+                            <label for="first_name" class="form-label">{{ trans('masrofat.band') }}</label>
                             <div class="input-group flex-nowrap">
-                                <span class="input-group-text" id="basic-addon3">{!! form_icon('text') !!}</span>
-                                <input type="text" class="form-control" name="company_code" id="company_code" value="{{$company_code}}" readonly>
+                                <span class="input-group-text" id="basic-addon3">{!! form_icon('select') !!}</span>
+                                <select class="form-select rounded-start-0" name="band_id" id="band_id">
+                                    <option value="">{{trans('masrofat.select')}}</option>
+                                    @foreach($bands as $item)
+                                        <option value="{{$item->id}}" {{ old('band_id') == $item->id ? 'selected' : '' }}>{{$item->title}}</option>
+                                    @endforeach
+                                </select>
                             </div>
-                            @error('name')
-                            <span class="fv-plugins-message-container" role="alert">{{ $message }}</span>
-                            @enderror
-                        </div>
-                        <div class="col-md-4">
-                            <label for="first_name" class="form-label">{{ trans('company.name') }}</label>
-                            <div class="input-group flex-nowrap">
-                                <span class="input-group-text" id="basic-addon3">{!! form_icon('text') !!}</span>
-                                <input type="text" class="form-control" name="name" id="name" value="{{ old('name') }}">
-                            </div>
-                            @error('name')
-                            <span class="fv-plugins-message-container" role="alert">{{ $message }}</span>
+                            @error('band_id')
+                            <span class="invalid-feedback d-block" role="alert">{{ $message }}</span>
                             @enderror
                         </div>
 
+                        <div class="col-md-4">
+                            <label for="value" class="form-label">{{ trans('masrofat.value') }}</label>
+                            <div class="input-group flex-nowrap">
+                                <span class="input-group-text" id="basic-addon3">{!! form_icon('text') !!}</span>
+                                <input type="number" class="form-control" name="value" id="value" value="{{ old('value') }}">
+                            </div>
+                            @error('value')
+                            <span class="fv-plugins-message-container" role="alert">{{ $message }}</span>
+                            @enderror
+                        </div>
 
                     </div>
 
-                    <div class="col-md-12 row" style="margin-top: 10px">
-                        <div class="col-md-4">
-                            <label for="last_name" class="form-label">{{ trans('company.phone') }}</label>
-                            <div class="input-group flex-nowrap">
-                                <span class="input-group-text" id="basic-addon3">{!! form_icon('phone') !!}</span>
-                                <input type="text" class="form-control" name="phone" id="phone" value="{{ old('phone') }}">
-                            </div>
-                            @error('phone')
-                            <span class="invalid-feedback d-block" role="alert">{{ $message }}</span>
-                            @enderror
-                        </div>
-                        <div class="col-md-4">
-                            <label for="email" class="form-label">{{ trans('company.email') }}</label>
-                            <div class="input-group flex-nowrap">
-                                <span class="input-group-text" id="basic-addon3">{!! form_icon('email') !!}</span>
-                                <input type="text" class="form-control" name="email" id="email" value="{{ old('email') }}">
-                            </div>
-                            @error('email')
-                            <span class="invalid-feedback d-block" role="alert">{{ $message }}</span>
-                            @enderror
-                        </div>
-
-                        <div class="col-md-4">
-                            <label for="email" class="form-label">{{ trans('company.address1') }}</label>
-                            <div class="input-group flex-nowrap">
-                                <span class="input-group-text" id="basic-addon3">{!! form_icon('address') !!}</span>
-                                <input type="text" class="form-control" name="address1" id="address1" value="{{ old('address1') }}">
-                            </div>
-                            @error('email')
+                    <div class="col-md-12" style="margin-top: 10px">
+                        <div class="mb-3">
+                            <label for="description" class="form-label">{{ trans('masrofat.notes') }}</label>
+                            <textarea class="form-control" id="notes" name="notes" rows="3" >{{ old('notes') }}</textarea>
+                            @error('notes')
                             <span class="invalid-feedback d-block" role="alert">{{ $message }}</span>
                             @enderror
                         </div>
@@ -114,7 +95,7 @@
                 </div>
                 <div class="card-footer d-flex justify-content-end">
                     <button type="submit" class="btn btn-success">
-                        {{ trans('company.save') }}
+                        {{ trans('masrofat.save') }}
                     </button>
                 </div>
             </form>
@@ -136,29 +117,6 @@
 @stop
 @section('js')
     <script>
-        $(document).ready(function() {
-            setTimeout(function() {
-                $("#governate").trigger("change");
-            }, 300);
-        });
-    </script>
-    <script>
-        function get_area(id)
-        {
-            $.ajax({
-                url: "{{ route('admin.get_area', ['id' => '__id__']) }}".replace('__id__', id),
-                type: "get",
-                dataType: "html",
-                success: function (html) {
-                    // console.log(html);
-                    $('#city').html(html);
-                    $('#city').val(<?= old('city')?> );
-                },
-            });
-        }
-    </script>
-
-    <script>
         function showSuccessMessage(message) {
             $('#success_message').text(message).removeClass('d-none').show();
             setTimeout(function() {
@@ -173,7 +131,7 @@
 
     <script type="text/javascript" src="{{ asset('vendor/jsvalidation/js/jsvalidation.js')}}"></script>
 
-    {!! JsValidator::formRequest('App\Http\Requests\Admin\clients\SaveRequests', '#store_form1') !!}
+    {{-- {!! JsValidator::formRequest('App\Http\Requests\Admin\masrofat\SaveRequests', '#store_form1') !!} --}}
 
 
 

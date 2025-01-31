@@ -185,6 +185,8 @@
     'position' => 'المنصب',
     'salary' => 'المرتب',
     'branch_id' => 'الفرع',
+    'client_id' => 'الجهه المستفيده',
+    'project_name' => 'اسم المشروع',
   ),
   'values' => 'values',
   'nullable' => 'nullable',

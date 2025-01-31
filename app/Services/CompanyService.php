@@ -31,7 +31,7 @@ class CompanyService
              $dataX = $this->saveImage($file, 'clients');
              $validated_data['image'] = $dataX;
          }*/
-         //dd();
+        //  dd($validated_data);
         return $this->CompanyRepository->create($validated_data);
     }
 
@@ -52,7 +52,7 @@ class CompanyService
             $dataX = $this->saveImage($file, 'clients');
             $validated_data['image'] = $dataX;
         }*/
-        //dd($validated_data);
+        // dd($validated_data);
         return $this->CompanyRepository->update($id,$validated_data);
     }
     /**************************************************/

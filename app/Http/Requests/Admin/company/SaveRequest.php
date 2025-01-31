@@ -22,6 +22,7 @@ class SaveRequest extends FormRequest
             'phone'                => 'required|string|max:15',
             'email'                => 'nullable|email|max:255',
             'address1'             => 'nullable|string|max:255',
+            'balance'              => 'nullable|numeric|min:0',
         ];
     }
 
