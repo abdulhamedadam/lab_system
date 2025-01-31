@@ -70,7 +70,7 @@ class EmployeesController extends Controller
                     return  $row->email;
                 })
                 ->addColumn('branch', function ($row) {
-                    return  $row->branch->name;
+                    return  $row->branch ? $row->branch->name: '';
                 })
                 ->addColumn('address', function ($row) {
                     return  $row->address;
@@ -82,7 +82,7 @@ class EmployeesController extends Controller
                     return  $row->governate->title;
                 })
                 ->addColumn('area', function ($row) {
-                    return  $row->area->title;
+                    return  $row->area ? $row->area->title : '';
                 })
                 ->addColumn('action', function ($row) {
                     return '<div class="btn-group">
