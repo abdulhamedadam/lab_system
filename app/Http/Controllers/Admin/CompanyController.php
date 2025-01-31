@@ -4,8 +4,10 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\company\SaveRequest;
+use App\Http\Requests\Admin\projects\CompanyClientRequest;
 use App\Interfaces\BasicRepositoryInterface;
 use App\Models\Admin\AreaSetting;
+use App\Models\Admin\Test;
 use App\Models\Clients;
 use App\Models\ClientsCompanies;
 use App\Models\ClientsProjects;
@@ -28,14 +30,18 @@ class CompanyController extends Controller
     protected $companyService;
     protected $CompanyRepository;
     protected $ProjectsRepository;
+    protected $projectsService;
+    protected $TestsRepository;
 
-    public function __construct(BasicRepositoryInterface $basicRepository,CompanyService $companyService)
+    public function __construct(BasicRepositoryInterface $basicRepository,CompanyService $companyService, ProjectsService $projectsService)
     {
         $this->AreasSettingRepository = createRepository($basicRepository, new AreaSetting());
         $this->ClientsRepository = createRepository($basicRepository, new Clients());
         $this->CompanyRepository   = createRepository($basicRepository, new ClientsCompanies());
         $this->ProjectsRepository   = createRepository($basicRepository, new ClientsProjects());
+        $this->TestsRepository   = createRepository($basicRepository, new Test());
         $this->companyService   = $companyService;
+        $this->projectsService   = $projectsService;
 
 
     }
@@ -48,20 +54,18 @@ class CompanyController extends Controller
 
                 ->addColumn('action', function ($row) {
                     return '
-
-    <div class="btn-group btn-group-sm">
-        <a href="' . route('admin.company.edit', $row->id) . '" class="btn btn-sm btn-primary" title="' . trans('clients.edit') . '" style="font-size: 16px;">
-            <i class="bi bi-pencil-square"></i>
-        </a>
-        <a onclick="return confirm(\'Are You Sure To Delete?\')"  href="' . route('admin.delete_company', $row->id) . '"  class="btn btn-sm btn-danger" title="' . trans('clients.delete') . '" style="font-size: 16px;" onclick="return confirm(\'' . trans('employees.confirm_delete') . '\')">
-            <i class="bi bi-trash3"></i>
-        </a>
-        <a href="'.route('admin.client_projects',$row->id).'" class="btn btn-sm btn-secondary" title="' . trans('clients.projects') . '" style="font-size: 16px;">
-            <i class="bi bi-kanban"></i>
-        </a>
-
-    </div>
-';
+                        <div class="btn-group btn-group-sm">
+                            <a href="' . route('admin.company.edit', $row->id) . '" class="btn btn-sm btn-primary" title="' . trans('company.edit') . '" style="font-size: 16px;">
+                                <i class="bi bi-pencil-square"></i>
+                            </a>
+                            <a onclick="return confirm(\'Are You Sure To Delete?\')"  href="' . route('admin.delete_company', $row->id) . '"  class="btn btn-sm btn-danger" title="' . trans('company.delete') . '" style="font-size: 16px;" onclick="return confirm(\'' . trans('employees.confirm_delete') . '\')">
+                                <i class="bi bi-trash3"></i>
+                            </a>
+                            <a href="'.route('admin.company_projects',$row->id).'" class="btn btn-sm btn-secondary" title="' . trans('company.projects') . '" style="font-size: 16px;">
+                                <i class="bi bi-kanban"></i>
+                            </a>
+                        </div>
+                    ';
                 })
                 ->rawColumns(['image', 'action'])
                 ->make(true);
@@ -124,6 +128,67 @@ class CompanyController extends Controller
             $this->CompanyRepository->delete($id);
             toastr()->addSuccess(trans('forms.success'));
             return redirect()->route('admin.company.index');
+        } catch (\Exception $e) {
+            dd($e->getMessage());
+            return redirect()->back()->withErrors(['error' => $e->getMessage()]);
+        }
+    }
+
+    /**************************************************/
+    public function projects($id)
+    {
+        $data['all_data']        =  $this->CompanyRepository->getById($id);
+        $data['project_code']    =  $this->ProjectsRepository->getLastFieldValue('project_code');
+        $data['clients_data']    =  $this->ClientsRepository->getAll();
+        $data['projects_data']   =  $this->ProjectsRepository->getBywhere(['company_id'=>$id]);
+        $data['company_clients'] =  $this->ClientsRepository->getAll();
+        $data['tests_data'] =  $this->TestsRepository->getBywhere(['company_id'=>$id]);
+        // dd($data);
+        return view($this->admin_view . '.projects.company_project', $data);
+    }
+    /*************************************************/
+    public function store_project(CompanyClientRequest $request,$company_id)
+    {
+        try {
+            // dd($request->all());
+            $this->projectsService->store($request);
+            toastr()->addSuccess(trans('forms.success'));
+            return redirect()->route('admin.company_projects',$company_id);
+        } catch (\Exception $e) {
+            dd($e->getMessage());
+            return redirect()->back()->withErrors(['error' => $e->getMessage()]);
+        }
+    }
+    /*************************************************/
+    public function edit_project($project_id)
+    {
+        $data['project_data']=$this->ProjectsRepository->getById($project_id);
+        $data['company_clients']=$this->ClientsRepository->getAll();
+
+        return view($this->admin_view . '.projects.company_project_edit', $data);
+    }
+    /*************************************************/
+    public function update_project(CompanyClientRequest $request,$project_id)
+    {
+        try {
+            $this->projectsService->update($request,$project_id);
+            $company_data=$this->ProjectsRepository->getById($project_id);
+            // dd($company_data);
+            toastr()->addSuccess(trans('forms.success'));
+            return redirect()->route('admin.company_projects',$company_data->company_id);
+        } catch (\Exception $e) {
+            dd($e->getMessage());
+            return redirect()->back()->withErrors(['error' => $e->getMessage()]);
+        }
+    }
+    /*************************************************/
+    public function delete_project($id)
+    {
+        try {
+            $project_data=$this->ProjectsRepository->getById($id);
+            $this->ProjectsRepository->delete($id);
+            toastr()->addSuccess(trans('forms.success'));
+            return redirect()->route('admin.company_projects',$project_data->company_id);
         } catch (\Exception $e) {
             dd($e->getMessage());
             return redirect()->back()->withErrors(['error' => $e->getMessage()]);

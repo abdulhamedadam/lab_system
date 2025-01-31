@@ -78,6 +78,16 @@
                     </div>
                     <div class="col-md-12 row" style="margin-top: 10px">
                         <div class="col-md-4">
+                            <label for="address" class="form-label">{{ trans('clients.balance') }}</label>
+                            <div class="input-group flex-nowrap">
+                                <span class="input-group-text" id="basic-addon3"><i class="bi bi-house-door fs-2"></i></span>
+                                <input type="text" class="form-control" name="balance" id="balance" value="{{ old('balance',$all_data->balance) }}">
+                            </div>
+                            @error('balance')
+                            <span class="invalid-feedback d-block" role="alert">{{ $message }}</span>
+                            @enderror
+                        </div>
+                        <div class="col-md-4">
                             <label for="last_name" class="form-label">{{ trans('company.phone') }}</label>
                             <div class="input-group flex-nowrap">
                                 <span class="input-group-text" id="basic-addon3">{!! form_icon('phone') !!}</span>

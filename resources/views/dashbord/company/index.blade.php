@@ -39,6 +39,7 @@
                           'company.name',
                           'client.email',
                           'client.phone',
+                          'client.balance',
                           'client.address1',
                           'client.action',
 
@@ -84,6 +85,7 @@
                     {data: 'name', className: 'text-center'},
                     {data: 'email', className: 'text-center'},
                     {data: 'phone', className: 'text-center'},
+                    {data: 'balance', className: 'text-center'},
                     {data: 'address1', className: 'text-center'},
                     {data: 'action', name: 'action', orderable: false, className: 'text-center no-export'},
                 ],

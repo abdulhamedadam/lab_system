@@ -27,15 +27,9 @@ class MasrofatService
         $validated_data['notes'] = $request->notes;
         $validated_data['created_by']= auth()->user()->id;
 
-
         return $this->MasrofatRepository->create($validated_data);
     }
 
-    /************************************************/
-    public function get_masrofat($id)
-    {
-        return $this->MasrofatRepository->getById($id);
-    }
     /************************************************/
     public function update($request,$id)
     {

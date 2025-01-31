@@ -25,6 +25,7 @@ class ProjectsService
     {
         $validated_data=$request->validated();
         $validated_data['client_id'] = $request->client_id;
+        $validated_data['company_id'] = $request->company_id;
         $validated_data['project_code'] = $request->project_code;
         $validated_data['created_by']= auth()->user()->id;
         /* if ($request->hasFile('image')) {
@@ -32,7 +33,7 @@ class ProjectsService
              $dataX = $this->saveImage($file, 'clients');
              $validated_data['image'] = $dataX;
          }*/
-
+        // dd($validated_data);
         return $this->ProjectsRepository->create($validated_data);
     }
 
@@ -46,14 +47,15 @@ class ProjectsService
     {
         $validated_data=$request->validated();
         $validated_data['client_id'] = $request->client_id;
+        $validated_data['company_id'] = $request->company_id;
         $validated_data['project_code'] = $request->project_code;
-        $validated_data['created_by']= auth()->user()->id;
+        $validated_data['updated_by']= auth()->user()->id;
         /*if ($request->hasFile('image')) {
             $file = $request->file('image');
             $dataX = $this->saveImage($file, 'clients');
             $validated_data['image'] = $dataX;
         }*/
-        //dd($validated_data);
+        // dd($validated_data);
         return $this->ProjectsRepository->update($id,$validated_data);
     }
     /**************************************************/
