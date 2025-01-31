@@ -10,5 +10,5 @@
   'address1' => 'العنوان 1',
   'commercial_register' => 'السجل التجاري',
   'companies_table' => 'جدول الشركات ',
-  'balance' => 'balance',
+  'balance' => 'الرصيد',
 );
