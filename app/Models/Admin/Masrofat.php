@@ -2,6 +2,7 @@
 
 namespace App\Models\Admin;
 
+use App\Models\Admin as AdminModel;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -22,4 +23,8 @@ class Masrofat extends Model
         return $this->belongsTo(SarfBand::class, 'band_id');
     }
 
+    public function user()
+    {
+        return $this->belongsTo(AdminModel::class, 'created_by');
+    }
 }

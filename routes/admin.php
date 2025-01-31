@@ -3,9 +3,13 @@
 use App\Http\Controllers\Admin\app_setting\NotificationController;
 use App\Http\Controllers\Admin\app_setting\DiscountController;
 use App\Http\Controllers\Admin\ClientController;
+use App\Http\Controllers\Admin\CompanyController;
 use App\Http\Controllers\Admin\EmployeesController;
 
 use App\Http\Controllers\Admin\GeneralSettingsController;
+use App\Http\Controllers\Admin\MasrofatController;
+use App\Http\Controllers\Admin\ProjectController;
+use App\Http\Controllers\Admin\TestsController;
 use Illuminate\Support\Facades\Route;
 use Mcamara\LaravelLocalization\Facades\LaravelLocalization;
 
@@ -58,18 +62,24 @@ Route::group(
         Route::post('clients/projects/update/{id}',[ClientController::class,'update_project'])->name('client_update_project');
         Route::get('clients/projects/delete/{id}',[ClientController::class,'delete_project'])->name('client_delete_project');
         /********************************************************************************************************************************/
-        Route::resource('company',\App\Http\Controllers\Admin\CompanyController::class);
-        Route::get('company/delete/{id}',[\App\Http\Controllers\Admin\CompanyController::class,'destroy'])->name('delete_company');
+        Route::resource('company',CompanyController::class);
+        Route::get('company/delete/{id}',[CompanyController::class,'destroy'])->name('delete_company');
         /********************************************************************************************************************************/
-        Route::resource('project',\App\Http\Controllers\Admin\ProjectController::class);
-        Route::get('project/delete/{id}',[\App\Http\Controllers\Admin\ProjectController::class,'destroy'])->name('delete_project');
-        Route::get('get_company/{id}',[\App\Http\Controllers\Admin\ProjectController::class,'get_company'])->name('get_company');
+        Route::get('company/{id}/projects',[CompanyController::class,'projects'])->name('company_projects');
+        Route::post('company/{id}/projects/save',[CompanyController::class,'store_project'])->name('company_store_project');
+        Route::get('company/projects/edit/{id}',[CompanyController::class,'edit_project'])->name('company_edit_project');
+        Route::post('company/projects/update/{id}',[CompanyController::class,'update_project'])->name('company_update_project');
+        Route::get('company/projects/delete/{id}',[CompanyController::class,'delete_project'])->name('company_delete_project');
+        /********************************************************************************************************************************/
+        Route::resource('project',ProjectController::class);
+        Route::get('project/delete/{id}',[ProjectController::class,'destroy'])->name('delete_project');
+        Route::get('get_company/{id}',[ProjectController::class,'get_company'])->name('get_company');
         /********************************************************************************************************************************/
         /************************** MAINDATA *****************************/
-        Route::resource('mdata', MaindataController::class);
+        // Route::resource('mdata', MaindataController::class);
         /************************** About *****************************/
-        Route::resource('about', AboutController::class);
-        Route::get('about/show_load/{id}', [AboutController::class, 'show_load'])->name('about.load_details');
+        // Route::resource('about', AboutController::class);
+        // Route::get('about/show_load/{id}', [AboutController::class, 'show_load'])->name('about.load_details');
 
         /******************************************************************************************************** */
         Route::group(['prefix' => 'app_setting', 'as' => 'app_setting.'], function () {
@@ -131,8 +141,11 @@ Route::group(
         Route::get('/sarf_band/delete/{id}', [GeneralSettingsController::class, 'delete_sarf_band'])->name('delete_sarf_band');
         Route::get('/get_ajax_sarf_bands', [GeneralSettingsController::class, 'get_ajax_sarf_bands'])->name('get_ajax_sarf_bands');
 
-        Route::resource('masrofat',\App\Http\Controllers\Admin\MasrofatController::class);
-        Route::get('masrofat/delete/{id}',[\App\Http\Controllers\Admin\MasrofatController::class,'destroy'])->name('delete_masrofat');
+        Route::resource('masrofat',MasrofatController::class);
+        Route::get('masrofat/delete/{id}',[MasrofatController::class,'destroy'])->name('delete_masrofat');
+
+        Route::resource('test',TestsController::class);
+        Route::get('tests/delete/{id}',[TestsController::class,'destroy'])->name('delete_test');
 
     });
 

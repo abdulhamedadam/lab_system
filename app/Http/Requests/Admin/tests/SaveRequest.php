@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Requests\Admin\masrofat;
+namespace App\Http\Requests\Admin\tests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
@@ -18,10 +18,15 @@ class SaveRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'emp_id' => 'required|integer|exists:tbl_employees,id',
-            'band_id' => 'required|integer|exists:tbl_sarf_bands,id',
-            'value' => 'required|string|max:255',
-            'notes' => 'required|string|max:255',
+            'client_id' => 'required|exists:tbl_clients,id',
+            'company_id' => 'required|exists:tbl_clients_companies,id',
+            'project_id' => 'required|exists:tbl_clients_projects,id',
+            'test_code' => 'required|string|max:255',
+            'talab_number' => 'required|string|max:255',
+            'talab_title' => 'required|string|max:255',
+            'talab_image' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+            'talab_date' => 'required|date',
+            'talab_end_date' => 'required|date|after:talab_date',
         ];
     }
 

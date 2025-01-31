@@ -8,11 +8,11 @@
 @section('toolbar')
     <div id="kt_app_toolbar_container" class="app-container container-xxl d-flex flex-stack">
         @php
-            $title = trans('masrofat.masrofat');
+            $title = trans('tests.tests');
             $breadcrumbs = [
-                ['label' => trans('Toolbar.home'), 'link' => route('admin.masrofat.create')],
-                ['label' => trans('Toolbar.masrofat'), 'link' => ''],
-                ['label' => trans('masrofat.masrofat_table'), 'link' => ''],
+                ['label' => trans('Toolbar.home'), 'link' => route('admin.test.create')],
+                ['label' => trans('Toolbar.tests'), 'link' => ''],
+                ['label' => trans('tests.tests_table'), 'link' => ''],
             ];
 
             PageTitle($title, $breadcrumbs);
@@ -21,7 +21,7 @@
 
         <div class="d-flex align-items-center gap-2 gap-lg-3">
 
-            {{ AddButton(route('admin.masrofat.create')) }}
+            {{ AddButton(route('admin.test.create')) }}
 
         </div>
     </div>
@@ -34,13 +34,17 @@
         <div class="card shadow-sm" style="border-top: 3px solid #007bff;">
             @php
                 $headers = [
-                    'masrofat.ID',
-                    'masrofat.emp_name',
-                    'masrofat.band_name',
-                    'masrofat.value',
-                    'masrofat.notes',
-                    'masrofat.created_by',
-                    'masrofat.actions',
+                    'tests.ID',
+                    'tests.client',
+                    'tests.company',
+                    'tests.project',
+                    'tests.test_code',
+                    'tests.talab_title',
+                    'tests.talab_image',
+                    'tests.talab_date',
+                    'tests.talab_end_date',
+                    'tests.created_by',
+                    'tests.actions',
                 ];
 
                 generateTable($headers);
@@ -64,29 +68,44 @@
                 "serverSide": true,
                 "order": [],
                 "ajax": {
-                    url: "{{ route('admin.masrofat.index') }}",
+                    url: "{{ route('admin.test.index') }}",
                     type: 'GET'
                 },
                 "columns": [
                     {
                         data: 'id',
-
                         className: 'text-center no-export'
                     },
                     {
-                        data: 'emp_id',
+                        data: 'client',
                         className: 'text-center no-export'
                     },
                     {
-                        data: 'band_id',
+                        data: 'company',
                         className: 'text-center'
                     },
                     {
-                        data: 'value',
+                        data: 'project',
                         className: 'text-center'
                     },
                     {
-                        data: 'notes',
+                        data: 'test_code',
+                        className: 'text-center'
+                    },
+                    {
+                        data: 'talab_title',
+                        className: 'text-center'
+                    },
+                    {
+                        data: 'talab_image',
+                        className: 'text-center'
+                    },
+                    {
+                        data: 'talab_date',
+                        className: 'text-center'
+                    },
+                    {
+                        data: 'talab_end_date',
                         className: 'text-center'
                     },
                     {

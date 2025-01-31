@@ -2,11 +2,11 @@
 @section('toolbar')
     <div id="kt_app_toolbar_container" class="app-container container-xxl d-flex flex-stack">
         @php
-            $title = trans('client.clients');
+            $title = trans('company.companies');
          $breadcrumbs = [
                   ['label' => trans('Toolbar.home'), 'link' => route('admin.company.index')],
                   ['label' => trans('Toolbar.companies'), 'link' => ''],
-                  ['label' => trans('client.companies_table'), 'link' => '']
+                  ['label' => trans('company.add_company'), 'link' => '']
                   ];
 
           PageTitle($title, $breadcrumbs);
@@ -77,6 +77,16 @@
                     </div>
 
                     <div class="col-md-12 row" style="margin-top: 10px">
+                        <div class="col-md-4">
+                            <label for="address" class="form-label">{{ trans('clients.balance') }}</label>
+                            <div class="input-group flex-nowrap">
+                                <span class="input-group-text" id="basic-addon3"><i class="bi bi-house-door fs-2"></i></span>
+                                <input type="text" class="form-control" name="balance" id="balance" value="{{ old('balance') }}">
+                            </div>
+                            @error('balance')
+                            <span class="invalid-feedback d-block" role="alert">{{ $message }}</span>
+                            @enderror
+                        </div>
                         <div class="col-md-4">
                             <label for="last_name" class="form-label">{{ trans('company.phone') }}</label>
                             <div class="input-group flex-nowrap">
