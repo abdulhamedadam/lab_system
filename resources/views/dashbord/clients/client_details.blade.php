@@ -169,7 +169,7 @@
             class="profile-img">
         <h2 class="profile-name">{{ $all_data->name }}</h2>
         <p class="profile-location">
-            {{ $all_data->governate_data->title }} | {{ $all_data->city_data->title }}
+            {{ $all_data->governate_data ? $all_data->governate_data->title : '' }} | {{ $all_data->city_data ? $all_data->city_data->title : '' }}
         </p>
     </div>
 
@@ -207,11 +207,11 @@
         </tr>
         <tr>
             <td class="class_label"><?= trans('employees.governate') ?></td>
-            <td class="class_result">{{ $all_data->governate_data->title }}</td>
+            <td class="class_result">{{ $all_data->governate_data ? $all_data->governate_data->title : '' }}</td>
         </tr>
         <tr>
             <td class="class_label"><?= trans('employees.area') ?></td>
-            <td class="class_result">{{ $all_data->city_data->title }}</td>
+            <td class="class_result">{{ $all_data->city_data ? $all_data->city_data->title : '' }}</td>
         </tr>
         </tbody>
     </table>

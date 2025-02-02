@@ -67,12 +67,12 @@ class ClientController extends Controller
         <a href="'.route('admin.client_companies',$row->id).'" class="btn btn-sm btn-info" title="' . trans('clients.companies') . '" style="font-size: 16px;">
             <i class="bi bi-building"></i>
         </a>
-        <a href="'.route('admin.client_projects',$row->id).'" class="btn btn-sm btn-secondary" title="' . trans('clients.projects') . '" style="font-size: 16px;">
+       <!-- <a href="'.route('admin.client_projects',$row->id).'" class="btn btn-sm btn-secondary" title="' . trans('clients.projects') . '" style="font-size: 16px;">
             <i class="bi bi-kanban"></i>
         </a>
         <a href="#" class="btn btn-sm btn-success" title="' . trans('clients.financials') . '" style="font-size: 16px;">
             <i class="bi bi-cash-coin"></i>
-        </a>
+        </a> -->
     </div>
 ';
                 })

@@ -3,7 +3,7 @@
         <div class="card-body" style="padding: 10px">
             <ul class="nav nav-pills nav-pills-custom mb-3">
 
-                <li class="nav-item mb-3 me-3 me-lg-6">
+              {{--  <li class="nav-item mb-3 me-3 me-lg-6">
 
                     <a   style="background-color: snow;"
                          class="nav-link btn btn-outline btn-flex btn-color-muted btn-active-color-primary
@@ -18,7 +18,7 @@
 
                     </a>
 
-                </li>
+                </li>--}}
 
 
                 <li class="nav-item mb-3 me-3 me-lg-6" st>
@@ -66,7 +66,7 @@
                         <span class="bullet-custom position-absolute bottom-0 w-100 h-4px bg-primary"></span>
                     </a>
                 </li>
-
+{{--
                 <li class="nav-item mb-3 me-3 me-lg-6">
 
                     <a  style="background-color: mintcream;"
@@ -83,7 +83,7 @@
 
                     </a>
 
-                </li>
+                </li> --}}
 
             </ul>
         </div>
