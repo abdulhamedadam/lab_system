@@ -22,8 +22,13 @@ class CreateAdminUserSeeder extends Seeder
     public function run()
     {
         try {
-            // Create the Super-Admin role
-            $role = Role::create(['guard_name' => 'admin', 'title' => json_encode(['ar' => 'Super-Admin', 'en' => 'Super-Admin']),'name' => 'Super-Admin']);
+            $role = Role::firstOrCreate(
+                ['name' => 'super_admin'],
+                [
+                    'guard_name' => 'admin',
+                    'title' => json_encode(['ar' => 'مدير عام', 'en' => 'Super-Admin']),
+                ]
+            );
 
             $user = Admin::create([
                 'name' => 'main_admin',

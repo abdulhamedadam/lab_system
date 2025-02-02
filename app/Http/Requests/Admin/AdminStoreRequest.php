@@ -22,12 +22,17 @@ class AdminStoreRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'user_name' => 'required|unique:admins,name',
-            'phone' => 'required|unique:admins,phone',
-            'roles' => 'required',
-            'password' => 'required',
+            'is_employee' => 'required|in:0,1',
+            'emp_id' => 'nullable|exists:tbl_employees,id|required_if:is_employee,1',
+            'name' => 'required|string|max:255',
+            'position' => 'required|string|max:255',
             'email' => 'required|email|unique:admins,email',
-            'status' => 'required',
+            'password' => 'required|string|min:8',
+            'phone' => 'required|unique:admins,phone',
+            'role' => 'required|exists:roles,id',
+            'status' => 'required|in:0,1',
+            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+            'address'=> 'nullable|string|max:255',
         ];
     }
 }

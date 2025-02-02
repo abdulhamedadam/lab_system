@@ -11,18 +11,323 @@ class PermissionsSeeder extends Seeder
     public function run()
     {
         $permissions = [
+            // Dashboard and Test route permissions
             [
-                'name' => 'list_user',
-                'title' => json_encode(['ar' => 'عرض مستخدم', 'en' => 'show user']),
+                'name' => 'view_dashboard',
+                'title' => json_encode(['ar' => 'عرض لوحة القيادة', 'en' => 'view dashboard']),
                 'guard_name' => 'admin',
-            ],[
-                'name' => 'add_user',
-                'title' => json_encode(['ar' => 'اضافة مستخدم', 'en' => 'add user']),
+            ],
+
+            // Branches permissions
+            [
+                'name' => 'view_branches',
+                'title' => json_encode(['ar' => 'عرض الفروع', 'en' => 'view branches']),
+                'guard_name' => 'admin',
+            ],
+            [
+                'name' => 'add_branch',
+                'title' => json_encode(['ar' => 'اضافة فرع', 'en' => 'add branch']),
+                'guard_name' => 'admin',
+            ],
+            [
+                'name' => 'edit_branch',
+                'title' => json_encode(['ar' => 'تعديل فرع', 'en' => 'edit branch']),
+                'guard_name' => 'admin',
+            ],
+            [
+                'name' => 'delete_branch',
+                'title' => json_encode(['ar' => 'حذف فرع', 'en' => 'delete branch']),
+                'guard_name' => 'admin',
+            ],
+
+            // Governorates permissions
+            [
+                'name' => 'view_governorates',
+                'title' => json_encode(['ar' => 'عرض المحافظات', 'en' => 'view governorates']),
+                'guard_name' => 'admin',
+            ],
+            [
+                'name' => 'add_governorate',
+                'title' => json_encode(['ar' => 'اضافة محافظة', 'en' => 'add governorate']),
+                'guard_name' => 'admin',
+            ],
+            [
+                'name' => 'edit_governorate',
+                'title' => json_encode(['ar' => 'تعديل محافظة', 'en' => 'edit governorate']),
+                'guard_name' => 'admin',
+            ],
+            [
+                'name' => 'delete_governorate',
+                'title' => json_encode(['ar' => 'حذف محافظة', 'en' => 'delete governorate']),
+                'guard_name' => 'admin',
+            ],
+
+            // Areas permissions
+            [
+                'name' => 'view_areas',
+                'title' => json_encode(['ar' => 'عرض المناطق', 'en' => 'view areas']),
+                'guard_name' => 'admin',
+            ],
+            [
+                'name' => 'add_area',
+                'title' => json_encode(['ar' => 'اضافة منطقة', 'en' => 'add area']),
+                'guard_name' => 'admin',
+            ],
+            [
+                'name' => 'edit_area',
+                'title' => json_encode(['ar' => 'تعديل منطقة', 'en' => 'edit area']),
+                'guard_name' => 'admin',
+            ],
+            [
+                'name' => 'delete_area',
+                'title' => json_encode(['ar' => 'حذف منطقة', 'en' => 'delete area']),
+                'guard_name' => 'admin',
+            ],
+
+            // Site Data permissions
+            [
+                'name' => 'view_site_data',
+                'title' => json_encode(['ar' => 'عرض بيانات الموقع', 'en' => 'view site data']),
+                'guard_name' => 'admin',
+            ],
+            [
+                'name' => 'add_site_data',
+                'title' => json_encode(['ar' => 'اضافة بيانات الموقع', 'en' => 'add site data']),
+                'guard_name' => 'admin',
+            ],
+            [
+                'name' => 'edit_site_data',
+                'title' => json_encode(['ar' => 'تعديل بيانات الموقع', 'en' => 'edit site data']),
+                'guard_name' => 'admin',
+            ],
+
+            // Employees permissions
+            [
+                'name' => 'view_employees',
+                'title' => json_encode(['ar' => 'عرض الموظفين', 'en' => 'view employees']),
+                'guard_name' => 'admin',
+            ],
+            [
+                'name' => 'add_employee',
+                'title' => json_encode(['ar' => 'اضافة موظف', 'en' => 'add employee']),
+                'guard_name' => 'admin',
+            ],
+            [
+                'name' => 'edit_employee',
+                'title' => json_encode(['ar' => 'تعديل موظف', 'en' => 'edit employee']),
+                'guard_name' => 'admin',
+            ],
+            [
+                'name' => 'delete_employee',
+                'title' => json_encode(['ar' => 'حذف موظف', 'en' => 'delete employee']),
+                'guard_name' => 'admin',
+            ],
+
+            // Clients permissions
+            [
+                'name' => 'list_clients',
+                'title' => json_encode(['ar' => 'عرض العملاء', 'en' => 'list clients']),
+                'guard_name' => 'admin',
+            ],
+            [
+                'name' => 'create_client',
+                'title' => json_encode(['ar' => 'اضافة عميل', 'en' => 'create client']),
+                'guard_name' => 'admin',
+            ],
+            [
+                'name' => 'update_client',
+                'title' => json_encode(['ar' => 'تعديل عميل', 'en' => 'update client']),
+                'guard_name' => 'admin',
+            ],
+            [
+                'name' => 'delete_client',
+                'title' => json_encode(['ar' => 'حذف عميل', 'en' => 'delete client']),
+                'guard_name' => 'admin',
+            ],
+
+            // Client Companies permissions
+            [
+                'name' => 'view_client_companies',
+                'title' => json_encode(['ar' => 'عرض شركات العميل', 'en' => 'view client companies']),
+                'guard_name' => 'admin',
+            ],
+            [
+                'name' => 'add_client_company',
+                'title' => json_encode(['ar' => 'اضافة شركة عميل', 'en' => 'add client company']),
+                'guard_name' => 'admin',
+            ],
+            [
+                'name' => 'edit_client_company',
+                'title' => json_encode(['ar' => 'تعديل شركة عميل', 'en' => 'edit client company']),
+                'guard_name' => 'admin',
+            ],
+            [
+                'name' => 'update_client_company',
+                'title' => json_encode(['ar' => 'تحديث شركة عميل', 'en' => 'update client company']),
+                'guard_name' => 'admin',
+            ],
+            [
+                'name' => 'delete_client_company',
+                'title' => json_encode(['ar' => 'حذف شركة عميل', 'en' => 'delete client company']),
+                'guard_name' => 'admin',
+            ],
+
+            // Client Projects permissions
+            [
+                'name' => 'view_client_projects',
+                'title' => json_encode(['ar' => 'عرض مشاريع العميل', 'en' => 'view client projects']),
+                'guard_name' => 'admin',
+            ],
+            [
+                'name' => 'add_client_project',
+                'title' => json_encode(['ar' => 'اضافة مشروع عميل', 'en' => 'add client project']),
+                'guard_name' => 'admin',
+            ],
+            [
+                'name' => 'edit_client_project',
+                'title' => json_encode(['ar' => 'تعديل مشروع عميل', 'en' => 'edit client project']),
+                'guard_name' => 'admin',
+            ],
+            [
+                'name' => 'update_client_project',
+                'title' => json_encode(['ar' => 'تحديث مشروع عميل', 'en' => 'update client project']),
+                'guard_name' => 'admin',
+            ],
+            [
+                'name' => 'delete_client_project',
+                'title' => json_encode(['ar' => 'حذف مشروع عميل', 'en' => 'delete client project']),
+                'guard_name' => 'admin',
+            ],
+
+            // Company permissions
+            [
+                'name' => 'list_companies',
+                'title' => json_encode(['ar' => 'عرض الشركات', 'en' => 'list companies']),
+                'guard_name' => 'admin',
+            ],
+            [
+                'name' => 'create_company',
+                'title' => json_encode(['ar' => 'اضافة شركة', 'en' => 'create company']),
+                'guard_name' => 'admin',
+            ],
+            [
+                'name' => 'update_company',
+                'title' => json_encode(['ar' => 'تعديل شركة', 'en' => 'update company']),
+                'guard_name' => 'admin',
+            ],
+            [
+                'name' => 'delete_company',
+                'title' => json_encode(['ar' => 'حذف شركة', 'en' => 'delete company']),
+                'guard_name' => 'admin',
+            ],
+
+            // Company Projects permissions
+            [
+                'name' => 'view_company_projects',
+                'title' => json_encode(['ar' => 'عرض مشاريع الشركة', 'en' => 'view company projects']),
+                'guard_name' => 'admin',
+            ],
+            [
+                'name' => 'add_company_project',
+                'title' => json_encode(['ar' => 'اضافة مشروع شركة', 'en' => 'add company project']),
+                'guard_name' => 'admin',
+            ],
+            [
+                'name' => 'edit_company_project',
+                'title' => json_encode(['ar' => 'تعديل مشروع شركة', 'en' => 'edit company project']),
+                'guard_name' => 'admin',
+            ],
+            [
+                'name' => 'update_company_project',
+                'title' => json_encode(['ar' => 'تحديث مشروع شركة', 'en' => 'update company project']),
+                'guard_name' => 'admin',
+            ],
+            [
+                'name' => 'delete_company_project',
+                'title' => json_encode(['ar' => 'حذف مشروع شركة', 'en' => 'delete company project']),
+                'guard_name' => 'admin',
+            ],
+
+            // Project permissions
+            [
+                'name' => 'list_projects',
+                'title' => json_encode(['ar' => 'عرض المشاريع', 'en' => 'list projects']),
+                'guard_name' => 'admin',
+            ],
+            [
+                'name' => 'create_project',
+                'title' => json_encode(['ar' => 'اضافة مشروع', 'en' => 'create project']),
+                'guard_name' => 'admin',
+            ],
+            [
+                'name' => 'update_project',
+                'title' => json_encode(['ar' => 'تعديل مشروع', 'en' => 'update project']),
+                'guard_name' => 'admin',
+            ],
+            [
+                'name' => 'delete_project',
+                'title' => json_encode(['ar' => 'حذف مشروع', 'en' => 'delete project']),
+                'guard_name' => 'admin',
+            ],
+
+            // Masrofat permissions
+            [
+                'name' => 'list_masrofat',
+                'title' => json_encode(['ar' => 'عرض المصروفات', 'en' => 'list expenses']),
+                'guard_name' => 'admin',
+            ],
+            [
+                'name' => 'create_masrofat',
+                'title' => json_encode(['ar' => 'اضافة مصروف', 'en' => 'create expense']),
+                'guard_name' => 'admin',
+            ],
+            [
+                'name' => 'update_masrofat',
+                'title' => json_encode(['ar' => 'تعديل مصروف', 'en' => 'update expense']),
+                'guard_name' => 'admin',
+            ],
+            [
+                'name' => 'delete_masrofat',
+                'title' => json_encode(['ar' => 'حذف مصروف', 'en' => 'delete expense']),
+                'guard_name' => 'admin',
+            ],
+
+            // Tests permissions
+            [
+                'name' => 'list_tests',
+                'title' => json_encode(['ar' => 'عرض الاختبارات', 'en' => 'list tests']),
+                'guard_name' => 'admin',
+            ],
+            [
+                'name' => 'create_test',
+                'title' => json_encode(['ar' => 'اضافة اختبار', 'en' => 'create test']),
+                'guard_name' => 'admin',
+            ],
+            [
+                'name' => 'update_test',
+                'title' => json_encode(['ar' => 'تعديل اختبار', 'en' => 'update test']),
+                'guard_name' => 'admin',
+            ],
+            [
+                'name' => 'delete_test',
+                'title' => json_encode(['ar' => 'حذف اختبار', 'en' => 'delete test']),
+                'guard_name' => 'admin',
+            ],
+
+            // Users permissions
+            [
+                'name' => 'list_users',
+                'title' => json_encode(['ar' => 'عرض المستخدمين', 'en' => 'list users']),
+                'guard_name' => 'admin',
+            ],
+            [
+                'name' => 'create_user',
+                'title' => json_encode(['ar' => 'اضافة مستخدم', 'en' => 'create user']),
                 'guard_name' => 'admin',
             ],
             [
                 'name' => 'update_user',
-                'title' => json_encode(['ar' => 'تعديل بيانات مستخدم', 'en' => 'update user']),
+                'title' => json_encode(['ar' => 'تعديل مستخدم', 'en' => 'update user']),
                 'guard_name' => 'admin',
             ],
             [
@@ -30,268 +335,16 @@ class PermissionsSeeder extends Seeder
                 'title' => json_encode(['ar' => 'حذف مستخدم', 'en' => 'delete user']),
                 'guard_name' => 'admin',
             ],
-
             [
-                'name' => 'list_roles',
-                'title' => json_encode(['ar' => 'عرض دور صلاحية', 'en' => 'show roles']),
-                'guard_name' => 'admin',
-            ], [
-                'name' => 'add_roles',
-                'title' => json_encode(['ar' => 'اضافة دور صلاحية', 'en' => 'add roles']),
-                'guard_name' => 'admin',
-            ],
-            [
-                'name' => 'update_roles',
-                'title' => json_encode(['ar' => 'تعديل دور صلاحية', 'en' => 'update roles']),
-                'guard_name' => 'admin',
-            ],
-            [
-                'name' => 'delete_roles',
-                'title' => json_encode(['ar' => 'حذف دور صلاحية', 'en' => 'delete roles']),
-                'guard_name' => 'admin',
-            ],
-            [
-                'name' => 'TrainingCenters',
-                'title' => json_encode(['ar' => 'مراكز التدريب', 'en' => 'Training Centers']),
-                'guard_name' => 'admin'
-            ],
-            [
-                'name' => 'FinanceService',
-                'title' => json_encode(['ar' => 'خدمة التمويل', 'en' => 'Finance Service']),
-                'guard_name' => 'admin'
-            ],
-            [
-                'name' => 'SupportingEntity',
-                'title' => json_encode(['ar' => 'الجهة الداعمة', 'en' => 'Supporting Entity']),
-                'guard_name' => 'admin'
-            ],
-            [
-                'name' => 'enterData',
-                'title' => json_encode(['ar' => 'ادخال بيانات', 'en' => 'enter data']),
-                'guard_name' => 'admin'
-            ],
-            [
-                'name' => 'delete',
-                'title' => json_encode(['ar' => 'حذف', 'en' => 'delete']),
-                'guard_name' => 'admin'
-            ],
-            [
-                'name' => 'edit',
-                'title' => json_encode(['ar' => 'تعديل', 'en' => 'edit']),
-                'guard_name' => 'admin'
-            ],
-
-
-            /********************-------------site ---------------******************** */
-            [
-                'name' => 'siteData',
-                'title' => json_encode(['ar' => 'بيانات الموقع', 'en' => ' Site Data']),
+                'name' => 'change_user_status',
+                'title' => json_encode(['ar' => 'تغيير حالة المستخدم', 'en' => 'change user status']),
                 'guard_name' => 'admin',
             ],
 
-
-            /********************-------------main_subscriptions ---------------******************** */
+            // Users permissions management
             [
-                'name' => 'add_main_subscriptions',
-                'title' => json_encode(['ar' => 'اضافة الاشتراك الاعادي', 'en' => 'add main_subscriptions']),
-                'guard_name' => 'admin',
-            ],
-            [
-                'name' => 'update_main_subscriptions',
-                'title' => json_encode(['ar' => 'تعديل الاشتراك الاعادي', 'en' => 'update main_subscriptions']),
-                'guard_name' => 'admin',
-            ],
-            [
-                'name' => 'delete_main_subscriptions',
-                'title' => json_encode(['ar' => 'حذف الاشتراك الاعادي', 'en' => 'delete main_subscriptions']),
-                'guard_name' => 'admin',
-            ],
-            [
-                'name' => 'show_main_subscriptions',
-                'title' => json_encode(['ar' => 'عرض الاشتراك الاعادي', 'en' => 'show main_subscriptions']),
-                'guard_name' => 'admin',
-            ],
-
-            /********************-------------special_subscriptions ---------------******************** */
-            [
-                'name' => 'add_special_subscriptions',
-                'title' => json_encode(['ar' => 'اضافة الاشتراك الخاص', 'en' => 'add special_subscriptions']),
-                'guard_name' => 'admin',
-            ],
-            [
-                'name' => 'update_special_subscriptions',
-                'title' => json_encode(['ar' => 'تعديل الاشتراك الخاص', 'en' => 'update special_subscriptions']),
-                'guard_name' => 'admin',
-            ],
-            [
-                'name' => 'delete_special_subscriptions',
-                'title' => json_encode(['ar' => 'حذف الاشتراك الخاص', 'en' => 'delete special_subscriptions']),
-                'guard_name' => 'admin',
-            ],
-            [
-                'name' => 'show_special_subscriptions',
-                'title' => json_encode(['ar' => 'عرض الاشتراك الخاص', 'en' => 'show special_subscriptions']),
-                'guard_name' => 'admin',
-            ],
-
-            /********************-------------offers ---------------******************** */
-            [
-                'name' => 'add_offers',
-                'title' => json_encode(['ar' => 'اضافة العروض', 'en' => 'add offers']),
-                'guard_name' => 'admin',
-            ],
-            [
-                'name' => 'update_offers',
-                'title' => json_encode(['ar' => 'تعديل العروض', 'en' => 'update offers']),
-                'guard_name' => 'admin',
-            ],
-            [
-                'name' => 'delete_offers',
-                'title' => json_encode(['ar' => 'حذف العروض', 'en' => 'delete offers']),
-                'guard_name' => 'admin',
-            ],
-            [
-                'name' => 'show_offers',
-                'title' => json_encode(['ar' => 'عرض العروض', 'en' => 'show offers']),
-                'guard_name' => 'admin',
-            ],
-
-            /********************-------------transportation ---------------******************** */
-            [
-                'name' => 'add_transportation',
-                'title' => json_encode(['ar' => 'اضافة الرحلات', 'en' => 'add transportation']),
-                'guard_name' => 'admin',
-            ],
-            [
-                'name' => 'update_transportation',
-                'title' => json_encode(['ar' => 'تعديل الرحلات', 'en' => 'update transportation']),
-                'guard_name' => 'admin',
-            ],
-            [
-                'name' => 'delete_transportation',
-                'title' => json_encode(['ar' => 'حذف الرحلات', 'en' => 'delete transportation']),
-                'guard_name' => 'admin',
-            ],
-            [
-                'name' => 'show_transportation',
-                'title' => json_encode(['ar' => 'عرض الرحلات', 'en' => 'show transportation']),
-                'guard_name' => 'admin',
-            ],
-
-            /********************-------------trainers ---------------******************** */
-            [
-                'name' => 'add_trainers',
-                'title' => json_encode(['ar' => 'اضافة المدربين', 'en' => 'add trainers']),
-                'guard_name' => 'admin',
-            ],
-            [
-                'name' => 'update_trainers',
-                'title' => json_encode(['ar' => 'تعديل المدربين', 'en' => 'update trainers']),
-                'guard_name' => 'admin',
-            ],
-            [
-                'name' => 'delete_trainers',
-                'title' => json_encode(['ar' => 'حذف المدربين', 'en' => 'delete trainers']),
-                'guard_name' => 'admin',
-            ],
-            [
-                'name' => 'show_trainers',
-                'title' => json_encode(['ar' => 'عرض المدربين', 'en' => 'show trainers']),
-                'guard_name' => 'admin',
-            ],
-
-            /********************-------------members ---------------******************** */
-            [
-                'name' => 'add_members',
-                'title' => json_encode(['ar' => 'اضافة الاعضاء', 'en' => 'add members']),
-                'guard_name' => 'admin',
-            ],
-            [
-                'name' => 'update_members',
-                'title' => json_encode(['ar' => 'تعديل الاعضاء', 'en' => 'update members']),
-                'guard_name' => 'admin',
-            ],
-            [
-                'name' => 'delete_members',
-                'title' => json_encode(['ar' => 'حذف الاعضاء', 'en' => 'delete members']),
-                'guard_name' => 'admin',
-            ],
-            [
-                'name' => 'show_members',
-                'title' => json_encode(['ar' => 'عرض الاعضاء', 'en' => 'show members']),
-                'guard_name' => 'admin',
-            ],
-
-            /********************-------------member_subscriptions ---------------******************** */
-            [
-                'name' => 'add_member_subscriptions',
-                'title' => json_encode(['ar' => 'اضافة اشتراك الاعضاء', 'en' => 'add member_subscriptions']),
-                'guard_name' => 'admin',
-            ],
-            [
-                'name' => 'update_member_subscriptions',
-                'title' => json_encode(['ar' => 'تعديل اشتراك الاعضاء', 'en' => 'update member_subscriptions']),
-                'guard_name' => 'admin',
-            ],
-            [
-                'name' => 'delete_member_subscriptions',
-                'title' => json_encode(['ar' => 'حذف اشتراك الاعضاء', 'en' => 'delete member_subscriptions']),
-                'guard_name' => 'admin',
-            ],
-            [
-                'name' => 'show_member_subscriptions',
-                'title' => json_encode(['ar' => 'عرض اشتراك الاعضاء', 'en' => 'show member_subscriptions']),
-                'guard_name' => 'admin',
-            ],
-
-            /********************-------------about ---------------******************** */
-            [
-                'name' => 'add_about',
-                'title' => json_encode(['ar' => 'اضافة من نحن', 'en' => 'add about']),
-                'guard_name' => 'admin',
-            ],
-            [
-                'name' => 'update_about',
-                'title' => json_encode(['ar' => 'تعديل من نحن', 'en' => 'update about']),
-                'guard_name' => 'admin',
-            ],
-            [
-                'name' => 'delete_about',
-                'title' => json_encode(['ar' => 'حذف من نحن', 'en' => 'delete about']),
-                'guard_name' => 'admin',
-            ],
-            [
-                'name' => 'show_about',
-                'title' => json_encode(['ar' => 'عرض من نحن', 'en' => 'show about']),
-                'guard_name' => 'admin',
-            ],
-
-
-
-            /********************-------------terms ---------------******************** */
-
-            [
-                'name' => 'add_terms',
-                'title' => json_encode(['ar' => 'اضافة شروط والاحكام', 'en' => 'add terms']),
-                'guard_name' => 'admin',
-            ],
-            [
-                'name' => 'update_terms',
-                'title' => json_encode(['ar' => 'تعديل شروط والاحكام', 'en' => 'update terms']),
-                'guard_name' => 'admin',
-            ],
-            [
-                'name' => 'delete_terms',
-                'title' => json_encode(['ar' => 'حذف شروط والاحكام', 'en' => 'delete terms']),
-                'guard_name' => 'admin',
-            ],
-            [
-                'name' => 'show_terms',
-                'title' => json_encode(['ar' => 'عرض شروط والاحكام', 'en' => 'show terms']),
-                'guard_name' => 'admin',
-            ],[
-                'name' => 'show_contacts',
-                'title' => json_encode(['ar' => 'عرض الرسائل', 'en' => 'show contacts massege']),
+                'name' => 'manage_user_permissions',
+                'title' => json_encode(['ar' => 'ادارة صلاحيات المستخدم', 'en' => 'manage user permissions']),
                 'guard_name' => 'admin',
             ],
 

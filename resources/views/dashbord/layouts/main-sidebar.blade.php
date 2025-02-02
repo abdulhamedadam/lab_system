@@ -126,6 +126,16 @@
                     </a>
                 </div>
 
+                <div class="menu-item">
+                    <a class="menu-link {{ request()->routeIs(['admin.users.index']) ? 'active' : '' }}"
+                       href="{{ route('admin.users.index') }}">
+                               <span class="svg-icon svg-icon-2" style="margin-left: 5px">
+                                    <i class="bi bi-clipboard-check text-success fs-2x"></i>
+                                </span>
+                        <span class="menu-title">{{ trans('sidebar.users') }}</span>
+                    </a>
+                </div>
+
             </div>
         </div>
     </div>

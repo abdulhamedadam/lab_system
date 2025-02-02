@@ -70,7 +70,7 @@ class EmployeesController extends Controller
                     return  $row->email;
                 })
                 ->addColumn('branch', function ($row) {
-                    return  $row->branch->name;
+                    return  $row->branch?->name;
                 })
                 ->addColumn('address', function ($row) {
                     return  $row->address;
@@ -97,7 +97,7 @@ class EmployeesController extends Controller
                         </ul>
                     </div>
                     ';
-                })->rawColumns(['image', 'action'])
+                })->rawColumns(['image', 'action', 'branch'])
                 ->make(true);
 
             return response()->json($data);
