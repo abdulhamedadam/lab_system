@@ -50,22 +50,23 @@ class TestsController extends Controller
                 ->editColumn('client', function ($row) {
                     return $row->client ? $row->client->name : 'N/A';
                 })
+                ->editColumn('test_code', function ($row) {
+                    return get_app_config_data('soil_prefix').$row->test_code;
+                })
                 ->editColumn('company', function ($row) {
                     return $row->company ? $row->company->name : 'N/A';
                 })
                 ->editColumn('project', function ($row) {
                     return $row->project ? $row->project->project_name : 'N/A';
                 })
-                ->editColumn('test_code', function ($row) {
-                    return $row->test_code;
-                })
+
                 ->editColumn('talab_title', function ($row) {
                     return $row->talab_title;
                 })
                 ->editColumn('talab_image', function ($row) {
                     if ($row->talab_image) {
                         $imagePath = asset('images/' . $row->talab_image);
-                        return '<img src="' . $imagePath . '" alt="Employee Image" class="img-thumbnail" style="width: 50px; height: 50px;">';
+                        return '<img src="' . $imagePath . '" alt="Employee Image" class="img-thumbnail" style="width: 50px; height: 50px;" onclick="showImagePopup(\'' . $imagePath . '\')">';
                     } else{
                         return 'N\A';
                     }
@@ -76,8 +77,15 @@ class TestsController extends Controller
                 ->editColumn('talab_end_date', function ($row) {
                     return $row->talab_end_date;
                 })
-                ->editColumn('created_by', function ($row) {
-                    return $row->user ? $row->user->name : 'N/A';
+                ->editColumn('sample_number', function ($row) {
+                    return $row->sample_number;
+                })
+                ->editColumn('status', function ($row) {
+                    $status_arr=['pending'=>trans('tests.pending'),'received'=>trans('tests.received'),
+                        'test_progress'=>trans('tests.test_progress'),'test_done'=>trans('tests.test_done'),'reports_progress'=>trans('tests.reports_progress'),
+                        'reports_done'=>trans('tests.reports_done')
+                        ];
+                    return $status_arr[$row->status];
                 })
                 ->addColumn('action', function ($row) {
                     return '
@@ -88,6 +96,9 @@ class TestsController extends Controller
                             <a onclick="return confirm(\'Are You Sure To Delete?\')"  href="' . route('admin.delete_test', $row->id) . '"  class="btn btn-sm btn-danger" title="' . trans('tests.delete') . '" style="font-size: 16px;" onclick="return confirm(\'' . trans('masrofat.confirm_delete') . '\')">
                                 <i class="bi bi-trash3"></i>
                             </a>
+                            <a href="' . route('admin.samples_test', $row->id) . '" class="btn btn-sm btn-success" title="' . trans('tests.samples_test') . '" style="font-size: 16px;">
+                                <i class="bi bi-clipboard-check"></i>
+                             </a>
                         </div>
                     ';
                 })
@@ -113,6 +124,7 @@ class TestsController extends Controller
     {
         try {
             // dd($request->all());
+
             $this->testsService->store($request);
             toastr()->addSuccess(trans('forms.success'));
             return redirect()->route('admin.test.index');
@@ -172,5 +184,11 @@ class TestsController extends Controller
         }
     }
     /********************************************/
+    public function samples_test($id)
+    {
+        $data['all_data']=$this->testsRepository->getById($id);
+        return view('dashbord.tests.samples_test', $data);
+
+    }
 
 }

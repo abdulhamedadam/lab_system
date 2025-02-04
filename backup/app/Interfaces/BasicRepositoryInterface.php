@@ -19,6 +19,8 @@ interface BasicRepositoryInterface
     public function restore($id);
     public function getBywhere(array $conditions);
     public function getWithRelations($relations = []);
+    public function updateOrCreate(array $conditions, array $data);
+
 
 
 }

@@ -106,6 +106,16 @@ class BasicRepository implements BasicRepositoryInterface
     {
         return $this->model->with($relations)->get();
     }
+
+    public function updateOrCreate(array $conditions, array $data)
+    {
+        // TODO: Implement updateOrCreate() method.
+    }
+
+    public function getLastFieldValue($field)
+    {
+        // TODO: Implement getLastFieldValue() method.
+    }
 }
 
 

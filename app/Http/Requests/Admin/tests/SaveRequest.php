@@ -24,9 +24,11 @@ class SaveRequest extends FormRequest
             'test_code' => 'required|string|max:255',
             'talab_number' => 'required|string|max:255',
             'talab_title' => 'required|string|max:255',
-            'talab_image' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+           // 'talab_image' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
             'talab_date' => 'required|date',
             'talab_end_date' => 'required|date|after:talab_date',
+            'sample_number' => 'required',
+            'cost' => 'required',
         ];
     }
 

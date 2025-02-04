@@ -116,15 +116,51 @@
                     </a>
                 </div>
 
-                <div class="menu-item">
-                    <a class="menu-link {{ request()->routeIs(['admin.test.index']) ? 'active' : '' }}"
-                       href="{{ route('admin.test.index') }}">
-                               <span class="svg-icon svg-icon-2" style="margin-left: 5px">
-                                    <i class="bi bi-clipboard-check text-success fs-2x"></i>
-                                </span>
-                        <span class="menu-title">{{ trans('sidebar.tests') }}</span>
-                    </a>
+                {{--  <div class="menu-item">
+                     <a class="menu-link {{ request()->routeIs(['admin.test.index']) ? 'active' : '' }}"
+                        href="{{ route('admin.test.index') }}">
+                                <span class="svg-icon svg-icon-2" style="margin-left: 5px">
+                                     <i class="bi bi-clipboard-check text-success fs-2x"></i>
+                                 </span>
+                         <span class="menu-title">{{ trans('sidebar.tests') }}</span>
+                     </a>
+                 </div>--}}
+
+               <div data-kt-menu-trigger="click" class="menu-item menu-accordion
+                      {{ (in_array(optional(explode('.', Route::currentRouteName()))[1], array('test'))) ? 'show' : ''  }}
+                     {{ (in_array(optional(explode('.', Route::currentRouteName()))[2], array('test'))) ? 'show' : ''  }}">
+                    <span class="menu-link">
+                      <span class="menu-icon">
+                           <i class="bi bi-file-earmark-text fs-2x"></i>
+                      </span>
+                    <span class="menu-title">{{ trans('sidebar.soil_tests') }}</span>
+                    <span class="menu-arrow"></span>
+                    </span>
+
+                    <div class="menu-sub menu-sub-accordion
+                          {{ (in_array(optional(explode('.', Route::currentRouteName()))[2], array('transportation','exercise_devices', 'task_management','schedule'))) ? 'show' : ''  }}
+                         {{ (in_array(optional(explode('.', Route::currentRouteName()))[1], array('schedule'))) ? 'show' : ''  }}">
+
+                        <div class="menu-item">
+                            <a class="menu-link {{ request()->routeIs(['admin.test.index']) ? 'active' : '' }}" href="{{route('admin.test.index')}}">
+                             <span class="menu-bullet">
+                               <span class="bullet bullet-dot"></span>
+                             </span>
+                                <span class="menu-title">{{ trans('sidebar.soil_erosion_test') }}</span>
+                            </a>
+                        </div>
+
+                        <div class="menu-item">
+                            <a class="menu-link <?php  if (optional(explode('.', Route::currentRouteName()))[2] == 'exercise_devices') {echo 'active';} ?>" href="">
+                                 <span class="menu-bullet">
+                                     <span class="bullet bullet-dot"></span>
+                                 </span>
+                                <span class="menu-title">{{ trans('sidebar.sand_cone_test') }}</span>
+                            </a>
+                        </div>
+                    </div>
                 </div>
+
 
             </div>
         </div>

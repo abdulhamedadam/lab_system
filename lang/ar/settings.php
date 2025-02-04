@@ -54,4 +54,11 @@
   'branch' => 'الفرع',
   'branch_id' => 'الفرع',
   'select_branch' => 'اختر الفرع',
+  'app_config' => 'app_config',
+  'save_changes' => 'save_changes',
+  'soil_prefix' => 'soil_prefix',
+  'concrete_prefix' => 'concrete_prefix',
+  'road_prefix' => 'road_prefix',
+  'test_expire_notification' => 'test_expire_notification',
+  'number_days_alert_before_sample_expiration' => 'number_days_alert_before_sample_expiration',
 );

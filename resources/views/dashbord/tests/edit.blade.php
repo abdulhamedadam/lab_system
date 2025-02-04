@@ -40,7 +40,7 @@
                             <label for="test_code" class="form-label">{{ trans('tests.test_code') }}</label>
                             <div class="input-group flex-nowrap">
                                 <span class="input-group-text" id="basic-addon3">{!! form_icon('text') !!}</span>
-                                <input type="text" class="form-control" name="test_code" id="test_code" value="{{ $all_data->test_code }}" readonly>
+                                <input type="text" class="form-control" name="test_code" id="test_code" value="{{ get_app_config_data('soil_prefix').$all_data->test_code  }}" readonly>
                             </div>
                             @error('test_code')
                                 <span class="invalid-feedback d-block" role="alert">{{ $message }}</span>
@@ -157,6 +157,30 @@
                             </div>
                             @error('talab_end_date')
                                 <span class="invalid-feedback d-block" role="alert">{{ $message }}</span>
+                            @enderror
+                        </div>
+                    </div>
+
+                    <div class="col-md-12 row" style="margin-top: 10px">
+                        <div class="col-md-4">
+                            <label for="talab_date" class="form-label">{{ trans('tests.sample_number') }}</label>
+                            <div class="input-group flex-nowrap">
+                                <span class="input-group-text" id="basic-addon3">{!! form_icon('number') !!}</span>
+                                <input type="number" class="form-control" name="sample_number" id="sample_number" value="{{ old('sample_number',$all_data->sample_number) }}">
+                            </div>
+                            @error('sample_number')
+                            <span class="invalid-feedback d-block" role="alert">{{ $message }}</span>
+                            @enderror
+                        </div>
+
+                        <div class="col-md-4">
+                            <label for="talab_date" class="form-label">{{ trans('tests.test_cost') }}</label>
+                            <div class="input-group flex-nowrap">
+                                <span class="input-group-text" id="basic-addon3">{!! form_icon('number') !!}</span>
+                                <input type="number" class="form-control" name="cost" id="cost" value="{{ old('cost',$all_data->cost) }}">
+                            </div>
+                            @error('cost')
+                            <span class="invalid-feedback d-block" role="alert">{{ $message }}</span>
                             @enderror
                         </div>
                     </div>

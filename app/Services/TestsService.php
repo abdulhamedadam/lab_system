@@ -21,18 +21,17 @@ class TestsService
     public function store($request)
     {
         $validated_data = $request->validated();
-        $validated_data['client_id'] = $request->client_id;
-        $validated_data['company_id'] = $request->company_id;
-        $validated_data['project_id'] = $request->project_id;
-        $validated_data['test_code'] = $request->test_code;
-        $validated_data['talab_number'] = $request->talab_number;
-        $validated_data['talab_title'] = $request->talab_title;
-        $validated_data['talab_date'] = $request->talab_date;
-        $validated_data['talab_end_date'] = $request->talab_end_date;
+       // dd($validated_data);
+        $validated_data['test_code'] = explode('/', $validated_data['test_code'])[1] ?? null;
         $validated_data['created_by'] = auth()->user()->id;
+        $validated_data['year'] = now()->year;
+        $validated_data['month'] = now()->month;
 
         if ($request->hasFile('talab_image')) {
             $validated_data['talab_image'] = $this->saveImage($request->file('talab_image'), 'tests_talabat');
+            $validated_data['status']='received';
+        }else{
+            $validated_data['status']='pending';
         }
 
         return $this->TestsRepository->create($validated_data);
@@ -42,15 +41,10 @@ class TestsService
     public function update($request, $id)
     {
         $validated_data = $request->validated();
-        $validated_data['client_id'] = $request->client_id;
-        $validated_data['company_id'] = $request->company_id;
-        $validated_data['project_id'] = $request->project_id;
-        $validated_data['test_code'] = $request->test_code;
-        $validated_data['talab_number'] = $request->talab_number;
-        $validated_data['talab_title'] = $request->talab_title;
-        $validated_data['talab_date'] = $request->talab_date;
-        $validated_data['talab_end_date'] = $request->talab_end_date;
+        $validated_data['test_code'] = explode('/', $validated_data['test_code'])[1] ?? null;
         $validated_data['updated_by'] = auth()->user()->id;
+        $validated_data['year'] = now()->year;
+        $validated_data['month'] = now()->month;
 
         $test = $this->TestsRepository->getById($id);
         if ($request->hasFile('talab_image')) {
@@ -61,6 +55,7 @@ class TestsService
                 }
             }
             $validated_data['talab_image'] = $this->saveImage($request->file('talab_image'), 'tests_talabat');
+            $validated_data['status']='received';
         }
 
         return $this->TestsRepository->update($id, $validated_data);
