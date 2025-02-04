@@ -22,11 +22,17 @@ class AdminUpdateRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'user_name' => 'required|unique:admins,name,'.$this->id,
-            'phone' => 'required|unique:admins,phone,'.$this->id,
-//            'password' => 'required',
-            'email' => 'required|email|unique:admins,email,'.$this->id,
-            'status' => 'required',
+            'email' => 'required|email|unique:admins,email,'.$this->route('user'),
+            'phone' => 'required|unique:admins,phone,'.$this->route('user'),
+            'is_employee' => 'required|in:0,1',
+            'emp_id' => 'nullable|exists:tbl_employees,id|required_if:is_employee,1',
+            'name' => 'required|string|max:255',
+            'position' => 'required|string|max:255',
+            'password' => 'nullable|string|min:8',
+            'role' => 'required|exists:roles,id',
+            'status' => 'required|in:0,1',
+            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+            'address'=> 'nullable|string|max:255',
         ];
     }
 }

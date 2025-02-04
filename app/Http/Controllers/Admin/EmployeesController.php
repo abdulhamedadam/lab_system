@@ -97,7 +97,7 @@ class EmployeesController extends Controller
                         </ul>
                     </div>
                     ';
-                })->rawColumns(['image', 'action'])
+                })->rawColumns(['image', 'action', 'branch'])
                 ->make(true);
 
             return response()->json($data);

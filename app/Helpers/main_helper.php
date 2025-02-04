@@ -346,6 +346,8 @@ if (!function_exists('form_icon')) {
             'file' => '<i class="bi bi-file-earmark fs-4"></i>',
             'checkbox' => '<i class="bi bi-check2-square fs-4"></i>',
             'address' => '<i class="bi bi-geo-alt fs-4"></i>',
+            'status' => '<i class="bi bi-toggle-on fs-4"></i>',
+            'role' => '<i class="bi bi-person-badge fs-4"></i>',
         ];
 
         // Return the icon if it exists, otherwise return a default icon
