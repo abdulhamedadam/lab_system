@@ -27,7 +27,7 @@
 
         <div class="card shadow-sm" style="border-top: 3px solid #007bff;">
             @php
-                generateCardHeader('testس.add_test','admin.test.index',' ')
+                generateCardHeader('tests.add_test','admin.test.index',' ')
             @endphp
 
 

@@ -10,6 +10,7 @@ use App\Http\Controllers\Admin\GeneralSettingsController;
 use App\Http\Controllers\Admin\MasrofatController;
 use App\Http\Controllers\Admin\ProjectController;
 use App\Http\Controllers\Admin\TestsController;
+use App\Http\Controllers\Admin\UsersController;
 use Illuminate\Support\Facades\Route;
 use Mcamara\LaravelLocalization\Facades\LaravelLocalization;
 
@@ -146,6 +147,13 @@ Route::group(
 
         Route::resource('test',TestsController::class);
         Route::get('tests/delete/{id}',[TestsController::class,'destroy'])->name('delete_test');
+
+        Route::resource('users',UsersController::class);
+        Route::get('user/delete/{id}',[UsersController::class,'destroy'])->name('delete_user');
+        Route::get('users/change_status/{id}/{status}', [UsersController::class, 'change_status'])->name('change_status');
+
+        Route::get('admin/users/{user}/permissions', [UsersController::class, 'permissions'])->name('users.permissions');
+        Route::post('admin/users/{user}/permissions', [UsersController::class, 'updatePermissions'])->name('users.update_permissions');
 
     });
 
