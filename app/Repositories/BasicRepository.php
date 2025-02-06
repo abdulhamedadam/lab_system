@@ -112,6 +112,14 @@ class BasicRepository implements BasicRepositoryInterface
         $lastValue = $this->model->latest()->value($field);
         return is_null($lastValue) ? 1 : $lastValue + 1;
     }
+
+    /**********************************************/
+    public function getWithRelationsAndWhere(array $relations, string $column, $value)
+    {
+        return $this->model->with($relations)
+            ->where($column, $value)
+            ->get();
+    }
 }
 
 

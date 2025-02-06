@@ -7,6 +7,8 @@ use App\Http\Requests\Admin\tests\SaveRequest;
 use App\Interfaces\BasicRepositoryInterface;
 use App\Models\Admin\Employee;
 use App\Models\Admin\Masrofat;
+use App\Models\Admin\SoilCompactionTest;
+use App\Models\Admin\SoilCompactionTestDetails;
 use App\Models\Admin\Test;
 use App\Models\Clients;
 use App\Models\ClientsCompanies;
@@ -26,6 +28,8 @@ class TestsController extends Controller
     protected $testsRepository;
     protected $testsService;
     protected $masrofatRepository;
+    protected $SoilCompactionTestRepository;
+    protected $SoilCompactionTestDetailsRepository;
     protected $companyRepository;
     protected $projectsRepository;
 
@@ -34,6 +38,8 @@ class TestsController extends Controller
         $this->projectsRepository   = createRepository($basicRepository, new ClientsProjects());
         $this->clientsRepository = createRepository($basicRepository, new Clients());
         $this->companyRepository   = createRepository($basicRepository, new ClientsCompanies());
+        $this->SoilCompactionTestRepository   = createRepository($basicRepository, new SoilCompactionTest());
+        $this->SoilCompactionTestDetailsRepository   = createRepository($basicRepository, new SoilCompactionTestDetails());
         $this->testsRepository   = createRepository($basicRepository, new Test());
         $this->testsService   = $testsService;
 
@@ -187,6 +193,8 @@ class TestsController extends Controller
     public function samples_test($id)
     {
         $data['all_data']=$this->testsRepository->getById($id);
+        $data['compaction_test'] = $this->SoilCompactionTestRepository->getWithRelationsAndWhere(['compaction_test_details'], 'soil_test_id', $id);
+        //dd($data['compaction_test'][0]->compaction_test_details);
         return view('dashbord.tests.samples_test', $data);
 
     }
