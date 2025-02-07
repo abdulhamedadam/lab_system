@@ -36,7 +36,7 @@
                 @method('PUT')
                 <div class="card-body">
                     <div class="col-md-12 row" style="margin-top: 10px">
-                        <div class="col-md-4">
+                        <div class="col-md-3">
                             <label for="test_code" class="form-label">{{ trans('tests.test_code') }}</label>
                             <div class="input-group flex-nowrap">
                                 <span class="input-group-text" id="basic-addon3">{!! form_icon('text') !!}</span>
@@ -47,7 +47,7 @@
                             @enderror
                         </div>
 
-                        <div class="col-md-4">
+                        <div class="col-md-3">
                             <label for="client_id" class="form-label">{{ trans('tests.client') }}</label>
                             <div class="input-group flex-nowrap">
                                 <span class="input-group-text" id="basic-addon3">{!! form_icon('select') !!}</span>
@@ -63,7 +63,7 @@
                             @enderror
                         </div>
 
-                        <div class="col-md-4">
+                        <div class="col-md-3">
                             <label for="company_id" class="form-label">{{ trans('tests.company') }}</label>
                             <div class="input-group flex-nowrap">
                                 <span class="input-group-text" id="basic-addon3">{!! form_icon('select') !!}</span>
@@ -78,10 +78,7 @@
                                 <span class="invalid-feedback d-block" role="alert">{{ $message }}</span>
                             @enderror
                         </div>
-                    </div>
-
-                    <div class="col-md-12 row" style="margin-top: 10px">
-                        <div class="col-md-4">
+                        <div class="col-md-3">
                             <label for="project_id" class="form-label">{{ trans('tests.project') }}</label>
                             <div class="input-group flex-nowrap">
                                 <span class="input-group-text" id="basic-addon3">{!! form_icon('select') !!}</span>
@@ -93,11 +90,36 @@
                                 </select>
                             </div>
                             @error('project_id')
-                                <span class="invalid-feedback d-block" role="alert">{{ $message }}</span>
+                            <span class="invalid-feedback d-block" role="alert">{{ $message }}</span>
                             @enderror
                         </div>
 
-                        <div class="col-md-4">
+                    </div>
+
+                    <div class="col-md-12 row" style="margin-top: 10px">
+
+                        <div class="col-md-3">
+                            <label for="talab_number" class="form-label">{{ trans('tests.wared_number') }}</label>
+                            <div class="input-group flex-nowrap">
+                                <span class="input-group-text" id="basic-addon3">{!! form_icon('number') !!}</span>
+                                <input type="number" class="form-control" name="wared_number" id="wared_number" value="{{ old('wared_number',$all_data->wared_number) }}">
+                            </div>
+                            @error('wared_number')
+                            <span class="invalid-feedback d-block" role="alert">{{ $message }}</span>
+                            @enderror
+                        </div>
+
+                        <div class="col-md-3">
+                            <label for="talab_number" class="form-label">{{ trans('tests.wared_date') }}</label>
+                            <div class="input-group flex-nowrap">
+                                <span class="input-group-text" id="basic-addon3">{!! form_icon('text') !!}</span>
+                                <input type="date" class="form-control" name="wared_date" id="wared_date" value="{{ old('wared_number',$all_data->wared_number) }}">
+                            </div>
+                            @error('wared_date')
+                            <span class="invalid-feedback d-block" role="alert">{{ $message }}</span>
+                            @enderror
+                        </div>
+                        <div class="col-md-3">
                             <label for="talab_number" class="form-label">{{ trans('tests.talab_number') }}</label>
                             <div class="input-group flex-nowrap">
                                 <span class="input-group-text" id="basic-addon3">{!! form_icon('text') !!}</span>
@@ -108,7 +130,7 @@
                             @enderror
                         </div>
 
-                        <div class="col-md-4">
+                        <div class="col-md-3">
                             <label for="talab_title" class="form-label">{{ trans('tests.talab_title') }}</label>
                             <div class="input-group flex-nowrap">
                                 <span class="input-group-text" id="basic-addon3">{!! form_icon('text') !!}</span>
@@ -121,7 +143,7 @@
                     </div>
 
                     <div class="col-md-12 row" style="margin-top: 10px">
-                        <div class="col-md-4">
+                        <div class="col-md-3">
                             <label for="talab_image" class="form-label">{{ trans('tests.talab_image') }}</label>
                             <div class="input-group flex-nowrap">
                                 <span class="input-group-text" id="basic-addon3">{!! form_icon('image') !!}</span>
@@ -138,7 +160,7 @@
                             @endif
                         </div>
 
-                        <div class="col-md-4">
+                        <div class="col-md-3">
                             <label for="talab_date" class="form-label">{{ trans('tests.talab_date') }}</label>
                             <div class="input-group flex-nowrap">
                                 <span class="input-group-text" id="basic-addon3">{!! form_icon('date') !!}</span>
@@ -149,7 +171,7 @@
                             @enderror
                         </div>
 
-                        <div class="col-md-4">
+                        <div class="col-md-3">
                             <label for="talab_end_date" class="form-label">{{ trans('tests.talab_end_date') }}</label>
                             <div class="input-group flex-nowrap">
                                 <span class="input-group-text" id="basic-addon3">{!! form_icon('date') !!}</span>
@@ -159,10 +181,8 @@
                                 <span class="invalid-feedback d-block" role="alert">{{ $message }}</span>
                             @enderror
                         </div>
-                    </div>
 
-                    <div class="col-md-12 row" style="margin-top: 10px">
-                        <div class="col-md-4">
+                        <div class="col-md-3">
                             <label for="talab_date" class="form-label">{{ trans('tests.sample_number') }}</label>
                             <div class="input-group flex-nowrap">
                                 <span class="input-group-text" id="basic-addon3">{!! form_icon('number') !!}</span>
@@ -173,7 +193,20 @@
                             @enderror
                         </div>
 
-                        <div class="col-md-4">
+                    </div>
+
+                    <div class="col-md-12 row" style="margin-top: 10px">
+                        <div class="col-md-3">
+                            <label for="book_number" class="form-label">{{ trans('tests.book_number') }}</label>
+                            <div class="input-group flex-nowrap">
+                                <span class="input-group-text" id="basic-addon3">{!! form_icon('number') !!}</span>
+                                <input type="number" class="form-control" name="book_number" id="book_number" value="{{ old('book_number',$all_data->book_number) }}">
+                            </div>
+                            @error('book_number')
+                            <span class="invalid-feedback d-block" role="alert">{{ $message }}</span>
+                            @enderror
+                        </div>
+                        <div class="col-md-3">
                             <label for="talab_date" class="form-label">{{ trans('tests.test_cost') }}</label>
                             <div class="input-group flex-nowrap">
                                 <span class="input-group-text" id="basic-addon3">{!! form_icon('number') !!}</span>
@@ -183,8 +216,29 @@
                             <span class="invalid-feedback d-block" role="alert">{{ $message }}</span>
                             @enderror
                         </div>
+
+                        @php
+                            $test_type=['soil'=>trans('tests.soil'),'hasa'=>trans('tests.hasa')]
+                        @endphp
+                        <div class="col-md-3">
+                            <label for="client_id" class="form-label">{{ trans('tests.soil_test_type') }}</label>
+                            <div class="input-group flex-nowrap">
+                                <span class="input-group-text" id="basic-addon3">{!! form_icon('select') !!}</span>
+                                <select class="form-select rounded-start-0" name="test_type" id="test_type">
+                                    <option value="">{{trans('tests.select')}}</option>
+                                    @foreach($test_type as $key=>$value)
+                                        <option value="{{$key}}" {{ old('test_type',$all_data->test_type) == $key ? 'selected' : '' }}>{{$value}}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                            @error('test_type')
+                            <span class="invalid-feedback d-block" role="alert">{{ $message }}</span>
+                            @enderror
+                        </div>
                     </div>
+
                 </div>
+
                 <div class="card-footer d-flex justify-content-end">
                     <button type="submit" class="btn btn-success">
                         {{ trans('tests.update') }}

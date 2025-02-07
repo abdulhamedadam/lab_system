@@ -149,6 +149,9 @@ Route::group(
         Route::resource('test',TestsController::class);
         Route::get('tests/delete/{id}',[TestsController::class,'destroy'])->name('delete_test');
         Route::get('tests/samples_test/{id}',[TestsController::class,'samples_test'])->name('samples_test');
+        Route::post('tests/save_compaction_test/{id}',[TestsController::class,'save_compaction_test'])->name('save_compaction_test');
+        Route::get('tests/soil_sample_report_details/{id}',[TestsController::class,'soil_sample_report_details'])->name('soil_sample_report_details');
+        Route::get('tests/print_soil_sample_report/{id}',[TestsController::class,'print_soil_sample_report'])->name('print_soil_sample_report');
 
         /*************************************************************************************************/
         Route::get('setting/app_config',[ConfigAppController::class,'index'])->name('app_config');

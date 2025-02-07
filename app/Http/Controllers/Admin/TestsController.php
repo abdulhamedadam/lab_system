@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Admin\tests\SaveCompactionTesrRequest;
 use App\Http\Requests\Admin\tests\SaveRequest;
 use App\Interfaces\BasicRepositoryInterface;
 use App\Models\Admin\Employee;
@@ -17,6 +18,7 @@ use App\Services\TestsService;
 use App\Traits\ImageProcessing;
 use App\Traits\ValidationMessage;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Yajra\DataTables\Facades\DataTables;
 
 class TestsController extends Controller
@@ -105,6 +107,10 @@ class TestsController extends Controller
                             <a href="' . route('admin.samples_test', $row->id) . '" class="btn btn-sm btn-success" title="' . trans('tests.samples_test') . '" style="font-size: 16px;">
                                 <i class="bi bi-clipboard-check"></i>
                              </a>
+
+                             <a href="' . route('admin.print_soil_sample_report', $row->id) . '" class="btn btn-sm btn-dark" title="' . trans('tests.print_samples_test') . '" style="font-size: 16px;">
+                                  <i class="bi bi-printer ms-1"></i>
+                             </a>
                         </div>
                     ';
                 })
@@ -118,6 +124,9 @@ class TestsController extends Controller
     public function create()
     {
         $data['test_code'] = $this->testsRepository->getLastFieldValue('test_code');
+        $data['wared_number'] = $this->testsRepository->getLastFieldValue('wared_number');
+        $data['talab_number'] = $this->testsRepository->getLastFieldValue('talab_number');
+        $data['book_number'] = $this->testsRepository->getLastFieldValue('book_number');
         $data['clients']      = $this->clientsRepository->getAll();
         $data['companies']      = $this->companyRepository->getAll();
         $data['projects'] = $this->projectsRepository->getAll();
@@ -173,19 +182,29 @@ class TestsController extends Controller
     /********************************************/
     public function destroy(string $id)
     {
+        DB::beginTransaction();
         try {
             $test = $this->testsRepository->getById($id);
-            if ($test->talab_image) {
-                $oldImagePath = public_path('images/' . $test->talab_image);
-                if (file_exists($oldImagePath)) {
-                    unlink($oldImagePath);
+            $soil_compaction = $this->SoilCompactionTestRepository->getBywhere(['soil_test_id' => $test->id]);
+            if (!empty($soil_compaction)) {
+                $soil_compaction_details = $this->SoilCompactionTestDetailsRepository->getBywhere(['soil_compaction_test_id' => $soil_compaction[0]->id]);
+                if ($test->talab_image) {
+                    $oldImagePath = public_path('images/' . $test->talab_image);
+                    if (file_exists($oldImagePath)) {
+                        unlink($oldImagePath);
+                    }
                 }
+                $this->testsRepository->delete($id);
+                $this->SoilCompactionTestRepository->delete($soil_compaction[0]->id);
+                $this->SoilCompactionTestDetailsRepository->deleteWhere('soil_compaction_test_id', $soil_compaction[0]->id);
             }
-            $this->testsRepository->delete($id);
+
+            DB::commit();
+
             toastr()->addSuccess(trans('forms.success'));
             return redirect()->route('admin.test.index');
         } catch (\Exception $e) {
-            dd($e->getMessage());
+            DB::rollBack();
             return redirect()->back()->withErrors(['error' => $e->getMessage()]);
         }
     }
@@ -197,6 +216,39 @@ class TestsController extends Controller
         //dd($data['compaction_test'][0]->compaction_test_details);
         return view('dashbord.tests.samples_test', $data);
 
+    }
+    /********************************************/
+    public function save_compaction_test(SaveCompactionTesrRequest $request,$test_id)
+    {
+
+        try {
+             //dd($request->all());
+            $this->testsService->save_compaction_test($request,$test_id);
+            toastr()->addSuccess(trans('forms.success'));
+            return redirect()->route('admin.samples_test',$test_id);
+        } catch (\Exception $e) {
+            dd($e->getMessage());
+            return redirect()->back()->withErrors(['error' => $e->getMessage()]);
+        }
+    }
+
+    /********************************************/
+    public function soil_sample_report_details($id)
+    {
+        $data['all_data']=$this->testsRepository->getById($id);
+        $data['compaction_test'] = $this->SoilCompactionTestRepository->getWithRelationsAndWhere(['compaction_test_details'], 'soil_test_id', $id);
+        //dd($data['compaction_test'][0]->compaction_test_details);
+        return view('dashbord.tests.samples.soil_sample_report', $data);
+
+    }
+
+    /********************************************/
+    public function print_soil_sample_report($id)
+    {
+        $data['all_data']=$this->testsRepository->getById($id);
+        $data['compaction_test'] = $this->SoilCompactionTestRepository->getWithRelationsAndWhere(['compaction_test_details'], 'soil_test_id', $id);
+        //dd($data['compaction_test'][0]->compaction_test_details);
+        return view('dashbord.tests.samples.print_soil_sample_report', $data);
     }
 
 }

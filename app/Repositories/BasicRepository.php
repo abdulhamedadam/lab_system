@@ -120,6 +120,12 @@ class BasicRepository implements BasicRepositoryInterface
             ->where($column, $value)
             ->get();
     }
+    /***********************************************/
+    public function deleteWhere( $column, $value)
+    {
+        return $this->model->where($column, $value)->delete();
+    }
+
 }
 
 

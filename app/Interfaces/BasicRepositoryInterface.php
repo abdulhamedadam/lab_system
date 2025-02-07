@@ -21,5 +21,6 @@ interface BasicRepositoryInterface
     public function getWithRelations($relations = []);
     public function getLastFieldValue($field);
     public function getWithRelationsAndWhere(array $relations, string $column, $value);
+    public function deleteWhere( $column, $value);
 
 }
