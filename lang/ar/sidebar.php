@@ -102,4 +102,5 @@
   'soil_tests' => 'إختبارات التربة',
   'soil_erosion_test' => 'اختبار حدل التربة',
   'sand_cone_test' => 'اختبار sand cone',
+  'all_tests' => 'جميع الإختبارات',
 );

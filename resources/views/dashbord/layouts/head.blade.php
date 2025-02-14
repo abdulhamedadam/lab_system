@@ -12,6 +12,7 @@
 <link href="{{asset('assets/plugins/custom/datatables/datatables.bundle.css')}}" rel="stylesheet" type="text/css"/>
 <link href="{{asset('assets/plugins/global/plugins.bundle.css')}}" rel="stylesheet" type="text/css"/>
 <link href="{{asset('assets/css/custome/fonts.css')}}" rel="stylesheet" type="text/css"/>
+<link href="{{asset('assets/plugins/custom/jstree/jstree.bundle.css')}}" rel="stylesheet" type="text/css"/>
 @if(app()->getLocale() =='ar')
 {{--    <link href="{{asset('assets/plugins/custom/prismjs/prismjs.bundle.rtl.css')}}" rel="stylesheet" type="text/css" />--}}
 {{--<link href="{{asset('assets/css/style.bundle.css')}}" rel="stylesheet" type="text/css"/>--}}
@@ -21,6 +22,7 @@
 @else
 {{--    <link href="{{asset('assets/plugins/global/plugins.bundle.css')}}" rel="stylesheet" type="text/css"/>--}}
     <link href="{{asset('assets/css/style.bundle.css')}}" rel="stylesheet" type="text/css"/>
+
 
 @endif
 <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@600&family=Tajawal:wght@500;700&display=swap" rel="stylesheet">

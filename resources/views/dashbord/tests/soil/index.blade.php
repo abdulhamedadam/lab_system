@@ -15,7 +15,9 @@
             $breadcrumbs = [
                 ['label' => trans('Toolbar.home'), 'link' => route('admin.test.create')],
                 ['label' => trans('Toolbar.tests'), 'link' => ''],
-                ['label' => trans('Toolbar.soil_erosion_test'), 'link' => ''],
+                ['label' => trans('Toolbar.soil_test'), 'link' => ''],
+                ['label' => trans('Toolbar.'.$type), 'link' => ''],
+                ['label' => trans('Toolbar.'.$test), 'link' => ''],
               //  ['label' => trans('Toolbar.'), 'link' => ''],
             ];
 
@@ -25,7 +27,7 @@
 
         <div class="d-flex align-items-center gap-2 gap-lg-3">
 
-            {{ AddButton(route('admin.test.create')) }}
+            {{ AddButton(route('admin.create_soil_test',[$type,$test])) }}
 
         </div>
     </div>
@@ -73,7 +75,7 @@
                 "serverSide": true,
                 "order": [],
                 "ajax": {
-                    url: "{{ route('admin.test.index') }}",
+                    url: "{{ route('admin.soil_test',[$type,$test]) }}",
                     type: 'GET'
                 },
                 "columns": [
@@ -130,9 +132,9 @@
                     },
                 ],
                 "columnDefs": [{
-                        "targets": [1, -1], //last column
-                        "orderable": false, //set not orderable
-                    },
+                    "targets": [1, -1], //last column
+                    "orderable": false, //set not orderable
+                },
                     {
                         "targets": [1],
                         "createdCell": function(td, cellData, rowData, row, col) {
@@ -196,14 +198,19 @@
                 "order": [],
                 "dom": '<"row align-items-center"<"col-md-3"l><"col-md-6"f><"col-md-3"B>>rt<"row align-items-center"<"col-md-6"i><"col-md-6"p>>',
                 "buttons": [{
-                        "extend": 'excel',
-                        "text": '<i class="bi bi-file-earmark-excel"></i>إكسل',
-                        "className": 'btn btn-dark'
-                    },
+                    "extend": 'excel',
+                  ////  "text": '<i class="bi bi-file-earmark-excel"></i>إكسل',
+                   // "className": 'btn btn-dark'
+                },
                     {
                         "extend": 'copy',
-                        "text": '<i class="bi bi-clipboard"></i>نسخ',
-                        "className": 'btn btn-primary'
+                      //  "text": '<i class="bi bi-clipboard"></i>نسخ',
+                     //   "className": 'btn btn-primary'
+                    },
+                    {
+                        "extend": 'print',
+                        //  "text": '<i class="bi bi-clipboard"></i>نسخ',
+                        //   "className": 'btn btn-primary'
                     }
                 ],
 

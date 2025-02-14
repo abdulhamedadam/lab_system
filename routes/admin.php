@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Admin\AllTestsController;
 use App\Http\Controllers\Admin\app_setting\NotificationController;
 use App\Http\Controllers\Admin\app_setting\DiscountController;
 use App\Http\Controllers\Admin\ClientController;
@@ -10,6 +11,8 @@ use App\Http\Controllers\Admin\EmployeesController;
 use App\Http\Controllers\Admin\GeneralSettingsController;
 use App\Http\Controllers\Admin\MasrofatController;
 use App\Http\Controllers\Admin\ProjectController;
+use App\Http\Controllers\Admin\SoilHasaTestsController;
+use App\Http\Controllers\Admin\SoilTestController;
 use App\Http\Controllers\Admin\TestsController;
 use App\Http\Controllers\Admin\UsersController;
 use Illuminate\Support\Facades\Route;
@@ -163,6 +166,19 @@ Route::group(
 
         Route::get('admin/users/{user}/permissions', [UsersController::class, 'permissions'])->name('users.permissions');
         Route::post('admin/users/{user}/permissions', [UsersController::class, 'updatePermissions'])->name('users.update_permissions');
+
+    /**********************************************************************************************************/
+        //all_test
+        Route::get('all-tests',[AllTestsController::class,'index'])->name('all_tests');
+        Route::get('soil_test/{type?}/{test?}',[SoilTestController::class,'index'])->name('soil_test');
+        Route::get('soil_test/create/{type?}/{test?}',[SoilTestController::class,'create'])->name('create_soil_test');
+        Route::get('soil_test/edit/{id}/{type?}/{test?}',[SoilTestController::class,'edit'])->name('edit_soil_test');
+        Route::post('soil_test/save/{type?}/{test?}',[SoilTestController::class,'store'])->name('store_soil_test');
+        Route::post('soil_test/update/{id}/{type?}/{test?}',[SoilTestController::class,'update'])->name('update_soil_test');
+
+        Route::get('soil_test/{id}/hasa/compaction',[SoilHasaTestsController::class,'compaction_test'])->name('hasa_compaction_test');
+        Route::post('soil_test/{id}/hasa/compaction',[SoilHasaTestsController::class,'save_compaction_test'])->name('save_hasa_compaction_test');
+
 
     });
 

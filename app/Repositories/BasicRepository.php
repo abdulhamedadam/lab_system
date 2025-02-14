@@ -125,6 +125,15 @@ class BasicRepository implements BasicRepositoryInterface
     {
         return $this->model->where($column, $value)->delete();
     }
+    /************************************************/
+    public function countWhere(array $conditions)
+    {
+        $query = $this->model->query();
+        foreach ($conditions as $field => $value) {
+            $query->where($field, $value);
+        }
+        return $query->count();
+    }
 
 }
 

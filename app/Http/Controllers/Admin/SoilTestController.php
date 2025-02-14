@@ -3,11 +3,9 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\Admin\tests\SaveCompactionTesrRequest;
 use App\Http\Requests\Admin\tests\SaveRequest;
+use App\Http\Requests\Admin\tests\SaveSoilTestRequest;
 use App\Interfaces\BasicRepositoryInterface;
-use App\Models\Admin\Employee;
-use App\Models\Admin\Masrofat;
 use App\Models\Admin\SoilCompactionTest;
 use App\Models\Admin\SoilCompactionTestDetails;
 use App\Models\Admin\Test;
@@ -18,10 +16,9 @@ use App\Services\TestsService;
 use App\Traits\ImageProcessing;
 use App\Traits\ValidationMessage;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
 use Yajra\DataTables\Facades\DataTables;
 
-class TestsController extends Controller
+class SoilTestController extends Controller
 {
     use ImageProcessing;
     use ValidationMessage;
@@ -47,13 +44,15 @@ class TestsController extends Controller
 
 
     }
-
-    public function index(Request $request)
+    /***************************************************************/
+    public function index(Request $request,$type,$test)
     {
-        // $allData = Test::with(['company', 'client', 'project', 'user'])->get();
-        // dd($allData);
+      //  $allData = Test::with(['company', 'client', 'project', 'user'])->where('test_type',$type)->where('sub_test_type',$test)->orderBy('id','desc')->get();
+
+     //   dd($allData);
         if ($request->ajax()) {
-            $allData = Test::with(['company', 'client', 'project', 'user'])->orderBy('id','desc')->get();
+
+            $allData = Test::with(['company', 'client', 'project', 'user'])->where('test_type',$type)->where('sub_test_type',$test)->orderBy('id','desc')->get();
             return DataTables::of($allData)
                 ->editColumn('client', function ($row) {
                     return $row->client ? $row->client->name : 'N/A';
@@ -92,21 +91,43 @@ class TestsController extends Controller
                     $status_arr=['pending'=>trans('tests.pending'),'received'=>trans('tests.received'),
                         'test_progress'=>trans('tests.test_progress'),'test_done'=>trans('tests.test_done'),'reports_progress'=>trans('tests.reports_progress'),
                         'reports_done'=>trans('tests.reports_done')
-                        ];
+                    ];
                     return $status_arr[$row->status];
                 })
                 ->addColumn('action', function ($row) {
+
+                    if ($row->test_type=='soil')
+                    {
+                        if ($row->sub_test_type=='compaction')
+                        {
+                            $test='<a href="' . route('admin.samples_test', $row->id) . '" class="btn btn-sm btn-success" title="' . trans('tests.samples_test') . '" style="font-size: 16px;">
+                                <i class="bi bi-clipboard-check"></i>
+                             </a>';
+                        }
+                    }elseif ($row->test_type=='hasa')
+                    {
+                        if ($row->sub_test_type=='compaction')
+                        {
+                            $test='<a href="' . route('admin.hasa_compaction_test', $row->id) . '" class="btn btn-sm btn-success" title="' . trans('tests.samples_test') . '" style="font-size: 16px;">
+                                <i class="bi bi-clipboard-check"></i>
+                             </a>';
+                        }
+                    }else{
+                        $test='';
+                    }
+
+
+
+
                     return '
                         <div class="btn-group btn-group-sm">
-                            <a href="' . route('admin.test.edit', $row->id) . '" class="btn btn-sm btn-primary" title="' . trans('tests.edit') . '" style="font-size: 16px;">
+                            <a href="' . route('admin.edit_soil_test', [$row->id,$row->test_type,$row->sub_test_type]) . '" class="btn btn-sm btn-primary" title="' . trans('tests.edit') . '" style="font-size: 16px;">
                                 <i class="bi bi-pencil-square"></i>
                             </a>
                             <a onclick="return confirm(\'Are You Sure To Delete?\')"  href="' . route('admin.delete_test', $row->id) . '"  class="btn btn-sm btn-danger" title="' . trans('tests.delete') . '" style="font-size: 16px;" onclick="return confirm(\'' . trans('masrofat.confirm_delete') . '\')">
                                 <i class="bi bi-trash3"></i>
                             </a>
-                            <a href="' . route('admin.samples_test', $row->id) . '" class="btn btn-sm btn-success" title="' . trans('tests.samples_test') . '" style="font-size: 16px;">
-                                <i class="bi bi-clipboard-check"></i>
-                             </a>
+                            '.$test.'
 
                              <a href="' . route('admin.print_soil_sample_report', $row->id) . '" class="btn btn-sm btn-dark" title="' . trans('tests.print_samples_test') . '" style="font-size: 16px;">
                                   <i class="bi bi-printer ms-1"></i>
@@ -117,11 +138,12 @@ class TestsController extends Controller
                 ->rawColumns(['action', 'talab_image'])
                 ->make(true);
         }
-        return view('dashbord.tests.index');
+        $data['type']=$type;
+        $data['test']=$test;
+        return view('dashbord.tests.soil.index',$data);
     }
-
-    /********************************************/
-    public function create()
+    /****************************************************************/
+    public function create($type,$test)
     {
         $data['test_code'] = $this->testsRepository->getLastFieldValue('test_code');
         $data['wared_number'] = $this->testsRepository->getLastFieldValue('wared_number');
@@ -130,125 +152,47 @@ class TestsController extends Controller
         $data['clients']      = $this->clientsRepository->getAll();
         $data['companies']      = $this->companyRepository->getAll();
         $data['projects'] = $this->projectsRepository->getAll();
-        // dd($data);
-        return view('dashbord.tests.form', $data);
+        $data['type']=$type;
+        $data['test']=$test;
+        return view('dashbord.tests.soil.form', $data);
     }
-
-    /********************************************/
-    public function store(SaveRequest $request)
+    /****************************************************************/
+    public function store(SaveSoilTestRequest $request,$type,$test)
     {
         try {
             // dd($request->all());
 
-            $this->testsService->store($request);
+            $this->testsService->store($request,$type,$test);
             toastr()->addSuccess(trans('forms.success'));
-            return redirect()->route('admin.test.index');
+            return redirect()->route('admin.soil_test',[$type,$test]);
         } catch (\Exception $e) {
             dd($e->getMessage());
             return redirect()->back()->withErrors(['error' => $e->getMessage()]);
         }
     }
-
-    /********************************************/
-    public function show(string $id)
-    {
-        //
-    }
-
-    /********************************************/
-    public function edit(string $id)
+    /**************************************************************/
+    public function edit($id,$type,$test)
     {
         $data['all_data']     = $this->testsRepository->getById($id);
         $data['clients']      = $this->clientsRepository->getAll();
         $data['companies']    = $this->companyRepository->getAll();
         $data['projects']     = $this->projectsRepository->getAll();
-        return view('dashbord.tests.edit', $data);
+        $data['type']=$type;
+        $data['test']=$test;
+        return view('dashbord.tests.soil.edit', $data);
     }
-
-    /********************************************/
-    public function update(SaveRequest $request, string $id)
+    /**************************************************************/
+    public function update(SaveSoilTestRequest $request,$id,$type,$test)
     {
         try {
             // dd($request->all());
-            $this->testsService->update($request,$id);
+            $this->testsService->update($request,$id,$type,$test);
             toastr()->addSuccess(trans('forms.success'));
-            return redirect()->route('admin.test.index');
+            return redirect()->route('admin.soil_test',[$type,$test]);
         } catch (\Exception $e) {
             dd($e->getMessage());
             return redirect()->back()->withErrors(['error' => $e->getMessage()]);
         }
-    }
-
-    /********************************************/
-    public function destroy(string $id)
-    {
-        DB::beginTransaction();
-        try {
-            $test = $this->testsRepository->getById($id);
-            $soil_compaction = $this->SoilCompactionTestRepository->getBywhere(['soil_test_id' => $test->id]);
-            if (!empty($soil_compaction)) {
-                $soil_compaction_details = $this->SoilCompactionTestDetailsRepository->getBywhere(['soil_compaction_test_id' => $soil_compaction[0]->id]);
-                if ($test->talab_image) {
-                    $oldImagePath = public_path('images/' . $test->talab_image);
-                    if (file_exists($oldImagePath)) {
-                        unlink($oldImagePath);
-                    }
-                }
-                $this->testsRepository->delete($id);
-                $this->SoilCompactionTestRepository->delete($soil_compaction[0]->id);
-                $this->SoilCompactionTestDetailsRepository->deleteWhere('soil_compaction_test_id', $soil_compaction[0]->id);
-            }
-
-            DB::commit();
-
-            toastr()->addSuccess(trans('forms.success'));
-            return redirect()->route('admin.test.index');
-        } catch (\Exception $e) {
-            DB::rollBack();
-            return redirect()->back()->withErrors(['error' => $e->getMessage()]);
-        }
-    }
-    /********************************************/
-    public function samples_test($id)
-    {
-        $data['all_data']=$this->testsRepository->getById($id);
-        $data['compaction_test'] = $this->SoilCompactionTestRepository->getWithRelationsAndWhere(['compaction_test_details'], 'soil_test_id', $id);
-        //dd($data['compaction_test'][0]->compaction_test_details);
-        return view('dashbord.tests.samples_test', $data);
-
-    }
-    /********************************************/
-    public function save_compaction_test(SaveCompactionTesrRequest $request,$test_id)
-    {
-
-        try {
-             //dd($request->all());
-            $this->testsService->save_compaction_test($request,$test_id);
-            toastr()->addSuccess(trans('forms.success'));
-            return redirect()->route('admin.samples_test',$test_id);
-        } catch (\Exception $e) {
-            dd($e->getMessage());
-            return redirect()->back()->withErrors(['error' => $e->getMessage()]);
-        }
-    }
-
-    /********************************************/
-    public function soil_sample_report_details($id)
-    {
-        $data['all_data']=$this->testsRepository->getById($id);
-        $data['compaction_test'] = $this->SoilCompactionTestRepository->getWithRelationsAndWhere(['compaction_test_details'], 'soil_test_id', $id);
-        //dd($data['compaction_test'][0]->compaction_test_details);
-        return view('dashbord.tests.samples.soil_sample_report', $data);
-
-    }
-
-    /********************************************/
-    public function print_soil_sample_report($id)
-    {
-        $data['all_data']=$this->testsRepository->getById($id);
-        $data['compaction_test'] = $this->SoilCompactionTestRepository->getWithRelationsAndWhere(['compaction_test_details'], 'soil_test_id', $id);
-        //dd($data['compaction_test'][0]->compaction_test_details);
-        return view('dashbord.tests.samples.print_soil_sample_report', $data);
     }
 
 }

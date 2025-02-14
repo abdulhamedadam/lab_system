@@ -1,9 +1,15 @@
 <?php
 
 
+use App\Http\Controllers\BookController;
 use App\Http\Controllers\Site\HomeController;
 use Illuminate\Support\Facades\Route;
 use Mcamara\LaravelLocalization\Facades\LaravelLocalization;
+
+
+Route::get('/books/{id}', [BookController::class, 'show']);
+Route::get('/books', [BookController::class, 'index'])->name('books.index');
+Route::post('/books/search', [BookController::class, 'search'])->name('books.search');
 
 Route::get('/', function () {
     return view('coming-soon');

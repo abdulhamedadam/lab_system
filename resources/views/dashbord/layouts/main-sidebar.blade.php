@@ -50,7 +50,7 @@
                     <a class="menu-link {{ request()->routeIs(['admin.dashboard']) ? 'active' : '' }}"
                        href="{{ route('admin.dashboard') }}">
         <span class="svg-icon svg-icon-2" style="margin-left: 5px">
-            <i class="bi bi-speedometer2 text-primary fs-2x"></i>
+            <i class="bi bi-speedometer2 text-primary fs-5"></i>
         </span>
                         <span class="menu-title">{{ trans('sidebar.dashboard') }}</span>
                     </a>
@@ -61,7 +61,7 @@
                     <a class="menu-link {{ request()->routeIs(['admin.branches', 'admin.siteData', 'admin.governorates', 'admin.areas']) ? 'active' : '' }}"
                        href="{{ route('admin.branches') }}">
         <span class="svg-icon svg-icon-2" style="margin-left: 5px">
-            <i class="bi bi-sliders text-primary fs-2x"></i> <!-- Changed to "sliders" -->
+            <i class="bi bi-sliders text-primary fs-5"></i> <!-- Changed to "sliders" -->
         </span>
                         <span class="menu-title">{{ trans('sidebar.general_settings') }}</span>
                     </a>
@@ -70,7 +70,7 @@
                     <a class="menu-link {{ request()->routeIs(['admin.employee_data', 'jobs', 'admin.archive_shelf_settings', 'shelf', 'admin.archive_settings', 'desk']) ? 'active' : '' }}"
                        href="{{ route('admin.employee_data') }}">
         <span class="svg-icon svg-icon-2" style="margin-left: 5px">
-            <i class="bi bi-person-lines-fill text-success fs-2x"></i> <!-- Changed to "person-lines-fill" -->
+            <i class="bi bi-person-lines-fill text-success fs-5"></i> <!-- Changed to "person-lines-fill" -->
         </span>
                         <span class="menu-title">{{ trans('sidebar.employee_data') }}</span>
                     </a>
@@ -80,7 +80,7 @@
                     <a class="menu-link {{ request()->routeIs(['admin.clients.index']) ? 'active' : '' }}"
                        href="{{ route('admin.clients.index') }}">
                                <span class="svg-icon svg-icon-2" style="margin-left: 5px">
-                                     <i class="bi bi-people text-danger fs-2x"></i>
+                                     <i class="bi bi-people text-danger fs-5"></i>
                                 </span>
                         <span class="menu-title">{{ trans('sidebar.clients') }}</span>
                     </a>
@@ -90,7 +90,7 @@
                     <a class="menu-link {{ request()->routeIs(['admin.company.index']) ? 'active' : '' }}"
                        href="{{ route('admin.company.index') }}">
                                <span class="svg-icon svg-icon-2" style="margin-left: 5px">
-                                     <i class="bi bi-building text-primary fs-2x"></i>
+                                     <i class="bi bi-building text-primary fs-5"></i>
                                 </span>
                         <span class="menu-title">{{ trans('sidebar.companies') }}</span>
                     </a>
@@ -100,7 +100,7 @@
                     <a class="menu-link {{ request()->routeIs(['admin.project.index']) ? 'active' : '' }}"
                        href="{{ route('admin.project.index') }}">
                                <span class="svg-icon svg-icon-2" style="margin-left: 5px">
-                                        <i class="bi bi-diagram-3 text-success fs-2x"></i>
+                                        <i class="bi bi-diagram-3 text-success fs-5"></i>
                                 </span>
                         <span class="menu-title">{{ trans('sidebar.projects') }}</span>
                     </a>
@@ -110,9 +110,20 @@
                     <a class="menu-link {{ request()->routeIs(['admin.masrofat.index']) ? 'active' : '' }}"
                        href="{{ route('admin.masrofat.index') }}">
                                <span class="svg-icon svg-icon-2" style="margin-left: 5px">
-                                    <i class="bi bi-cash-coin text-success fs-2x"></i>
+                                    <i class="bi bi-cash-coin text-success fs-5"></i>
                                 </span>
                         <span class="menu-title">{{ trans('sidebar.masrofat') }}</span>
+                    </a>
+                </div>
+
+
+                <div class="menu-item">
+                    <a class="menu-link {{ request()->routeIs(['admin.all_tests']) ? 'active' : '' }}"
+                       href="{{ route('admin.all_tests') }}">
+                               <span class="svg-icon svg-icon-2" style="margin-left: 5px">
+                                    <i class="bi bi-clipboard-data text-info fs-5"></i>
+                                </span>
+                        <span class="menu-title">{{ trans('sidebar.all_tests') }}</span>
                     </a>
                 </div>
 
@@ -120,7 +131,7 @@
                      <a class="menu-link {{ request()->routeIs(['admin.test.index']) ? 'active' : '' }}"
                         href="{{ route('admin.test.index') }}">
                                 <span class="svg-icon svg-icon-2" style="margin-left: 5px">
-                                     <i class="bi bi-clipboard-check text-success fs-2x"></i>
+                                     <i class="bi bi-clipboard-check text-success fs-5"></i>
                                  </span>
                          <span class="menu-title">{{ trans('sidebar.tests') }}</span>
                      </a>
@@ -131,7 +142,7 @@
                      {{ (in_array(optional(explode('.', Route::currentRouteName()))[2], array('test'))) ? 'show' : ''  }}">
                     <span class="menu-link">
                       <span class="menu-icon">
-                           <i class="bi bi-file-earmark-text fs-2x"></i>
+                           <i class="bi bi-file-earmark-text fs-5"></i>
                       </span>
                     <span class="menu-title">{{ trans('sidebar.soil_tests') }}</span>
                     <span class="menu-arrow"></span>
