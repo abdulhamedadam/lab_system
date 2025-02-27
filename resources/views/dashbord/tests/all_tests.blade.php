@@ -111,7 +111,8 @@
                                                                 'type'=>'',
                                                                 'opened'=>'true',
                                                                 'icon'=>'bi bi-tools',
-                                                                'link'=>route('admin.soil_test',['soil','compaction']),
+                                                                // 'link'=>route('admin.soil_test',['soil','compaction']),
+                                                                'link'=>route('admin.soil_compaction_soil_test'),
                                                             ],
                                                             'proctor'=>[
                                                                 'name'=>'proctor',
@@ -152,7 +153,7 @@
                                                             'type'=>'',
                                                             'opened'=>'true',
                                                             'icon'=>'bi bi-tools',
-                                                            'link'=>route('admin.soil_test',['hasa','compaction'])
+                                                            'link'=>route('admin.hasa_compaction_soil_test')
                                                        ],
                                                        'gradual'=>[
                                                             'name'=>'gradual',
