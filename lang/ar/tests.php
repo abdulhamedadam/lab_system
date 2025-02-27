@@ -105,4 +105,6 @@
   'unit_wt_sand2' => 'unit_wt_sand2',
   'sader_num' => 'sader_num',
   'sader_date' => 'sader_date',
+  'authorized_name' => 'إسم المخول',
+  'monamzig' => 'المنمذج',
 );

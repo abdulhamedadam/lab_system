@@ -103,7 +103,7 @@
                             <label for="talab_number" class="form-label">{{ trans('tests.wared_number') }}</label>
                             <div class="input-group flex-nowrap">
                                 <span class="input-group-text" id="basic-addon3">{!! form_icon('number') !!}</span>
-                                <input type="number" class="form-control" name="wared_number" id="wared_number" value="{{ old('wared_number',$all_data->wared_number) }}">
+                                <input type="text" class="form-control" name="wared_number" id="wared_number" value="{{ old('wared_number',$all_data->wared_number) }}">
                             </div>
                             @error('wared_number')
                             <span class="invalid-feedback d-block" role="alert">{{ $message }}</span>
@@ -262,6 +262,36 @@
                                 </select>
                             </div>
                             @error('test_type')
+                            <span class="invalid-feedback d-block" role="alert">{{ $message }}</span>
+                            @enderror
+                        </div>
+                    </div>
+
+
+                    <div class="col-md-12 row" style="margin-top: 10px">
+                        <div class="col-md-3">
+                            <label for="talab_date" class="form-label">{{ trans('tests.authorized_name') }}</label>
+                            <div class="input-group flex-nowrap">
+                                <span class="input-group-text" id="basic-addon3">{!! form_icon('text') !!}</span>
+                                <input type="text" class="form-control" name="authorized_name" id="authorized_name" value="{{ old('authorized_name',$all_data->authorized_name) }}">
+                            </div>
+                            @error('authorized_name')
+                            <span class="invalid-feedback d-block" role="alert">{{ $message }}</span>
+                            @enderror
+                        </div>
+
+                        <div class="col-md-3">
+                            <label for="client_id" class="form-label">{{ trans('tests.monamzig') }}</label>
+                            <div class="input-group flex-nowrap">
+                                <span class="input-group-text" id="basic-addon3">{!! form_icon('select') !!}</span>
+                                <select class="form-select rounded-start-0" name="monamzig_id" id="monamzig_id" >
+                                    <option value="">{{trans('tests.select')}}</option>
+                                    @foreach($employees as $item)
+                                        <option value="{{$item->id}}" {{ old('monamzig_id',$all_data->monamzig_id) == $item->id ? 'selected' : '' }}>{{$item->first_name.''.$item->last_name}}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                            @error('monamzig_id')
                             <span class="invalid-feedback d-block" role="alert">{{ $message }}</span>
                             @enderror
                         </div>

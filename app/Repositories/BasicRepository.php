@@ -135,6 +135,15 @@ class BasicRepository implements BasicRepositoryInterface
         return $query->count();
     }
 
+    public function getModel()
+    {
+        return $this->model;
+    }
+
+    public function updateOrCreate(array $conditions, array $data)
+    {
+        // TODO: Implement updateOrCreate() method.
+    }
 }
 
 

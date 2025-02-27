@@ -23,5 +23,6 @@ interface BasicRepositoryInterface
     public function getWithRelationsAndWhere(array $relations, string $column, $value);
     public function deleteWhere( $column, $value);
     public function countWhere(array $conditions);
+    public function getModel();
 
 }

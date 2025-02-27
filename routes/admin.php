@@ -8,9 +8,13 @@ use App\Http\Controllers\Admin\CompanyController;
 use App\Http\Controllers\Admin\ConfigAppController;
 use App\Http\Controllers\Admin\EmployeesController;
 
+use App\Http\Controllers\Admin\Finance\AccountsController;
+use App\Http\Controllers\Admin\Finance\ReceiptVoucherController;
 use App\Http\Controllers\Admin\GeneralSettingsController;
 use App\Http\Controllers\Admin\MasrofatController;
+use App\Http\Controllers\Admin\Payments\DuesController;
 use App\Http\Controllers\Admin\ProjectController;
+use App\Http\Controllers\Admin\SoilEarthTestController;
 use App\Http\Controllers\Admin\SoilHasaTestsController;
 use App\Http\Controllers\Admin\SoilTestController;
 use App\Http\Controllers\Admin\TestsController;
@@ -75,6 +79,7 @@ Route::group(
         Route::get('company/projects/edit/{id}',[CompanyController::class,'edit_project'])->name('company_edit_project');
         Route::post('company/projects/update/{id}',[CompanyController::class,'update_project'])->name('company_update_project');
         Route::get('company/projects/delete/{id}',[CompanyController::class,'delete_project'])->name('company_delete_project');
+        Route::get('');
         /********************************************************************************************************************************/
         Route::resource('project',ProjectController::class);
         Route::get('project/delete/{id}',[ProjectController::class,'destroy'])->name('delete_project');
@@ -178,8 +183,28 @@ Route::group(
 
         Route::get('soil_test/{id}/hasa/compaction',[SoilHasaTestsController::class,'compaction_test'])->name('hasa_compaction_test');
         Route::post('soil_test/{id}/hasa/compaction',[SoilHasaTestsController::class,'save_compaction_test'])->name('save_hasa_compaction_test');
+        Route::get('soil_test/{id}/hasa/compaction/details',[SoilHasaTestsController::class,'hasa_compaction_test_details'])->name('hasa_compaction_test_details');
+        Route::get('soil_test/{id}/hasa/compaction/print',[SoilHasaTestsController::class,'print_compaction_test'])->name('print_compaction_test');
 
+        Route::get('soil_test/{id}/earthy/compaction',[SoilEarthTestController::class,'compaction_test'])->name('earth_compaction_test');
+        Route::post('soil_test/{id}/earthy/compaction',[SoilEarthTestController::class,'save_compaction_test'])->name('save_earth_compaction_test');
+        Route::get('soil_test/{id}/earthy/compaction/details',[SoilEarthTestController::class,'compaction_test_details'])->name('earth_compaction_test_details');
+        Route::get('soil_test/{id}/earthy/compaction/print',[SoilEarthTestController::class,'print_compaction_test'])->name('print_earth_compaction_test');
+        Route::get('tests/soil/test_dues/{id}',[SoilTestController::class,'test_dues'])->name('test_dues');
+        /**********************************************************************************************************/
+        Route::group(['prefix' => 'Finance', 'as' => 'finance.'], function () {
+            Route::resource('accounts', AccountsController::class);
+            Route::resource('Receipt_Voucher', ReceiptVoucherController::class);
+        });
+        /**********************************************************************************************************/
 
+        Route::group(['prefix' => 'Payment', 'as' => 'payment.'], function () {
+            Route::resource('dues', DuesController::class);
+            Route::get('dues/payment/{id}', [DuesController::class,'pay_dues'])->name('pay_dues');
+            Route::post('dues/payment/{id}', [DuesController::class,'save_pay_dues'])->name('save_pay_dues');
+
+        });
+        Route::get('/admin/get-invoice/{id}', [DuesController::class,'getInvoiceForPrint'])->name('get_invoice');
     });
 
 

@@ -220,7 +220,7 @@
                                     <label for="location" class="form-label">{{ trans('tests.mdd') }}</label>
                                     <div class="input-group flex-nowrap">
                                         <span class="input-group-text" id="basic-addon3">{!! form_icon('number') !!}</span>
-                                        <input type="number" step="0.01" class="form-control" name="mdd" id="mdd" value="{{old('mdd',$compaction_test[0]->mdd)}}">
+                                        <input type="number" step="any"  class="form-control" name="mdd" id="mdd" value="{{old('mdd',$compaction_test[0]->mdd)}}">
                                     </div>
                                     @error('mdd')
                                     <span class="invalid-feedback d-block" role="alert">{{ $message }}</span>
@@ -231,7 +231,7 @@
                                     <label for="location" class="form-label">{{ trans('tests.moc') }}</label>
                                     <div class="input-group flex-nowrap">
                                         <span class="input-group-text" id="basic-addon3">{!! form_icon('number') !!}</span>
-                                        <input type="number" step="0.01" class="form-control" name="moc" id="moc" value="{{old('moc',$compaction_test[0]->moc)}}">
+                                        <input type="number" step="any"  class="form-control" name="moc" id="moc" value="{{old('moc',$compaction_test[0]->moc)}}">
                                     </div>
                                     @error('moc')
                                     <span class="invalid-feedback d-block" role="alert">{{ $message }}</span>
@@ -245,7 +245,7 @@
                                     <label for="location" class="form-label">{{ trans('tests.diameter') }}</label>
                                     <div class="input-group flex-nowrap">
                                         <span class="input-group-text" id="basic-addon3">{!! form_icon('number') !!}</span>
-                                        <input type="number" step="0.01" class="form-control" name="diameter" id="diameter" value="{{old('diameter',$compaction_test[0]->diameter)}}">
+                                        <input type="number" step="any"  class="form-control" name="diameter" id="diameter" value="{{old('diameter',$compaction_test[0]->diameter)}}">
                                     </div>
                                     @error('diameter')
                                     <span class="invalid-feedback d-block" role="alert">{{ $message }}</span>
@@ -256,7 +256,7 @@
                                     <label for="location" class="form-label">{{ trans('tests.height') }}</label>
                                     <div class="input-group flex-nowrap">
                                         <span class="input-group-text" id="basic-addon3">{!! form_icon('number') !!}</span>
-                                        <input type="number" step="0.01" class="form-control" name="height" id="height" value="{{old('height',$compaction_test[0]->height)}}">
+                                        <input type="number" step="any"  class="form-control" name="height" id="height" value="{{old('height',$compaction_test[0]->height)}}">
                                     </div>
                                     @error('height')
                                     <span class="invalid-feedback d-block" role="alert">{{ $message }}</span>
@@ -274,7 +274,7 @@
                                     <label for="location" class="form-label">{{ trans('tests.mass_mold_sand1') }}</label>
                                     <div class="input-group flex-nowrap">
                                         <span class="input-group-text" id="basic-addon3">{!! form_icon('number') !!}</span>
-                                        <input type="number" step="0.01" class="form-control" name="mass_mold_sand1" id="mass_mold_sand1" value="{{old('mass_mold_sand1',$compaction_test[0]->mass_mold_sand1)}}">
+                                        <input type="number" step="any"  class="form-control" name="mass_mold_sand1" id="mass_mold_sand1" value="{{old('mass_mold_sand1',$compaction_test[0]->mass_mold_sand1)}}">
                                     </div>
                                     @error('mass_mold_sand1')
                                     <span class="invalid-feedback d-block" role="alert">{{ $message }}</span>
@@ -286,7 +286,7 @@
                                     <label for="location" class="form-label">{{ trans('tests.mass_mold_sand2') }}</label>
                                     <div class="input-group flex-nowrap">
                                         <span class="input-group-text" id="basic-addon3">{!! form_icon('number') !!}</span>
-                                        <input type="number" step="0.01" class="form-control" name="mass_mold_sand2" id="mass_mold_sand2" value="{{old('mass_mold_sand2',$compaction_test[0]->mass_mold_sand2)}}">
+                                        <input type="number" step="any"  class="form-control" name="mass_mold_sand2" id="mass_mold_sand2" value="{{old('mass_mold_sand2',$compaction_test[0]->mass_mold_sand2)}}">
                                     </div>
                                     @error('mass_mold_sand2')
                                     <span class="invalid-feedback d-block" role="alert">{{ $message }}</span>
@@ -299,7 +299,7 @@
                                     <label for="location" class="form-label">{{ trans('tests.mass_empty_mold') }}</label>
                                     <div class="input-group flex-nowrap">
                                         <span class="input-group-text" id="basic-addon3">{!! form_icon('number') !!}</span>
-                                        <input type="number"  class="form-control" name="mass_empty_sand" id="mass_empty_sand" value="{{old('mass_empty_sand',$compaction_test[0]->mass_empty_sand)}}">
+                                        <input type="number"  step="any"  class="form-control" name="mass_empty_sand" id="mass_empty_sand" value="{{old('mass_empty_sand',$compaction_test[0]->mass_empty_sand)}}">
                                     </div>
                                     @error('mass_empty_sand')
                                     <span class="invalid-feedback d-block" role="alert">{{ $message }}</span>
@@ -310,7 +310,7 @@
                                     <label for="location" class="form-label">{{ trans('tests.unit_wt_sand1') }}</label>
                                     <div class="input-group flex-nowrap">
                                         <span class="input-group-text" id="basic-addon3">{!! form_icon('number') !!}</span>
-                                        <input type="number"  class="form-control" name="unit_wt_sand1" id="unit_wt_sand1" value="{{old('unit_wt_sand1',$compaction_test[0]->unit_wt_sand1)}}">
+                                        <input type="number" step="any"  class="form-control" name="unit_wt_sand1" id="unit_wt_sand1" value="{{old('unit_wt_sand1',$compaction_test[0]->unit_wt_sand1)}}">
                                     </div>
                                     @error('unit_wt_sand1')
                                     <span class="invalid-feedback d-block" role="alert">{{ $message }}</span>
@@ -321,7 +321,7 @@
                                     <label for="location" class="form-label">{{ trans('tests.unit_wt_sand2') }}</label>
                                     <div class="input-group flex-nowrap">
                                         <span class="input-group-text" id="basic-addon3">{!! form_icon('number') !!}</span>
-                                        <input type="number"  class="form-control" name="unit_wt_sand2" id="unit_wt_sand2" value="{{old('unit_wt_sand2',$compaction_test[0]->unit_wt_sand2)}}">
+                                        <input type="number" step="any"  class="form-control" name="unit_wt_sand2" id="unit_wt_sand2" value="{{old('unit_wt_sand2',$compaction_test[0]->unit_wt_sand2)}}">
                                     </div>
                                     @error('unit_wt_sand2')
                                     <span class="invalid-feedback d-block" role="alert">{{ $message }}</span>
@@ -331,7 +331,7 @@
                                     <label for="location" class="form-label">{{ trans('tests.avg_unit_wt_sand') }}</label>
                                     <div class="input-group flex-nowrap">
                                         <span class="input-group-text" id="basic-addon3">{!! form_icon('number') !!}</span>
-                                        <input type="number" step="0.01" class="form-control" name="avg_unit_wt_sand" id="avg_unit_wt_sand" value="{{old('avg_unit_wt_sand',$compaction_test[0]->avg_unit_wt_sand)}}">
+                                        <input type="number" step="any"  class="form-control" name="avg_unit_wt_sand" id="avg_unit_wt_sand" value="{{old('avg_unit_wt_sand',$compaction_test[0]->avg_unit_wt_sand)}}">
                                     </div>
                                     @error('avg_unit_wt_sand')
                                     <span class="invalid-feedback d-block" role="alert">{{ $message }}</span>
@@ -347,7 +347,7 @@
                                     <label for="location" class="form-label">{{ trans('tests.wt_sand_cone') }}</label>
                                     <div class="input-group flex-nowrap">
                                         <span class="input-group-text" id="basic-addon3">{!! form_icon('number') !!}</span>
-                                        <input type="number" step="0.01" class="form-control" name="wt_sand_cone" id="wt_sand_cone" value="{{old('wt_sand_cone',$compaction_test[0]->wt_sand_cone)}}">
+                                        <input type="number" step="any"  class="form-control" name="wt_sand_cone" id="wt_sand_cone" value="{{old('wt_sand_cone',$compaction_test[0]->wt_sand_cone)}}">
                                     </div>
                                     @error('wt_sand_cone')
                                     <span class="invalid-feedback d-block" role="alert">{{ $message }}</span>
@@ -454,7 +454,7 @@
                                         <label for="project_code" class="form-label">{{ trans('tests.sader_num') }}</label>
                                         <div class="input-group flex-nowrap">
                                             <span class="input-group-text" id="basic-addon3">{!! form_icon('number') !!}</span>
-                                            <input type="number" class="form-control" name="sader_num" id="sader_num" value="{{old('sader_num',$compaction_test[0]->sader_num ?? $sader_num)}}">
+                                            <input type="number" step="any" class="form-control" name="sader_num" id="sader_num" value="{{old('sader_num',$compaction_test[0]->sader_num ?? $sader_num)}}">
                                         </div>
                                         @error('sader_num')
                                         <span class="invalid-feedback d-block" role="alert">{{ $message }}</span>
@@ -475,7 +475,7 @@
                                         <button type="submit" class="btn btn-success btn-flat">
                                             <?= trans('company.SaveButton') ?>
                                         </button>
-                                        <a href="{{route('admin.soil_sample_report_details',$all_data->id)}}" class="btn-primary btn "> <?= trans('tests.PrintButton') ?></a>
+                                        <a href="{{route('admin.hasa_compaction_test_details',$all_data->id)}}" class="btn-primary btn "> <?= trans('tests.PrintButton') ?></a>
                                     </div>
 
 

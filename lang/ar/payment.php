@@ -1,0 +1,15 @@
+<?php return array (
+  'num' => 'num',
+  'client' => 'client',
+  'test' => 'test',
+  'test_type' => 'test_type',
+  'test_title' => 'test_title',
+  'cost' => 'cost',
+  'paid' => 'paid',
+  'remain' => 'remain',
+  'year' => 'year',
+  'month' => 'month',
+  'created_date' => 'created_date',
+  'Action' => 'Action',
+  'pay' => 'pay',
+);

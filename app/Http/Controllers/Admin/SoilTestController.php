@@ -6,12 +6,14 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\tests\SaveRequest;
 use App\Http\Requests\Admin\tests\SaveSoilTestRequest;
 use App\Interfaces\BasicRepositoryInterface;
+use App\Models\Admin\Employee;
 use App\Models\Admin\SoilCompactionTest;
 use App\Models\Admin\SoilCompactionTestDetails;
 use App\Models\Admin\Test;
 use App\Models\Clients;
 use App\Models\ClientsCompanies;
 use App\Models\ClientsProjects;
+use App\Services\Payments\DuesService;
 use App\Services\TestsService;
 use App\Traits\ImageProcessing;
 use App\Traits\ValidationMessage;
@@ -31,6 +33,7 @@ class SoilTestController extends Controller
     protected $SoilCompactionTestDetailsRepository;
     protected $companyRepository;
     protected $projectsRepository;
+    protected $EmployeeRepository;
 
     public function __construct(BasicRepositoryInterface $basicRepository, TestsService $testsService)
     {
@@ -39,6 +42,7 @@ class SoilTestController extends Controller
         $this->companyRepository   = createRepository($basicRepository, new ClientsCompanies());
         $this->SoilCompactionTestRepository   = createRepository($basicRepository, new SoilCompactionTest());
         $this->SoilCompactionTestDetailsRepository   = createRepository($basicRepository, new SoilCompactionTestDetails());
+        $this->EmployeeRepository   = createRepository($basicRepository, new Employee());
         $this->testsRepository   = createRepository($basicRepository, new Test());
         $this->testsService   = $testsService;
 
@@ -103,6 +107,10 @@ class SoilTestController extends Controller
                             $test='<a href="' . route('admin.samples_test', $row->id) . '" class="btn btn-sm btn-success" title="' . trans('tests.samples_test') . '" style="font-size: 16px;">
                                 <i class="bi bi-clipboard-check"></i>
                              </a>';
+
+                            $print=' <a href="' . route('admin.print_soil_sample_report', $row->id) . '" class="btn btn-sm btn-dark" title="' . trans('tests.print_samples_test') . '" style="font-size: 16px;">
+                                  <i class="bi bi-printer ms-1"></i>
+                             </a>';
                         }
                     }elseif ($row->test_type=='hasa')
                     {
@@ -111,9 +119,16 @@ class SoilTestController extends Controller
                             $test='<a href="' . route('admin.hasa_compaction_test', $row->id) . '" class="btn btn-sm btn-success" title="' . trans('tests.samples_test') . '" style="font-size: 16px;">
                                 <i class="bi bi-clipboard-check"></i>
                              </a>';
+
+                            $print=' <a href="' . route('admin.print_compaction_test', $row->id) . '" class="btn btn-sm btn-dark" title="' . trans('tests.print_samples_test') . '" style="font-size: 16px;">
+                                  <i class="bi bi-printer ms-1"></i>
+                             </a>';
+
+
                         }
                     }else{
                         $test='';
+                        $print='';
                     }
 
 
@@ -128,10 +143,9 @@ class SoilTestController extends Controller
                                 <i class="bi bi-trash3"></i>
                             </a>
                             '.$test.'
+                            '.$print.'
 
-                             <a href="' . route('admin.print_soil_sample_report', $row->id) . '" class="btn btn-sm btn-dark" title="' . trans('tests.print_samples_test') . '" style="font-size: 16px;">
-                                  <i class="bi bi-printer ms-1"></i>
-                             </a>
+
                         </div>
                     ';
                 })
@@ -152,6 +166,7 @@ class SoilTestController extends Controller
         $data['clients']      = $this->clientsRepository->getAll();
         $data['companies']      = $this->companyRepository->getAll();
         $data['projects'] = $this->projectsRepository->getAll();
+        $data['employees']=$this->EmployeeRepository->getAll();
         $data['type']=$type;
         $data['test']=$test;
         return view('dashbord.tests.soil.form', $data);
@@ -177,6 +192,8 @@ class SoilTestController extends Controller
         $data['clients']      = $this->clientsRepository->getAll();
         $data['companies']    = $this->companyRepository->getAll();
         $data['projects']     = $this->projectsRepository->getAll();
+        $data['employees']=$this->EmployeeRepository->getAll();
+      //  dd($data['employees']);
         $data['type']=$type;
         $data['test']=$test;
         return view('dashbord.tests.soil.edit', $data);
@@ -193,6 +210,19 @@ class SoilTestController extends Controller
             dd($e->getMessage());
             return redirect()->back()->withErrors(['error' => $e->getMessage()]);
         }
+    }
+    /***************************************************************/
+    public function test_dues($id,DuesService $duesService)
+    {
+
+       // dd($id);
+        $data['all_data']=$this->testsRepository->getById($id);
+        $data['dues']=$duesService->get_data_by_soil_test_id($id);
+        $data['required_value']=$data['dues']->test_value-$data['dues']->client_test_payment->sum('value');
+        $data['num']=$duesService->get_last_num();
+        $data['all_emps']=Employee::all();
+        //dd($data['dues']);
+        return view('dashbord.tests.soil.payments.dues', $data);
     }
 
 }

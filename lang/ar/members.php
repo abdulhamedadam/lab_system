@@ -5,4 +5,5 @@
   'phone' => 'phone',
   'invite_code' => 'invite_code',
   'actions' => 'actions',
+  'details' => 'details',
 );

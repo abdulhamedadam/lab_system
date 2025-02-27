@@ -362,5 +362,11 @@ function get_print_image()
    // dd($data ? $data->image_print : 'null');
     return $data ? $data->image_print : 'null';
 }
+/***************************************************/
+function toTLV($tag, $value)
+{
+    $length = strlen($value);
+    return chr($tag) . chr($length) . $value;
+}
 
 

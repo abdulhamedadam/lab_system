@@ -10,7 +10,9 @@ use App\Models\Admin\SoilCompactionTestDetails;
 use App\Models\Admin\SoilHasaCompactionTest;
 use App\Models\Admin\SoilHasaCompactionTestDetails;
 use App\Models\Admin\Test;
+use App\Repositories\ClientTestsRepository;
 use App\Traits\ImageProcessing;
+use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
 
 class TestsService
@@ -24,7 +26,7 @@ class TestsService
     protected $HasaCompactionTestRepository;
     protected $HasaCompactionTestDetailsRepository;
 
-    public function __construct(BasicRepositoryInterface $basicRepository)
+    public function __construct(BasicRepositoryInterface $basicRepository,ClientTestsRepository $clientTestsRepository)
     {
         $this->TestsRepository = createRepository($basicRepository, new Test());
         $this->SoilCompactionTestRepository = createRepository($basicRepository, new SoilCompactionTest());
@@ -32,6 +34,8 @@ class TestsService
 
         $this->HasaCompactionTestRepository = createRepository($basicRepository, new SoilHasaCompactionTest());
         $this->HasaCompactionTestDetailsRepository = createRepository($basicRepository, new SoilHasaCompactionTestDetails());
+        $this->clientTestsRepository=$clientTestsRepository;
+
     }
 
     /************************************************/
@@ -39,7 +43,7 @@ class TestsService
     {
 
         DB::beginTransaction();
-
+     //   dd('sss');
         try {
             $validated_data = $request->validated();
             $validated_data['test_code'] = explode('/', $validated_data['test_code'])[1] ?? null;
@@ -79,6 +83,18 @@ class TestsService
                     $this->create_hasa_compaction_test($soil_compaction, $validated_data['sample_number']);
                 }
             }
+            $client_test['client_id']  = $validated_data['company_id'] ;
+            $client_test['test_table'] = $this->TestsRepository->getModel()->getTable();
+            $client_test['test_model'] = get_class($this->TestsRepository->getModel());
+            $client_test['test_name']  =$validated_data['talab_title'];
+            $client_test['test_id']    = $test_data->id;
+            $client_test['test_value']  =$validated_data['cost'];
+            $client_test['test_type']   = $type;
+            $client_test['month']  =Carbon::now()->month;
+            $client_test['year']  =Carbon::now()->year;
+            $client_test['created_by']  =auth()->user()->id;
+          //  dd($client_test);
+            $this->clientTestsRepository->create($client_test);
            // dd('4');
             /***************************************************************/
             DB::commit();
@@ -125,7 +141,8 @@ class TestsService
 
                 if ($test=='compaction')
                 {
-                    $this->create_soil_compaction_test($soil_compaction, $validated_data['sample_number']);
+
+                    $this->update_soil_compaction_test($soil_compaction, $validated_data['sample_number'],$previous_sample_number,$id);
                 }
 
             }
@@ -228,6 +245,48 @@ class TestsService
     }
 
     /****************************************************/
+
+    public function update_soil_compaction_test($data,$sample_number,$previous_sample_number,$id)
+    {
+        $soil_compaction_test = $this->SoilCompactionTestRepository->getBywhere(['soil_test_id' => $id]);
+        if (!$soil_compaction_test) {
+            $soil_compaction_test = $this->SoilCompactionTestRepository->create($data);
+        }
+
+
+        if (!$soil_compaction_test) {
+            throw new \Exception('Failed to create soil compaction test.');
+        }
+
+        $previous_sample_number = $this->SoilCompactionTestDetailsRepository->countWhere(['soil_compaction_test_id'=>$soil_compaction_test[0]->id]);
+        $new_sample_number = $sample_number;
+
+        if ($new_sample_number > $previous_sample_number) {
+            // Add new records
+            for ($i = $previous_sample_number + 1; $i <= $new_sample_number; $i++) {
+                $details = [
+                    'soil_compaction_test_id' => $soil_compaction_test[0]->id,
+                    'point' => $i
+                ];
+
+                $detailsCreated = $this->SoilCompactionTestDetailsRepository->create($details);
+
+                if (!$detailsCreated) {
+                    throw new \Exception("Failed to create soil compaction test details for sample $i.");
+                }
+            }
+        } elseif ($new_sample_number < $previous_sample_number) {
+            // Delete the excess records
+            $this->SoilCompactionTestDetailsRepository->deleteWhere([
+                ['soil_compaction_test_id', '=', $soil_compaction_test[0]->id],
+                ['point', '>', $new_sample_number]
+            ]);
+        }
+
+    }
+    /****************************************************/
+    /****************************************************/
+    /****************************************************/
     public function create_hasa_compaction_test($data, $sample_number)
     {
         $hasa_compaction_test = $this->HasaCompactionTestRepository->create($data);
@@ -288,6 +347,7 @@ class TestsService
 
     }
     /****************************************************/
+
 
 
 

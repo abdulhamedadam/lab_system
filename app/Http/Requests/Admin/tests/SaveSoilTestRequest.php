@@ -26,6 +26,8 @@ class SaveSoilTestRequest extends FormRequest
             'wared_date' => 'required',
             'book_number' => 'required',
             'wared_number' => 'required',
+            'monamzig_id' => 'required',
+            'authorized_name' => 'required',
         //    'test_type' => 'required',
             'company_id' => 'required|exists:tbl_clients_companies,id',
             'project_id' => 'required|exists:tbl_clients_projects,id',
