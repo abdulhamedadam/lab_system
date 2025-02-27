@@ -355,3 +355,18 @@ if (!function_exists('form_icon')) {
     }
 }
 
+/***************************************************/
+function get_print_image()
+{
+    $data=\App\Models\Site\SiteData::find(1);
+   // dd($data ? $data->image_print : 'null');
+    return $data ? $data->image_print : 'null';
+}
+/***************************************************/
+function toTLV($tag, $value)
+{
+    $length = strlen($value);
+    return chr($tag) . chr($length) . $value;
+}
+
+

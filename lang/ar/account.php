@@ -1,0 +1,16 @@
+<?php return array (
+  'create' => 'create',
+  'ID' => 'ID',
+  'code' => 'code',
+  'name' => 'name',
+  'parent_account' => 'parent_account',
+  'Action' => 'Action',
+  'mainData' => 'mainData',
+  'account_type' => 'account_type',
+  'parent_id' => 'parent_id',
+  'parent' => 'parent',
+  'parent_accounts' => 'parent_accounts',
+  'client_account' => 'client_account',
+  'amount' => 'amount',
+  'spent_to' => 'spent_to',
+);

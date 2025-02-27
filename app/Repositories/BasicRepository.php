@@ -112,6 +112,38 @@ class BasicRepository implements BasicRepositoryInterface
         $lastValue = $this->model->latest()->value($field);
         return is_null($lastValue) ? 1 : $lastValue + 1;
     }
+
+    /**********************************************/
+    public function getWithRelationsAndWhere(array $relations, string $column, $value)
+    {
+        return $this->model->with($relations)
+            ->where($column, $value)
+            ->get();
+    }
+    /***********************************************/
+    public function deleteWhere( $column, $value)
+    {
+        return $this->model->where($column, $value)->delete();
+    }
+    /************************************************/
+    public function countWhere(array $conditions)
+    {
+        $query = $this->model->query();
+        foreach ($conditions as $field => $value) {
+            $query->where($field, $value);
+        }
+        return $query->count();
+    }
+
+    public function getModel()
+    {
+        return $this->model;
+    }
+
+    public function updateOrCreate(array $conditions, array $data)
+    {
+        // TODO: Implement updateOrCreate() method.
+    }
 }
 
 

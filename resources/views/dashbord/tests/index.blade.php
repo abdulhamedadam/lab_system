@@ -4,6 +4,9 @@
     .btn-group-sm>.btn:not(.btn-outline):not(.btn-dashed):not(.border-hover):not(.border-active):not(.btn-flush):not(.btn-icon) {
         padding: 10px 12px !important;
     }
+    #table1 {
+        font-size: small !important;
+    }
 </style>
 @section('toolbar')
     <div id="kt_app_toolbar_container" class="app-container container-xxl d-flex flex-stack">
@@ -12,7 +15,8 @@
             $breadcrumbs = [
                 ['label' => trans('Toolbar.home'), 'link' => route('admin.test.create')],
                 ['label' => trans('Toolbar.tests'), 'link' => ''],
-                ['label' => trans('tests.tests_table'), 'link' => ''],
+                ['label' => trans('Toolbar.soil_erosion_test'), 'link' => ''],
+              //  ['label' => trans('Toolbar.'), 'link' => ''],
             ];
 
             PageTitle($title, $breadcrumbs);
@@ -35,15 +39,16 @@
             @php
                 $headers = [
                     'tests.ID',
+                    'tests.test_code',
                     'tests.client',
                     'tests.company',
                     'tests.project',
-                    'tests.test_code',
                     'tests.talab_title',
                     'tests.talab_image',
                     'tests.talab_date',
                     'tests.talab_end_date',
-                    'tests.created_by',
+                    'tests.sample_number',
+                    'tests.status',
                     'tests.actions',
                 ];
 
@@ -77,6 +82,10 @@
                         className: 'text-center no-export'
                     },
                     {
+                        data: 'test_code',
+                        className: 'text-center'
+                    },
+                    {
                         data: 'client',
                         className: 'text-center no-export'
                     },
@@ -88,10 +97,7 @@
                         data: 'project',
                         className: 'text-center'
                     },
-                    {
-                        data: 'test_code',
-                        className: 'text-center'
-                    },
+
                     {
                         data: 'talab_title',
                         className: 'text-center'
@@ -109,7 +115,11 @@
                         className: 'text-center'
                     },
                     {
-                        data: 'created_by',
+                        data: 'sample_number',
+                        className: 'text-center'
+                    },
+                    {
+                        data: 'status',
                         className: 'text-center'
                     },
                     {
@@ -127,7 +137,7 @@
                         "targets": [1],
                         "createdCell": function(td, cellData, rowData, row, col) {
                             $(td).css({
-                                'font-weight': '600',
+
                                 'text-align': 'center',
                                 'color': '#6610f2',
 
@@ -139,7 +149,7 @@
                         "targets": [3, 4],
                         "createdCell": function(td, cellData, rowData, row, col) {
                             $(td).css({
-                                'font-weight': '600',
+
                                 'text-align': 'center',
                                 'vertical-align': 'middle',
                             });
@@ -149,7 +159,7 @@
                         "targets": [2],
                         "createdCell": function(td, cellData, rowData, row, col) {
                             $(td).css({
-                                'font-weight': '600',
+
                                 'text-align': 'center',
                                 'color': 'green',
                                 'vertical-align': 'middle',
@@ -161,13 +171,24 @@
                         "targets": [5],
                         "createdCell": function(td, cellData, rowData, row, col) {
                             $(td).css({
-                                'font-weight': '600',
                                 'text-align': 'center',
                                 'color': 'red',
                                 'vertical-align': 'middle',
                             });
                         }
                     },
+                    {
+                        "targets": [10],
+                        "createdCell": function(td, cellData, rowData, row, col) {
+                            $(td).css({
+                                'text-align': 'center',
+                                'vertical-align': 'middle',
+                            });
+
+                        }
+                    },
+
+
 
 
 
@@ -237,6 +258,37 @@
                     document.getElementById('delete-form-' + clientId).submit();
                 }
             });
+        }
+    </script>
+    <script>
+        function showImagePopup(imageUrl) {
+            const popup = document.createElement('div');
+            popup.style.position = 'fixed';
+            popup.style.top = '50%';
+            popup.style.left = '50%';
+            popup.style.transform = 'translate(-50%, -50%)';
+            popup.style.backgroundColor = '#fff';
+            popup.style.padding = '10px';
+            popup.style.border = '1px solid #ccc';
+            popup.style.boxShadow = '0 4px 8px rgba(0, 0, 0, 0.2)';
+            popup.style.zIndex = 1000;
+
+            const img = document.createElement('img');
+            img.src = imageUrl;
+            img.style.maxWidth = '90vw';
+            img.style.maxHeight = '90vh';
+
+            const closeBtn = document.createElement('button');
+            closeBtn.textContent = 'Close';
+            closeBtn.style.marginTop = '10px';
+            closeBtn.style.cursor = 'pointer';
+            closeBtn.onclick = () => {
+                document.body.removeChild(popup);
+            };
+
+            popup.appendChild(img);
+            popup.appendChild(closeBtn);
+            document.body.appendChild(popup);
         }
     </script>
 

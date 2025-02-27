@@ -15,19 +15,7 @@ class Test extends Model
 
     protected $table = 'tbl_tests';
 
-    protected $fillable = [
-        'client_id',
-        'company_id',
-        'project_id',
-        'test_code',
-        'talab_number',
-        'talab_title',
-        'talab_image',
-        'talab_date',
-        'talab_end_date',
-        'created_by',
-        'updated_by',
-    ];
+    protected $guarded=[];
 
     public function client()
     {

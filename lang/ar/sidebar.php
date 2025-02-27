@@ -97,5 +97,10 @@
   'dashboard' => 'لوحة التحكم',
   'masrofat' => 'المصروفات',
   'tests' => 'الفحوصات',
-  'users' => 'المستخدمين',
+  'view_tests' => 'عرض الإختبارات',
+  'add_test' => 'إضافة إختبار',
+  'soil_tests' => 'إختبارات التربة',
+  'soil_erosion_test' => 'اختبار حدل التربة',
+  'sand_cone_test' => 'اختبار sand cone',
+  'all_tests' => 'جميع الإختبارات',
 );

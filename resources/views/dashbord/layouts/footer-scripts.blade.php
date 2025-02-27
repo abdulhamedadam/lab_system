@@ -26,6 +26,7 @@
 		<script src="{{asset('assets/js/custom/utilities/modals/upgrade-plan.js')}}"></script>
 		<script src="{{asset('assets/js/custom/utilities/modals/create-campaign.js')}}"></script>
 		<script src="{{asset('assets/js/custom/utilities/modals/users-search.js')}}"></script>
+		<script src="{{asset('assets/plugins/custom/jstree/jstree.bundle.js')}}"></script>
 		<!--end::Custom Javascript-->
 		<!--end::Javascript-->
 <script>
