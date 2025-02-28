@@ -11,6 +11,8 @@ use App\Traits\ImageProcessing;
 class ClientPaymentService
 {
     use ImageProcessing;
+    protected $clientPaymentRepository;
+
     /*****************************************************/
     public function __construct(ClientPaymentRepository $clientPaymentRepository)
     {

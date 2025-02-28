@@ -6,8 +6,8 @@
             $breadcrumbs = [
                 ['label' => trans('Toolbar.home'), 'link' => route('admin.test.index')],
                 ['label' => trans('Toolbar.tests'), 'link' => ''],
-                 ['label' => trans('Toolbar.soil'), 'link' => ''],
-                  ['label' => trans('Toolbar.compaction'), 'link' => ''],
+                ['label' => trans('Toolbar.soil'), 'link' => ''],
+                ['label' => trans('Toolbar.compaction'), 'link' => ''],
             ];
 
             PageTitle($title, $breadcrumbs);
