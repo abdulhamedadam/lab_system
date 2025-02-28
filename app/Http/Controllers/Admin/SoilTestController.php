@@ -45,8 +45,6 @@ class SoilTestController extends Controller
         $this->EmployeeRepository   = createRepository($basicRepository, new Employee());
         $this->testsRepository   = createRepository($basicRepository, new Test());
         $this->testsService   = $testsService;
-
-
     }
     /***************************************************************/
     public function index(Request $request,$type,$test)
