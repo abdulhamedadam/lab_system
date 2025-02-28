@@ -87,7 +87,6 @@
 
     <script>
         $(document).ready(function() {
-            // DataTable initialization
             table = $('#table1').DataTable({
                 "language": {
                     url: "{{ asset('assets/Arabic.json') }}"
@@ -114,44 +113,20 @@
                     { data: 'action', orderable: false, className: 'text-center no-export' }
                 ],
                 "columnDefs": [
-                    { "targets": [1, -1], "orderable": false },
-                    {
-                        "targets": [5], // Apply styles to cost, paid, remain columns
-                        "createdCell": function(td, cellData, rowData, row, col) {
-                            $(td).css({
-                                    'text-align': 'center',
-                                    'font-weight': 'bold',
-                                     'background':'lightcoral'
-
-                            }
-                                );
-                        }
-                    },
-                    {
-                        "targets": [6], // Apply styles to cost, paid, remain columns
-                        "createdCell": function(td, cellData, rowData, row, col) {
-                            $(td).css({
-                                    'text-align': 'center',
-                                    'font-weight': 'bold',
-                                    'background':'lightgreen'
-
-                                }
-                            );
-                        }
-                    },
-                    {
-                        "targets": [7], // Apply styles to cost, paid, remain columns
-                        "createdCell": function(td, cellData, rowData, row, col) {
-                            $(td).css({
-                                    'text-align': 'center',
-                                    'font-weight': 'bold',
-                                    'background':'lightgoldenrodyellow'
-
-                                }
-                            );
-                        }
-                    }
+                    { "targets": [1, -1], "orderable": false }
                 ],
+                "rowCallback": function(row, data) {
+                    var paid = parseFloat(data.paid);
+                    var cost = parseFloat(data.cost);
+
+                    if (paid === 0) {
+                        $(row).css("background-color", "#FFDDDD"); // Light Red
+                    } else if (paid === cost) {
+                        $(row).css("background-color", "#DDFFDD"); // Light Green
+                    } else if (paid < cost) {
+                        $(row).css("background-color", "#FFFFDD"); // Light Yellow
+                    }
+                },
                 "order": [],
                 "dom": '<"row align-items-center"<"col-md-3"l><"col-md-6"f><"col-md-3"B>>rt<"row align-items-center"<"col-md-6"i><"col-md-6"p>>',
                 "buttons": [
@@ -176,6 +151,7 @@
                 }
             });
         });
+
 
     </script>
 

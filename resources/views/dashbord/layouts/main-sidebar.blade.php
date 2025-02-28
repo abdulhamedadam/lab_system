@@ -50,42 +50,75 @@
                     <a class="menu-link {{ request()->routeIs(['admin.dashboard']) ? 'active' : '' }}"
                         href="{{ route('admin.dashboard') }}">
                         <span class="svg-icon svg-icon-2" style="margin-left: 5px">
-                            <i class="bi bi-speedometer2 text-primary fs-5"></i>
+                            <i class="bi bi-speedometer2 text-danger fs-5"></i>
                         </span>
                         <span class="menu-title">{{ trans('sidebar.dashboard') }}</span>
                     </a>
                 </div>
+                <hr class="w-100 border border-success">
 
+                <div class="menu-item ">
+                    <div class="menu-content">
+                        <span class="fw-bold text-uppercase fs-7 text-success">{{ trans('sidebar.settings_management') }}</span>
+                    </div>
 
+                </div>
+
+                {{-- الإعدادات --}}
                 <div class="menu-item">
                     <a class="menu-link {{ request()->routeIs(['admin.branches', 'admin.siteData', 'admin.governorates', 'admin.areas']) ? 'active' : '' }}"
                         href="{{ route('admin.branches') }}">
                         <span class="svg-icon svg-icon-2" style="margin-left: 5px">
-                            <i class="bi bi-sliders text-primary fs-5"></i> <!-- Changed to "sliders" -->
+                            <i class="bi bi-sliders text-danger fs-5"></i> <!-- Changed to "sliders" -->
                         </span>
                         <span class="menu-title">{{ trans('sidebar.general_settings') }}</span>
                     </a>
                 </div>
+
+                <hr class="w-100 border border-success">
+
+                <div class="menu-item ">
+                    <!--begin:Menu content-->
+                    <div class="menu-content">
+                        <span
+                            class=" fw-bold text-uppercase fs-7 text-success">{{ trans('sidebar.user&employees_management') }}</span>
+                    </div>
+                    <!--end:Menu content-->
+                </div>
+                {{-- الموظفين --}}
                 <div class="menu-item">
                     <a class="menu-link {{ request()->routeIs(['admin.employee_data', 'jobs', 'admin.archive_shelf_settings', 'shelf', 'admin.archive_settings', 'desk']) ? 'active' : '' }}"
                         href="{{ route('admin.employee_data') }}">
                         <span class="svg-icon svg-icon-2" style="margin-left: 5px">
-                            <i class="bi bi-person-lines-fill text-success fs-5"></i>
+                            <i class="bi bi-person-lines-fill text-danger fs-5"></i>
                             <!-- Changed to "person-lines-fill" -->
                         </span>
                         <span class="menu-title">{{ trans('sidebar.employee_data') }}</span>
                     </a>
                 </div>
+                {{-- المستخدمين--}}
                 <div class="menu-item">
                     <a class="menu-link {{ request()->routeIs(['admin.users.index']) ? 'active' : '' }}"
                         href="{{ route('admin.users.index') }}">
                         <span class="svg-icon svg-icon-2" style="margin-left: 5px">
-                            <i class="bi bi-clipboard-check text-success fs-5"></i>
+                            <i class="bi bi-clipboard-check text-danger fs-5"></i>
                         </span>
                         <span class="menu-title">{{ trans('sidebar.users') }}</span>
                     </a>
                 </div>
 
+
+                <hr class="w-100 border border-success">
+
+                <div class="menu-item ">
+                    <!--begin:Menu content-->
+                    <div class="menu-content">
+                        <span
+                            class="fw-bold text-uppercase fs-7 text-success">{{ trans('sidebar.projects&clients_management') }}</span>
+                    </div>
+
+                </div>
+                {{-- الجهات المستفيده--}}
                 <div class="menu-item">
                     <a class="menu-link {{ request()->routeIs(['admin.clients.index']) ? 'active' : '' }}"
                         href="{{ route('admin.clients.index') }}">
@@ -95,43 +128,35 @@
                         <span class="menu-title">{{ trans('sidebar.clients') }}</span>
                     </a>
                 </div>
-
+                {{-- الشركات--}}
                 <div class="menu-item">
                     <a class="menu-link {{ request()->routeIs(['admin.company.index']) ? 'active' : '' }}"
                         href="{{ route('admin.company.index') }}">
                         <span class="svg-icon svg-icon-2" style="margin-left: 5px">
-                            <i class="bi bi-building text-primary fs-5"></i>
+                            <i class="bi bi-building text-danger fs-5"></i>
                         </span>
                         <span class="menu-title">{{ trans('sidebar.companies') }}</span>
                     </a>
                 </div>
 
+                {{-- المشاريع--}}
                 <div class="menu-item">
                     <a class="menu-link {{ request()->routeIs(['admin.project.index']) ? 'active' : '' }}"
                         href="{{ route('admin.project.index') }}">
                         <span class="svg-icon svg-icon-2" style="margin-left: 5px">
-                            <i class="bi bi-diagram-3 text-success fs-5"></i>
+                            <i class="bi bi-diagram-3 text-danger fs-5"></i>
                         </span>
                         <span class="menu-title">{{ trans('sidebar.projects') }}</span>
                     </a>
                 </div>
 
-                <div class="menu-item">
-                    <a class="menu-link {{ request()->routeIs(['admin.masrofat.index']) ? 'active' : '' }}"
-                        href="{{ route('admin.masrofat.index') }}">
-                        <span class="svg-icon svg-icon-2" style="margin-left: 5px">
-                            <i class="bi bi-cash-coin text-success fs-5"></i>
-                        </span>
-                        <span class="menu-title">{{ trans('sidebar.masrofat') }}</span>
-                    </a>
-                </div>
 
-
+                {{-- tests--}}
                 <div class="menu-item">
                     <a class="menu-link {{ request()->routeIs(['admin.all_tests']) ? 'active' : '' }}"
                         href="{{ route('admin.all_tests') }}">
                         <span class="svg-icon svg-icon-2" style="margin-left: 5px">
-                            <i class="bi bi-clipboard-data text-info fs-5"></i>
+                            <i class="bi bi-clipboard-data text-danger fs-5"></i>
                         </span>
                         <span class="menu-title">{{ trans('sidebar.all_tests') }}</span>
                     </a>
@@ -187,12 +212,13 @@
                     </div>
                 </div> --}}
 
+                <hr class="w-100 border border-success">
 
-                <div class="menu-item pt-5">
+                <div class="menu-item ">
                     <!--begin:Menu content-->
                     <div class="menu-content">
                         <span
-                            class="menu-heading fw-bold text-uppercase fs-7">{{ trans('sidebar.finance_management') }}</span>
+                            class=" fw-bold text-uppercase fs-7 text-success">{{ trans('sidebar.finance_management') }}</span>
                     </div>
                     <!--end:Menu content-->
                 </div>
@@ -259,12 +285,21 @@
                     <a class="menu-link {{ request()->routeIs(['admin.payment.dues.index']) ? 'active' : '' }}"
                         href="{{ route('admin.payment.dues.index') }}">
                         <span class="svg-icon svg-icon-2" style="margin-left: 5px">
-                            <i class="bi bi-cash-stack"></i>
+                            <i class="bi bi-cash-stack text-danger"></i>
                         </span>
                         <span class="menu-title">{{ trans('sidebar.dues') }}</span>
                     </a>
                 </div>
-
+                {{-- المصروفات--}}
+                <div class="menu-item">
+                    <a class="menu-link {{ request()->routeIs(['admin.masrofat.index']) ? 'active' : '' }}"
+                       href="{{ route('admin.masrofat.index') }}">
+                        <span class="svg-icon svg-icon-2" style="margin-left: 5px">
+                            <i class="bi bi-cash-coin text-danger fs-5"></i>
+                        </span>
+                        <span class="menu-title">{{ trans('sidebar.masrofat') }}</span>
+                    </a>
+                </div>
             </div>
         </div>
     </div>

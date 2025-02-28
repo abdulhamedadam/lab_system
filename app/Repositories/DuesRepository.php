@@ -13,7 +13,7 @@ class DuesRepository implements DuesInterface
 
     public function get_all_dues()
     {
-        $clientTests = ClientTests::with('client')->get();
+        $clientTests = ClientTests::with(['client','client_test_payment'])->get();
 
         foreach ($clientTests as $test) {
             $test->test_data = $test->belongsToDynamic();

@@ -28,29 +28,171 @@
                 <img alt="Logo" src="{{asset((!empty($mainData->image)) ? $mainData->image : 'assets/media/logos/favicon.ico')}}" class="theme-dark-show h-30px"/>
             </a>
         </div>
-        <!--end::Mobile logo-->
-        <!--begin::Header wrapper-->
+
         <div class="d-flex align-items-stretch justify-content-between flex-lg-grow-1" id="kt_app_header_wrapper">
-            <!--begin::Menu wrapper-->
+
             <div class="app-header-menu app-header-mobile-drawer align-items-stretch" data-kt-drawer="true"
                  data-kt-drawer-name="app-header-menu" data-kt-drawer-activate="{default: true, lg: false}"
                  data-kt-drawer-overlay="true" data-kt-drawer-width="225px" data-kt-drawer-direction="end"
                  data-kt-drawer-toggle="#kt_app_header_menu_toggle" data-kt-swapper="true"
                  data-kt-swapper-mode="{default: 'append', lg: 'prepend'}"
                  data-kt-swapper-parent="{default: '#kt_app_body', lg: '#kt_app_header_wrapper'}">
-                <!--begin::Menu-->
+
                 <div
                     class="menu menu-rounded menu-column menu-lg-row my-5 my-lg-0 align-items-stretch fw-semibold px-2 px-lg-0"
                     id="kt_app_header_menu" data-kt-menu="true">
 
                 </div>
-                <!--end::Menu-->
+
             </div>
-            <!--end::Menu wrapper-->
-            <!--begin::Navbar-->
+
             <div class="app-navbar flex-shrink-0">
 
-                <!--begin::Languages-->
+                <div class="app-navbar-item ms-1 ms-lg-3">
+                    <div class="dropdown">
+
+                        <a class="btn btn-sm btn-success" data-bs-toggle="dropdown" aria-expanded="false">
+                            {{trans('header.concrete_tests')}}
+                        </a>
+
+                        <div class="dropdown-menu dropdown-menu-end p-0 m-0 dropdown-menu-anim-up dropdown-menu-rounded dropdown-menu-lg">
+                            <div class="p-5">
+                                <div class="menu-item hover-submenu">
+                                    <a href="#" class="menu-link py-2">
+                                        <span class="menu-icon"> <i class="bi bi-rocket"></i> </span>
+                                        <span class="menu-title">{{trans('header.earthy')}}</span>
+                                        <span class="menu-arrow"></span>
+                                    </a>
+                                    <div class="hover-menu-submenu">
+                                        <div class="menu-item">
+                                            <a href="#" class="menu-link py-2">
+                                              <span class="menu-bullet">
+                                                     <span class="bullet bullet-dot"></span>
+                                               </span>
+                                                <span class="menu-title">{{trans('header.compaction')}}</span>
+                                            </a>
+                                        </div>
+
+                                        <div class="menu-item">
+                                            <a href="/projects/view" class="menu-link py-2">
+                                              <span class="menu-bullet">
+                                                <span class="bullet bullet-dot"></span>
+                                              </span>
+                                                <span class="menu-title">{{trans('header.cbr')}}</span>
+                                            </a>
+                                        </div>
+
+                                    </div>
+                                </div>
+                                <div class="menu-item hover-submenu">
+                                    <a href="#" class="menu-link py-2">
+                                        <span class="menu-icon"> <i class="bi bi-rocket"></i> </span>
+                                        <span class="menu-title">{{trans('header.hasa')}}</span>
+                                        <span class="menu-arrow"></span>
+                                    </a>
+
+
+                                    <div class="hover-menu-submenu">
+                                        <div class="menu-item">
+                                            <a href="#" class="menu-link py-2">
+                                               <span class="menu-bullet">
+                                                    <span class="bullet bullet-dot"></span>
+                                               </span>
+                                                <span class="menu-title">{{trans('header.compaction')}}</span>
+                                            </a>
+                                        </div>
+
+                                        <div class="menu-item">
+                                            <a href="/projects/view" class="menu-link py-2">
+                                              <span class="menu-bullet">
+                                                     <span class="bullet bullet-dot"></span>
+                                               </span>
+                                                <span class="menu-title">{{trans('header.cbr')}}</span>
+                                            </a>
+                                        </div>
+
+                                    </div>
+                                </div>
+
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="app-navbar-item ms-1 ms-lg-3">
+                    <div class="dropdown">
+
+                        <a class="btn btn-sm btn-primary" data-bs-toggle="dropdown" aria-expanded="false">
+                             {{trans('header.soil_tests')}}
+                        </a>
+
+                        <div class="dropdown-menu dropdown-menu-end p-0 m-0 dropdown-menu-anim-up dropdown-menu-rounded dropdown-menu-lg">
+                            <div class="p-5">
+
+                                <div class="menu-item hover-submenu">
+                                    <a href="#" class="menu-link py-2">
+                                        <span class="menu-icon"> <i class="bi bi-rocket"></i> </span>
+                                        <span class="menu-title">{{trans('header.earthy')}}</span>
+                                        <span class="menu-arrow"></span>
+                                    </a>
+                                    <div class="hover-menu-submenu">
+                                        <div class="menu-item">
+                                            <a href="#" class="menu-link py-2">
+                                              <span class="menu-bullet">
+                                                     <span class="bullet bullet-dot"></span>
+                                               </span>
+                                                <span class="menu-title">{{trans('header.compaction')}}</span>
+                                            </a>
+                                        </div>
+
+                                        <div class="menu-item">
+                                            <a href="/projects/view" class="menu-link py-2">
+                                              <span class="menu-bullet">
+                                                <span class="bullet bullet-dot"></span>
+                                              </span>
+                                                <span class="menu-title">{{trans('header.cbr')}}</span>
+                                            </a>
+                                        </div>
+
+                                    </div>
+                                </div>
+                                <div class="menu-item hover-submenu">
+                                    <a href="#" class="menu-link py-2">
+                                        <span class="menu-icon"> <i class="bi bi-rocket"></i> </span>
+                                        <span class="menu-title">{{trans('header.hasa')}}</span>
+                                        <span class="menu-arrow"></span>
+                                    </a>
+
+
+                                    <div class="hover-menu-submenu">
+                                        <div class="menu-item">
+                                            <a href="#" class="menu-link py-2">
+                                               <span class="menu-bullet">
+                                                    <span class="bullet bullet-dot"></span>
+                                               </span>
+                                                <span class="menu-title">{{trans('header.compaction')}}</span>
+                                            </a>
+                                        </div>
+
+                                        <div class="menu-item">
+                                            <a href="/projects/view" class="menu-link py-2">
+                                              <span class="menu-bullet">
+                                                     <span class="bullet bullet-dot"></span>
+                                               </span>
+                                                <span class="menu-title">{{trans('header.cbr')}}</span>
+                                            </a>
+                                        </div>
+
+                                    </div>
+                                </div>
+
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
                 <div class="app-navbar-item ms-1 ms-lg-3">
                     <!--begin::Menu wrapper-->
                     <div
@@ -66,7 +208,7 @@
 											<img class="rounded" src="{{$image_lang}}" alt=""/>
 										</span>
                     </div>
-                    <!--begin::User account menu-->
+
                     <div
                         class="menu menu-sub menu-sub-dropdown menu-column menu-rounded menu-gray-800 menu-state-bg menu-state-primary fw-semibold py-4 fs-6 w-175px"
                         data-kt-menu="true">
@@ -93,8 +235,7 @@
                     <!--end::User account menu-->
                     <!--end::Menu wrapper-->
                 </div>
-                <!--end::Languages-->
-                <!--begin::Theme mode-->
+
                 <div class="app-navbar-item ms-1 ms-lg-3">
                     <!--begin::Menu toggle-->
                     <a href="#"
@@ -253,8 +394,7 @@
                     </div>
                     <!--end::Menu-->
                 </div>
-                <!--end::Theme mode-->
-                <!--begin::User menu-->
+
                 <div class="app-navbar-item ms-1 ms-lg-3" id="kt_header_user_menu_toggle">
                     <!--begin::Menu wrapper-->
                     <div class="cursor-pointer symbol symbol-35px symbol-md-40px"
@@ -304,7 +444,7 @@
                     <!--end::User account menu-->
                     <!--end::Menu wrapper-->
                 </div>
-                <!--end::User menu-->
+
 
             </div>
             <!--end::Navbar-->

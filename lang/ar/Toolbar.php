@@ -24,4 +24,5 @@
   'test_dues' => 'test_dues',
   2 => '2',
   'test_dues111111' => 'test_dues111111',
+  'account_statement' => 'account_statement',
 );
