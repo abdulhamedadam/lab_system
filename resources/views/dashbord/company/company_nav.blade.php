@@ -40,7 +40,8 @@
                         <i class="bi bi-file-earmark-text"></i> {{ trans('company.projects') }}
                     </a>
 
-                    <a href="{{route('admin.company_dues',$all_data->id)}}" class="btn btn-info p-2">
+                    {{-- <a href="{{route('admin.company_dues',$all_data->id)}}" class="btn btn-info p-2"> --}}
+                    <a href="" class="btn btn-info p-2">
                         <i class="bi bi-cash-stack"></i> {{ trans('company.money_track') }}
                     </a>
                 </div>
