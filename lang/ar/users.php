@@ -50,5 +50,5 @@
   'Tests' => 'الفحوصات',
   'Users' => 'المستخدمين',
   'Masrofat' => 'المصروفات',
-  'permissions_updated_successfully' => 'تم تعديل الصلاحيات بنجاح',
+  'permissions_updated_successfully' => 'permissions_updated_successfully',
 );
