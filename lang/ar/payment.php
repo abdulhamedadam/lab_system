@@ -26,4 +26,7 @@
   'receivable' => 'receivable',
   'notes' => 'notes',
   'action' => 'action',
+  'print' => 'print',
+  'print_account_statement' => 'print_account_statement',
+  'pay_due' => 'pay_due',
 );
