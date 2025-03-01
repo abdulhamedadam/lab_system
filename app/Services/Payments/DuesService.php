@@ -10,6 +10,9 @@ class DuesService
 {
 
     use ImageProcessing;
+    protected $clientPaymentRepository;
+    protected $duesRepository;
+
     /*****************************************************/
     public function __construct(DuesRepository $duesRepository,ClientPaymentRepository $clientPaymentRepository)
     {

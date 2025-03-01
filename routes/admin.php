@@ -175,11 +175,13 @@ Route::group(
             /**********************************************************************************************************/
             //all_test
             Route::get('all-tests', [AllTestsController::class, 'index'])->name('all_tests');
+
           /*  Route::get('soil_test/{type?}/{test?}', [SoilTestController::class, 'index'])->name('soil_test');
             Route::get('soil_test/create/{type?}/{test?}', [SoilTestController::class, 'create'])->name('create_soil_test');
             Route::get('soil_test/edit/{id}/{type?}/{test?}', [SoilTestController::class, 'edit'])->name('edit_soil_test');
             Route::post('soil_test/save/{type?}/{test?}', [SoilTestController::class, 'store'])->name('store_soil_test');
             Route::post('soil_test/update/{id}/{type?}/{test?}', [SoilTestController::class, 'update'])->name('update_soil_test');*/
+
 
             //soil_test
             Route::get('soil_test/soil/compaction/', [SoilTestController::class, 'soil_compaction_index'])->name('soil_compaction_soil_test');

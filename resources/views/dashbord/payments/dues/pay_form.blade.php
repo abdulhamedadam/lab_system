@@ -7,7 +7,7 @@
             </label>
             <div class="input-group flex-nowrap">
                 <span class="input-group-text" id="basic-addon3">{!! form_icon('number') !!}</span>
-                <input type="text" name="num" class="form-control" value="{{old('value',$num)}}" readonly/>
+                <input type="text" name="num" class="form-control" value="{{old('num',$num)}}" readonly/>
             </div>
             @error('num')
             <div class="fv-plugins-message-container invalid-feedback">{{ $message }}</div>

@@ -14,6 +14,8 @@ use Yajra\DataTables\DataTables;
 
 class DuesController extends Controller
 {
+    protected $duesService;
+
     protected $root_view='dashbord.payments.dues.';
     public function __construct(DuesService $duesService)
     {
@@ -98,7 +100,7 @@ class DuesController extends Controller
     {
 
         try {
-
+            // dd($request->all());
             $clientPaymentService->save_pay_dues($request,$id);
             toastr()->addSuccess(trans('forms.success'));
             return redirect()->route('admin.payment.pay_dues',$id);
