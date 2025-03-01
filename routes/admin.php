@@ -214,6 +214,7 @@ Route::group(
             Route::group(['prefix' => 'Payment', 'as' => 'payment.'], function () {
                 Route::resource('dues', DuesController::class);
                 Route::get('dues/payment/{id}', [DuesController::class, 'pay_dues'])->name('pay_dues');
+                Route::get('dues/payment/account_statement/{id}', [DuesController::class, 'account_statement'])->name('account_statement');
                 Route::post('dues/payment/{id}', [DuesController::class, 'save_pay_dues'])->name('save_pay_dues');
             });
             Route::get('/admin/get-invoice/{id}', [DuesController::class, 'getInvoiceForPrint'])->name('get_invoice');

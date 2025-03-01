@@ -43,9 +43,10 @@ class DuesController extends Controller
                 })->editColumn('cost', function ($row) {
                     return $row->test_value;
                 })->editColumn('paid', function ($row) {
-                    return 0;
+                    $all_paid=optional($row->client_test_payment)->sum('value');
+                    return $all_paid;
                 })->editColumn('remain', function ($row) {
-                    return $row->test_value - 0;
+                    return $row->test_value - optional($row->client_test_payment)->sum('value');
                 })->editColumn('year', function ($row) {
                     return $row->year;
                 })->editColumn('month', function ($row) {
@@ -56,20 +57,26 @@ class DuesController extends Controller
 
                 ->addColumn('action', function ($row) {
                     return '<div class="btn-group btn-group-sm">
-                    <a href="' . route('admin.payment.pay_dues', $row->id) . '"
-                        class="btn btn-sm btn-primary"
-                        title="' . trans('payment.pay') . '"
-                        style="font-size: 16px;">
-                        <i class="bi bi-cash"></i>
-                    </a>
-                    <a onclick="return confirm(\'' . trans('masrofat.confirm_delete') . '\')"
-                        href="#"
-                        class="btn btn-sm btn-danger"
-                        title="' . trans('tests.delete') . '"
-                        style="font-size: 16px;">
-                        <i class="bi bi-trash3"></i>
-                    </a>
-                </div>';
+        <a href="' . route('admin.payment.pay_dues', $row->id) . '"
+            class="btn btn-sm btn-primary"
+            title="' . trans('payment.pay') . '"
+            style="font-size: 16px;">
+            <i class="bi bi-wallet2"></i>
+        </a>
+        <a href="' . route('admin.payment.account_statement', $row->id) . '"
+            class="btn btn-sm btn-dark"
+            title="' . trans('payment.account_statement') . '"
+            style="font-size: 16px;">
+            <i class="bi bi-receipt"></i>
+        </a>
+        <a onclick="return confirm(\'' . trans('masrofat.confirm_delete') . '\')"
+            href="#"
+            class="btn btn-sm btn-danger"
+            title="' . trans('tests.delete') . '"
+            style="font-size: 16px;">
+            <i class="bi bi-trash3"></i>
+        </a>
+    </div>';
                 })
                 ->rawColumns(['action', 'name'])
                 ->make(true);
@@ -110,6 +117,14 @@ class DuesController extends Controller
         //dd($data['invoice']);
         return view($this->root_view.'print',$data);
 
+    }
+    /********************************************************/
+    public function account_statement($id)
+    {
+        $data['all_data']=$this->duesService->find($id);
+        $data['required_value']=$data['all_data']->test_value-$data['all_data']->client_test_payment->sum('value');
+       // dd($data['required_value']);
+        return view($this->root_view.'account_statement',$data);
     }
     /********************************************************/
     public function create()

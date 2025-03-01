@@ -42,4 +42,37 @@
 
     }
 </style>
+<style>
+    /* Custom hover submenu styles */
+    .hover-submenu {
+        position: relative;
+    }
+
+    .hover-menu-submenu {
+        position: absolute;
+        left: 100%;
+        top: 0;
+        width: 200px;
+        background-color: #ffffff;
+        box-shadow: 0px 0px 50px 0px rgba(82, 63, 105, 0.15);
+        border-radius: 0.475rem;
+        padding: 1rem 0;
+        display: none;
+        z-index: 98;
+    }
+
+    .hover-submenu:hover .hover-menu-submenu {
+        display: block;
+    }
+
+    /* Ensure the submenu stays visible when hovered */
+    .hover-menu-submenu:hover {
+        display: block;
+    }
+
+    /* Add a small delay for better user experience */
+    .hover-submenu .hover-menu-submenu {
+        transition-delay: 0.1s;
+    }
+</style>
 @yield('css')
