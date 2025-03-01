@@ -37,5 +37,10 @@ class DuesService
     {
         return $this->duesRepository->get_data_by_soil_test_id($test_id);
     }
+    /*******************************************************/
+    public function client_test_payment($id)
+    {
+        return $this->duesRepository->client_test_payment($id);
+    }
 
 }

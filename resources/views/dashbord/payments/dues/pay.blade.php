@@ -106,28 +106,7 @@
         });
     </script>
 
-    <script>
-        function printInvoice(invoiceId) {
-            let url = `{{ route('admin.get_invoice', ['id' => '__ID__']) }}`.replace('__ID__', invoiceId);
 
-            $.ajax({
-                url: url,
-                method: 'GET',
-                success: function(html) {
-                    const printFrame = document.getElementById(`print-frame-${invoiceId}`);
-                    printFrame.srcdoc = html;
-
-                    printFrame.onload = function() {
-                        printFrame.contentWindow.print();
-                    };
-                },
-                error: function() {
-                    console.error('Error fetching invoice.');
-                    alert('Error printing invoice. Please try again.');
-                }
-            });
-        }
-    </script>
 
 
 
