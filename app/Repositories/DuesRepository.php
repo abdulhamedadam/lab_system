@@ -6,6 +6,7 @@ namespace App\Repositories;
 
 use App\Interfaces\DuesInterface;
 use App\Models\Admin\Test;
+use App\Models\ClientTestPayment;
 use App\Models\ClientTests;
 
 class DuesRepository implements DuesInterface
@@ -44,5 +45,10 @@ class DuesRepository implements DuesInterface
         }
 
         return  $clientTests[0];
+    }
+    /***************************************************/
+    public function client_test_payment($id)
+    {
+        return ClientTestPayment::find($id);
     }
 }

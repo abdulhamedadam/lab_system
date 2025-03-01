@@ -112,9 +112,9 @@ class DuesController extends Controller
     /********************************************************/
     public function getInvoiceForPrint($id,ClientPaymentService $clientPaymentService)
     {
-        $dues_pay=$clientPaymentService->find($id);
-        $data['invoice']=$this->duesService->find($dues_pay->client_test_id);
-        //dd($data['invoice']);
+
+        $data['invoice']=$this->duesService->client_test_payment($id);
+       // dd($data['invoice']);
         return view($this->root_view.'print',$data);
 
     }
@@ -127,9 +127,16 @@ class DuesController extends Controller
         return view($this->root_view.'account_statement',$data);
     }
     /********************************************************/
+    public function print_account_statement($id)
+    {
+        $data['all_data']=$this->duesService->find($id);
+        return view($this->root_view.'print_account_statement',$data);
+    }
+
+    /********************************************************/
     public function create()
     {
-        //
+
     }
 
     /********************************************************/
