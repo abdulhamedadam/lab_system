@@ -13,6 +13,7 @@ use App\Http\Controllers\Admin\Finance\ReceiptVoucherController;
 use App\Http\Controllers\Admin\GeneralSettingsController;
 use App\Http\Controllers\Admin\MasrofatController;
 use App\Http\Controllers\Admin\Payments\DuesController;
+use App\Http\Controllers\Admin\PopUpController;
 use App\Http\Controllers\Admin\ProjectController;
 use App\Http\Controllers\Admin\SoilEarthTestController;
 use App\Http\Controllers\Admin\SoilHasaTestsController;
@@ -176,7 +177,7 @@ Route::group(
             //all_test
             Route::get('all-tests', [AllTestsController::class, 'index'])->name('all_tests');
 
-          /*  Route::get('soil_test/{type?}/{test?}', [SoilTestController::class, 'index'])->name('soil_test');
+            /*  Route::get('soil_test/{type?}/{test?}', [SoilTestController::class, 'index'])->name('soil_test');
             Route::get('soil_test/create/{type?}/{test?}', [SoilTestController::class, 'create'])->name('create_soil_test');
             Route::get('soil_test/edit/{id}/{type?}/{test?}', [SoilTestController::class, 'edit'])->name('edit_soil_test');
             Route::post('soil_test/save/{type?}/{test?}', [SoilTestController::class, 'store'])->name('store_soil_test');
@@ -212,6 +213,13 @@ Route::group(
                 Route::resource('Receipt_Voucher', ReceiptVoucherController::class);
             });
             /**********************************************************************************************************/
+            Route::get('/show_setting', [PopUpController::class, 'show_setting'])->name('show_setting');
+            Route::post('/add_popup_setting', [PopUpController::class, 'add_popup_setting'])->name('add_popup_setting');
+            Route::post('/add_pupup_clients', [PopUpController::class, 'add_clients'])->name('add_clients');
+            Route::get('/get_popup_settings', [PopUpController::class, 'get_popup_settings'])->name('get_popup_settings');
+            Route::post('/update_popup_setting', [PopUpController::class, 'update_popup_setting'])->name('update_popup_setting');
+            Route::post('/delete_popup_setting', [PopUpController::class, 'delete_popup_setting'])->name('delete_popup_setting');
+            /**********************************************************************************************************/
 
             Route::group(['prefix' => 'Payment', 'as' => 'payment.'], function () {
                 Route::resource('dues', DuesController::class);
@@ -221,7 +229,6 @@ Route::group(
                 Route::get('dues/payment/print_invoice/{id}', [DuesController::class, 'getInvoiceForPrint'])->name('print_invoice');
                 Route::get('dues/payment/print_account_statement/{id}', [DuesController::class, 'print_account_statement'])->name('print_account_statement');
             });
-
         });
     }
 );

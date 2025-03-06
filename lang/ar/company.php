@@ -27,4 +27,7 @@
   'tests' => 'الافحوصات',
   'select' => 'اختر',
   'money_track' => 'money_track',
+  'description' => 'description',
+  'update' => 'update',
+  'm' => 'm',
 );
