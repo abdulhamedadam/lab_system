@@ -6,6 +6,7 @@ use App\Http\Controllers\Admin\app_setting\DiscountController;
 use App\Http\Controllers\Admin\ClientController;
 use App\Http\Controllers\Admin\CompanyController;
 use App\Http\Controllers\Admin\ConfigAppController;
+use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\EmployeesController;
 
 use App\Http\Controllers\Admin\Finance\AccountsController;
@@ -20,6 +21,7 @@ use App\Http\Controllers\Admin\SoilHasaTestsController;
 use App\Http\Controllers\Admin\SoilTestController;
 use App\Http\Controllers\Admin\TestsController;
 use App\Http\Controllers\Admin\UsersController;
+use App\Http\Controllers\TelegramController;
 use Illuminate\Support\Facades\Route;
 use Mcamara\LaravelLocalization\Facades\LaravelLocalization;
 
@@ -50,9 +52,13 @@ Route::group(
 
 
         Route::group(['middleware' => ['auth:admin'], 'prefix' => 'admin', 'as' => 'admin.'], function () {
-            Route::get('/dashboard', function () {
-                return view('dashbord.home');
-            })->name('dashboard');
+//            Route::get('/dashboard', function () {
+//                return view('dashbord.home');
+//            })->name('dashboard');
+            Route::get('/telegram', [TelegramController::class, 'showForm'])->name('telegram.form');
+            Route::post('/telegram/send', [TelegramController::class, 'sendMessage'])->name('telegram.send');
+            Route::get('/api/webhook', [TelegramController::class, 'handleWebhook']);
+            Route::get('/dashboard',[DashboardController::class,'index'])->name('dashboard');
 
             Route::get('/test', function () {
                 return ' test admin ';
@@ -81,7 +87,10 @@ Route::group(
             Route::get('company/projects/edit/{id}', [CompanyController::class, 'edit_project'])->name('company_edit_project');
             Route::post('company/projects/update/{id}', [CompanyController::class, 'update_project'])->name('company_update_project');
             Route::get('company/projects/delete/{id}', [CompanyController::class, 'delete_project'])->name('company_delete_project');
-            Route::get('');
+            /********************************************************************************************************************************/
+            Route::get('company/{id}/test', [CompanyController::class, 'tests'])->name('company_tests');
+            Route::get('company/{id}/dues', [CompanyController::class, 'dues'])->name('company_dues');
+            Route::get('company/{id}/due_details/{due_id}', [CompanyController::class, 'due_details'])->name('company_due_details');
             /********************************************************************************************************************************/
             Route::resource('project', ProjectController::class);
             Route::get('project/delete/{id}', [ProjectController::class, 'destroy'])->name('delete_project');

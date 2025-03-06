@@ -7,7 +7,7 @@
            href="{{route('admin.payment.account_statement',$all_data->id)}}">{{trans('payment.account_statement')}}</a>
     </li>
     <li class="nav-item">
-        <a class="nav-link text-active-primary py-5 me-6 "
-           href="{{route('admin.payment.account_statement',$all_data->id)}}">{{trans('payment.pay_due')}}</a>
+        <a class="nav-link text-active-primary py-5 me-6 {{ request()->routeIs('admin.payment.pay_dues',$all_data->id) ? 'active' : '' }}"
+           href="{{route('admin.payment.pay_dues',$all_data->id)}}">{{trans('payment.pay_due')}}</a>
     </li>
 </ul>

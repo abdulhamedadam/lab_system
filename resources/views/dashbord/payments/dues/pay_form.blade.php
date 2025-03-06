@@ -1,5 +1,4 @@
-<form method="post" action="{{ route('admin.payment.save_pay_dues',$all_data->id) }}" enctype="multipart/form-data">
-    @csrf
+
     <div class="row col-md-12 ">
         <input type="hidden" name="client_id" value="{{optional($all_data->client)->id}}">
         <div class="col-md-4">
@@ -122,16 +121,5 @@
     </div>
 
 
-    @if($required_value > 0)
-        <div class="row" style="margin-top: 30px">
-            <div class="col-md-12 text-end">
-                <button type="submit" name="add" value="add" id="add_ezn" class="btn btn-success btn-flat">
-                    <i class="fa fa-save"></i> <?= trans('dues.SaveButton') ?>
-                </button>
-            </div>
-        </div>
-    @endif
 
-
-</form>
 

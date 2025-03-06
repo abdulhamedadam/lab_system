@@ -42,7 +42,7 @@
 @endsection
 @section('content')
 
-    <div id="kt_app_content" class="app-content flex-column-fluid">
+    <!--  <div id="kt_app_content" class="app-content flex-column-fluid">
         <div id="kt_app_content_container" class="t_container">
 
 
@@ -61,24 +61,61 @@
                             @include('dashbord.payments.dues.pay_form')
 
 
-                        </div>
-                        <div class="col-md-4">
-                            @include('dashbord.payments.dues.details')
+        </div>
+        <div class="col-md-4">
+@include('dashbord.payments.dues.details')
 
-                        </div>
-                        @include('dashbord.payments.dues.pay_data')
-                    </div>
-
-                </div>
-            </div>
+        </div>
+@include('dashbord.payments.dues.pay_data')
         </div>
 
     </div>
+</div>
+</div>
+
+</div>
+
+</div>  -->
+
+
+    <div id="kt_app_content" class="app-content flex-column-fluid">
+
+        <div id="kt_app_content_container" class="app-container container-xxl">
+
+            <div class="card mb-6 mb-xl-9">
+                <div class="card-body pt-9 pb-0">
+                    @include('dashbord.payments.dues.details')
+                    @include('dashbord.payments.dues.nav')
+                </div>
+            </div>
+
+
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-title fs-3 fw-bold">{{trans('payment.pay_dues')}}</div>
+                </div>
+                <form method="post" action="{{ route('admin.payment.save_pay_dues',$all_data->id) }}"
+                      enctype="multipart/form-data">
+                    @csrf
+                    <div class="card-body">
+
+                        @include('dashbord.payments.dues.pay_form')
+
+                    </div>
+                    @if($required_value > 0)
+                        <div class="card-footer d-flex justify-content-end py-6">
+                            <button type="reset"
+                                    class="btn btn-light btn-active-light-primary me-2">{{trans('payment.discard')}}</button>
+                            <button type="submit" class="btn btn-primary">{{trans('payment.Save')}}</button>
+                        </div>
+                    @endif
+                </form>
+            </div>
+
+
+        </div>
 
     </div>
-
-
-
 
 
 

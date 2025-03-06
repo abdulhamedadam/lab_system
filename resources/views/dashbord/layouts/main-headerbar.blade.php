@@ -65,11 +65,11 @@
                                     </a>
                                     <div class="hover-menu-submenu">
                                         <div class="menu-item">
-                                            <a href="#" class="menu-link py-2">
+                                            <a href="{{route('admin.soil_compaction_soil_test')}}" class="menu-link py-2">
                                               <span class="menu-bullet">
                                                      <span class="bullet bullet-dot"></span>
                                                </span>
-                                                <span class="menu-title">{{trans('header.compaction')}}</span>
+                                                <span class="menu-title">{{trans('header.compaction1')}}</span>
                                             </a>
                                         </div>
 
@@ -94,7 +94,7 @@
 
                                     <div class="hover-menu-submenu">
                                         <div class="menu-item">
-                                            <a href="#" class="menu-link py-2">
+                                            <a href="{{route('admin.hasa_compaction_soil_test')}}" class="menu-link py-2">
                                                <span class="menu-bullet">
                                                     <span class="bullet bullet-dot"></span>
                                                </span>
@@ -129,7 +129,6 @@
 
                         <div class="dropdown-menu dropdown-menu-end p-0 m-0 dropdown-menu-anim-up dropdown-menu-rounded dropdown-menu-lg">
                             <div class="p-5">
-
                                 <div class="menu-item hover-submenu">
                                     <a href="#" class="menu-link py-2">
                                         <span class="menu-icon"> <i class="bi bi-rocket"></i> </span>
@@ -138,7 +137,7 @@
                                     </a>
                                     <div class="hover-menu-submenu">
                                         <div class="menu-item">
-                                            <a href="#" class="menu-link py-2">
+                                            <a href="{{route('admin.soil_compaction_soil_test')}}" class="menu-link py-2">
                                               <span class="menu-bullet">
                                                      <span class="bullet bullet-dot"></span>
                                                </span>
@@ -167,7 +166,7 @@
 
                                     <div class="hover-menu-submenu">
                                         <div class="menu-item">
-                                            <a href="#" class="menu-link py-2">
+                                            <a href="{{route('admin.hasa_compaction_soil_test')}}" class="menu-link py-2">
                                                <span class="menu-bullet">
                                                     <span class="bullet bullet-dot"></span>
                                                </span>
