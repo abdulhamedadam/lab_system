@@ -11,8 +11,11 @@ use App\Models\Admin\Test;
 use App\Models\Clients;
 use App\Models\ClientsCompanies;
 use App\Models\ClientsProjects;
+use App\Models\ClientTestPayment;
+use App\Models\ClientTests;
 use App\Services\ClientService;
 use App\Services\CompanyService;
+use App\Services\Payments\DuesService;
 use App\Services\ProjectsService;
 use App\Traits\ImageProcessing;
 use App\Traits\ValidationMessage;
@@ -33,7 +36,7 @@ class CompanyController extends Controller
     protected $projectsService;
     protected $TestsRepository;
 
-    public function __construct(BasicRepositoryInterface $basicRepository,CompanyService $companyService, ProjectsService $projectsService)
+    public function __construct(BasicRepositoryInterface $basicRepository,CompanyService $companyService, ProjectsService $projectsService,DuesService $duesService)
     {
         $this->AreasSettingRepository = createRepository($basicRepository, new AreaSetting());
         $this->ClientsRepository = createRepository($basicRepository, new Clients());
@@ -42,6 +45,7 @@ class CompanyController extends Controller
         $this->TestsRepository   = createRepository($basicRepository, new Test());
         $this->companyService   = $companyService;
         $this->projectsService   = $projectsService;
+        $this->duesService   = $duesService;
 
 
     }
@@ -142,8 +146,16 @@ class CompanyController extends Controller
         $data['clients_data']    =  $this->ClientsRepository->getAll();
         $data['projects_data']   =  $this->ProjectsRepository->getBywhere(['company_id'=>$id]);
         $data['company_clients'] =  $this->ClientsRepository->getAll();
-        $data['tests_data'] =  $this->TestsRepository->getBywhere(['company_id'=>$id]);
-        // dd($data);
+        $data['tests_data']      =  $this->TestsRepository->getBywhere(['company_id'=>$id]);
+        $data['all_dues']        =  ClientTests::where('client_id',$id)->sum('test_value');
+        $data['paid_dues']      = ClientTests::where('client_id', $id)
+            ->with('client_test_payment')
+            ->get()
+            ->sum(function ($test) {
+                return $test->client_test_payment->sum('value');
+            });
+
+        //dd( $data['paid_dues'] );
         return view($this->admin_view . '.projects.company_project', $data);
     }
     /*************************************************/
@@ -194,4 +206,57 @@ class CompanyController extends Controller
             return redirect()->back()->withErrors(['error' => $e->getMessage()]);
         }
     }
+
+    /****************************************************/
+    public function tests($id)
+    {
+        $data['all_data']        =  $this->CompanyRepository->getById($id);
+        $data['project_code']    =  $this->ProjectsRepository->getLastFieldValue('project_code');
+        $data['clients_data']    =  $this->ClientsRepository->getAll();
+        $data['projects_data']   =  $this->ProjectsRepository->getBywhere(['company_id'=>$id]);
+        $data['company_clients'] =  $this->ClientsRepository->getAll();
+        $data['tests_data']      =  $this->TestsRepository->getBywhere(['company_id'=>$id]);
+        $data['dues_data']       = $this->duesService->get_company_dues($id) ;
+       // dd( $data['dues_data']);
+        $data['all_dues']        =  ClientTests::where('client_id',$id)->sum('test_value');
+        $data['paid_dues']      = ClientTests::where('client_id', $id)
+            ->with('client_test_payment')
+            ->get()
+            ->sum(function ($test) {
+                return $test->client_test_payment->sum('value');
+            });
+
+        //dd( $data['paid_dues'] );
+        return view($this->admin_view . '.tests.all_test', $data);
+    }
+    /********************************************************/
+    public function dues($id)
+    {
+        $data['all_data']        =  $this->CompanyRepository->getById($id);
+        $data['project_code']    =  $this->ProjectsRepository->getLastFieldValue('project_code');
+        $data['clients_data']    =  $this->ClientsRepository->getAll();
+        $data['projects_data']   =  $this->ProjectsRepository->getBywhere(['company_id'=>$id]);
+        $data['company_clients'] =  $this->ClientsRepository->getAll();
+        $data['tests_data']      =  $this->TestsRepository->getBywhere(['company_id'=>$id]);
+        $data['dues_data']       = $this->duesService->get_company_dues($id) ;
+        // dd( $data['dues_data']);
+        $data['all_dues']        =  ClientTests::where('client_id',$id)->sum('test_value');
+        $data['paid_dues']      = ClientTests::where('client_id', $id)
+            ->with('client_test_payment')
+            ->get()
+            ->sum(function ($test) {
+                return $test->client_test_payment->sum('value');
+            });
+
+        //dd( $data['paid_dues'] );
+        return view($this->admin_view . '.dues.all_dues', $data);
+    }
+    /*****************************************************/
+    public function due_details($due_id)
+    {
+        $data['dues']=ClientTestPayment::where('client_test_id',$due_id)->get();
+
+        return view($this->admin_view . '.dues.dues_payment', $data);
+    }
+
 }

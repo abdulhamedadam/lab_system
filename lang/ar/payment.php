@@ -29,4 +29,10 @@
   'print' => 'print',
   'print_account_statement' => 'print_account_statement',
   'pay_due' => 'pay_due',
+  'pay_dues' => 'pay_dues',
+  'discard' => 'discard',
+  'Save' => 'Save',
+  'partially_paid' => 'partially_paid',
+  'projects' => 'projects',
+  'tests' => 'tests',
 );

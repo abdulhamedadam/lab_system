@@ -1,166 +1,5 @@
-<style>
-    body {
-        background-color: #f8f9fa;
-        font-family: 'Inter', sans-serif;
-        margin: 0;
-        padding: 0;
-    }
-    .profile-card {
-        max-width: 400px;
-        margin: 50px auto;
-        background: #fff;
-        border-radius: 20px;
-        box-shadow: 0 12px 24px rgba(0, 0, 0, 0.1);
-        overflow: hidden;
-        transition: transform 0.3s ease, box-shadow 0.3s ease;
-    }
-    .profile-card:hover {
-        transform: translateY(-5px);
-        box-shadow: 0 16px 32px rgba(0, 0, 0, 0.2);
-    }
-    .profile-header {
-        background: linear-gradient(135deg, #667eea, #764ba2);
-        padding: 30px;
-        text-align: center;
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        align-items: center;
-        color: #fff;
-    }
-    .profile-img {
-        width: 100px;
-        height: 100px;
-        border-radius: 50%;
-        object-fit: cover;
-        margin-bottom: 15px;
-        border: 4px solid rgba(255, 255, 255, 0.2);
-    }
-    .profile-name {
-        font-size: 1.75rem;
-        font-weight: 700;
-        margin: 0;
-    }
-    .profile-title {
-        font-size: 1rem;
-        color: rgba(255, 255, 255, 0.9);
-        margin: 5px 0;
-    }
-    .profile-location {
-        font-size: 0.9rem;
-        color: rgba(255, 255, 255, 0.8);
-    }
-    .profile-stats {
-        display: flex;
-        justify-content: space-around;
-        padding: 20px;
-        background-color: #f8f9fa;
-        border-top: 1px solid #e0e0e0;
-    }
-    .stat-item {
-        text-align: center;
-    }
-    .stat-number {
-        font-size: 1.25rem;
-        font-weight: 700;
-        color: #333;
-    }
-    .stat-label {
-        font-size: 0.85rem;
-        color: #666;
-    }
-    .profile-details {
-        padding: 20px;
-    }
-    .detail-item {
-        margin-bottom: 15px;
-    }
-    .detail-label {
-        font-size: 0.9rem;
-        color: #666;
-        margin-bottom: 5px;
-    }
-    .detail-value {
-        font-size: 1rem;
-        font-weight: 600;
-        color: #333;
-    }
-    .social-links {
-        text-align: center;
-        padding: 20px;
-        background-color: #f8f9fa;
-        border-top: 1px solid #e0e0e0;
-    }
-    .social-icons {
-        display: flex;
-        justify-content: center;
-        gap: 20px;
-    }
-    .social-icon {
-        display: inline-flex;
-        align-items: center;
-        justify-content: center;
-        width: 40px;
-        height: 40px;
-        border-radius: 50%;
-        color: #555;
-        text-decoration: none;
-        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-        transition: all 0.3s ease;
-        position: relative;
-    }
-    .social-icon:hover {
-        background-color: #667eea;
-        color: #fff;
-        transform: translateY(-3px);
-        box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
-    }
-    .social-icon .tooltip {
-        position: absolute;
-        top: -30px;
-        left: 50%;
-        transform: translateX(-50%);
-        background-color: #333;
-        color: #fff;
-        font-size: 0.75rem;
-        padding: 4px 8px;
-        border-radius: 4px;
-        opacity: 0;
-        visibility: hidden;
-        transition: opacity 0.3s ease, visibility 0.3s ease;
-    }
-    .social-icon:hover .tooltip {
-        opacity: 1;
-        visibility: visible;
-    }
 
-
-
-    .table {
-        width: 100%;
-        margin-bottom: 20px;
-        border-collapse: collapse;
-    }
-    .table-bordered {
-        border: 1px solid #e0e0e0;
-    }
-    .table-sm td, .table-sm th {
-        padding: 12px;
-    }
-    .table-striped tbody tr:nth-of-type(odd) {
-        background-color: rgba(0, 0, 0, 0.03);
-    }
-    .class_label {
-        font-size: 0.9rem;
-        color: #666;
-    }
-    .class_result {
-        font-size: 1rem;
-        font-weight: 600;
-        color: #333;
-    }
-</style>
-
+<!--
 <div class="profile-card" style="margin-top: -20px">
     <div class="profile-header">
         <h2 class="profile-name">{{ $all_data->name }}</h2>
@@ -220,4 +59,118 @@
             </a>
         </div>
     </div>
+</div>-->
+
+
+<div class="d-flex flex-wrap flex-sm-nowrap  mb-6">
+    <!--begin: Pic-->
+
+    <div class="me-7 mb-4">
+        <div class="symbol symbol-100px symbol-lg-160px symbol-fixed position-relative">
+            @if(!empty($all_data->talab_image) && file_exists(public_path('images/' . $all_data->talab_image)))
+                <img  src="{{ asset('images/' . $all_data->talab_image) }}" alt="image"/>
+            @else
+                <img  src="{{ asset('images/default_company_logo.png') }}" alt=""/>
+            @endif
+            <div class="position-absolute translate-middle bottom-0 start-100 mb-6 bg-success rounded-circle border border-4 border-body h-20px w-20px"></div>
+        </div>
+    </div>
+
+    <div class="flex-grow-1">
+
+        <div class="d-flex justify-content-between align-items-start flex-wrap mb-2">
+
+            <div class="d-flex flex-column">
+
+                <div class="d-flex align-items-center mb-2">
+                    <a href="#" class="text-gray-900 text-hover-primary fs-2 fw-bold me-1">{{$all_data->name}}</a>
+                    <a href="#">
+                        <i class="bi bi-patch-check fs-1 text-primary"></i>
+                    </a>
+
+                </div>
+
+                <div class="d-flex flex-wrap fw-semibold fs-6 mb-4 pe-2">
+                    <a href="#" class="d-flex align-items-center text-gray-500 text-hover-primary me-5 mb-2">
+                        <i class="bi bi-telephone fs-4 me-1"></i> {{$all_data->phone}}
+                    </a>
+                    <a href="#" class="d-flex align-items-center text-gray-500 text-hover-primary me-5 mb-2">
+                        <i class="bi bi-geo-alt fs-4 me-1"></i> {{$all_data->address1}}
+                    </a>
+                    <a href="#" class="d-flex align-items-center text-gray-500 text-hover-primary mb-2">
+                        <i class="bi bi-envelope fs-4 me-1"></i> {{$all_data->email}}
+                    </a>
+                </div>
+
+                <!--end::Info-->
+            </div>
+            <!--end::User-->
+            <!--begin::Actions-->
+            <div class="d-flex my-4">
+                <a href="{{route('admin.company.index')}}" class="btn btn-sm btn-light me-2" id="kt_user_follow_button">
+                    <i class="ki-duotone ki-check fs-3 d-none"></i>
+                    <span class="indicator-label"> back </span>
+                    <span class="indicator-progress">Please wait...
+					<span class="spinner-border spinner-border-sm align-middle ms-2"></span></span>
+
+                </a>
+
+
+            </div>
+            <!--end::Actions-->
+        </div>
+        <!--end::Title-->
+        <!--begin::Stats-->
+        <div class="d-flex flex-wrap flex-stack">
+            <!--begin::Wrapper-->
+            <div class="d-flex flex-column flex-grow-1 pe-8">
+                <!--begin::Stats-->
+                <div class="d-flex flex-wrap">
+                    <!--begin::Stat-->
+
+
+                    <div class="border border-gray-300 border-dashed rounded min-w-125px py-3 px-4 me-6 mb-3">
+                        <!--begin::Number-->
+                        <div class="d-flex align-items-center">
+                            <i class="bi bi-arrow-down-circle fs-3 text-danger me-2"></i>
+                            <div class="fs-2 fw-bold" data-kt-countup="true" data-kt-countup-value="{{$tests_data->count()}}">{{$tests_data->count()}}</div>
+                        </div>
+                        <div class="fw-semibold fs-6 text-gray-500">{{trans('company.tests')}}</div>
+                    </div>
+
+                    <div class="border border-gray-300 border-dashed rounded min-w-125px py-3 px-4 me-6 mb-3">
+                        <!--begin::Number-->
+                        <div class="d-flex align-items-center">
+                            <i class="bi bi-cash-coin fs-3 text-success me-2"></i>
+                            <div class="fs-2 fw-bold" data-kt-countup="true" data-kt-countup-value="{{$all_dues}}" data-kt-countup-prefix="$">{{$all_dues}}</div>
+                        </div>
+                        <div class="fw-semibold fs-6 text-gray-500">{{trans('company.dues')}}</div>
+                    </div>
+
+                    <div class="border border-gray-300 border-dashed rounded min-w-125px py-3 px-4 me-6 mb-3">
+                        <div class="d-flex align-items-center">
+                            <i class="bi bi-check-circle fs-3 text-success me-2"></i>
+                            <div class="fs-2 fw-bold" data-kt-countup="true" data-kt-countup-value="{{$paid_dues}}" data-kt-countup-prefix="$">{{$paid_dues}}</div>
+                        </div>
+                        <div class="fw-semibold fs-6 text-gray-500">{{trans('company.paid_dues')}}</div>
+                    </div>
+
+                    <div class="border border-gray-300 border-dashed rounded min-w-125px py-3 px-4 me-6 mb-3">
+                        <div class="d-flex align-items-center">
+                            <i class="bi bi-exclamation-circle fs-3 text-warning me-2"></i>
+                            <div class="fs-2 fw-bold" data-kt-countup="true" data-kt-countup-value="{{$all_dues-$paid_dues}}" data-kt-countup-prefix="$">{{$all_dues-$paid_dues}}</div>
+                        </div>
+                        <div class="fw-semibold fs-6 text-gray-500">{{trans('company.remain_dues')}}</div>
+                    </div>
+
+
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
 </div>

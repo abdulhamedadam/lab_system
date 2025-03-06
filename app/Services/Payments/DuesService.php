@@ -45,5 +45,10 @@ class DuesService
     {
         return $this->duesRepository->client_test_payment($id);
     }
+    /********************************************************/
+    public function get_company_dues($id)
+    {
+        return $this->duesRepository->get_company_dues($id);
+    }
 
 }

@@ -75,7 +75,7 @@
             <img class="mw-50px mw-lg-75px" src="{{ asset('images/' . $all_data->talab_image) }}"
                  alt="image"/>
         @else
-            <img class="mw-50px mw-lg-75px" src="" alt=""/>
+            <img class="mw-50px mw-lg-75px" src="{{asset('images/test_default.jpg')}}" alt=""/>
         @endif
     </div>
 
@@ -113,7 +113,7 @@
 
             <div class="d-flex mb-4">
 
-                <a href="#" class="btn btn-sm btn-primary me-3">{{trans('payment.add_pay')}}</a>
+                <a href="{{route('admin.payment.pay_dues',$all_data->id)}}" class="btn btn-sm btn-primary me-3">{{trans('payment.add_pay')}}</a>
 
 
             </div>
@@ -168,7 +168,7 @@
                     <div class="d-flex align-items-center">
                         <i class="bi bi-arrow-up fs-3 text-success me-2"></i>
                         <div class="fs-4 fw-bold" data-kt-countup="true"
-                             data-kt-countup-value="{{$all_data->test_value-$all_data->required_value}}"
+                             data-kt-countup-value="{{$all_data->test_value-$required_value}}"
                              data-kt-countup-prefix="$">0
                         </div>
                     </div>
@@ -179,10 +179,11 @@
                 <div
                     class="border border-gray-300 border-dashed rounded min-w-125px py-3 px-4 me-6 mb-3"
                     style="">
+
                     <div class="d-flex align-items-center">
                         <i class="bi bi-arrow-down fs-3 text-danger me-2"></i>
                         <div class="fs-4 fw-bold" data-kt-countup="true"
-                             data-kt-countup-value="{{$all_data->required_value}}"
+                             data-kt-countup-value="{{$required_value}}"
                              data-kt-countup-prefix="$">0
                         </div>
                     </div>

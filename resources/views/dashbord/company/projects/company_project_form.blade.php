@@ -1,5 +1,4 @@
-<form action="{{ route('admin.company_store_project',$all_data->id) }}" method="post" enctype="multipart/form-data" id="store_form">
-    @csrf
+
     <div class="col-md-12 row" style="margin-top: 10px">
         <input type="hidden" name="company_id" id="company_id" value="{{$all_data->id}}">
         <div class="col-md-4">
@@ -45,13 +44,4 @@
 
 
 
-    <div class="col-md-12 row" style="margin-top: 10px">
-        <div class="col-md-12 d-flex justify-content-end">
-            <div class="form-group">
-                <button type="submit" class="btn btn-success btn-flat">
-                    <?= trans('company.SaveButton') ?>
-                </button>
-            </div>
-        </div>
-    </div>
-</form>
+

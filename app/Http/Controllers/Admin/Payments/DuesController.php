@@ -103,7 +103,7 @@ class DuesController extends Controller
             // dd($request->all());
             $clientPaymentService->save_pay_dues($request,$id);
             toastr()->addSuccess(trans('forms.success'));
-            return redirect()->route('admin.payment.pay_dues',$id);
+            return redirect()->route('admin.payment.account_statement',$id);
         } catch (\Exception $e) {
             dd($e->getMessage());
             return redirect()->back()->withErrors(['error' => $e->getMessage()]);
