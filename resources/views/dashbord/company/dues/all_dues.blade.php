@@ -7,26 +7,26 @@
         <div class="page-title d-flex flex-column justify-content-center flex-wrap me-3">
             <!--begin::Title-->
             <h1 class="page-heading d-flex text-dark fw-bold fs-3 flex-column justify-content-center my-0">
-                {{trans('Toolbar.account_statement')}}</h1>
+                {{ trans('Toolbar.account_statement') }}</h1>
             <!--end::Title-->
             <!--begin::Breadcrumb-->
             <ul class="breadcrumb breadcrumb-separatorless fw-semibold fs-7 my-0 pt-1">
 
                 <li class="breadcrumb-item text-muted">
                     <a href="{{ route('admin.dashboard') }}" class="text-muted text-hover-primary">
-                        {{trans('Toolbar.home')}}</a>
+                        {{ trans('Toolbar.home') }}</a>
                 </li>
                 <li class="breadcrumb-item">
                     <span class="bullet bg-gray-400 w-5px h-2px"></span>
                 </li>
                 <li class="breadcrumb-item text-muted">
-                    {{trans('Toolbar.Payment')}}
+                    {{ trans('Toolbar.Payment') }}
                 </li>
                 <li class="breadcrumb-item">
                     <span class="bullet bg-gray-400 w-5px h-2px"></span>
                 </li>
                 <li class="breadcrumb-item text-muted">
-                    {{trans('Toolbar.account_statement')}}
+                    {{ trans('Toolbar.account_statement') }}
                 </li>
 
 
@@ -35,7 +35,6 @@
         </div>
 
     </div>
-
 @endsection
 
 @section('content')
@@ -60,7 +59,7 @@
                         <!--begin::Card header-->
                         <div class="card-header mt-5 d-flex justify-content-between align-items-center">
                             <div class="card-title flex-column">
-                                <h3 class="fw-bold mb-1">{{trans('company.all_dues')}}</h3>
+                                <h3 class="fw-bold mb-1">{{ trans('dues.all_dues') }}</h3>
                             </div>
 
                         </div>
@@ -69,39 +68,37 @@
                         <div class="card-body pt-0" style="padding: 10px">
                             <div class="table-responsive">
                                 <table id="kt_profile_overview_table"
-                                       class="table table-row-bordered table-row-dashed gy-4 align-middle fw-bold">
+                                    class="table table-row-bordered table-row-dashed gy-4 align-middle fw-bold">
                                     <thead class="fs-7 text-gray-500 text-uppercase">
-                                    <tr>
-
-                                        <th>{{trans('tests.test_code')}}</th>
-                                        <th>{{trans('tests.test_name')}}</th>
-                                        <th>{{trans('tests.test_value')}}</th>
-                                        <th>{{trans('tests.created_at')}}</th>
-                                        <th>{{trans('tests.action')}}</th>
-
-                                    </tr>
-                                    </thead>
-                                    <tbody class="fs-6">
-                                    @foreach($dues_data as $record)
-
                                         <tr>
-                                            <td>{{'INV-'.$record->test_data->test_code}}</td>
-                                            <td>{{$record->test_name}}</td>
-                                            <td>{{$record->test_value}}</td>
-                                            <td>{{$record->created_at}}</td>
 
-                                            <td>
-                                                <a onclick="show_due_details({{$record->id}})"
-                                                   class="btn btn-sm btn-light btn-active-light-primary"
-                                                   target="_blank">
-                                                    {{trans('tests.view')}}
-                                                </a>
-                                            </td>
+                                            <th>{{ trans('tests.test_code') }}</th>
+                                            <th>{{ trans('tests.test_name') }}</th>
+                                            <th>{{ trans('tests.test_value') }}</th>
+                                            <th>{{ trans('tests.created_at') }}</th>
+                                            <th>{{ trans('tests.action') }}</th>
 
                                         </tr>
+                                    </thead>
+                                    <tbody class="fs-6">
+                                        @foreach ($dues_data as $record)
+                                            <tr>
+                                                <td>{{ get_app_config_data(in_array($record->test->test_type, ['soil', 'hasa']) ? 'soil_prefix' : $record->test->test_type . '_prefix') . $record->test->test_code }}
+                                                </td>
+                                                <td>{{ $record->test_name }}</td>
+                                                <td>{{ $record->test_value }}</td>
+                                                <td>{{ $record->created_at }}</td>
 
+                                                <td>
+                                                    <a onclick="show_due_details({{ $record->id }})"
+                                                        class="btn btn-sm btn-light btn-active-light-primary"
+                                                        target="_blank">
+                                                        {{ trans('tests.view') }}
+                                                    </a>
+                                                </td>
 
-                                    @endforeach
+                                            </tr>
+                                        @endforeach
                                     </tbody>
                                 </table>
                                 <!--end::Table-->
@@ -121,7 +118,7 @@
                             <h3 class="card-title align-items-start flex-column">
 
 
-                                <span class="fs-6 fw-semibold text-gray-500">Avg. Agent Earnings</span>
+                                <span class="fs-6 fw-semibold text-gray-500">{{ trans('tests.dues_details') }}</span>
 
                             </h3>
 
@@ -146,15 +143,21 @@
 @section('js')
     <script>
         function show_due_details(id) {
+            var url = "{{ route('admin.company_due_details', ['id' => $all_data->id, 'due_id' => '__due_id__']) }}"
+                .replace('__due_id__', id);
             $.ajax({
-                url: "{{ route('admin.company_due_details', ['due_id' => '__due_id__','id'=>$all_data->id]) }}".replace('__due_id__', id),
+                url: "{{ route('admin.company_due_details', ['id' => $all_data->id, 'due_id' => '__due_id__']) }}"
+                    .replace('__due_id__', id),
                 type: "get",
                 dataType: "html",
-                success: function (html) {
+                success: function(html) {
                     $('#due_deatails').html(html);
                 },
+                error: function(xhr, status, error) {
+                    console.log(url);
+                    console.error(xhr.responseText);
+                }
             });
         }
     </script>
-
 @endsection

@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Models\Admin\Test;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -34,6 +35,11 @@ class ClientTests extends Model
     public function client_test_payment()
     {
         return  $this->hasMany(ClientTestPayment::class,'client_test_id','id');
+    }
+
+    public function test()
+    {
+        return $this->belongsTo(Test::class,'test_id','id');
     }
 
 }

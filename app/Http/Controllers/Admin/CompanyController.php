@@ -21,6 +21,8 @@ use App\Traits\ImageProcessing;
 use App\Traits\ValidationMessage;
 use Illuminate\Http\Request;
 use DataTables;
+use Illuminate\Support\Facades\Log;
+
 class CompanyController extends Controller
 {
     use ImageProcessing;
@@ -36,7 +38,7 @@ class CompanyController extends Controller
     protected $projectsService;
     protected $TestsRepository;
 
-    public function __construct(BasicRepositoryInterface $basicRepository,CompanyService $companyService, ProjectsService $projectsService,DuesService $duesService)
+    public function __construct(BasicRepositoryInterface $basicRepository, CompanyService $companyService, ProjectsService $projectsService, DuesService $duesService)
     {
         $this->AreasSettingRepository = createRepository($basicRepository, new AreaSetting());
         $this->ClientsRepository = createRepository($basicRepository, new Clients());
@@ -46,8 +48,6 @@ class CompanyController extends Controller
         $this->companyService   = $companyService;
         $this->projectsService   = $projectsService;
         $this->duesService   = $duesService;
-
-
     }
 
     public function index(Request $request)
@@ -65,7 +65,7 @@ class CompanyController extends Controller
                             <a onclick="return confirm(\'Are You Sure To Delete?\')"  href="' . route('admin.delete_company', $row->id) . '"  class="btn btn-sm btn-danger" title="' . trans('company.delete') . '" style="font-size: 16px;" onclick="return confirm(\'' . trans('employees.confirm_delete') . '\')">
                                 <i class="bi bi-trash3"></i>
                             </a>
-                            <a href="'.route('admin.company_projects',$row->id).'" class="btn btn-sm btn-secondary" title="' . trans('company.projects') . '" style="font-size: 16px;">
+                            <a href="' . route('admin.company_projects', $row->id) . '" class="btn btn-sm btn-secondary" title="' . trans('company.projects') . '" style="font-size: 16px;">
                                 <i class="bi bi-kanban"></i>
                             </a>
                         </div>
@@ -116,7 +116,7 @@ class CompanyController extends Controller
     public function update(SaveRequest $request, string $id)
     {
         try {
-            $this->companyService->update($request,$id);
+            $this->companyService->update($request, $id);
             toastr()->addSuccess(trans('forms.success'));
             return redirect()->route('admin.company.index');
         } catch (\Exception $e) {
@@ -144,10 +144,10 @@ class CompanyController extends Controller
         $data['all_data']        =  $this->CompanyRepository->getById($id);
         $data['project_code']    =  $this->ProjectsRepository->getLastFieldValue('project_code');
         $data['clients_data']    =  $this->ClientsRepository->getAll();
-        $data['projects_data']   =  $this->ProjectsRepository->getBywhere(['company_id'=>$id]);
+        $data['projects_data']   =  $this->ProjectsRepository->getBywhere(['company_id' => $id]);
         $data['company_clients'] =  $this->ClientsRepository->getAll();
-        $data['tests_data']      =  $this->TestsRepository->getBywhere(['company_id'=>$id]);
-        $data['all_dues']        =  ClientTests::where('client_id',$id)->sum('test_value');
+        $data['tests_data']      =  $this->TestsRepository->getBywhere(['company_id' => $id]);
+        $data['all_dues']        =  ClientTests::where('client_id', $id)->sum('test_value');
         $data['paid_dues']      = ClientTests::where('client_id', $id)
             ->with('client_test_payment')
             ->get()
@@ -159,13 +159,13 @@ class CompanyController extends Controller
         return view($this->admin_view . '.projects.company_project', $data);
     }
     /*************************************************/
-    public function store_project(CompanyClientRequest $request,$company_id)
+    public function store_project(CompanyClientRequest $request, $company_id)
     {
         try {
             // dd($request->all());
             $this->projectsService->store($request);
             toastr()->addSuccess(trans('forms.success'));
-            return redirect()->route('admin.company_projects',$company_id);
+            return redirect()->route('admin.company_projects', $company_id);
         } catch (\Exception $e) {
             dd($e->getMessage());
             return redirect()->back()->withErrors(['error' => $e->getMessage()]);
@@ -174,20 +174,20 @@ class CompanyController extends Controller
     /*************************************************/
     public function edit_project($project_id)
     {
-        $data['project_data']=$this->ProjectsRepository->getById($project_id);
-        $data['company_clients']=$this->ClientsRepository->getAll();
+        $data['project_data'] = $this->ProjectsRepository->getById($project_id);
+        $data['company_clients'] = $this->ClientsRepository->getAll();
 
         return view($this->admin_view . '.projects.company_project_edit', $data);
     }
     /*************************************************/
-    public function update_project(CompanyClientRequest $request,$project_id)
+    public function update_project(CompanyClientRequest $request, $project_id)
     {
         try {
-            $this->projectsService->update($request,$project_id);
-            $company_data=$this->ProjectsRepository->getById($project_id);
+            $this->projectsService->update($request, $project_id);
+            $company_data = $this->ProjectsRepository->getById($project_id);
             // dd($company_data);
             toastr()->addSuccess(trans('forms.success'));
-            return redirect()->route('admin.company_projects',$company_data->company_id);
+            return redirect()->route('admin.company_projects', $company_data->company_id);
         } catch (\Exception $e) {
             dd($e->getMessage());
             return redirect()->back()->withErrors(['error' => $e->getMessage()]);
@@ -197,10 +197,10 @@ class CompanyController extends Controller
     public function delete_project($id)
     {
         try {
-            $project_data=$this->ProjectsRepository->getById($id);
+            $project_data = $this->ProjectsRepository->getById($id);
             $this->ProjectsRepository->delete($id);
             toastr()->addSuccess(trans('forms.success'));
-            return redirect()->route('admin.company_projects',$project_data->company_id);
+            return redirect()->route('admin.company_projects', $project_data->company_id);
         } catch (\Exception $e) {
             dd($e->getMessage());
             return redirect()->back()->withErrors(['error' => $e->getMessage()]);
@@ -213,19 +213,19 @@ class CompanyController extends Controller
         $data['all_data']        =  $this->CompanyRepository->getById($id);
         $data['project_code']    =  $this->ProjectsRepository->getLastFieldValue('project_code');
         $data['clients_data']    =  $this->ClientsRepository->getAll();
-        $data['projects_data']   =  $this->ProjectsRepository->getBywhere(['company_id'=>$id]);
+        $data['projects_data']   =  $this->ProjectsRepository->getBywhere(['company_id' => $id]);
         $data['company_clients'] =  $this->ClientsRepository->getAll();
-        $data['tests_data']      =  $this->TestsRepository->getBywhere(['company_id'=>$id]);
-        $data['dues_data']       = $this->duesService->get_company_dues($id) ;
-       // dd( $data['dues_data']);
-        $data['all_dues']        =  ClientTests::where('client_id',$id)->sum('test_value');
+        $data['tests_data']      =  $this->TestsRepository->getBywhere(['company_id' => $id]);
+        $data['dues_data']       = $this->duesService->get_company_dues($id);
+        // dd( $data['dues_data']);
+        $data['all_dues']        =  ClientTests::where('client_id', $id)->sum('test_value');
         $data['paid_dues']      = ClientTests::where('client_id', $id)
             ->with('client_test_payment')
             ->get()
             ->sum(function ($test) {
                 return $test->client_test_payment->sum('value');
             });
-
+        // dd($data);
         //dd( $data['paid_dues'] );
         return view($this->admin_view . '.tests.all_test', $data);
     }
@@ -235,28 +235,29 @@ class CompanyController extends Controller
         $data['all_data']        =  $this->CompanyRepository->getById($id);
         $data['project_code']    =  $this->ProjectsRepository->getLastFieldValue('project_code');
         $data['clients_data']    =  $this->ClientsRepository->getAll();
-        $data['projects_data']   =  $this->ProjectsRepository->getBywhere(['company_id'=>$id]);
+        $data['projects_data']   =  $this->ProjectsRepository->getBywhere(['company_id' => $id]);
         $data['company_clients'] =  $this->ClientsRepository->getAll();
-        $data['tests_data']      =  $this->TestsRepository->getBywhere(['company_id'=>$id]);
-        $data['dues_data']       = $this->duesService->get_company_dues($id) ;
+        $data['tests_data']      =  $this->TestsRepository->getBywhere(['company_id' => $id]);
+        $data['dues_data']       = $this->duesService->get_company_dues($id);
         // dd( $data['dues_data']);
-        $data['all_dues']        =  ClientTests::where('client_id',$id)->sum('test_value');
+        $data['all_dues']        =  ClientTests::where('client_id', $id)->sum('test_value');
         $data['paid_dues']      = ClientTests::where('client_id', $id)
             ->with('client_test_payment')
             ->get()
             ->sum(function ($test) {
                 return $test->client_test_payment->sum('value');
             });
-
+        // dd($data);
         //dd( $data['paid_dues'] );
         return view($this->admin_view . '.dues.all_dues', $data);
     }
     /*****************************************************/
-    public function due_details($due_id)
+    public function due_details($id, $due_id)
     {
-        $data['dues']=ClientTestPayment::where('client_test_id',$due_id)->get();
-
+        Log::info('Due Details Request:', ['id' => $id, 'due_id' => $due_id]);
+        $data['dues'] = ClientTestPayment::where('client_test_id', $due_id)->get();
+        Log::info('Dues Data:', $data['dues']->toArray());
+        // dd($data);
         return view($this->admin_view . '.dues.dues_payment', $data);
     }
-
 }

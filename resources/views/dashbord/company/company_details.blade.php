@@ -109,7 +109,7 @@
             <div class="d-flex my-4">
                 <a href="{{route('admin.company.index')}}" class="btn btn-sm btn-light me-2" id="kt_user_follow_button">
                     <i class="ki-duotone ki-check fs-3 d-none"></i>
-                    <span class="indicator-label"> back </span>
+                    <span class="indicator-label">{{ trans('company.back') }}</span>
                     <span class="indicator-progress">Please wait...
 					<span class="spinner-border spinner-border-sm align-middle ms-2"></span></span>
 

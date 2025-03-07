@@ -22,4 +22,8 @@ class ClientTestPayment extends Model
     {
         return $this->belongsTo(Admin::class,'created_by','id');
     }
+
+    public function client_test(){
+        return $this->belongsTo(ClientTests::class,'client_test_id','id');
+    }
 }

@@ -54,7 +54,7 @@ class DuesRepository implements DuesInterface
     /****************************************************/
     public function get_company_dues($id)
     {
-        $clientTests = ClientTests::where('client_id', $id)->with(['client', 'client_test_payment'])->get();
+        $clientTests = ClientTests::where('client_id', $id)->with(['client', 'client_test_payment', 'test'])->get();
 
         foreach ($clientTests as $test) {
             $test->test_data = $test->belongsToDynamic();
