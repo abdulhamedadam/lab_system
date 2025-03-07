@@ -3,17 +3,17 @@
 <ul class="nav nav-stretch nav-line-tabs nav-line-tabs-2x border-transparent fs-5 fw-bold">
 
     <li class="nav-item">
-        <a class="nav-link text-active-primary py-5 me-6 {{ request()->routeIs('admin.company_projects',$all_data->id) ? 'active' : '' }}"
-           href="{{route('admin.company_projects',$all_data->id)}}">{{trans('payment.projects')}}</a>
+        <a class="nav-link text-active-primary py-5 me-6 {{ request()->routeIs('admin.company_projects', $all_data->id) ? 'active' : '' }}"
+            href="{{ route('admin.company_projects', $all_data->id) }}">{{ trans('payment.projects') }}</a>
     </li>
 
     <li class="nav-item">
-        <a class="nav-link text-active-primary py-5 me-6 {{ request()->routeIs('admin.company_tests',$all_data->id) ? 'active' : '' }}"
-           href="{{route('admin.company_tests',$all_data->id)}}">{{trans('payment.tests')}}</a>
+        <a class="nav-link text-active-primary py-5 me-6 {{ request()->routeIs('admin.company_tests', $all_data->id) ? 'active' : '' }}"
+            href="{{ route('admin.company_tests', $all_data->id) }}">{{ trans('payment.tests') }}</a>
     </li>
     <li class="nav-item">
-        <a class="nav-link text-active-primary py-5 me-6 {{ request()->routeIs('admin.company_dues',$all_data->id) ? 'active' : '' }}"
-           href="{{route('admin.company_dues',$all_data->id)}}">{{trans('payment.pay_due')}}</a>
+        <a class="nav-link text-active-primary py-5 me-6 {{ request()->routeIs('admin.company_dues', $all_data->id) ? 'active' : '' }}"
+            href="{{ route('admin.company_dues', $all_data->id) }}">{{ trans('payment.all_dues') }}</a>
     </li>
 </ul>
 
@@ -29,7 +29,7 @@
             <div class="row">
 
                 <div class="col-md-11">
-                    <a href="{{route('admin.company_projects',$all_data->id)}}" class="btn btn-success p-2">
+                    <a href="{{ route('admin.company_projects', $all_data->id) }}" class="btn btn-success p-2">
                         <i class="bi bi-file-earmark-text"></i> {{ trans('company.projects') }}
                     </a>
 
@@ -50,5 +50,3 @@
         </div>
     </div>
 </div> -->
-
-

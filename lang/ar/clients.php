@@ -57,4 +57,6 @@
   'company_required' => 'الشركة مطلوبة',
   'reports' => 'reports',
   'money_track' => 'money_track',
+  'update' => 'update',
+  'm' => 'm',
 );

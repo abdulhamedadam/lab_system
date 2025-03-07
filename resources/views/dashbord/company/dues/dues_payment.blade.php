@@ -16,12 +16,10 @@
         @foreach($dues as $record)
 
             <tr>
-                <td>{{'INV-'.$record->num}}</td>
+                <td>{{ get_app_config_data(in_array($record->client_test->test->test_type, ['soil', 'hasa']) ? 'soil_prefix' : $record->client_test->test->test_type . '_prefix') . $record->client_test->test->test_code }}</td>
                 <td>{{$record->value}}</td>
                 <td>{{$record->paid_date}}</td>
-                <td>{{$record->paid_type}}</td>
-
-
+                <td>{{$record->payment_type}}</td>
                 <td>
                     <a href="{{ route('admin.payment.print_invoice',$record->id) }}"
                        class="btn btn-sm btn-light btn-active-light-primary" target="_blank">
