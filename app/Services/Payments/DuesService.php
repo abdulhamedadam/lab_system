@@ -50,5 +50,26 @@ class DuesService
     {
         return $this->duesRepository->get_company_dues($id);
     }
+    /********************************************************/
+    public function get_unfinished_dues($id)
+    {
+        return $this->duesRepository->get_unfinished_dues($id);
+    }
+
+    /********************************************************/
+    public function get_received_payments($type)
+    {
+        return $this->duesRepository->get_received_payments($type);
+    }
+    /*********************************************************/
+    public function get_dues($client_id,$from_date,$to_date)
+    {
+        return $this->duesRepository->get_dues($client_id,$from_date,$to_date);
+    }
+    /*********************************************************/
+    public function get_financial($from_date,$to_date)
+    {
+        return $this->duesRepository->get_financial($from_date,$to_date);
+    }
 
 }

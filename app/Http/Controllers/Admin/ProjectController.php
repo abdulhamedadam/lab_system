@@ -42,13 +42,22 @@ class ProjectController extends Controller
     public function index(Request $request)
     {
         if ($request->ajax()) {
-            $allData = ClientsProjects::select('*');
+            $allData = ClientsProjects::select('*')->OrderBy('id','desc')->get();
             return Datatables::of($allData)
+
+                ->editColumn('project_name', function ($row) {
+
+                    return $row->project_name;
+
+                })
                 ->editColumn('client', function ($row) {
-                    return $row->client->name;
+
+                    return '<a href="'.route('admin.client_companies', $row->client_id).'" class="text-primary fw-bold">'.optional($row->client)->name.'</a>';
+
                 })
                 ->editColumn('company', function ($row) {
-                    return $row->company->name;
+                    return '<a href="'.route('admin.company_projects', $row->company_id).'" class="text-primary fw-bold">'.optional($row->company)->name.'</a>';
+
                 })
                 ->addColumn('action', function ($row) {
                     return '
@@ -64,7 +73,7 @@ class ProjectController extends Controller
     </div>
 ';
                 })
-                ->rawColumns(['image', 'action'])
+                ->rawColumns(['image', 'action','project_name','client','company'])
                 ->make(true);
         }
         return view($this->admin_view . '.index');

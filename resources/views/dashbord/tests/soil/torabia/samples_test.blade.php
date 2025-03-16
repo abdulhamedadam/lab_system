@@ -1,128 +1,159 @@
 @extends('dashbord.layouts.master')
 @section('css')
-<style>
-    /* General Table Styling */
-    #table {
-        width: 100%;
-        border-collapse: separate;
-        border-spacing: 0;
-        border-radius: 10px;
-        overflow: hidden;
-        box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
-    }
+    <style>
+        /* General Table Styling */
+        #table {
+            width: 100%;
+            border-collapse: separate;
+            border-spacing: 0;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+        }
 
-    /* Header Row */
-    #table thead tr {
-        background-color: #1C3D6E; /* Deep Blue */
-        color: white;
-        font-weight: bold;
-        text-align: center;
-    }
+        /* Header Row */
+        #table thead tr {
+            background-color: #1C3D6E; /* Deep Blue */
+            color: white;
+            font-weight: bold;
+            text-align: center;
+        }
 
-    /* Header Cells */
-    #table thead th {
-        padding: 12px;
-        text-transform: uppercase;
-    }
+        /* Header Cells */
+        #table thead th {
+            padding: 12px;
+            text-transform: uppercase;
+        }
 
-    /* Alternating Rows */
-    #table tbody tr:nth-child(even) {
-        background-color: #F2F4F8; /* Light Gray */
-    }
+        /* Alternating Rows */
+        #table tbody tr:nth-child(even) {
+            background-color: #F2F4F8; /* Light Gray */
+        }
 
-    #table tbody tr:nth-child(odd) {
-        background-color: #ffffff; /* White */
-    }
+        #table tbody tr:nth-child(odd) {
+            background-color: #ffffff; /* White */
+        }
 
-    /* Table Borders */
-    #table td, #table th {
-        padding: 10px;
-        border-bottom: 1px solid #E0E0E0;
-        text-align: center;
-    }
+        /* Table Borders */
+        #table td, #table th {
+            padding: 10px;
+            border-bottom: 1px solid #E0E0E0;
+            text-align: center;
+        }
 
-    /* Section Headers */
-    #table tbody tr td[colspan] {
-        background-color: #1C3D6E;
-        color: white;
-        font-weight: bold;
-        text-align: center;
-        padding: 12px;
-    }
+        /* Section Headers */
+        #table tbody tr td[colspan] {
+            background-color: #1C3D6E;
+            color: white;
+            font-weight: bold;
+            text-align: center;
+            padding: 12px;
+        }
 
-    /* Readonly Fields */
-    #table input[readonly] {
-        background-color: #008080 !important; /* Teal */
-        color: white;
-        font-weight: bold;
-        border: none;
-    }
+        /* Readonly Fields */
+        #table input[readonly] {
+            background-color: #008080 !important; /* Teal */
+            color: white;
+            font-weight: bold;
+            border: none;
+        }
 
-    /* Input Fields */
-    #table input {
-        width: 90%;
-        padding: 6px;
-        text-align: center;
-        border: 1px solid #B0B0B0;
-        border-radius: 4px;
-    }
+        /* Input Fields */
+        #table input {
+            width: 100%;
+            padding: 6px;
+            text-align: center;
+            border: 1px solid #B0B0B0;
+            border-radius: 4px;
+        }
 
-    /* Row Hover Effect */
-    #table tbody tr:hover {
-        background-color: #DCE3F1; /* Soft Blue */
-        transition: 0.3s;
-    }
+        /* Row Hover Effect */
+        #table tbody tr:hover {
+            background-color: #DCE3F1; /* Soft Blue */
+            transition: 0.3s;
+        }
 
-    /* Rounded Borders */
-    #table td:first-child, #table th:first-child {
-        border-left: 0;
-        border-radius: 10px 0 0 10px;
-    }
+        /* Rounded Borders */
+        #table td:first-child, #table th:first-child {
+            border-left: 0;
+            border-radius: 10px 0 0 10px;
+        }
 
-    #table td:last-child, #table th:last-child {
-        border-right: 0;
-        border-radius: 0 10px 10px 0;
-    }
+        #table td:last-child, #table th:last-child {
+            border-right: 0;
+            border-radius: 0 10px 10px 0;
+        }
 
-</style>
+    </style>
     @notifyCss
+
+@section('toolbar')
+    <div id="kt_app_toolbar_container" class="app-container container-xxl d-flex flex-stack">
+        @php
+            $title = trans('tests.tests');
+         $breadcrumbs = [
+                  ['label' => trans('Toolbar.home'), 'link' => route('admin.test.index')],
+                  ['label' => trans('Toolbar.tests'), 'link' => ''],
+                  ['label' => trans('tests.torabia'), 'link' => ''],
+                  ['label' => trans('tests.compaction_test'), 'link' => '']
+                  ];
+
+          PageTitle($title, $breadcrumbs);
+        @endphp
+
+
+        <div class="d-flex align-items-center gap-2 gap-lg-3">
+
+            {{ BackButton(route('admin.test.index'))}}
+
+        </div>
+    </div>
+
+@endsection
 @endsection
 @section('content')
 
-    @include('dashbord.tests.nav')
+
+
 
     <div id="kt_app_content" class="app-content flex-column-fluid">
-        <div id="kt_app_content_container" class="t_container">
 
+        <div id="kt_app_content_container" class="app-container container-xxl">
 
-            <div class="card shadow-sm" style="border-top: 3px solid #007bff;">
-                <div class="card-header" style="background-color: #f8f9fa;">
-                    <h3 class="card-title"></i> {{trans('tests.samples_test')}}</h3>
-                    <div class="card-toolbar">
-                        <div class="text-center">
-                        </div>
-                    </div>
+            <div class="card mb-6 mb-xl-9">
+                <div class="card-body pt-9 pb-0">
+
+                    @include('dashbord.tests.soil.torabia.details')
+                    @include('dashbord.tests.soil.torabia.nav')
+
                 </div>
+            </div>
 
-                <div class="card-body" style="padding-left: 0px !important;">
-                    {{-- <div class="col-md-12">
-                        @include('dashbord.tests.details')
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-title fs-3 fw-bold">{{trans('payment.pay_dues')}}</div>
+                </div>
+                <form action="{{ route('admin.save_compaction_test',$all_data->id) }}" method="post"
+                      enctype="multipart/form-data"
+                      id="store_form">
+                    @csrf
+                    <div class="card-body">
 
-                    </div> --}}
-                    <div class="col-md-12 row">
+                        <div class=" row">
 
-                        <form action="{{ route('admin.save_compaction_test',$all_data->id) }}" method="post" enctype="multipart/form-data"
-                              id="store_form">
-                            @csrf
-                            <div class="col-md-12 row" style="margin-top: 10px">
-                                <input type="hidden" name="soil_compaction_test_id" id="soil_compaction_test_id" value="{{$compaction_test[0]->id}}">
+
+                            <div class="row" style="margin-top: 10px">
+                                <input type="hidden" name="soil_compaction_test_id" id="soil_compaction_test_id"
+                                       value="{{$compaction_test[0]->id}}">
 
                                 <div class="col-md-2">
                                     <label for="project_code" class="form-label">{{ trans('tests.test_code') }}</label>
                                     <div class="input-group flex-nowrap">
-                                        <span class="input-group-text" id="basic-addon3">{!! form_icon('text') !!}</span>
+                                        <span class="input-group-text"
+                                              id="basic-addon3">{!! form_icon('text') !!}</span>
                                         <input type="text" class="form-control" name="test_code" id="test_code"
-                                               value="{{get_app_config_data('soil_prefix').$all_data->test_code}}" readonly>
+                                               value="{{get_app_config_data('soil_prefix').$all_data->test_code}}"
+                                               readonly>
                                     </div>
                                     @error('test_code')
                                     <span class="invalid-feedback d-block" role="alert">{{ $message }}</span>
@@ -131,10 +162,14 @@
 
 
                                 <div class="col-md-2">
-                                    <label for="project_code" class="form-label">{{ trans('tests.test_carried_date') }}</label>
+                                    <label for="project_code"
+                                           class="form-label">{{ trans('tests.test_carried_date') }}</label>
                                     <div class="input-group flex-nowrap">
-                                        <span class="input-group-text" id="basic-addon3">{!! form_icon('date') !!}</span>
-                                        <input type="date" class="form-control" name="test_carried_date" id="test_carried_date" value="{{old(date('Y-m-d'),$compaction_test[0]->test_carried_date)}}">
+                                        <span class="input-group-text"
+                                              id="basic-addon3">{!! form_icon('date') !!}</span>
+                                        <input type="date" class="form-control" name="test_carried_date"
+                                               id="test_carried_date"
+                                               value="{{old(date('Y-m-d'),$compaction_test[0]->test_carried_date)}}">
                                     </div>
                                     @error('test_carried_date')
                                     <span class="invalid-feedback d-block" role="alert">{{ $message }}</span>
@@ -143,10 +178,14 @@
 
 
                                 <div class="col-md-2">
-                                    <label for="project_code" class="form-label">{{ trans('tests.proctor_test_date') }}</label>
+                                    <label for="project_code"
+                                           class="form-label">{{ trans('tests.proctor_test_date') }}</label>
                                     <div class="input-group flex-nowrap">
-                                        <span class="input-group-text" id="basic-addon3">{!! form_icon('date') !!}</span>
-                                        <input type="date" class="form-control" name="proctor_test_date" id="proctor_test_date" value="{{old(date('Y-m-d'),$compaction_test[0]->proctor_test_date)}}">
+                                        <span class="input-group-text"
+                                              id="basic-addon3">{!! form_icon('date') !!}</span>
+                                        <input type="date" class="form-control" name="proctor_test_date"
+                                               id="proctor_test_date"
+                                               value="{{old(date('Y-m-d'),$compaction_test[0]->proctor_test_date)}}">
                                     </div>
                                     @error('proctor_test_date')
                                     <span class="invalid-feedback d-block" role="alert">{{ $message }}</span>
@@ -154,10 +193,14 @@
                                 </div>
 
                                 <div class="col-md-2">
-                                    <label for="project_code" class="form-label">{{ trans('tests.sample_collect_date') }}</label>
+                                    <label for="project_code"
+                                           class="form-label">{{ trans('tests.sample_collect_date') }}</label>
                                     <div class="input-group flex-nowrap">
-                                        <span class="input-group-text" id="basic-addon3">{!! form_icon('date') !!}</span>
-                                        <input type="date" class="form-control" name="sample_collect_date" id="sample_collect_date" value="{{old(date('Y-m-d'),$compaction_test[0]->sample_collect_date)}}">
+                                        <span class="input-group-text"
+                                              id="basic-addon3">{!! form_icon('date') !!}</span>
+                                        <input type="date" class="form-control" name="sample_collect_date"
+                                               id="sample_collect_date"
+                                               value="{{old(date('Y-m-d'),$compaction_test[0]->sample_collect_date)}}">
                                     </div>
                                     @error('sample_collect_date')
                                     <span class="invalid-feedback d-block" role="alert">{{ $message }}</span>
@@ -168,8 +211,10 @@
                                 <div class="col-md-2">
                                     <label for="location" class="form-label">{{ trans('tests.location') }}</label>
                                     <div class="input-group flex-nowrap">
-                                        <span class="input-group-text" id="basic-addon3">{!! form_icon('text') !!}</span>
-                                        <input type="text" class="form-control" name="location" id="location" value="{{old('location',$compaction_test[0]->location)}}">
+                                        <span class="input-group-text"
+                                              id="basic-addon3">{!! form_icon('text') !!}</span>
+                                        <input type="text" class="form-control" name="location" id="location"
+                                               value="{{old('location',$compaction_test[0]->location)}}">
                                     </div>
                                     @error('location')
                                     <span class="invalid-feedback d-block" role="alert">{{ $message }}</span>
@@ -179,8 +224,10 @@
                                 <div class="col-md-2">
                                     <label for="proctor_ref" class="form-label">{{ trans('tests.proctor_ref') }}</label>
                                     <div class="input-group flex-nowrap">
-                                        <span class="input-group-text" id="basic-addon3">{!! form_icon('text') !!}</span>
-                                        <input type="text" class="form-control" name="proctor_ref" id="proctor_ref" value="{{old('proctor_ref',$compaction_test[0]->proctor_ref)}}">
+                                        <span class="input-group-text"
+                                              id="basic-addon3">{!! form_icon('text') !!}</span>
+                                        <input type="text" class="form-control" name="proctor_ref" id="proctor_ref"
+                                               value="{{old('proctor_ref',$compaction_test[0]->proctor_ref)}}">
                                     </div>
                                     @error('proctor_ref')
                                     <span class="invalid-feedback d-block" role="alert">{{ $message }}</span>
@@ -188,16 +235,18 @@
                                 </div>
 
 
-
-
                             </div>
-                            <div class="col-md-12 row" style="margin-top: 10px">
+
+
+                            <div class=" row" style="margin-top: 10px">
 
                                 <div class="col-md-2">
                                     <label for="location" class="form-label">{{ trans('tests.test_method') }}</label>
                                     <div class="input-group flex-nowrap">
-                                        <span class="input-group-text" id="basic-addon3">{!! form_icon('text') !!}</span>
-                                        <input type="text" class="form-control" name="test_method" id="test_method" value="{{old('test_method',$compaction_test[0]->test_method)}}">
+                                        <span class="input-group-text"
+                                              id="basic-addon3">{!! form_icon('text') !!}</span>
+                                        <input type="text" class="form-control" name="test_method" id="test_method"
+                                               value="{{old('test_method',$compaction_test[0]->test_method)}}">
                                     </div>
                                     @error('test_method')
                                     <span class="invalid-feedback d-block" role="alert">{{ $message }}</span>
@@ -207,8 +256,10 @@
                                 <div class="col-md-2">
                                     <label for="location" class="form-label">{{ trans('tests.material_desc') }}</label>
                                     <div class="input-group flex-nowrap">
-                                        <span class="input-group-text" id="basic-addon3">{!! form_icon('text') !!}</span>
-                                        <input type="text" class="form-control" name="material_desc" id="material_desc" value="{{old('material_desc',$compaction_test[0]->material_desc)}}">
+                                        <span class="input-group-text"
+                                              id="basic-addon3">{!! form_icon('text') !!}</span>
+                                        <input type="text" class="form-control" name="material_desc" id="material_desc"
+                                               value="{{old('material_desc',$compaction_test[0]->material_desc)}}">
                                     </div>
                                     @error('material_desc')
                                     <span class="invalid-feedback d-block" role="alert">{{ $message }}</span>
@@ -219,8 +270,10 @@
                                 <div class="col-md-2">
                                     <label for="location" class="form-label">{{ trans('tests.mdd') }}</label>
                                     <div class="input-group flex-nowrap">
-                                        <span class="input-group-text" id="basic-addon3">{!! form_icon('number') !!}</span>
-                                        <input type="number" step="0.01" class="form-control" name="mdd" id="mdd" value="{{old('mdd',$compaction_test[0]->mdd)}}">
+                                        <span class="input-group-text"
+                                              id="basic-addon3">{!! form_icon('number') !!}</span>
+                                        <input type="number" step="0.01" class="form-control" name="mdd" id="mdd"
+                                               value="{{old('mdd',$compaction_test[0]->mdd)}}">
                                     </div>
                                     @error('mdd')
                                     <span class="invalid-feedback d-block" role="alert">{{ $message }}</span>
@@ -230,8 +283,10 @@
                                 <div class="col-md-2">
                                     <label for="location" class="form-label">{{ trans('tests.moc') }}</label>
                                     <div class="input-group flex-nowrap">
-                                        <span class="input-group-text" id="basic-addon3">{!! form_icon('number') !!}</span>
-                                        <input type="number" step="0.01" class="form-control" name="moc" id="moc" value="{{old('moc',$compaction_test[0]->moc)}}">
+                                        <span class="input-group-text"
+                                              id="basic-addon3">{!! form_icon('number') !!}</span>
+                                        <input type="number" step="0.01" class="form-control" name="moc" id="moc"
+                                               value="{{old('moc',$compaction_test[0]->moc)}}">
                                     </div>
                                     @error('moc')
                                     <span class="invalid-feedback d-block" role="alert">{{ $message }}</span>
@@ -241,8 +296,11 @@
                                 <div class="col-md-2">
                                     <label for="location" class="form-label">{{ trans('tests.mold_number') }}</label>
                                     <div class="input-group flex-nowrap">
-                                        <span class="input-group-text" id="basic-addon3">{!! form_icon('number') !!}</span>
-                                        <input type="number" step="0.01" class="form-control" name="mold_number" id="mold_number" value="{{old('mold_number',$compaction_test[0]->mold_number)}}">
+                                        <span class="input-group-text"
+                                              id="basic-addon3">{!! form_icon('number') !!}</span>
+                                        <input type="number" step="0.01" class="form-control" name="mold_number"
+                                               id="mold_number"
+                                               value="{{old('mold_number',$compaction_test[0]->mold_number)}}">
                                     </div>
                                     @error('mold_number')
                                     <span class="invalid-feedback d-block" role="alert">{{ $message }}</span>
@@ -253,17 +311,15 @@
                                 <div class="col-md-2">
                                     <label for="location" class="form-label">{{ trans('tests.diameter') }}</label>
                                     <div class="input-group flex-nowrap">
-                                        <span class="input-group-text" id="basic-addon3">{!! form_icon('number') !!}</span>
-                                        <input type="number" step="0.01" class="form-control" name="diameter" id="diameter" value="{{old('diameter',$compaction_test[0]->diameter)}}">
+                                        <span class="input-group-text"
+                                              id="basic-addon3">{!! form_icon('number') !!}</span>
+                                        <input type="number" step="0.01" class="form-control" name="diameter"
+                                               id="diameter" value="{{old('diameter',$compaction_test[0]->diameter)}}">
                                     </div>
                                     @error('diameter')
                                     <span class="invalid-feedback d-block" role="alert">{{ $message }}</span>
                                     @enderror
                                 </div>
-
-
-
-
 
 
                             </div>
@@ -274,8 +330,10 @@
                                 <div class="col-md-2">
                                     <label for="location" class="form-label">{{ trans('tests.height') }}</label>
                                     <div class="input-group flex-nowrap">
-                                        <span class="input-group-text" id="basic-addon3">{!! form_icon('number') !!}</span>
-                                        <input type="number" step="0.01" class="form-control" name="height" id="height" value="{{old('height',$compaction_test[0]->height)}}">
+                                        <span class="input-group-text"
+                                              id="basic-addon3">{!! form_icon('number') !!}</span>
+                                        <input type="number" step="0.01" class="form-control" name="height" id="height"
+                                               value="{{old('height',$compaction_test[0]->height)}}">
                                     </div>
                                     @error('height')
                                     <span class="invalid-feedback d-block" role="alert">{{ $message }}</span>
@@ -286,8 +344,10 @@
                                 <div class="col-md-2">
                                     <label for="location" class="form-label">{{ trans('tests.volume') }}</label>
                                     <div class="input-group flex-nowrap">
-                                        <span class="input-group-text" id="basic-addon3">{!! form_icon('number') !!}</span>
-                                        <input type="number" step="0.01" class="form-control" name="volume" id="volume" value="{{old('volume',$compaction_test[0]->volume)}}">
+                                        <span class="input-group-text"
+                                              id="basic-addon3">{!! form_icon('number') !!}</span>
+                                        <input type="number" step="0.01" class="form-control" name="volume" id="volume"
+                                               value="{{old('volume',$compaction_test[0]->volume)}}">
                                     </div>
                                     @error('height')
                                     <span class="invalid-feedback d-block" role="alert">{{ $message }}</span>
@@ -295,10 +355,13 @@
                                 </div>
                             </div>
 
+
+                            <hr style="border: 2px solid red; width: 100%;margin-top: 20px ;margin-bottom: 20px" >
                             <div class="col-md-12 row" style="margin-top: 10px; direction: ltr;">
-                                <table id="table" class="example table table-bordered responsive nowrap text-center" cellspacing="0" width="70%" style="direction: ltr;">
+                                <table id="table" class="example table table-bordered responsive nowrap text-center"
+                                       cellspacing="0" width="100%" style="direction: ltr;">
                                     <thead>
-                                    <tr class="greentd" >
+                                    <tr class="greentd">
                                         <th>{{trans('tests.point_number') }}</th>
                                         @if(isset($compaction_test) || !empty($compaction_test ) || $compaction_test->isEmpty() )
                                             @foreach ($compaction_test[0]->compaction_test_details as $test)
@@ -355,7 +418,7 @@
                                                 {{ trans('tests.' . $value['name']) }}
                                             </td>
                                             @foreach ($compaction_test[0]->compaction_test_details as $test)
-                                                <td style="background-color: {{ $value['background'] }}" >
+                                                <td style="background-color: {{ $value['background'] }}">
                                                     <span id="span-{{ $value['name'] }}-{{ $test->point }}"></span>
                                                     <input style="text-align-last: center"
                                                            type="{{ $value['type'] }}"
@@ -375,35 +438,24 @@
                             </div>
 
 
-
-
-
-                            <div class="col-md-12 row" style="margin-top: 10px">
-                                <div class="col-md-12 d-flex justify-content-end">
-                                    <div class="form-group">
-                                        <button type="submit" class="btn btn-success btn-flat">
-                                            <?= trans('company.SaveButton') ?>
-                                        </button>
-                                        <a href="{{route('admin.soil_sample_report_details',$all_data->id)}}" class="btn-primary btn "> <?= trans('tests.PrintButton') ?></a>
-                                    </div>
-                                </div>
-                            </div>
-                        </form>
+                        </div>
 
                     </div>
 
-                </div>
+                    <div class="card-footer d-flex justify-content-end py-6">
+                        <a href="{{route('admin.soil_sample_report_details',$all_data->id)}}"
+                           class="btn-primary btn "> <?= trans('tests.PrintButton') ?></a>
+                        <button type="submit" class="btn btn-success"
+                                style="margin-right: 10px;margin-left: 10px">{{trans('payment.Save')}}</button>
+                    </div>
+                </form>
+
             </div>
+
+
         </div>
 
     </div>
-
-    </div>
-
-
-
-
-
 
 
 
@@ -413,7 +465,7 @@
 @section('js')
 
     <script>
-        $(document).ready(function() {
+        $(document).ready(function () {
             function calcaulate_volume() {
                 var diameter = parseFloat($('#diameter').val()) || 0;
                 var height = parseFloat($('#height').val()) || 0;
@@ -463,14 +515,14 @@
             }
 
             @foreach ($compaction_test[0]->compaction_test_details as $test)
-            $('#wt_wet_soil_can-{{ $test->point }}, #wt_dry_soil_can-{{ $test->point }}, #wt_can-{{ $test->point }}, #wt_wet_soil_gm-{{ $test->point }}, #req_compaction-{{ $test->point }}').on('keyup', function() {
+            $('#wt_wet_soil_can-{{ $test->point }}, #wt_dry_soil_can-{{ $test->point }}, #wt_can-{{ $test->point }}, #wt_wet_soil_gm-{{ $test->point }}, #req_compaction-{{ $test->point }}').on('keyup', function () {
                 calculateValues('{{ $test->point }}');
             });
 
             calculateValues('{{ $test->point }}');
             @endforeach
 
-            $('#diameter, #height').on('keyup', function() {
+            $('#diameter, #height').on('keyup', function () {
                 calcaulate_volume();
             });
 

@@ -52,8 +52,12 @@ class ClientController extends Controller
     public function index(Request $request)
     {
         if ($request->ajax()) {
-            $allData = Clients::select('*');
+            $allData = Clients::select('*')->OrderBy('id','desc')->get();
             return Datatables::of($allData)
+                ->editColumn('name', function ($row) {
+                    return '<a href="'.route('admin.client_companies', $row->id).'" class="text-primary fw-bold">'.$row->name.'</a>';
+                })
+
                 ->addColumn('action', function ($row) {
                     return '
     <div class="btn-group btn-group-sm">
@@ -76,7 +80,7 @@ class ClientController extends Controller
     </div>
 ';
                 })
-                ->rawColumns(['image', 'action'])
+                ->rawColumns(['image', 'action','name'])
                 ->make(true);
         }
         return view($this->admin_view . '.index');
@@ -154,7 +158,7 @@ class ClientController extends Controller
         $data['company_code'] =  $this->CompanyRepository->getLastFieldValue('company_code');
         $data['companies_data']=$this->CompanyRepository->getBywhere(['client_id'=>$id]);
         $data['projects_data']=$this->ProjectsRepository->getBywhere(['client_id'=>$id]);
-        //dd($data['companies_data']);
+       // dd($data['all_data']);
         return view($this->admin_view . '.company.clients_company', $data);
     }
     /************************************************/

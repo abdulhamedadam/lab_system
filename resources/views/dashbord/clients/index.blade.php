@@ -1,10 +1,5 @@
 @extends('dashbord.layouts.master')
-<style>
 
-    .btn:not(.btn-outline):not(.btn-dashed):not(.border-hover):not(.border-active):not(.btn-flush):not(.btn-icon).btn-sm, .btn-group-sm > .btn:not(.btn-outline):not(.btn-dashed):not(.border-hover):not(.border-active):not(.btn-flush):not(.btn-icon) {
-        padding: 10px 12px !important;
-    }
-</style>
 @section('toolbar')
     <div id="kt_app_toolbar_container" class="app-container container-xxl d-flex flex-stack">
         @php
@@ -36,10 +31,11 @@
              $headers=[
                        'client.ID',
                        'client.name',
-                       'client.phone',
-                       'client.email',
+                      // 'client.phone',
+                      // 'client.email',
+                      // 'client.country',
                        'client.address1',
-                       'client.commercial_register',
+                      // 'client.commercial_register',
                        'client.action',
 
                      ];
@@ -81,10 +77,10 @@
                 "columns": [
                     {data: 'id', className: 'text-center no-export'},
                     {data: 'name', className: 'text-center'},
-                    {data: 'phone', className: 'text-center'},
-                    {data: 'email', className: 'text-center'},
+                    // {data: 'phone', className: 'text-center'},
+                    // {data: 'email', className: 'text-center'},
                     {data: 'address1', className: 'text-center'},
-                    {data: 'commercial_register', className: 'text-center'},
+                    // {data: 'commercial_register', className: 'text-center'},
                     {data: 'action', name: 'action', orderable: false, className: 'text-center no-export'},
                 ],
                 "columnDefs": [
@@ -105,7 +101,7 @@
                         }
                     },
                     {
-                        "targets": [3,4],
+                        "targets": [3],
                         "createdCell": function(td, cellData, rowData, row, col) {
                             $(td).css({
                                 'font-weight': '600',
@@ -126,17 +122,6 @@
                         }
                     },
 
-                    {
-                        "targets": [5],
-                        "createdCell": function(td, cellData, rowData, row, col) {
-                            $(td).css({
-                                'font-weight': '600',
-                                'text-align': 'center',
-                                'color': 'red',
-                                'vertical-align': 'middle',
-                            });
-                        }
-                    },
 
 
 
@@ -146,13 +131,11 @@
                 "buttons": [
                     {
                         "extend": 'excel',
-                        "text": '<i class="bi bi-file-earmark-excel"></i>إكسل',
-                        "className": 'btn btn-dark'
+
                     },
                     {
                         "extend": 'copy',
-                        "text": '<i class="bi bi-clipboard"></i>نسخ',
-                        "className": 'btn btn-primary'
+
                     }
                 ],
 
@@ -170,7 +153,7 @@
                         "previous": "السابق"
                     }
                 },
-                "lengthMenu": [[5, 10, 25, 50, -1], [5, 10, 25, 50, "الكل"]],
+                "lengthMenu": [[ 10, 25, 50, -1], [ 10, 25, 50, "الكل"]],
             });
 
             $("input").change(function(){

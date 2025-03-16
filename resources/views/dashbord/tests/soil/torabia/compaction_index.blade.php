@@ -1,13 +1,5 @@
 @extends('dashbord.layouts.master')
-<style>
-    .btn:not(.btn-outline):not(.btn-dashed):not(.border-hover):not(.border-active):not(.btn-flush):not(.btn-icon).btn-sm,
-    .btn-group-sm>.btn:not(.btn-outline):not(.btn-dashed):not(.border-hover):not(.border-active):not(.btn-flush):not(.btn-icon) {
-        padding: 10px 12px !important;
-    }
-    #table1 {
-        font-size: small !important;
-    }
-</style>
+
 @section('toolbar')
     <div id="kt_app_toolbar_container" class="app-container container-xxl d-flex flex-stack">
         @php
@@ -197,20 +189,32 @@
                 ],
                 "order": [],
                 "dom": '<"row align-items-center"<"col-md-3"l><"col-md-6"f><"col-md-3"B>>rt<"row align-items-center"<"col-md-6"i><"col-md-6"p>>',
-                "buttons": [{
-                    "extend": 'excel',
-                  ////  "text": '<i class="bi bi-file-earmark-excel"></i>إكسل',
-                   // "className": 'btn btn-dark'
-                },
+                "buttons": [
                     {
-                        "extend": 'copy',
-                      //  "text": '<i class="bi bi-clipboard"></i>نسخ',
-                     //   "className": 'btn btn-primary'
+                        "extend": 'excel',
+                        "className": 'btn btn-sm btn-light ',
+                        "text": '<i class="bi bi-file-earmark-excel"></i>',
+                        "titleAttr": 'Excel'
                     },
                     {
                         "extend": 'print',
-                        //  "text": '<i class="bi bi-clipboard"></i>نسخ',
-                        //   "className": 'btn btn-primary'
+                        "className": 'btn btn-sm btn-light ',
+                        "text": '<i class="bi bi-printer"></i>',
+                        "titleAttr": 'Print'
+                    },
+                    {
+                        "extend": 'colvis',
+                        "className": 'btn btn-sm btn-light ',
+                        "text": '<i class="bi bi-columns"></i>',
+                        "titleAttr": 'Columns'
+                    },
+                    {
+                        "text": '<i class="bi bi-arrow-repeat"></i>',
+                        "className": 'btn btn-sm btn-light',
+                        "titleAttr": 'Reload',
+                        "action": function (e, dt, node, config) {
+                            dt.ajax.reload();
+                        }
                     }
                 ],
 
@@ -229,8 +233,8 @@
                     }
                 },
                 "lengthMenu": [
-                    [5, 10, 25, 50, -1],
-                    [5, 10, 25, 50, "الكل"]
+                    [ 10, 25, 50, -1],
+                    [ 10, 25, 50, "الكل"]
                 ],
             });
 

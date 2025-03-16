@@ -1,10 +1,5 @@
 @extends('dashbord.layouts.master')
-<style>
 
-    .btn:not(.btn-outline):not(.btn-dashed):not(.border-hover):not(.border-active):not(.btn-flush):not(.btn-icon).btn-sm, .btn-group-sm > .btn:not(.btn-outline):not(.btn-dashed):not(.border-hover):not(.border-active):not(.btn-flush):not(.btn-icon) {
-        padding: 10px 12px !important;
-    }
-</style>
 @section('toolbar')
     <div id="kt_app_toolbar_container" class="app-container container-xxl d-flex flex-stack">
         @php
@@ -34,11 +29,12 @@
         <div class="card shadow-sm" style="border-top: 3px solid #007bff;">
             @php
                 $headers=[
-                          'project.ID',
+                         // 'project.ID',
                           'project.project_code',
+                              'project.project_name',
                           'project.client',
                           'project.company',
-                          'project.project_name',
+
                           'client.action',
 
                         ];
@@ -65,7 +61,7 @@
 
     <script>
 
-        $(document).ready(function() {
+        $(document).ready(function () {
             //datatables
             table = $('#table1').DataTable({
                 "language": {
@@ -78,21 +74,21 @@
                     url: "{{ route('admin.project.index') }}",
                 },
                 "columns": [
-                    {data: 'id', className: 'text-center no-export'},
+                    // {data: 'id', className: 'text-center no-export'},
                     {data: 'project_code', className: 'text-center no-export'},
+                    {data: 'project_name', className: 'text-center'},
                     {data: 'client', className: 'text-center'},
                     {data: 'company', className: 'text-center'},
-                    {data: 'project_name', className: 'text-center'},
                     {data: 'action', name: 'action', orderable: false, className: 'text-center no-export'},
                 ],
                 "columnDefs": [
                     {
-                        "targets": [ 1,-1 ], //last column
+                        "targets": [1, -1], //last column
                         "orderable": false, //set not orderable
                     },
                     {
                         "targets": [1],
-                        "createdCell": function(td, cellData, rowData, row, col) {
+                        "createdCell": function (td, cellData, rowData, row, col) {
                             $(td).css({
                                 'font-weight': '600',
                                 'text-align': 'center',
@@ -103,8 +99,8 @@
                         }
                     },
                     {
-                        "targets": [3,4],
-                        "createdCell": function(td, cellData, rowData, row, col) {
+                        "targets": [3, 4],
+                        "createdCell": function (td, cellData, rowData, row, col) {
                             $(td).css({
                                 'font-weight': '600',
                                 'text-align': 'center',
@@ -114,7 +110,7 @@
                     },
                     {
                         "targets": [2],
-                        "createdCell": function(td, cellData, rowData, row, col) {
+                        "createdCell": function (td, cellData, rowData, row, col) {
                             $(td).css({
                                 'font-weight': '600',
                                 'text-align': 'center',
@@ -124,33 +120,36 @@
                         }
                     },
 
-                    {
-                        "targets": [5],
-                        "createdCell": function(td, cellData, rowData, row, col) {
-                            $(td).css({
-                                'font-weight': '600',
-                                'text-align': 'center',
-                                'color': 'red',
-                                'vertical-align': 'middle',
-                            });
-                        }
-                    },
-
-
 
                 ],
-                "order" : [],
+                "order": [],
                 "dom": '<"row align-items-center"<"col-md-3"l><"col-md-6"f><"col-md-3"B>>rt<"row align-items-center"<"col-md-6"i><"col-md-6"p>>',
                 "buttons": [
                     {
                         "extend": 'excel',
-                        "text": '<i class="bi bi-file-earmark-excel"></i>إكسل',
-                        "className": 'btn btn-dark'
+                        "className": 'btn btn-sm btn-light ',
+                        "text": '<i class="bi bi-file-earmark-excel"></i>',
+                        "titleAttr": 'Excel'
                     },
                     {
-                        "extend": 'copy',
-                        "text": '<i class="bi bi-clipboard"></i>نسخ',
-                        "className": 'btn btn-primary'
+                        "extend": 'print',
+                        "className": 'btn btn-sm btn-light ',
+                        "text": '<i class="bi bi-printer"></i>',
+                        "titleAttr": 'Print'
+                    },
+                    {
+                        "extend": 'colvis',
+                        "className": 'btn btn-sm btn-light ',
+                        "text": '<i class="bi bi-columns"></i>',
+                        "titleAttr": 'Columns'
+                    },
+                    {
+                        "text": '<i class="bi bi-arrow-repeat"></i>',
+                        "className": 'btn btn-sm btn-light',
+                        "titleAttr": 'Reload',
+                        "action": function (e, dt, node, config) {
+                            dt.ajax.reload();
+                        }
                     }
                 ],
 
@@ -168,18 +167,18 @@
                         "previous": "السابق"
                     }
                 },
-                "lengthMenu": [[5, 10, 25, 50, -1], [5, 10, 25, 50, "الكل"]],
+                "lengthMenu": [[10, 25, 50, -1], [10, 25, 50, "الكل"]],
             });
 
-            $("input").change(function(){
+            $("input").change(function () {
                 $(this).parent().parent().removeClass('has-error');
                 $(this).next().empty();
             });
-            $("textarea").change(function(){
+            $("textarea").change(function () {
                 $(this).parent().parent().removeClass('has-error');
                 $(this).next().empty();
             });
-            $("select").change(function(){
+            $("select").change(function () {
                 $(this).parent().parent().removeClass('has-error');
                 $(this).next().empty();
             });

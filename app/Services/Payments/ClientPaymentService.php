@@ -36,5 +36,26 @@ class ClientPaymentService
     {
         return  $this->clientPaymentRepository->find($id);
     }
+    /*****************************************************/
+    public function save_company_pay_dues($request,$id)
+    {
+
+        foreach ($request->num as $index => $num) {
+            $data['client_id']     = $id;
+            $data['created_by']    = auth()->user()->id;
+            $data['paid_date']     = $request->paid_date;
+            $data['payment_type']  = $request->payment_type;
+            $data['received_by']   = $request->received_by;
+            $data['num']           = $num;
+            $data['value']         = $request->value[$index];
+            $data['client_test_id']= $request->client_test_id[$index];
+
+         //   dd($data);
+            $this->clientPaymentRepository->create($data);
+        }
+
+
+
+    }
 
 }

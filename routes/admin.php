@@ -9,9 +9,11 @@ use App\Http\Controllers\Admin\ConfigAppController;
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\EmployeesController;
 
+use App\Http\Controllers\Admin\ExternalTestsController;
 use App\Http\Controllers\Admin\Finance\AccountsController;
 use App\Http\Controllers\Admin\Finance\ReceiptVoucherController;
 use App\Http\Controllers\Admin\GeneralSettingsController;
+use App\Http\Controllers\Admin\HelperController;
 use App\Http\Controllers\Admin\MasrofatController;
 use App\Http\Controllers\Admin\Payments\DuesController;
 use App\Http\Controllers\Admin\PopUpController;
@@ -90,6 +92,10 @@ Route::group(
             /********************************************************************************************************************************/
             Route::get('company/{id}/test', [CompanyController::class, 'tests'])->name('company_tests');
             Route::get('company/{id}/dues', [CompanyController::class, 'dues'])->name('company_dues');
+            Route::get('company/{id}/pay_dues', [CompanyController::class, 'pay_dues'])->name('company_pay_dues');
+            Route::get('company/{id}/account_statement', [CompanyController::class, 'account_statement'])->name('company_account_statement');
+            Route::get('company/{id}/company_prepare_amount', [CompanyController::class, 'company_prepare_amount'])->name('company_prepare_amount');
+            Route::post('company/{id}/save_payment_pay_dues', [CompanyController::class, 'save_payment_pay_dues'])->name('save_payment_pay_dues');
             Route::get('company/{id}/due_details/{due_id}', [CompanyController::class, 'due_details'])->name('company_due_details');
             /********************************************************************************************************************************/
             Route::resource('project', ProjectController::class);
@@ -166,10 +172,10 @@ Route::group(
 
             Route::resource('test', TestsController::class);
             Route::get('tests/delete/{id}', [TestsController::class, 'destroy'])->name('delete_test');
-            Route::get('tests/samples_test/{id}', [TestsController::class, 'samples_test'])->name('samples_test');
-            Route::post('tests/save_compaction_test/{id}', [TestsController::class, 'save_compaction_test'])->name('save_compaction_test');
-            Route::get('tests/soil_sample_report_details/{id}', [TestsController::class, 'soil_sample_report_details'])->name('soil_sample_report_details');
-            Route::get('tests/print_soil_sample_report/{id}', [TestsController::class, 'print_soil_sample_report'])->name('print_soil_sample_report');
+             // Route::get('tests/samples_test/{id}', [TestsController::class, 'samples_test'])->name('samples_test');
+            //Route::post('tests/save_compaction_test/{id}', [TestsController::class, 'save_compaction_test'])->name('save_compaction_test');
+            //Route::get('tests/soil_sample_report_details/{id}', [TestsController::class, 'soil_sample_report_details'])->name('soil_sample_report_details');
+            //Route::get('tests/print_soil_sample_report/{id}', [TestsController::class, 'print_soil_sample_report'])->name('print_soil_sample_report');
 
             /*************************************************************************************************/
             Route::get('setting/app_config', [ConfigAppController::class, 'index'])->name('app_config');
@@ -194,11 +200,16 @@ Route::group(
 
 
             //soil_test
-            Route::get('soil_test/soil/compaction/', [SoilTestController::class, 'soil_compaction_index'])->name('soil_compaction_soil_test');
-            Route::get('soil_test/soil/compaction/create/', [SoilTestController::class, 'soil_compaction_create'])->name('soil_compaction_create_soil_test');
-            Route::get('soil_test/soil/compaction/edit/{id}/', [SoilTestController::class, 'soil_compaction_edit'])->name('soil_compaction_edit_soil_test');
-            Route::post('soil_test/soil/compaction/save/', [SoilTestController::class, 'soil_compaction_store'])->name('soil_compaction_store_soil_test');
-            Route::post('soil_test/soil/compaction/update/{id}/', [SoilTestController::class, 'soil_compaction_update'])->name('soil_compaction_update_soil_test');
+            Route::get('soil_test/soil/compaction/', [SoilEarthTestController::class, 'soil_compaction_index'])->name('soil_compaction_soil_test');
+            Route::get('soil_test/soil/compaction/create/', [SoilEarthTestController::class, 'soil_compaction_create'])->name('soil_compaction_create_soil_test');
+            Route::get('soil_test/soil/compaction/edit/{id}/', [SoilEarthTestController::class, 'soil_compaction_edit'])->name('soil_compaction_edit_soil_test');
+            Route::post('soil_test/soil/compaction/save/', [SoilEarthTestController::class, 'soil_compaction_store'])->name('soil_compaction_store_soil_test');
+            Route::post('soil_test/soil/compaction/update/{id}/', [SoilEarthTestController::class, 'soil_compaction_update'])->name('soil_compaction_update_soil_test');
+            Route::get('soil_test/soil/compaction/samples_test/{id}', [SoilEarthTestController::class, 'soil_compaction_test'])->name('samples_test');
+            Route::post('soil_test/soil/compaction/save_compaction_test/{id}', [SoilEarthTestController::class, 'save_soil_compaction_test'])->name('save_compaction_test');
+            Route::get('soil_test/soil/compaction/soil_sample_report_details/{id}', [SoilEarthTestController::class, 'soil_sample_report_details'])->name('soil_sample_report_details');
+            Route::get('soil_test/soil/compaction/print_soil_sample_report/{id}', [SoilEarthTestController::class, 'print_soil_sample_report'])->name('print_soil_sample_report');
+            Route::get('soil_test/soil/soil/test_dues/{id}', [SoilEarthTestController::class, 'soil_test_dues'])->name('soil_test_dues');
             //hasa_test
             Route::get('soil_test/hasa/compaction/', [SoilTestController::class, 'hasa_compaction_index'])->name('hasa_compaction_soil_test');
             Route::get('soil_test/hasa/compaction/create/', [SoilTestController::class, 'hasa_compaction_create'])->name('hasa_compaction_create_soil_test');
@@ -215,7 +226,7 @@ Route::group(
             Route::post('soil_test/{id}/earthy/compaction', [SoilEarthTestController::class, 'save_compaction_test'])->name('save_earth_compaction_test');
             Route::get('soil_test/{id}/earthy/compaction/details', [SoilEarthTestController::class, 'compaction_test_details'])->name('earth_compaction_test_details');
             Route::get('soil_test/{id}/earthy/compaction/print', [SoilEarthTestController::class, 'print_compaction_test'])->name('print_earth_compaction_test');
-            Route::get('tests/soil/test_dues/{id}', [SoilTestController::class, 'test_dues'])->name('test_dues');
+            Route::get('tests/soil/test_dues/{id}', [SoilTestController::class, 'test_dues'])->name('hasa_test_dues');
             /**********************************************************************************************************/
             Route::group(['prefix' => 'Finance', 'as' => 'finance.'], function () {
                 Route::resource('accounts', AccountsController::class);
@@ -229,15 +240,26 @@ Route::group(
             Route::post('/update_popup_setting', [PopUpController::class, 'update_popup_setting'])->name('update_popup_setting');
             Route::post('/delete_popup_setting', [PopUpController::class, 'delete_popup_setting'])->name('delete_popup_setting');
             /**********************************************************************************************************/
-
             Route::group(['prefix' => 'Payment', 'as' => 'payment.'], function () {
                 Route::resource('dues', DuesController::class);
+                Route::get('received_payments/{type?}', [DuesController::class,'received_payments'])->name('received_payments');
+                Route::get('clients_account_statement',[DuesController::class,'clients_account_statement'])->name('clients_account_statement');
+                Route::get('financial_reports',[DuesController::class,'financial_reports'])->name('financial_reports');
+                Route::get('get_financial_reports',[DuesController::class,'get_financial_reports'])->name('get_financial_reports');
+                Route::get('get_company_statment',[DuesController::class,'get_company_statment'])->name('get_company_statment');
                 Route::get('dues/payment/{id}', [DuesController::class, 'pay_dues'])->name('pay_dues');
                 Route::get('dues/payment/account_statement/{id}', [DuesController::class, 'account_statement'])->name('account_statement');
                 Route::post('dues/payment/{id}', [DuesController::class, 'save_pay_dues'])->name('save_pay_dues');
                 Route::get('dues/payment/print_invoice/{id}', [DuesController::class, 'getInvoiceForPrint'])->name('print_invoice');
                 Route::get('dues/payment/print_account_statement/{id}', [DuesController::class, 'print_account_statement'])->name('print_account_statement');
+                Route::get('dues/payment/print_client_account_statment_invoice/{id}/{from_date?}/{to_date?}', [DuesController::class, 'print_client_account_statment_invoice'])->name('print_client_account_statment_invoice');
             });
+            /***********************************************************************************************************/
+
+            Route::resource('external_test',ExternalTestsController::class);
+            Route::post('save_client_popup',[HelperController::class,'save_client_popup'])->name('save_client_popup');
+            Route::post('save_company_popup',[HelperController::class,'save_company_popup'])->name('save_company_popup');
+            Route::post('save_project_popup',[HelperController::class,'save_project_popup'])->name('save_project_popup');
         });
     }
 );

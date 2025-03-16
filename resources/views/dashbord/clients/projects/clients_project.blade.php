@@ -5,39 +5,46 @@
 @endsection
 @section('content')
 
-    @include('dashbord.clients.client_nav')
-
     <div id="kt_app_content" class="app-content flex-column-fluid">
-        <div id="kt_app_content_container" class="t_container">
 
+        <div id="kt_app_content_container" class="app-container container-xxl">
 
-            <div class="card shadow-sm" style="border-top: 3px solid #007bff;">
-                <div class="card-header" style="background-color: #f8f9fa;">
-                    <h3 class="card-title"></i> {{trans('clients.client_projects')}}</h3>
-                    <div class="card-toolbar">
-                        <div class="text-center">
-                        </div>
-                    </div>
-                </div>
+            <div class="card mb-6 mb-xl-9">
+                <div class="card-body pt-9 pb-0">
 
-                <div class="card-body" style="padding-left: 0px !important;">
-                    <div class="col-md-12 row">
-                        <div class="col-md-8">
-                            @include('dashbord.clients.projects.clients_project_form')
-                            @include('dashbord.clients.projects.clients_project_data')
-                        </div>
-                        <div class="col-md-4">
-                            @include('dashbord.clients.client_details')
-
-                        </div>
-
-                    </div>
+                    @include('dashbord.clients.details')
+                    @include('dashbord.clients.client_nav')
 
                 </div>
             </div>
-        </div>
 
-    </div>
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-title fs-3 fw-bold">{{trans('payment.pay_dues')}}</div>
+                </div>
+                <form action="{{ route('admin.company_store_project',$all_data->id) }}" method="post" enctype="multipart/form-data" id="store_form">
+                    @csrf
+                    <div class="card-body">
+
+                        @include('dashbord.clients.projects.clients_project_form')
+
+                    </div>
+
+                    <div class="card-footer d-flex justify-content-end py-6">
+                        <button type="reset"
+                                class="btn btn-light btn-active-light-primary me-2">{{trans('payment.discard')}}</button>
+                        <button type="submit" class="btn btn-primary">{{trans('payment.Save')}}</button>
+                    </div>
+
+                </form>
+            </div>
+
+            <div class="card" style="margin-top:10px">
+                @include('dashbord.clients.projects.clients_project_data')
+
+            </div>
+
+        </div>
 
     </div>
 

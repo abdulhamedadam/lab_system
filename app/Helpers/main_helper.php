@@ -126,7 +126,7 @@ function get_session_attendance($member_id,$additional_sub_id)
 /**************************************************************/
 function get_app_config_data($key){
     $data=\App\Models\AppConfig::where('key',$key)->first();
-    return $data->value;
+    return $data->value ?? ' ';
 }
 
 /***************************************************************/

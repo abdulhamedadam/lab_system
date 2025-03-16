@@ -83,7 +83,7 @@
                                     <tbody class="fs-6">
                                         @foreach ($dues_data as $record)
                                             <tr>
-                                                <td>{{ get_app_config_data(in_array($record->test->test_type, ['soil', 'hasa']) ? 'soil_prefix' : $record->test->test_type . '_prefix') . $record->test->test_code }}
+                                                <td>{{ get_app_config_data(in_array($record->test_data->test_type, ['soil', 'hasa']) ? 'soil_prefix' : $record->test_data->test_type . '_prefix') . $record->test_data->test_code }}
                                                 </td>
                                                 <td>{{ $record->test_name }}</td>
                                                 <td>{{ $record->test_value }}</td>

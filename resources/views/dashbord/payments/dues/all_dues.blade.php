@@ -32,7 +32,11 @@
             </ul>
 
         </div>
+        <div class="d-flex align-items-center gap-2 gap-lg-3">
 
+            {{ AddButton(route('admin.payment.dues.create'))}}
+
+        </div>
     </div>
 
 @endsection
@@ -130,9 +134,32 @@
                 "order": [],
                 "dom": '<"row align-items-center"<"col-md-3"l><"col-md-6"f><"col-md-3"B>>rt<"row align-items-center"<"col-md-6"i><"col-md-6"p>>',
                 "buttons": [
-                    { "extend": 'excel' },
-                    { "extend": 'copy' },
-                    { "extend": 'print' }
+                    {
+                        "extend": 'excel',
+                        "className": 'btn btn-sm btn-light ',
+                        "text": '<i class="bi bi-file-earmark-excel"></i>',
+                        "titleAttr": 'Excel'
+                    },
+                    {
+                        "extend": 'print',
+                        "className": 'btn btn-sm btn-light ',
+                        "text": '<i class="bi bi-printer"></i>',
+                        "titleAttr": 'Print'
+                    },
+                    {
+                        "extend": 'colvis',
+                        "className": 'btn btn-sm btn-light ',
+                        "text": '<i class="bi bi-columns"></i>',
+                        "titleAttr": 'Columns'
+                    },
+                    {
+                        "text": '<i class="bi bi-arrow-repeat"></i>',
+                        "className": 'btn btn-sm btn-light',
+                        "titleAttr": 'Reload',
+                        "action": function (e, dt, node, config) {
+                            dt.ajax.reload();
+                        }
+                    }
                 ],
                 "footerCallback": function(row, data, start, end, display) {
                     var api = this.api();

@@ -7,6 +7,7 @@ use App\Http\Requests\Admin\company\SaveRequest;
 use App\Http\Requests\Admin\projects\CompanyClientRequest;
 use App\Interfaces\BasicRepositoryInterface;
 use App\Models\Admin\AreaSetting;
+use App\Models\Admin\Employee;
 use App\Models\Admin\Test;
 use App\Models\Clients;
 use App\Models\ClientsCompanies;
@@ -15,6 +16,8 @@ use App\Models\ClientTestPayment;
 use App\Models\ClientTests;
 use App\Services\ClientService;
 use App\Services\CompanyService;
+use App\Services\ExternalTestsService;
+use App\Services\Payments\ClientPaymentService;
 use App\Services\Payments\DuesService;
 use App\Services\ProjectsService;
 use App\Traits\ImageProcessing;
@@ -38,7 +41,7 @@ class CompanyController extends Controller
     protected $projectsService;
     protected $TestsRepository;
 
-    public function __construct(BasicRepositoryInterface $basicRepository, CompanyService $companyService, ProjectsService $projectsService, DuesService $duesService)
+    public function __construct(BasicRepositoryInterface $basicRepository, CompanyService $companyService, ProjectsService $projectsService, DuesService $duesService,ExternalTestsService $externalTestsService)
     {
         $this->AreasSettingRepository = createRepository($basicRepository, new AreaSetting());
         $this->ClientsRepository = createRepository($basicRepository, new Clients());
@@ -48,14 +51,18 @@ class CompanyController extends Controller
         $this->companyService   = $companyService;
         $this->projectsService   = $projectsService;
         $this->duesService   = $duesService;
+        $this->externalTestsService   = $externalTestsService;
+
     }
 
     public function index(Request $request)
     {
         if ($request->ajax()) {
-            $allData = ClientsCompanies::select('*');
+            $allData = ClientsCompanies::select('*')->OrderBy('id','desc')->get();
             return Datatables::of($allData)
-
+                ->editColumn('name', function ($row) {
+                    return '<a href="'.route('admin.company_projects', $row->id).'" class="text-primary fw-bold">'.$row->name.'</a>';
+                })
                 ->addColumn('action', function ($row) {
                     return '
                         <div class="btn-group btn-group-sm">
@@ -71,7 +78,7 @@ class CompanyController extends Controller
                         </div>
                     ';
                 })
-                ->rawColumns(['image', 'action'])
+                ->rawColumns(['image', 'action','name'])
                 ->make(true);
         }
         return view($this->admin_view . '.index');
@@ -148,7 +155,7 @@ class CompanyController extends Controller
         $data['company_clients'] =  $this->ClientsRepository->getAll();
         $data['tests_data']      =  $this->TestsRepository->getBywhere(['company_id' => $id]);
         $data['all_dues']        =  ClientTests::where('client_id', $id)->sum('test_value');
-        $data['paid_dues']      = ClientTests::where('client_id', $id)
+        $data['paid_dues']       =  ClientTests::where('client_id', $id)
             ->with('client_test_payment')
             ->get()
             ->sum(function ($test) {
@@ -216,6 +223,8 @@ class CompanyController extends Controller
         $data['projects_data']   =  $this->ProjectsRepository->getBywhere(['company_id' => $id]);
         $data['company_clients'] =  $this->ClientsRepository->getAll();
         $data['tests_data']      =  $this->TestsRepository->getBywhere(['company_id' => $id]);
+        $data['external_test']   =  $this->externalTestsService->get_company_test($id);
+      //  dd($data['external_test']);
         $data['dues_data']       = $this->duesService->get_company_dues($id);
         // dd( $data['dues_data']);
         $data['all_dues']        =  ClientTests::where('client_id', $id)->sum('test_value');
@@ -260,4 +269,94 @@ class CompanyController extends Controller
         // dd($data);
         return view($this->admin_view . '.dues.dues_payment', $data);
     }
+    /*****************************************************/
+    public function pay_dues($id)
+    {
+        $data['all_data']        =  $this->CompanyRepository->getById($id);
+        $data['project_code']    =  $this->ProjectsRepository->getLastFieldValue('project_code');
+        $data['clients_data']    =  $this->ClientsRepository->getAll();
+        $data['projects_data']   =  $this->ProjectsRepository->getBywhere(['company_id' => $id]);
+        $data['company_clients'] =  $this->ClientsRepository->getAll();
+        $data['tests_data']      =  $this->TestsRepository->getBywhere(['company_id' => $id]);
+        $data['dues_data']       = $this->duesService->get_company_dues($id);
+        // dd( $data['dues_data']);
+        $data['all_dues']        =  ClientTests::where('client_id', $id)->sum('test_value');
+        $data['paid_dues']      = ClientTests::where('client_id', $id)
+            ->with('client_test_payment')
+            ->get()
+            ->sum(function ($test) {
+                return $test->client_test_payment->sum('value');
+            });
+        return view($this->admin_view.'.dues.pay_dues',$data);
+    }
+    /*****************************************************/
+    public function company_prepare_amount(Request $request, $id)
+    {
+        $dues = $this->duesService->get_unfinished_dues($id);
+        $amountToPay = $request->amount;
+        $paidDues = [];
+
+        $data['invoice_num'] = ClientTestPayment::latest('num')->value('num') + 1;
+        foreach ($dues as $due) {
+            $totalPaid = $due->client_test_payment->sum('value');
+            $remaining = $due->test_value - $totalPaid;
+
+            if ($amountToPay > 0 && $remaining > 0) {
+                if ($amountToPay >= $remaining) {
+                    $due->pay_now = $remaining;
+                    $due->remain_after = 0;
+                    $amountToPay -= $remaining;
+                } else {
+                    $due->pay_now = $amountToPay;
+                    $due->remain_after = $remaining - $amountToPay;
+                    $amountToPay = 0;
+                }
+
+                if ($due->pay_now > 0) {
+                    $paidDues[] = $due;
+                }
+            }
+        }
+
+        $data['dues'] = $paidDues;
+     //   dd($data['dues']);
+        $data['amount'] = $request->amount;
+        $data['all_emps']=Employee::all();
+        return view($this->admin_view . '.dues.prepared_from', $data);
+    }
+    /*****************************************************/
+    public function save_payment_pay_dues(Request $request,$id,ClientPaymentService $clientPaymentService)
+    {
+        try {
+            $clientPaymentService->save_company_pay_dues($request,$id);
+            toastr()->addSuccess(trans('forms.success'));
+            return redirect()->route('admin.company_projects', $id);
+
+        } catch (\Exception $e) {
+            dd($e->getMessage());
+            return redirect()->back()->withErrors(['error' => $e->getMessage()]);
+        }
+    }
+    /*****************************************************/
+    public function account_statement($id)
+    {
+        $data['all_data']        =  $this->CompanyRepository->getById($id);
+        $data['project_code']    =  $this->ProjectsRepository->getLastFieldValue('project_code');
+        $data['clients_data']    =  $this->ClientsRepository->getAll();
+        $data['projects_data']   =  $this->ProjectsRepository->getBywhere(['company_id' => $id]);
+        $data['company_clients'] =  $this->ClientsRepository->getAll();
+        $data['tests_data']      =  $this->TestsRepository->getBywhere(['company_id' => $id]);
+        $data['dues_data']       = $this->duesService->get_company_dues($id);
+        $data['all_dues']        =  ClientTests::where('client_id', $id)->sum('test_value');
+        $data['paid_dues']      = ClientTests::where('client_id', $id)
+            ->with('client_test_payment')
+            ->get()
+            ->sum(function ($test) {
+                return $test->client_test_payment->sum('value');
+            });
+        //dd($data['dues_data']);
+        return view($this->admin_view.'.dues.account_statement',$data);
+    }
+
+
 }

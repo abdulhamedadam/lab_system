@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Admin\tests\SaveCompactionTesrRequest;
 use App\Http\Requests\Admin\tests\SaveRequest;
 use App\Http\Requests\Admin\tests\SaveSoilTestRequest;
 use App\Interfaces\BasicRepositoryInterface;
@@ -46,139 +47,7 @@ class SoilTestController extends Controller
         $this->testsRepository   = createRepository($basicRepository, new Test());
         $this->testsService   = $testsService;
     }
-    /***************************************************************/
-    ////////////////////////////soil_compaction///////////////////
-    public function soil_compaction_index(Request $request)
-    {
-        //  $allData = Test::with(['company', 'client', 'project', 'user'])->where('test_type',$type)->where('sub_test_type',$test)->orderBy('id','desc')->get();
 
-        //   dd($allData);
-        if ($request->ajax()) {
-
-            $allData = Test::with(['company', 'client', 'project', 'user'])->where('test_type', 'soil')->where('sub_test_type', 'compaction')->orderBy('id', 'desc')->get();
-            return DataTables::of($allData)
-                ->editColumn('client', function ($row) {
-                    return $row->client ? $row->client->name : 'N/A';
-                })
-                ->editColumn('test_code', function ($row) {
-                    return get_app_config_data('soil_prefix') . $row->test_code;
-                })
-                ->editColumn('company', function ($row) {
-                    return $row->company ? $row->company->name : 'N/A';
-                })
-                ->editColumn('project', function ($row) {
-                    return $row->project ? $row->project->project_name : 'N/A';
-                })
-
-                ->editColumn('talab_title', function ($row) {
-                    return $row->talab_title;
-                })
-                ->editColumn('talab_image', function ($row) {
-                    if ($row->talab_image) {
-                        $imagePath = asset('images/' . $row->talab_image);
-                        return '<img src="' . $imagePath . '" alt="Employee Image" class="img-thumbnail" style="width: 50px; height: 50px;" onclick="showImagePopup(\'' . $imagePath . '\')">';
-                    } else {
-                        return 'N\A';
-                    }
-                })
-                ->editColumn('talab_date', function ($row) {
-                    return $row->talab_date;
-                })
-                ->editColumn('talab_end_date', function ($row) {
-                    return $row->talab_end_date;
-                })
-                ->editColumn('sample_number', function ($row) {
-                    return $row->sample_number;
-                })
-                ->editColumn('status', function ($row) {
-                    $status_arr = [
-                        'pending' => trans('tests.pending'),
-                        'received' => trans('tests.received'),
-                        'test_progress' => trans('tests.test_progress'),
-                        'test_done' => trans('tests.test_done'),
-                        'reports_progress' => trans('tests.reports_progress'),
-                        'reports_done' => trans('tests.reports_done')
-                    ];
-                    return $status_arr[$row->status];
-                })
-                ->addColumn('action', function ($row) {
-                    return '
-                        <div class="btn-group btn-group-sm">
-                            <a href="' . route('admin.soil_compaction_edit_soil_test', [$row->id]) . '" class="btn btn-sm btn-primary" title="' . trans('tests.edit') . '" style="font-size: 16px;">
-                                <i class="bi bi-pencil-square"></i>
-                            </a>
-                            <a onclick="return confirm(\'Are You Sure To Delete?\')"  href="' . route('admin.delete_test', $row->id) . '"  class="btn btn-sm btn-danger" title="' . trans('tests.delete') . '" style="font-size: 16px;" onclick="return confirm(\'' . trans('masrofat.confirm_delete') . '\')">
-                                <i class="bi bi-trash3"></i>
-                            </a>
-                            <a href="' . route('admin.samples_test', $row->id) . '" class="btn btn-sm btn-success" title="' . trans('tests.samples_test') . '" style="font-size: 16px;">
-                            <i class="bi bi-clipboard-check"></i>
-                                </a>
-                            <a href="' . route('admin.print_soil_sample_report', $row->id) . '" class="btn btn-sm btn-dark" title="' . trans('tests.print_samples_test') . '" style="font-size: 16px;">
-                                <i class="bi bi-printer ms-1"></i>
-                            </a>
-
-                        </div>';
-                })
-                ->rawColumns(['action', 'talab_image'])
-                ->make(true);
-        }
-        return view('dashbord.tests.soil.torabia.compaction_index');
-    }
-    /****************************************************************/
-    public function soil_compaction_create()
-    {
-        $data['test_code'] = $this->testsRepository->getLastFieldValue('test_code');
-        $data['wared_number'] = $this->testsRepository->getLastFieldValue('wared_number');
-        $data['talab_number'] = $this->testsRepository->getLastFieldValue('talab_number');
-        $data['book_number'] = $this->testsRepository->getLastFieldValue('book_number');
-        $data['clients']      = $this->clientsRepository->getAll();
-        $data['companies']      = $this->companyRepository->getAll();
-        $data['projects'] = $this->projectsRepository->getAll();
-        $data['employees'] = $this->EmployeeRepository->getAll();
-        // $data['type'] = $type;
-        // $data['test'] = $test;
-        return view('dashbord.tests.soil.torabia.compaction_form', $data);
-    }
-    /****************************************************************/
-    public function soil_compaction_store(SaveSoilTestRequest $request)
-    {
-        try {
-            // dd($request->all());
-
-            $this->testsService->store($request, 'soil', 'compaction');
-            toastr()->addSuccess(trans('forms.success'));
-            return redirect()->route('admin.soil_compaction_soil_test');
-        } catch (\Exception $e) {
-            dd($e->getMessage());
-            return redirect()->back()->withErrors(['error' => $e->getMessage()]);
-        }
-    }
-    /**************************************************************/
-    public function soil_compaction_edit($id)
-    {
-        $data['all_data']     = $this->testsRepository->getById($id);
-        $data['clients']      = $this->clientsRepository->getAll();
-        $data['companies']    = $this->companyRepository->getAll();
-        $data['projects']     = $this->projectsRepository->getAll();
-        $data['employees'] = $this->EmployeeRepository->getAll();
-        //  dd($data['employees']);
-        $data['type'] = 'soil';
-        $data['test'] = 'compaction';
-        return view('dashbord.tests.soil.torabia.compaction_edit', $data);
-    }
-    /**************************************************************/
-    public function soil_compaction_update(SaveSoilTestRequest $request, $id)
-    {
-        try {
-            // dd($request->all());
-            $this->testsService->update($request, $id, 'soil', 'compaction');
-            toastr()->addSuccess(trans('forms.success'));
-            return redirect()->route('admin.soil_compaction_soil_test');
-        } catch (\Exception $e) {
-            dd($e->getMessage());
-            return redirect()->back()->withErrors(['error' => $e->getMessage()]);
-        }
-    }
     ////////////////////////////hasa_compaction///////////////////
     public function hasa_compaction_index(Request $request)
     {
@@ -311,7 +180,6 @@ class SoilTestController extends Controller
             return redirect()->back()->withErrors(['error' => $e->getMessage()]);
         }
     }
-
     /***************************************************************/
     public function test_dues($id, DuesService $duesService)
     {

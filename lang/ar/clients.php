@@ -59,4 +59,6 @@
   'money_track' => 'money_track',
   'update' => 'update',
   'm' => 'm',
+  'client_companies' => 'client_companies',
+  'add_new' => 'add_new',
 );

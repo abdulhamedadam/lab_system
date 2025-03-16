@@ -15,4 +15,6 @@
   'actions' => 'actions',
   'edit' => 'edit',
   'delete' => 'delete',
+  'create_external_test' => 'create_external_test',
+  'test_code' => 'test_code',
 );

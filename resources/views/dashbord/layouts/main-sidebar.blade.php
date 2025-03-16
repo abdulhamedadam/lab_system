@@ -162,6 +162,16 @@
                     </a>
                 </div>
 
+                <div class="menu-item">
+                    <a class="menu-link {{ request()->routeIs(['admin.external_test.create']) ? 'active' : '' }}"
+                       href="{{ route('admin.external_test.create') }}">
+                        <span class="svg-icon svg-icon-2" style="margin-left: 5px">
+                            <i class="bi bi-clipboard-data text-danger fs-5"></i>
+                        </span>
+                        <span class="menu-title">{{ trans('sidebar.external_test') }}</span>
+                    </a>
+                </div>
+
                 {{--  <div class="menu-item">
                      <a class="menu-link {{ request()->routeIs(['admin.test.index']) ? 'active' : '' }}"
                         href="{{ route('admin.test.index') }}">
@@ -282,24 +292,57 @@
                 <!------------------------------------------------------------->
 
                 <div class="menu-item">
-                    <a class="menu-link {{ request()->routeIs(['admin.payment.dues.index']) ? 'active' : '' }}"
-                        href="{{ route('admin.payment.dues.index') }}">
-                        <span class="svg-icon svg-icon-2" style="margin-left: 5px">
-                            <i class="bi bi-cash-stack text-danger"></i>
-                        </span>
+                    <a class="menu-link {{ request()->routeIs('admin.payment.dues.index') ? 'active' : '' }}"
+                       href="{{ route('admin.payment.dues.index') }}">
+        <span class="svg-icon svg-icon-2" style="margin-left: 5px">
+            <i class="bi bi-credit-card text-danger fs-5"></i>
+        </span>
                         <span class="menu-title">{{ trans('sidebar.dues') }}</span>
                     </a>
                 </div>
-                {{-- المصروفات--}}
+
                 <div class="menu-item">
-                    <a class="menu-link {{ request()->routeIs(['admin.masrofat.index']) ? 'active' : '' }}"
+                    <a class="menu-link {{ request()->routeIs('admin.payment.received_payments') ? 'active' : '' }}"
+                       href="{{ route('admin.payment.received_payments') }}">
+        <span class="svg-icon svg-icon-2" style="margin-left: 5px">
+            <i class="bi bi-bank text-danger fs-5"></i>
+        </span>
+                        <span class="menu-title">{{ trans('sidebar.received_payments') }}</span>
+                    </a>
+                </div>
+
+                <div class="menu-item">
+                    <a class="menu-link {{ request()->routeIs('admin.payment.clients_account_statement') ? 'active' : '' }}"
+                       href="{{ route('admin.payment.clients_account_statement') }}">
+        <span class="svg-icon svg-icon-2" style="margin-left: 5px">
+            <i class="bi bi-clipboard-data text-danger fs-5"></i>
+        </span>
+                        <span class="menu-title">{{ trans('sidebar.clients_account_statement') }}</span>
+                    </a>
+                </div>
+
+                {{-- Expenses --}}
+                <div class="menu-item">
+                    <a class="menu-link {{ request()->routeIs('admin.masrofat.index') ? 'active' : '' }}"
                        href="{{ route('admin.masrofat.index') }}">
-                        <span class="svg-icon svg-icon-2" style="margin-left: 5px">
-                            <i class="bi bi-cash-coin text-danger fs-5"></i>
-                        </span>
+        <span class="svg-icon svg-icon-2" style="margin-left: 5px">
+            <i class="bi bi-cash-coin text-danger fs-5"></i>
+        </span>
                         <span class="menu-title">{{ trans('sidebar.masrofat') }}</span>
                     </a>
                 </div>
+
+                {{-- Financial Reports --}}
+                <div class="menu-item">
+                    <a class="menu-link {{ request()->routeIs('admin.payment.financial_reports') ? 'active' : '' }}"
+                       href="{{ route('admin.payment.financial_reports') }}">
+        <span class="svg-icon svg-icon-2" style="margin-left: 5px">
+            <i class="bi bi-file-earmark-bar-graph text-danger fs-5"></i>
+        </span>
+                        <span class="menu-title">{{ trans('sidebar.financial_reports') }}</span>
+                    </a>
+                </div>
+
             </div>
         </div>
     </div>

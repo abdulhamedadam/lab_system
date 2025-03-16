@@ -113,6 +113,29 @@
 
                                     </tr>
                                 @endforeach
+
+                                @foreach($external_test as $test)
+
+                                    <tr>
+                                        <td>{{$test->test_code }}</td>
+                                        <td>{{ optional($test->client)->name }}</td>
+                                        <td>{{ optional($test->project)->project_name }}</td>
+                                        <td>{{ $test->total_cost }}</td>
+                                        <td>{{ $test->talab_image ?? '-'}}</td>
+                                        <td>{{ $test->talab_title ?? $test->test_type}}</td>
+                                        <td>{{ $test->report_date }}</td>
+                                        <td>{{ $test->report_number }}</td>
+                                        <td>{{ $test->book_number ?? '-' }}</td>
+                                        <td>{{ $test->status ?? '-' }}</td>
+                                        <td>
+                                            <a href="#" class="btn btn-sm btn-light btn-active-light-primary"
+                                               target="_blank">
+                                                {{ trans('tests.view') }}
+                                            </a>
+                                        </td>
+
+                                    </tr>
+                                @endforeach
                             </tbody>
                         </table>
                         <!--end::Table-->

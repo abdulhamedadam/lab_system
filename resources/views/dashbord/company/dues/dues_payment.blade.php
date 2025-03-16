@@ -14,9 +14,10 @@
         </thead>
         <tbody class="fs-6">
         @foreach($dues as $record)
-
+{{--             @dd($dues)--}}
             <tr>
-                <td>{{ get_app_config_data(in_array($record->client_test->test->test_type, ['soil', 'hasa']) ? 'soil_prefix' : $record->client_test->test->test_type . '_prefix') . $record->client_test->test->test_code }}</td>
+{{--                <td>{{ get_app_config_data(in_array($record->client_test->test->test_type, ['soil', 'hasa']) ? 'soil_prefix' : $record->client_test->test->test_type . '_prefix') . $record->client_test->test->test_code }}</td>--}}
+                <td>{{'INV'.$record->num}}</td>
                 <td>{{$record->value}}</td>
                 <td>{{$record->paid_date}}</td>
                 <td>{{$record->payment_type}}</td>

@@ -1,10 +1,5 @@
 @extends('dashbord.layouts.master')
-<style>
 
-    .btn:not(.btn-outline):not(.btn-dashed):not(.border-hover):not(.border-active):not(.btn-flush):not(.btn-icon).btn-sm, .btn-group-sm > .btn:not(.btn-outline):not(.btn-dashed):not(.border-hover):not(.border-active):not(.btn-flush):not(.btn-icon) {
-        padding: 10px 12px !important;
-    }
-</style>
 @section('toolbar')
     <div id="kt_app_toolbar_container" class="app-container container-xxl d-flex flex-stack">
         @php
@@ -34,7 +29,7 @@
         <div class="card shadow-sm" style="border-top: 3px solid #007bff;">
             @php
                 $headers=[
-                          'company.ID',
+                        //  'company.ID',
                           'company.company_code',
                           'company.name',
                           'client.email',
@@ -80,7 +75,7 @@
                     url: "{{ route('admin.company.index') }}",
                 },
                 "columns": [
-                    {data: 'id', className: 'text-center no-export'},
+               //     {data: 'id', className: 'text-center no-export'},
                     {data: 'company_code', className: 'text-center no-export'},
                     {data: 'name', className: 'text-center'},
                     {data: 'email', className: 'text-center'},
@@ -148,13 +143,29 @@
                 "buttons": [
                     {
                         "extend": 'excel',
-                        "text": '<i class="bi bi-file-earmark-excel"></i>إكسل',
-                        "className": 'btn btn-dark'
+                        "className": 'btn btn-sm btn-light ',
+                        "text": '<i class="bi bi-file-earmark-excel"></i>',
+                        "titleAttr": 'Excel'
                     },
                     {
-                        "extend": 'copy',
-                        "text": '<i class="bi bi-clipboard"></i>نسخ',
-                        "className": 'btn btn-primary'
+                        "extend": 'print',
+                        "className": 'btn btn-sm btn-light ',
+                        "text": '<i class="bi bi-printer"></i>',
+                        "titleAttr": 'Print'
+                    },
+                    {
+                        "extend": 'colvis',
+                        "className": 'btn btn-sm btn-light ',
+                        "text": '<i class="bi bi-columns"></i>',
+                        "titleAttr": 'Columns'
+                    },
+                    {
+                        "text": '<i class="bi bi-arrow-repeat"></i>',
+                        "className": 'btn btn-sm btn-light',
+                        "titleAttr": 'Reload',
+                        "action": function (e, dt, node, config) {
+                            dt.ajax.reload();
+                        }
                     }
                 ],
 
@@ -172,7 +183,7 @@
                         "previous": "السابق"
                     }
                 },
-                "lengthMenu": [[5, 10, 25, 50, -1], [5, 10, 25, 50, "الكل"]],
+                "lengthMenu": [[ 10, 25, 50, -1], [ 10, 25, 50, "الكل"]],
             });
 
             $("input").change(function(){

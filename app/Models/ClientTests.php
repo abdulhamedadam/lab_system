@@ -41,5 +41,10 @@ class ClientTests extends Model
     {
         return $this->belongsTo(Test::class,'test_id','id');
     }
+    /***********************************************/
+    public function external_test()
+    {
+        return $this->belongsTo(ExternalTests::class,'test_id','id');
+    }
 
 }

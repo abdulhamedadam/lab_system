@@ -89,7 +89,7 @@
 @endsection
 @section('content')
 
-    @include('dashbord.tests.nav')
+    @include('dashbord.tests.soil.hasa.nav')
 
     <div id="kt_app_content" class="app-content flex-column-fluid">
         <div id="kt_app_content_container" class="t_container">

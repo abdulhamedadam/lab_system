@@ -66,7 +66,6 @@
 </div> --}}
 
 
-
 <div class="d-flex flex-wrap flex-sm-nowrap mb-6">
 
     <div
@@ -113,7 +112,8 @@
 
             <div class="d-flex mb-4">
 
-                <a href="{{route('admin.payment.pay_dues',$all_data->id)}}" class="btn btn-sm btn-primary me-3">{{trans('payment.add_pay')}}</a>
+                <a href="{{route('admin.payment.pay_dues',$all_data->id)}}"
+                   class="btn btn-sm btn-primary me-3">{{trans('payment.add_pay')}}</a>
 
 
             </div>
@@ -129,7 +129,7 @@
 
                     <div class="d-flex align-items-center">
                         <div
-                            class="fs-4 fw-bold">{{optional($all_data->test_data)->talab_date}}</div>
+                            class="fs-4 fw-bold">{{optional($all_data->test_data)->talab_date ?? '--/--/----'}}</div>
                     </div>
 
                     <div
@@ -141,12 +141,10 @@
                     class="border border-gray-300 border-dashed rounded min-w-125px py-3 px-4 me-6 mb-3">
 
                     <div class="d-flex align-items-center">
-                        <div
-                            class="fs-4 fw-bold">{{optional($all_data->test_data)->wared_date}}</div>
+                        <div class="fs-4 fw-bold">{{optional($all_data->test_data)->wared_date ?? '--/--/----'}}</div>
                     </div>
 
-                    <div
-                        class="fw-semibold fs-6 text-gray-500">{{trans('payment.wared_date')}}</div>
+                    <div class="fw-semibold fs-6 text-gray-500">{{trans('payment.wared_date')}}</div>
 
                 </div>
 

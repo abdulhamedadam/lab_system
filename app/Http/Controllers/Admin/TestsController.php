@@ -37,13 +37,13 @@ class TestsController extends Controller
 
     public function __construct(BasicRepositoryInterface $basicRepository, TestsService $testsService)
     {
-        $this->projectsRepository   = createRepository($basicRepository, new ClientsProjects());
+        $this->projectsRepository = createRepository($basicRepository, new ClientsProjects());
         $this->clientsRepository = createRepository($basicRepository, new Clients());
-        $this->companyRepository   = createRepository($basicRepository, new ClientsCompanies());
-        $this->SoilCompactionTestRepository   = createRepository($basicRepository, new SoilCompactionTest());
-        $this->SoilCompactionTestDetailsRepository   = createRepository($basicRepository, new SoilCompactionTestDetails());
-        $this->testsRepository   = createRepository($basicRepository, new Test());
-        $this->testsService   = $testsService;
+        $this->companyRepository = createRepository($basicRepository, new ClientsCompanies());
+        $this->SoilCompactionTestRepository = createRepository($basicRepository, new SoilCompactionTest());
+        $this->SoilCompactionTestDetailsRepository = createRepository($basicRepository, new SoilCompactionTestDetails());
+        $this->testsRepository = createRepository($basicRepository, new Test());
+        $this->testsService = $testsService;
 
 
     }
@@ -53,13 +53,13 @@ class TestsController extends Controller
         // $allData = Test::with(['company', 'client', 'project', 'user'])->get();
         // dd($allData);
         if ($request->ajax()) {
-            $allData = Test::with(['company', 'client', 'project', 'user'])->orderBy('id','desc')->get();
+            $allData = Test::with(['company', 'client', 'project', 'user'])->orderBy('id', 'desc')->get();
             return DataTables::of($allData)
                 ->editColumn('client', function ($row) {
                     return $row->client ? $row->client->name : 'N/A';
                 })
                 ->editColumn('test_code', function ($row) {
-                    return get_app_config_data('soil_prefix').$row->test_code;
+                    return get_app_config_data('soil_prefix') . $row->test_code;
                 })
                 ->editColumn('company', function ($row) {
                     return $row->company ? $row->company->name : 'N/A';
@@ -67,7 +67,6 @@ class TestsController extends Controller
                 ->editColumn('project', function ($row) {
                     return $row->project ? $row->project->project_name : 'N/A';
                 })
-
                 ->editColumn('talab_title', function ($row) {
                     return $row->talab_title;
                 })
@@ -75,7 +74,7 @@ class TestsController extends Controller
                     if ($row->talab_image) {
                         $imagePath = asset('images/' . $row->talab_image);
                         return '<img src="' . $imagePath . '" alt="Employee Image" class="img-thumbnail" style="width: 50px; height: 50px;" onclick="showImagePopup(\'' . $imagePath . '\')">';
-                    } else{
+                    } else {
                         return 'N\A';
                     }
                 })
@@ -89,10 +88,10 @@ class TestsController extends Controller
                     return $row->sample_number;
                 })
                 ->editColumn('status', function ($row) {
-                    $status_arr=['pending'=>trans('tests.pending'),'received'=>trans('tests.received'),
-                        'test_progress'=>trans('tests.test_progress'),'test_done'=>trans('tests.test_done'),'reports_progress'=>trans('tests.reports_progress'),
-                        'reports_done'=>trans('tests.reports_done')
-                        ];
+                    $status_arr = ['pending' => trans('tests.pending'), 'received' => trans('tests.received'),
+                        'test_progress' => trans('tests.test_progress'), 'test_done' => trans('tests.test_done'), 'reports_progress' => trans('tests.reports_progress'),
+                        'reports_done' => trans('tests.reports_done')
+                    ];
                     return $status_arr[$row->status];
                 })
                 ->addColumn('action', function ($row) {
@@ -127,8 +126,8 @@ class TestsController extends Controller
         $data['wared_number'] = $this->testsRepository->getLastFieldValue('wared_number');
         $data['talab_number'] = $this->testsRepository->getLastFieldValue('talab_number');
         $data['book_number'] = $this->testsRepository->getLastFieldValue('book_number');
-        $data['clients']      = $this->clientsRepository->getAll();
-        $data['companies']      = $this->companyRepository->getAll();
+        $data['clients'] = $this->clientsRepository->getAll();
+        $data['companies'] = $this->companyRepository->getAll();
         $data['projects'] = $this->projectsRepository->getAll();
         // dd($data);
         return view('dashbord.tests.form', $data);
@@ -158,10 +157,10 @@ class TestsController extends Controller
     /********************************************/
     public function edit(string $id)
     {
-        $data['all_data']     = $this->testsRepository->getById($id);
-        $data['clients']      = $this->clientsRepository->getAll();
-        $data['companies']    = $this->companyRepository->getAll();
-        $data['projects']     = $this->projectsRepository->getAll();
+        $data['all_data'] = $this->testsRepository->getById($id);
+        $data['clients'] = $this->clientsRepository->getAll();
+        $data['companies'] = $this->companyRepository->getAll();
+        $data['projects'] = $this->projectsRepository->getAll();
         return view('dashbord.tests.edit', $data);
     }
 
@@ -170,7 +169,7 @@ class TestsController extends Controller
     {
         try {
             // dd($request->all());
-            $this->testsService->update($request,$id);
+            $this->testsService->update($request, $id);
             toastr()->addSuccess(trans('forms.success'));
             return redirect()->route('admin.test.index');
         } catch (\Exception $e) {
@@ -208,24 +207,27 @@ class TestsController extends Controller
             return redirect()->back()->withErrors(['error' => $e->getMessage()]);
         }
     }
+
     /********************************************/
     public function samples_test($id)
     {
-        $data['all_data']=$this->testsRepository->getById($id);
+        $data['all_data'] = $this->testsRepository->getById($id);
         $data['compaction_test'] = $this->SoilCompactionTestRepository->getWithRelationsAndWhere(['compaction_test_details'], 'soil_test_id', $id);
         //dd($data['compaction_test'][0]->compaction_test_details);
-        return view('dashbord.tests.samples_test', $data);
+        // dd('ss');
+        return view('dashbord.tests.soil.torabia.samples_test', $data);
 
     }
+
     /********************************************/
-    public function save_compaction_test(SaveCompactionTesrRequest $request,$test_id)
+    public function save_compaction_test(SaveCompactionTesrRequest $request, $test_id)
     {
 
         try {
-             //dd($request->all());
-            $this->testsService->save_compaction_test($request,$test_id);
+            //dd($request->all());
+            $this->testsService->save_compaction_test($request, $test_id);
             toastr()->addSuccess(trans('forms.success'));
-            return redirect()->route('admin.samples_test',$test_id);
+            return redirect()->route('admin.samples_test', $test_id);
         } catch (\Exception $e) {
             dd($e->getMessage());
             return redirect()->back()->withErrors(['error' => $e->getMessage()]);
@@ -235,7 +237,7 @@ class TestsController extends Controller
     /********************************************/
     public function soil_sample_report_details($id)
     {
-        $data['all_data']=$this->testsRepository->getById($id);
+        $data['all_data'] = $this->testsRepository->getById($id);
         $data['compaction_test'] = $this->SoilCompactionTestRepository->getWithRelationsAndWhere(['compaction_test_details'], 'soil_test_id', $id);
         //dd($data['compaction_test'][0]->compaction_test_details);
         return view('dashbord.tests.samples.soil_sample_report', $data);
@@ -245,7 +247,7 @@ class TestsController extends Controller
     /********************************************/
     public function print_soil_sample_report($id)
     {
-        $data['all_data']=$this->testsRepository->getById($id);
+        $data['all_data'] = $this->testsRepository->getById($id);
         $data['compaction_test'] = $this->SoilCompactionTestRepository->getWithRelationsAndWhere(['compaction_test_details'], 'soil_test_id', $id);
         //dd($data['compaction_test'][0]->compaction_test_details);
         return view('dashbord.tests.samples.print_soil_sample_report', $data);

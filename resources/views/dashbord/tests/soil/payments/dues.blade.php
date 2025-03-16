@@ -46,7 +46,7 @@
     <div id="kt_app_content" class="app-content flex-column-fluid">
         <div id="kt_app_content_container" class="t_container">
 
-            @include('dashbord.tests.nav')
+            @include('dashbord.tests.soil.hasa.nav')
             <div class="card shadow-sm" style="border-top: 3px solid #007bff;">
                 <div class="card-header" style="background-color: #f8f9fa;">
                     <h3 class="card-title"></i> {{trans('dues.pay_dues')}}</h3>

@@ -196,6 +196,63 @@
 
                     </div>
 
+
+
+                    <div class="col-md-12 row" style="margin-top: 10px">
+                        <div class="col-md-3">
+                            <label for="first_name" class="form-label">{{ trans('tests.sample_cost') }}</label>
+                            <div class="input-group flex-nowrap">
+                                <span class="input-group-text" id="basic-addon3">{!! form_icon('text') !!}</span>
+                                <input type="number" class="form-control" name="sample_cost" id="sample_cost" value="{{old('sample_cost',$all_data->sample_cost)}}">
+                            </div>
+                            @error('sample_cost')
+                            <span class="invalid-feedback d-block" role="alert">{{ $message }}</span>
+                            @enderror
+                        </div>
+                        @php
+                            $discount_type=['p'=>trans('tests.percentage'),'v'=>trans('tests.value')]
+                        @endphp
+                        <div class="col-md-3">
+                            <label for="first_name" class="form-label">{{ trans('tests.discount_type') }}</label>
+                            <div class="input-group flex-nowrap">
+                                <span class="input-group-text" id="basic-addon3">{!! form_icon('text') !!}</span>
+                                <select class="form-select" name="discount_type" id="discount_type">
+                                    <option value="">{{trans('clients.select')}}</option>
+                                    @foreach($discount_type as $index=>$value)
+                                        <option
+                                            value="{{$index}}" {{ old('discount_type',$all_data->discount_type) == $index ? 'selected' : '' }}>{{$value}}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                            @error('discount_type')
+                            <span class="invalid-feedback d-block" role="alert">{{ $message }}</span>
+                            @enderror
+                        </div>
+
+                        <div class="col-md-3">
+                            <label for="first_name" class="form-label">{{ trans('tests.discount') }}</label>
+                            <div class="input-group flex-nowrap">
+                                <span class="input-group-text" id="basic-addon3">{!! form_icon('number') !!}</span>
+                                <input type="number" class="form-control" name="discount" id="discount" value="{{old('discount',$all_data->discount)}}">
+                            </div>
+                            @error('discount')
+                            <span class="invalid-feedback d-block" role="alert">{{ $message }}</span>
+                            @enderror
+                        </div>
+
+                        <div class="col-md-3">
+                            <label for="first_name" class="form-label">{{ trans('tests.total_cost') }}</label>
+                            <div class="input-group flex-nowrap">
+                                <span class="input-group-text" id="basic-addon3">{!! form_icon('text') !!}</span>
+                                <input type="number" class="form-control" name="total_cost" id="total_cost" value="{{old('total_cost',$all_data->total_cost)}}">
+                            </div>
+                            @error('total_cost')
+                            <span class="invalid-feedback d-block" role="alert">{{ $message }}</span>
+                            @enderror
+                        </div>
+
+                    </div>
+
                     <div class="col-md-12 row" style="margin-top: 10px">
                         <div class="col-md-3">
                             <label for="book_number" class="form-label">{{ trans('tests.book_number') }}</label>
@@ -322,7 +379,32 @@
 
 @stop
 @section('js')
+    <script>
+        $(document).ready(function () {
+            function calculateTotalCost() {
+                var sampleNum = parseFloat($('#sample_number').val()) || 0;
+                var sampleCost = parseFloat($('#sample_cost').val()) || 0;
+                var discountType = $('#discount_type').val();
+                var discount = parseFloat($('#discount').val()) || 0;
+                var subtotal = sampleNum * sampleCost;
+                var discountAmount = 0;
+                if (discountType === 'p') {
+                    discountAmount = subtotal * (discount / 100);
+                } else if (discountType === 'v') {
+                    discountAmount = discount;
+                }
+                var totalCost = subtotal - discountAmount;
+                totalCost = Math.max(0, totalCost);
+                $('#total_cost').val(totalCost.toFixed(2));
+                $('#cost').val(totalCost.toFixed(2));
+            }
 
+            $('#sample_number, #sample_cost, #discount_type, #discount').on('input change', function () {
+                calculateTotalCost();
+            });
+            calculateTotalCost();
+        });
+    </script>
     <script>
         function showSuccessMessage(message) {
             $('#success_message').text(message).removeClass('d-none').show();

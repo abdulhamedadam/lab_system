@@ -189,6 +189,8 @@
 
                     </div>
 
+                   @dd('ss')
+
                     <div class="col-md-12 row" style="margin-top: 10px">
                         <div class="col-md-3">
                             <label for="talab_date" class="form-label">{{ trans('tests.book_number') }}</label>
