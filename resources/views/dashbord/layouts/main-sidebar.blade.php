@@ -172,6 +172,16 @@
                     </a>
                 </div>
 
+                <div class="menu-item">
+                    <a class="menu-link {{ request()->routeIs(['admin.add_sader']) ? 'active' : '' }}"
+                       href="{{ route('admin.add_sader') }}">
+                        <span class="svg-icon svg-icon-2" style="margin-left: 5px">
+                            <i class="bi bi-clipboard-data text-danger fs-5"></i>
+                        </span>
+                        <span class="menu-title">{{ trans('sidebar.test_sader') }}</span>
+                    </a>
+                </div>
+
                 {{--  <div class="menu-item">
                      <a class="menu-link {{ request()->routeIs(['admin.test.index']) ? 'active' : '' }}"
                         href="{{ route('admin.test.index') }}">
@@ -342,6 +352,28 @@
                         <span class="menu-title">{{ trans('sidebar.financial_reports') }}</span>
                     </a>
                 </div>
+
+
+                <div class="menu-item">
+                    <a class="menu-link {{ request()->routeIs('admin.payment.expense_report') ? 'active' : '' }}"
+                       href="{{ route('admin.payment.expense_report') }}">
+        <span class="svg-icon svg-icon-2" style="margin-left: 5px">
+            <i class="bi bi-cash-stack text-danger fs-5"></i>
+        </span>
+                        <span class="menu-title">{{ trans('sidebar.expense_report') }}</span>
+                    </a>
+                </div>
+
+                <div class="menu-item">
+                    <a class="menu-link {{ request()->routeIs('admin.payment.revenue_report') ? 'active' : '' }}"
+                       href="{{ route('admin.payment.revenue_report') }}">
+        <span class="svg-icon svg-icon-2" style="margin-left: 5px">
+            <i class="bi bi-graph-up text-danger fs-5"></i>
+        </span>
+                        <span class="menu-title">{{ trans('sidebar.revenue_report') }}</span>
+                    </a>
+                </div>
+
 
             </div>
         </div>

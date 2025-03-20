@@ -237,16 +237,18 @@ class DuesController extends Controller
         $data['dues_data'] = $this->duesService->get_dues($client_id, $from_date, $to_date);
         $data['client_id'] = $client_id;
         $data['from_date'] = $from_date;
-        $data['to_date']   = $to_date;
+        $data['to_date'] = $to_date;
         return view($this->root_view . 'clients_account_statement_ajax', $data);
 
 
     }
 
     /********************************************************/
-    public function print_client_account_statment_invoice($client_id, $from_date=null, $to_date=null)
+    public function print_client_account_statment_invoice($client_id, $from_date = null, $to_date = null)
     {
         $data['dues_data'] = $this->duesService->get_dues($client_id, $from_date, $to_date);
+        $data['from_date'] = $from_date;
+        $data['to_date'] = $to_date;
         return view($this->root_view . 'print_client_account_statment_invoice', $data);
     }
 
@@ -255,14 +257,89 @@ class DuesController extends Controller
     {
         return view($this->root_view . 'financial_reports');
     }
+
     /********************************************************/
     public function get_financial_reports(Request $request)
     {
         $from_date = $request->input('from_date');
         $to_date = $request->input('to_date');
         $data['all_data'] = $this->duesService->get_financial($from_date, $to_date);
-        return view($this->root_view . 'financial_reports_data',$data);
+        $data['from_date'] = $from_date;
+        $data['to_date'] = $to_date;
+        return view($this->root_view . 'financial_reports_data', $data);
     }
+
+    /********************************************************/
+    public function print_financial_report($from_date = false, $to_date = false)
+    {
+        $data['all_data'] = $this->duesService->get_financial($from_date, $to_date);
+        $data['from_date'] = $from_date;
+        $data['to_date'] = $to_date;
+        return view($this->root_view . 'print_financial_report', $data);
+    }
+
+    /********************************************************/
+    public function revenue_report(HelperService $helperService)
+    {
+        $data['clients'] = $helperService->get_companies();
+        return view($this->root_view . 'revenue_report', $data);
+    }
+
+    /********************************************************/
+    public function get_revenue_report(Request $request)
+    {
+        $from_date = $request->input('from_date') ?? false;
+        $to_date = $request->input('to_date') ?? false;
+        $client_id = $request->input('client_id') ?? false;
+        $data['all_data'] = $this->duesService->get_revenue_report($from_date, $to_date, $client_id);
+        $data['client_id'] = $client_id;
+        $data['from_date'] = $from_date;
+        $data['to_date'] = $to_date;
+        // dd($data);
+        return view($this->root_view . 'revenue_report_data', $data);
+    }
+
+    /********************************************************/
+    public function print_revenue_report($client_id, $from_date = false, $to_date = false)
+    {
+        $data['all_data'] = $this->duesService->get_revenue_report($from_date, $to_date, $client_id);
+        $data['from_date'] = $from_date;
+        $data['to_date'] = $to_date;
+        return view($this->root_view . 'print_revenue_report', $data);
+    }
+
+    /********************************************************/
+    public function expense_report(HelperService $helperService)
+    {
+        $data['bnod'] = $helperService->get_bnod_sarf();
+        return view($this->root_view . 'expense_report', $data);
+    }
+
+    /********************************************************/
+    public function get_expense_report(Request $request)
+    {
+        $from_date = $request->input('from_date') ?? false;
+        $to_date = $request->input('to_date') ?? false;
+        $band_id = $request->input('band_id') ?? false;
+        $data['all_data'] = $this->duesService->get_expense_report($from_date, $to_date, $band_id);
+
+        $data['band_id'] = $band_id;
+        $data['to_date'] = $to_date;
+        $data['from_date'] = $from_date;
+
+        return view($this->root_view . 'expense_report_data', $data);
+    }
+
+    /********************************************************/
+    public function print_expense_report($band_id = false, $from_date = false, $to_date = false)
+    {
+
+        $data['all_data'] = $this->duesService->get_expense_report($from_date, $to_date, $band_id);
+        $data['from_date'] = $from_date;
+        $data['to_date'] = $to_date;
+        return view($this->root_view . 'print_expense_report', $data);
+    }
+
     /********************************************************/
     public function store(Request $request)
     {

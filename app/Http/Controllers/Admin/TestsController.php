@@ -14,11 +14,13 @@ use App\Models\Admin\Test;
 use App\Models\Clients;
 use App\Models\ClientsCompanies;
 use App\Models\ClientsProjects;
+use App\Services\HelperService;
 use App\Services\TestsService;
 use App\Traits\ImageProcessing;
 use App\Traits\ValidationMessage;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Validation\Rule;
 use Yajra\DataTables\Facades\DataTables;
 
 class TestsController extends Controller
@@ -253,4 +255,37 @@ class TestsController extends Controller
         return view('dashbord.tests.samples.print_soil_sample_report', $data);
     }
 
+    /*********************************************/
+    public function add_sader(HelperService $helperService)
+    {
+        $data['all_data'] = $helperService->get_all_tests();
+        return view('dashbord.tests.add_sader', $data);
+
+    }
+
+    /**********************************************/
+    public function save_sader(Request $request)
+    {
+        $request->validate([
+            'sader_number' => [
+                'required',
+                Rule::unique('tbl_tests')->where(function ($query) use ($request) {
+                    return $query->whereRaw('YEAR(sader_date) = ?', [date('Y')]);
+                })
+            ],
+            'sader_date' => 'required|date',
+        ]);
+
+
+        $test = Test::find($request->id);
+        if ($test) {
+            $test->sader_number = $request->sader_number;
+            $test->sader_date = $request->sader_date;
+            $test->save();
+
+            return response()->json(['success' => true]);
+        }
+
+        return response()->json(['success' => false]);
+    }
 }

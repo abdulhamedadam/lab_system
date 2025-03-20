@@ -66,5 +66,12 @@
         </table>
         <!--end::Table-->
     </div>
+    @if($all_data->count() > 0)
+    <div class="text-center mt-4">
+        <a id="printButton" href="{{route('admin.payment.print_financial_report',[$from_date,$to_date])}}" class="btn btn-primary print-button">
+            <i class="bi bi-printer"></i> {{trans('payment.print_report')}}
+        </a>
+    </div>
+    @endif
     <!--end::Table container-->
 </div>

@@ -119,7 +119,7 @@ class DuesRepository implements DuesInterface
         return $clientTests;
     }
     /********************************************************/
-    public function get_financial($from_date = null, $to_date = null)
+    public function get_financial($from_date = false, $to_date = false)
     {
         //dd($from_date,$to_date);
         if (!$from_date || !$to_date) {
@@ -149,6 +149,42 @@ class DuesRepository implements DuesInterface
 
         return $transactions;
     }
+    /********************************************************/
+    public function get_revenue_report($from_date = null, $to_date = null,$client_id)
+    {
+        $query = ClientTestPayment::with('client_test');
+        if ($client_id)
+        {
+            $query->where('client_id', $client_id);
+        }
+        if ($from_date && $to_date) {
+            $query->whereBetween('created_at', [$from_date, $to_date]);
+        }
 
+        $revenue=$query->get();
+
+        foreach ($revenue as $test) {
+           // dd($test->client_test->belongsToDynamic());
+            $test->test_data = $test->client_test->belongsToDynamic();
+        }
+        return $revenue;
+    }
+    /*****************************************************/
+    public function get_expense_report($from_date = null, $to_date = null, $band_id = null)
+    {
+        $query = Masrofat::with('sarf_band');
+
+        if ($band_id) {
+            $query->where('band_id', $band_id);
+        }
+
+        if ($from_date && $to_date) {
+            $query->whereBetween('created_at', [$from_date, $to_date]);
+        }
+
+        $expense = $query->get();
+
+        return $expense;
+    }
 
 }

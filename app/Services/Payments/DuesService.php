@@ -71,5 +71,15 @@ class DuesService
     {
         return $this->duesRepository->get_financial($from_date,$to_date);
     }
+    /**********************************************************/
+    public function get_revenue_report($from_date,$to_date,$client_id)
+    {
+        return $this->duesRepository->get_revenue_report($from_date,$to_date,$client_id);
+    }
+    /***********************************************************/
+    public function get_expense_report($from_date,$to_date,$band_id)
+    {
+        return $this->duesRepository->get_expense_report($from_date,$to_date,$band_id);
+    }
 
 }

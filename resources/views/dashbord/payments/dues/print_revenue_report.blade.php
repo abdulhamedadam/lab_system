@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{{trans('payment.financial_report')}}</title>
+    <title>{{trans('payment.revenue_report')}}</title>
     <style>
         :root {
             --primary-color: #ff8c00;
@@ -264,10 +264,10 @@
             </div>
         </div>
         <div class="statement-title-box">
-            <div class="statement-title">{{ trans('payment.financial_report') }}</div>
+            <div class="statement-title">{{ trans('payment.revenue_report') }}</div>
             @if(isset($from_date) && isset($to_date))
                 <div class="client-name">
-                    {{ $from_date }} - {{ $to_date }}
+                     {{ $from_date }} - {{ $to_date }}
                 </div>
             @endif
         </div>
@@ -276,15 +276,17 @@
     <div class="statement-body">
 
 
+
+
         <div class="summary-box">
-            <div class="summary-title">{{trans('payment.financial_summary')}}</div>
+            <div class="summary-title">{{trans('payment.account_summary')}}</div>
             <div class="summary-row">
                 <span class="summary-label">{{trans('payment.total_invoices')}}:</span>
-                <span class="summary-value">{{ ($dues_data->count()) }}</span>
+                <span class="summary-value">{{ ($all_data->count()) }}</span>
             </div>
             <div class="summary-row total-due">
                 <span class="summary-label">{{trans('payment.total_amount')}}:</span>
-                <span class="summary-value">${{$dues_data->sum('test_value')}}</span>
+                <span class="summary-value">${{ number_format($all_data->sum('value'), 2) }}</span>
             </div>
         </div>
 
@@ -292,39 +294,27 @@
         <table class="statement-table">
             <thead>
             <tr>
-                <th>{{ trans('tests.test_code') }}</th>
-                <th>{{ trans('tests.test_name') }}</th>
-                <th>{{ trans('tests.sample_number') }}</th>
-                <th>{{ trans('tests.test_value') }}</th>
-                <th>{{ trans('tests.paid') }}</th>
-                <th>{{ trans('tests.remain') }}</th>
-                <th>{{ trans('tests.created_at') }}</th>
+                <th style="text-align-last: center">{{trans('payment.test')}}</th>
+                <th style="text-align-last: center">{{trans('payment.client')}}</th>
+                <th style="text-align-last: center">{{trans('payment.paid_date')}}</th>
+                <th style="text-align-last: center">{{trans('payment.notes')}}</th>
+                <th style="text-align-last: center">{{trans('payment.amount')}}</th>
             </tr>
             </thead>
-            <tbody class="fs-6">
-            @foreach ($dues_data as $record)
-                <!-- Due row with background color and clickable -->
-                <tr class="bg-light-primary cursor-pointer" data-bs-toggle="collapse"
-                    data-bs-target="#paymentDetails{{ $record->id }}" aria-expanded="true"
-                    aria-controls="paymentDetails{{ $record->id }}">
-                    <td>{{ get_app_config_data(in_array($record->test_data->test_type, ['soil', 'hasa']) ? 'soil_prefix' : $record->test_data->test_type . '_prefix') . $record->test_data->test_code }}</td>
-                    <td>{{ $record->test_name }}</td>
-                    <td>{{ optional($record->test_data)->sample_number }}</td>
-                    <td>{{ $record->test_value }}</td>
-                    <td>{{ $record->client_test_payment->sum('value') }}</td>
-                    <td>{{$record->test_value - $record->client_test_payment->sum('value') }}</td>
-                    <td>
-                        {{ $record->created_at }}
-                        <i class="fa fa-chevron-down float-end"></i>
-                    </td>
-                </tr>
-
-
-
-                <tr class="border-0">
-                    <td colspan="5" class="p-1"></td>
+            <tbody>
+            @foreach($all_data as $record)
+                <tr style="background-color: #f8f9fa;">
+                    <td style="text-align-last: center">{{ get_app_config_data(in_array($record->test_data->test_type, ['soil', 'hasa']) ? 'soil_prefix' : $record->test_data->test_type . '_prefix') . $record->test_data->test_code }}</td>
+                    <td style="text-align-last: center">{{optional(optional($record->test_data)->company)->name}}</td>
+                    <td style="text-align-last: center">{{ $record->paid_date }}</td>
+                    <td style="text-align-last: center">{{$record->notes}}</td>
+                    <td style="color: #27ae60; font-weight: bold; text-align-last: center">{{ number_format($record->value, 2) }}</td>
                 </tr>
             @endforeach
+            <tr class="total-row">
+                <td colspan="4" class="text-right">Total{{trans('payment.Total')}}:</td>
+                <td class="amount-cell">${{ number_format($all_data->sum('value'), 2) }}</td>
+            </tr>
             </tbody>
         </table>
     </div>

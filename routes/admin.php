@@ -171,6 +171,8 @@ Route::group(
             Route::get('masrofat/delete/{id}', [MasrofatController::class, 'destroy'])->name('delete_masrofat');
 
             Route::resource('test', TestsController::class);
+            Route::get('tests/add_sader', [TestsController::class,'add_sader'])->name('add_sader');
+            Route::post('tests/save_sader', [TestsController::class,'save_sader'])->name('save_sader');
             Route::get('tests/delete/{id}', [TestsController::class, 'destroy'])->name('delete_test');
              // Route::get('tests/samples_test/{id}', [TestsController::class, 'samples_test'])->name('samples_test');
             //Route::post('tests/save_compaction_test/{id}', [TestsController::class, 'save_compaction_test'])->name('save_compaction_test');
@@ -247,12 +249,20 @@ Route::group(
                 Route::get('financial_reports',[DuesController::class,'financial_reports'])->name('financial_reports');
                 Route::get('get_financial_reports',[DuesController::class,'get_financial_reports'])->name('get_financial_reports');
                 Route::get('get_company_statment',[DuesController::class,'get_company_statment'])->name('get_company_statment');
+                Route::get('expense_report',[DuesController::class,'expense_report'])->name('expense_report');
+                Route::get('get_expense_report',[DuesController::class,'get_expense_report'])->name('get_expense_report');
+                Route::get('revenue_report',[DuesController::class,'revenue_report'])->name('revenue_report');
+                Route::get('get_revenue_report',[DuesController::class,'get_revenue_report'])->name('get_revenue_report');
+
                 Route::get('dues/payment/{id}', [DuesController::class, 'pay_dues'])->name('pay_dues');
                 Route::get('dues/payment/account_statement/{id}', [DuesController::class, 'account_statement'])->name('account_statement');
                 Route::post('dues/payment/{id}', [DuesController::class, 'save_pay_dues'])->name('save_pay_dues');
                 Route::get('dues/payment/print_invoice/{id}', [DuesController::class, 'getInvoiceForPrint'])->name('print_invoice');
                 Route::get('dues/payment/print_account_statement/{id}', [DuesController::class, 'print_account_statement'])->name('print_account_statement');
                 Route::get('dues/payment/print_client_account_statment_invoice/{id}/{from_date?}/{to_date?}', [DuesController::class, 'print_client_account_statment_invoice'])->name('print_client_account_statment_invoice');
+                Route::get('print_revenue_report/{id}/{from_date?}/{to_date?}', [DuesController::class, 'print_revenue_report'])->name('print_revenue_report');
+                Route::get('print_expense_report/{id?}/{from_date?}/{to_date?}', [DuesController::class, 'print_expense_report'])->name('print_expense_report');
+                Route::get('print_financial_report/{from_date?}/{to_date?}', [DuesController::class, 'print_financial_report'])->name('print_financial_report');
             });
             /***********************************************************************************************************/
 

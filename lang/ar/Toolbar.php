@@ -33,4 +33,6 @@
   'daily' => 'daily',
   'weekly' => 'weekly',
   'clients_account_statement' => 'clients_account_statement',
+  'revenue_report' => 'revenue_report',
+  'expense_report' => 'expense_report',
 );

@@ -33,4 +33,14 @@ class HelperService
     {
         return $this->helperRepository->get_companies();
     }
+    /**************************************************/
+    public function get_bnod_sarf()
+    {
+        return $this->helperRepository->get_bnod_sarf();
+    }
+    /**************************************************/
+    public function get_all_tests()
+    {
+        return $this->helperRepository->get_all_tests();
+    }
 }

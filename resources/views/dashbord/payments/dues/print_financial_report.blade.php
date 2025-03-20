@@ -276,15 +276,17 @@
     <div class="statement-body">
 
 
+
+
         <div class="summary-box">
             <div class="summary-title">{{trans('payment.financial_summary')}}</div>
             <div class="summary-row">
                 <span class="summary-label">{{trans('payment.total_invoices')}}:</span>
-                <span class="summary-value">{{ ($dues_data->count()) }}</span>
+                <span class="summary-value">{{ ($all_data->count()) }}</span>
             </div>
             <div class="summary-row total-due">
                 <span class="summary-label">{{trans('payment.total_amount')}}:</span>
-                <span class="summary-value">${{$dues_data->sum('test_value')}}</span>
+                <span class="summary-value">${{ number_format($all_data->sum('value'), 2) }}</span>
             </div>
         </div>
 
@@ -292,39 +294,46 @@
         <table class="statement-table">
             <thead>
             <tr>
-                <th>{{ trans('tests.test_code') }}</th>
-                <th>{{ trans('tests.test_name') }}</th>
-                <th>{{ trans('tests.sample_number') }}</th>
-                <th>{{ trans('tests.test_value') }}</th>
-                <th>{{ trans('tests.paid') }}</th>
-                <th>{{ trans('tests.remain') }}</th>
-                <th>{{ trans('tests.created_at') }}</th>
+                <th class="min-w-250px">{{trans('payment.date')}}</th>
+                <th class="min-w-150px">{{trans('payment.transaction_type')}}</th>
+                <th class="min-w-90px">{{trans('payment.description')}}</th>
+                <th class="min-w-90px">{{trans('payment.value')}}</th>
+                <th class="min-w-90px">{{trans('payment.total')}}</th>
             </tr>
             </thead>
-            <tbody class="fs-6">
-            @foreach ($dues_data as $record)
-                <!-- Due row with background color and clickable -->
-                <tr class="bg-light-primary cursor-pointer" data-bs-toggle="collapse"
-                    data-bs-target="#paymentDetails{{ $record->id }}" aria-expanded="true"
-                    aria-controls="paymentDetails{{ $record->id }}">
-                    <td>{{ get_app_config_data(in_array($record->test_data->test_type, ['soil', 'hasa']) ? 'soil_prefix' : $record->test_data->test_type . '_prefix') . $record->test_data->test_code }}</td>
-                    <td>{{ $record->test_name }}</td>
-                    <td>{{ optional($record->test_data)->sample_number }}</td>
-                    <td>{{ $record->test_value }}</td>
-                    <td>{{ $record->client_test_payment->sum('value') }}</td>
-                    <td>{{$record->test_value - $record->client_test_payment->sum('value') }}</td>
+            <tbody>
+            @php
+                $totalIncome = 0;
+                $totalExpense = 0;
+            @endphp
+
+            @foreach ($all_data as $transaction)
+                @php
+                    if($transaction->type == 'income') {
+                        $totalIncome += $transaction->value;
+                    } else {
+                        $totalExpense += $transaction->value;
+                    }
+                @endphp
+
+                <tr>
+                    <td>{{ \Carbon\Carbon::parse($transaction->date)->format('Y-m-d') }}</td>
                     <td>
-                        {{ $record->created_at }}
-                        <i class="fa fa-chevron-down float-end"></i>
+                        @if($transaction->type == 'income')
+                            <span class="badge bg-success"><i class="bi bi-arrow-up"></i> إيراد</span>
+                        @else
+                            <span class="badge bg-danger"><i class="bi bi-arrow-down"></i> مصروف</span>
+                        @endif
                     </td>
-                </tr>
-
-
-
-                <tr class="border-0">
-                    <td colspan="5" class="p-1"></td>
+                    <td>{{ $transaction->description }}</td>
+                    <td>{{ number_format($transaction->value, 2) }} $</td>
+                    <td>{{ number_format($transaction->balance, 2) }} $</td>
                 </tr>
             @endforeach
+            <tr class="total-row">
+                <td colspan="4" class="text-right">Total{{trans('payment.Total')}}:</td>
+                <td class="amount-cell">${{ number_format($all_data->sum('value'), 2) }}</td>
+            </tr>
             </tbody>
         </table>
     </div>

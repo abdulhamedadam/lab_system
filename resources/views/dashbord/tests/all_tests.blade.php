@@ -1,16 +1,5 @@
 @extends('dashbord.layouts.master')
-<style>
-    .btn:not(.btn-outline):not(.btn-dashed):not(.border-hover):not(.border-active):not(.btn-flush):not(.btn-icon).btn-sm,
-    .btn-group-sm > .btn:not(.btn-outline):not(.btn-dashed):not(.border-hover):not(.border-active):not(.btn-flush):not(.btn-icon) {
-        padding: 10px 12px !important;
-    }
 
-    #table1 {
-        font-size: small !important;
-    }
-
-
-</style>
 <style>
     .jstree-default .jstree-anchor {
         font-size: 14px;
