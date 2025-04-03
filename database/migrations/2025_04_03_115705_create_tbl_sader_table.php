@@ -11,15 +11,12 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('fr_accounting_entries', function (Blueprint $table) {
+        Schema::create('tbl_sader', function (Blueprint $table) {
             $table->id();
-            $table->string('num')->nullable();
-            $table->string('date_at')->nullable();
-            $table->string('type')->nullable();
-            $table->text('create_by')->nullable();
-            $table->text('notes')->nullable();
+            $table->integer('num')->nullable();
+            $table->string('date')->nullable();
+            $table->bigInteger('year')->nullable();
             $table->timestamps();
-            $table->softDeletes();
         });
     }
 
@@ -28,6 +25,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('fr_accounting_entries');
+        Schema::dropIfExists('tbl_sader');
     }
 };
