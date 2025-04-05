@@ -24,5 +24,6 @@ interface BasicRepositoryInterface
     public function deleteWhere( $column, $value);
     public function countWhere(array $conditions);
     public function getModel();
+    public function deleteWhere_arr(array $conditions);
 
 }

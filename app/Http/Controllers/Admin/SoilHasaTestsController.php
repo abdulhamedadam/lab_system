@@ -70,7 +70,7 @@ class SoilHasaTestsController extends Controller
             $data=$this->TestRepository->getById($test_id);
           // dd($data,$data->test_type);
             toastr()->addSuccess(trans('forms.success'));
-            return redirect()->route('admin.soil_test',[$data->test_type,$data->sub_test_type]);
+            return redirect()->route('admin.hasa_compaction_soil_test',[$data->test_type,$data->sub_test_type]);
         } catch (\Exception $e) {
             dd($e->getMessage());
             return redirect()->back()->withErrors(['error' => $e->getMessage()]);

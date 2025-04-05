@@ -70,6 +70,7 @@ Route::group(
             Route::get('delete/{id}', [ClientController::class, 'destroy'])->name('delete_client');
             /********************************************************************************************************************************/
             Route::get('clients/{id}/companies', [ClientController::class, 'companies'])->name('client_companies');
+
             Route::post('clients/{id}/companies/save', [ClientController::class, 'store_company'])->name('client_store_company');
             Route::get('clients/companies/edit/{id}', [ClientController::class, 'edit_company'])->name('client_edit_company');
             Route::post('clients/companies/update/{id}', [ClientController::class, 'update_company'])->name('client_update_company');
@@ -193,6 +194,8 @@ Route::group(
             /**********************************************************************************************************/
             //all_test
             Route::get('all-tests', [AllTestsController::class, 'index'])->name('all_tests');
+            Route::get('update_test_status/{id}',[HelperController::class,'update_test_status'])->name('update_test_status');
+            Route::get('check_sader_date',[HelperController::class,'check_sader_date'])->name('check_sader_date');
 
             /*  Route::get('soil_test/{type?}/{test?}', [SoilTestController::class, 'index'])->name('soil_test');
             Route::get('soil_test/create/{type?}/{test?}', [SoilTestController::class, 'create'])->name('create_soil_test');
@@ -217,6 +220,7 @@ Route::group(
             Route::get('soil_test/hasa/compaction/create/', [SoilTestController::class, 'hasa_compaction_create'])->name('hasa_compaction_create_soil_test');
             Route::get('soil_test/hasa/compaction/edit/{id}/', [SoilTestController::class, 'hasa_compaction_edit'])->name('hasa_compaction_edit_soil_test');
             Route::post('soil_test/hasa/compaction/save/', [SoilTestController::class, 'hasa_compaction_store'])->name('hasa_compaction_store_soil_test');
+            Route::get('soil_test/hasa/compaction/samples_test/{id}', [SoilTestController::class, 'hasa_compaction_test'])->name('hasa_samples_test');
             Route::post('soil_test/hasa/compaction/update/{id}/', [SoilTestController::class, 'hasa_compaction_update'])->name('hasa_compaction_update_soil_test');
 
             Route::get('soil_test/{id}/hasa/compaction', [SoilHasaTestsController::class, 'compaction_test'])->name('hasa_compaction_test');

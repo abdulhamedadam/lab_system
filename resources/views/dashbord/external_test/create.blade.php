@@ -40,9 +40,9 @@
                             <label for="first_name" class="form-label">{{ trans('tests.test_code') }}</label>
                             <div class="input-group flex-nowrap">
                                 <span class="input-group-text" id="basic-addon3">{!! form_icon('text') !!}</span>
-                                <input type="text" class="form-control" name="test_code" id="test_code" value="">
+                                <input type="text" class="form-control" name="test_code_st" id="test_code_st" value="">
                             </div>
-                            @error('test_code')
+                            @error('test_code_st')
                             <span class="invalid-feedback d-block" role="alert">{{ $message }}</span>
                             @enderror
                         </div>
@@ -177,35 +177,64 @@
 
 
                     <div class="col-md-12 row" style="margin-top: 20px">
-
-                        <div class="col-md-4">
-                            <label for="first_name" class="form-label">{{ trans('tests.test_type') }}</label>
+                        @php
+                            $test_type=['soil'=>trans('tests.soil'),'concrete'=>trans('tests.concrete'),'roads'=>trans('tests.roads'),'mechanic'=>trans('tests.mechanic')]
+                        @endphp
+                        <div class="col-md-3">
+                            <label for="client_id" class="form-label">{{ trans('tests.soil_test_type') }}</label>
                             <div class="input-group flex-nowrap">
-                                <span class="input-group-text" id="basic-addon3">{!! form_icon('mumber') !!}</span>
-                                <input type="text" class="form-control" name="test_type" id="test_type" value="">
+
+                                <select class="form-select rounded-start-0" name="test_category" id="test_category" >
+                                    <option value="">{{trans('tests.select')}}</option>
+                                    @foreach($test_type as $key=>$value)
+                                        <option value="{{$key}}" {{ old('test_category') == $key ? 'selected' : '' }}>{{$value}}</option>
+                                    @endforeach
+                                </select>
                             </div>
-                            @error('test_type')
+                            @error('test_category')
                             <span class="invalid-feedback d-block" role="alert">{{ $message }}</span>
                             @enderror
                         </div>
-                        <div class="col-md-4">
-                            <label for="first_name" class="form-label">{{ trans('tests.report_num') }}</label>
+                        <div class="col-md-3">
+                            <label for="first_name" class="form-label">{{ trans('tests.test_sub_category') }}</label>
                             <div class="input-group flex-nowrap">
-                                <span class="input-group-text" id="basic-addon3">{!! form_icon('mumber') !!}</span>
-                                <input type="number" class="form-control" name="report_num" id="report_num" value="">
+
+                                <input type="text" class="form-control" name="test_sub_category" id="test_sub_category" value="">
                             </div>
-                            @error('report_num')
+                            @error('test_sub_category')
+                            <span class="invalid-feedback d-block" role="alert">{{ $message }}</span>
+                            @enderror
+                        </div>
+                        <div class="col-md-2">
+                            <label for="first_name" class="form-label">{{ trans('tests.test') }}</label>
+                            <div class="input-group flex-nowrap">
+                                <span class="input-group-text" id="basic-addon3">{!! form_icon('text') !!}</span>
+                                <input type="text" class="form-control" name="test" id="test" value="">
+                            </div>
+                            @error('test')
                             <span class="invalid-feedback d-block" role="alert">{{ $message }}</span>
                             @enderror
                         </div>
 
-                        <div class="col-md-4">
-                            <label for="first_name" class="form-label">{{ trans('tests.report_date') }}</label>
+
+                        <div class="col-md-2">
+                            <label for="first_name" class="form-label">{{ trans('tests.sader_date') }}</label>
                             <div class="input-group flex-nowrap">
-                                <span class="input-group-text" id="basic-addon3">{!! form_icon('date') !!}</span>
-                                <input type="date" class="form-control" name="report_date" id="report_date" value="">
+
+                                <input type="date" class="form-control" name="sader_date" id="sader_date" value="">
                             </div>
-                            @error('report_date')
+                            @error('sader_date')
+                            <span class="invalid-feedback d-block" role="alert">{{ $message }}</span>
+                            @enderror
+                        </div>
+
+                        <div class="col-md-2">
+                            <label for="first_name" class="form-label">{{ trans('tests.sader_number') }}</label>
+                            <div class="input-group flex-nowrap">
+
+                                <input type="number" class="form-control" name="sader_num" id="sader_num" value="">
+                            </div>
+                            @error('sader_num')
                             <span class="invalid-feedback d-block" role="alert">{{ $message }}</span>
                             @enderror
                         </div>
@@ -640,13 +669,54 @@
     </script>
 
 
+
+
     <script>
-        function showSuccessMessage(message) {
-            $('#success_message').text(message).removeClass('d-none').show();
-            setTimeout(function () {
-                $('#success_message').fadeOut().addClass('d-none');
-            }, 8000);
-        }
+        $(document).ready(function() {
+            $('#sader_date').on('change', function() {
+                var selectedDate = $(this).val();
+                var currentYear = new Date().getFullYear();
+
+                if (selectedDate) {
+                    $.ajax({
+                        url: "{{ route('admin.check_sader_date') }}",
+                        method: 'GET',
+                        data: {
+                            date: selectedDate,
+                            year: currentYear
+                        },
+                        success: function(response) {
+                            if (response.exists) {
+
+                                var numbers = Array.isArray(response.next_number) ? response.next_number : [];
+
+                                var numbersOptions = '<option value="">Select Number</option>'; // Default placeholder
+                                numbers.forEach(function(number) {
+                                    numbersOptions += '<option value="'+number+'">'+number+'</option>';
+                                });
+
+                                $('#sader_num').replaceWith(`
+                            <select class="form-control" name="sader_num" id="sader_num">
+                                ${numbersOptions}
+                            </select>
+                        `);
+                            } else {
+                                var nextNumber = response.next_number;
+                                console.log('nextNumber =', nextNumber);
+
+                                $('#sader_num').replaceWith(`
+                            <input type="number" step="any" class="form-control" name="sader_num" id="sader_num" value="${nextNumber}">
+                        `);
+                            }
+                        },
+                        error: function(xhr, status, error) {
+                            console.error('Error:', error);
+                        }
+                    });
+                }
+            });
+        });
+
     </script>
     <script src="{{asset('assets/plugins/custom/formrepeater/formrepeater.bundle.js')}}"></script>
 

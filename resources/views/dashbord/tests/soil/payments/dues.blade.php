@@ -107,7 +107,7 @@
 
     <script>
         function printInvoice(invoiceId) {
-            let url = `{{ route('admin.get_invoice', ['id' => '__ID__']) }}`.replace('__ID__', invoiceId);
+            let url = `{{ route('admin.payment.print_invoice', ['id' => '__ID__']) }}`.replace('__ID__', invoiceId);
 
             $.ajax({
                 url: url,

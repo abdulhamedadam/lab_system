@@ -46,7 +46,7 @@
             <div class="d-flex my-4">
                 <!-- Button to trigger the modal -->
                 <a  data-bs-toggle="modal" data-bs-target="#statusModal">
-                    <span class="badge bg-{{ $all_data->status == 'received' ? 'success' : 'danger' }}">{{ $all_data->status }}</span>
+                    <span class="badge bg-{{ $all_data->status == 'received' ? 'success' : 'danger' }}">{{ trans('tests.'.$all_data->status) }}</span>
                 </a>
             </div>
 
@@ -60,15 +60,21 @@
                         </div>
                         <div class="modal-body">
 
-                            <form action="" method="POST">
+                            <form action="{{route('admin.update_test_status',$all_data->id)}}" method="GET">
                             @csrf
                                 <div class="mb-3">
                                     <label for="statusSelect" class="form-label">Select Status</label>
                                     <select class="form-select" id="statusSelect" name="status">
-                                        <option value="received" {{ $all_data->status == 'received' ? 'selected' : '' }}>received</option>
-                                        <option value="pending" {{ $all_data->status == 'pending' ? 'selected' : '' }}>Inactive</option>
+                                        <option value="pending" {{ $all_data->status == 'pending' ? 'selected' : '' }}>{{ trans('tests.pending') }}</option>
+                                        <option value="received" {{ $all_data->status == 'received' ? 'selected' : '' }}>{{ trans('tests.received') }}</option>
+                                        <option value="test_progress" {{ $all_data->status == 'test_progress' ? 'selected' : '' }}>{{ trans('tests.test_progress') }}</option>
+                                        <option value="test_done" {{ $all_data->status == 'test_done' ? 'selected' : '' }}>{{ trans('tests.test_done') }}</option>
+                                        <option value="reports_progress" {{ $all_data->status == 'reports_progress' ? 'selected' : '' }}>{{ trans('tests.reports_progress') }}</option>
+                                        <option value="reports_done" {{ $all_data->status == 'reports_done' ? 'selected' : '' }}>{{ trans('tests.reports_done') }}</option>
+
                                     </select>
                                 </div>
+
                                 <div class="modal-footer">
                                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
                                     <button type="submit" class="btn btn-primary">Save changes</button>
@@ -109,9 +115,9 @@
                     </div>
 
                     <div class="border border-gray-300 border-dashed rounded min-w-125px py-3 px-4 me-6 mb-3">
-                        <!--begin::Number-->
+
                         <div class="d-flex align-items-center">
-                            <i class="bi bi-calendar-check fs-3 text-success me-2"></i> <!-- Changed to a calendar icon -->
+                            <i class="bi bi-calendar-check fs-3 text-success me-2"></i>
                             <div class="fs-2 fw-bold" data-kt-countup="true" >{{$all_data->talab_date}}</div>
                         </div>
                         <div class="fw-semibold fs-6 text-gray-500">{{trans('tests.talab_date')}}</div>
@@ -142,3 +148,4 @@
     </div>
 
 </div>
+

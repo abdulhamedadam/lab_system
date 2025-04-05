@@ -40,7 +40,7 @@ class ExternalTestsController extends Controller
     public function store(SaveRequest $request)
     {
         try {
-         //   dd($request->all());
+
             $this->externalTestsService->store($request);
             toastr()->addSuccess(trans('forms.success'));
             return redirect()->route('admin.payment.dues.index');

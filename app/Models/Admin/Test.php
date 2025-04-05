@@ -6,6 +6,7 @@ use App\Models\Admin as AdminModel;
 use App\Models\Clients;
 use App\Models\ClientsCompanies;
 use App\Models\ClientsProjects;
+use App\Models\TestSader;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -35,6 +36,11 @@ class Test extends Model
     public function user()
     {
         return $this->belongsTo(AdminModel::class, 'created_by');
+    }
+    /******************************************/
+    public function sader()
+    {
+        return $this->belongsTo(TestSader::class,'sader_id','id');
     }
 
 }

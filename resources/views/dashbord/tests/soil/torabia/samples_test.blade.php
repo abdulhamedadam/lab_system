@@ -1,91 +1,6 @@
 @extends('dashbord.layouts.master')
-@section('css')
-    <style>
-        /* General Table Styling */
-        #table {
-            width: 100%;
-            border-collapse: separate;
-            border-spacing: 0;
-            border-radius: 10px;
-            overflow: hidden;
-            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
-        }
 
-        /* Header Row */
-        #table thead tr {
-            background-color: #1C3D6E; /* Deep Blue */
-            color: white;
-            font-weight: bold;
-            text-align: center;
-        }
 
-        /* Header Cells */
-        #table thead th {
-            padding: 12px;
-            text-transform: uppercase;
-        }
-
-        /* Alternating Rows */
-        #table tbody tr:nth-child(even) {
-            background-color: #F2F4F8; /* Light Gray */
-        }
-
-        #table tbody tr:nth-child(odd) {
-            background-color: #ffffff; /* White */
-        }
-
-        /* Table Borders */
-        #table td, #table th {
-            padding: 10px;
-            border-bottom: 1px solid #E0E0E0;
-            text-align: center;
-        }
-
-        /* Section Headers */
-        #table tbody tr td[colspan] {
-            background-color: #1C3D6E;
-            color: white;
-            font-weight: bold;
-            text-align: center;
-            padding: 12px;
-        }
-
-        /* Readonly Fields */
-        #table input[readonly] {
-            background-color: #008080 !important; /* Teal */
-            color: white;
-            font-weight: bold;
-            border: none;
-        }
-
-        /* Input Fields */
-        #table input {
-            width: 100%;
-            padding: 6px;
-            text-align: center;
-            border: 1px solid #B0B0B0;
-            border-radius: 4px;
-        }
-
-        /* Row Hover Effect */
-        #table tbody tr:hover {
-            background-color: #DCE3F1; /* Soft Blue */
-            transition: 0.3s;
-        }
-
-        /* Rounded Borders */
-        #table td:first-child, #table th:first-child {
-            border-left: 0;
-            border-radius: 10px 0 0 10px;
-        }
-
-        #table td:last-child, #table th:last-child {
-            border-right: 0;
-            border-radius: 0 10px 10px 0;
-        }
-
-    </style>
-    @notifyCss
 
 @section('toolbar')
     <div id="kt_app_toolbar_container" class="app-container container-xxl d-flex flex-stack">
@@ -104,13 +19,13 @@
 
         <div class="d-flex align-items-center gap-2 gap-lg-3">
 
-            {{ BackButton(route('admin.test.index'))}}
+            {{ BackButton(route('admin.soil_compaction_soil_test'))}}
 
         </div>
     </div>
 
 @endsection
-@endsection
+
 @section('content')
 
 
@@ -131,7 +46,7 @@
 
             <div class="card">
                 <div class="card-header">
-                    <div class="card-title fs-3 fw-bold">{{trans('payment.pay_dues')}}</div>
+                    <div class="card-title fs-3 fw-bold">{{trans('payment.tests')}}</div>
                 </div>
                 <form action="{{ route('admin.save_compaction_test',$all_data->id) }}" method="post"
                       enctype="multipart/form-data"
@@ -149,8 +64,7 @@
                                 <div class="col-md-2">
                                     <label for="project_code" class="form-label">{{ trans('tests.test_code') }}</label>
                                     <div class="input-group flex-nowrap">
-                                        <span class="input-group-text"
-                                              id="basic-addon3">{!! form_icon('text') !!}</span>
+
                                         <input type="text" class="form-control" name="test_code" id="test_code"
                                                value="{{get_app_config_data('soil_prefix').$all_data->test_code}}"
                                                readonly>
@@ -165,8 +79,7 @@
                                     <label for="project_code"
                                            class="form-label">{{ trans('tests.test_carried_date') }}</label>
                                     <div class="input-group flex-nowrap">
-                                        <span class="input-group-text"
-                                              id="basic-addon3">{!! form_icon('date') !!}</span>
+
                                         <input type="date" class="form-control" name="test_carried_date"
                                                id="test_carried_date"
                                                value="{{old(date('Y-m-d'),$compaction_test[0]->test_carried_date)}}">
@@ -181,8 +94,7 @@
                                     <label for="project_code"
                                            class="form-label">{{ trans('tests.proctor_test_date') }}</label>
                                     <div class="input-group flex-nowrap">
-                                        <span class="input-group-text"
-                                              id="basic-addon3">{!! form_icon('date') !!}</span>
+
                                         <input type="date" class="form-control" name="proctor_test_date"
                                                id="proctor_test_date"
                                                value="{{old(date('Y-m-d'),$compaction_test[0]->proctor_test_date)}}">
@@ -196,8 +108,7 @@
                                     <label for="project_code"
                                            class="form-label">{{ trans('tests.sample_collect_date') }}</label>
                                     <div class="input-group flex-nowrap">
-                                        <span class="input-group-text"
-                                              id="basic-addon3">{!! form_icon('date') !!}</span>
+
                                         <input type="date" class="form-control" name="sample_collect_date"
                                                id="sample_collect_date"
                                                value="{{old(date('Y-m-d'),$compaction_test[0]->sample_collect_date)}}">
@@ -211,8 +122,7 @@
                                 <div class="col-md-2">
                                     <label for="location" class="form-label">{{ trans('tests.location') }}</label>
                                     <div class="input-group flex-nowrap">
-                                        <span class="input-group-text"
-                                              id="basic-addon3">{!! form_icon('text') !!}</span>
+
                                         <input type="text" class="form-control" name="location" id="location"
                                                value="{{old('location',$compaction_test[0]->location)}}">
                                     </div>
@@ -224,8 +134,7 @@
                                 <div class="col-md-2">
                                     <label for="proctor_ref" class="form-label">{{ trans('tests.proctor_ref') }}</label>
                                     <div class="input-group flex-nowrap">
-                                        <span class="input-group-text"
-                                              id="basic-addon3">{!! form_icon('text') !!}</span>
+
                                         <input type="text" class="form-control" name="proctor_ref" id="proctor_ref"
                                                value="{{old('proctor_ref',$compaction_test[0]->proctor_ref)}}">
                                     </div>
@@ -243,8 +152,7 @@
                                 <div class="col-md-2">
                                     <label for="location" class="form-label">{{ trans('tests.test_method') }}</label>
                                     <div class="input-group flex-nowrap">
-                                        <span class="input-group-text"
-                                              id="basic-addon3">{!! form_icon('text') !!}</span>
+
                                         <input type="text" class="form-control" name="test_method" id="test_method"
                                                value="{{old('test_method',$compaction_test[0]->test_method)}}">
                                     </div>
@@ -256,8 +164,7 @@
                                 <div class="col-md-2">
                                     <label for="location" class="form-label">{{ trans('tests.material_desc') }}</label>
                                     <div class="input-group flex-nowrap">
-                                        <span class="input-group-text"
-                                              id="basic-addon3">{!! form_icon('text') !!}</span>
+
                                         <input type="text" class="form-control" name="material_desc" id="material_desc"
                                                value="{{old('material_desc',$compaction_test[0]->material_desc)}}">
                                     </div>
@@ -270,9 +177,8 @@
                                 <div class="col-md-2">
                                     <label for="location" class="form-label">{{ trans('tests.mdd') }}</label>
                                     <div class="input-group flex-nowrap">
-                                        <span class="input-group-text"
-                                              id="basic-addon3">{!! form_icon('number') !!}</span>
-                                        <input type="number" step="0.01" class="form-control" name="mdd" id="mdd"
+
+                                        <input type="number" step="any" class="form-control" name="mdd" id="mdd"
                                                value="{{old('mdd',$compaction_test[0]->mdd)}}">
                                     </div>
                                     @error('mdd')
@@ -283,9 +189,8 @@
                                 <div class="col-md-2">
                                     <label for="location" class="form-label">{{ trans('tests.moc') }}</label>
                                     <div class="input-group flex-nowrap">
-                                        <span class="input-group-text"
-                                              id="basic-addon3">{!! form_icon('number') !!}</span>
-                                        <input type="number" step="0.01" class="form-control" name="moc" id="moc"
+
+                                        <input type="number" step="any" class="form-control" name="moc" id="moc"
                                                value="{{old('moc',$compaction_test[0]->moc)}}">
                                     </div>
                                     @error('moc')
@@ -296,9 +201,8 @@
                                 <div class="col-md-2">
                                     <label for="location" class="form-label">{{ trans('tests.mold_number') }}</label>
                                     <div class="input-group flex-nowrap">
-                                        <span class="input-group-text"
-                                              id="basic-addon3">{!! form_icon('number') !!}</span>
-                                        <input type="number" step="0.01" class="form-control" name="mold_number"
+
+                                        <input type="text"  class="form-control" name="mold_number"
                                                id="mold_number"
                                                value="{{old('mold_number',$compaction_test[0]->mold_number)}}">
                                     </div>
@@ -311,9 +215,8 @@
                                 <div class="col-md-2">
                                     <label for="location" class="form-label">{{ trans('tests.diameter') }}</label>
                                     <div class="input-group flex-nowrap">
-                                        <span class="input-group-text"
-                                              id="basic-addon3">{!! form_icon('number') !!}</span>
-                                        <input type="number" step="0.01" class="form-control" name="diameter"
+
+                                        <input type="number" step="any" class="form-control" name="diameter"
                                                id="diameter" value="{{old('diameter',$compaction_test[0]->diameter)}}">
                                     </div>
                                     @error('diameter')
@@ -330,9 +233,8 @@
                                 <div class="col-md-2">
                                     <label for="location" class="form-label">{{ trans('tests.height') }}</label>
                                     <div class="input-group flex-nowrap">
-                                        <span class="input-group-text"
-                                              id="basic-addon3">{!! form_icon('number') !!}</span>
-                                        <input type="number" step="0.01" class="form-control" name="height" id="height"
+
+                                        <input type="number" step="any" class="form-control" name="height" id="height"
                                                value="{{old('height',$compaction_test[0]->height)}}">
                                     </div>
                                     @error('height')
@@ -344,9 +246,8 @@
                                 <div class="col-md-2">
                                     <label for="location" class="form-label">{{ trans('tests.volume') }}</label>
                                     <div class="input-group flex-nowrap">
-                                        <span class="input-group-text"
-                                              id="basic-addon3">{!! form_icon('number') !!}</span>
-                                        <input type="number" step="0.01" class="form-control" name="volume" id="volume"
+
+                                        <input type="number" step="any" class="form-control" name="volume" id="volume"
                                                value="{{old('volume',$compaction_test[0]->volume)}}">
                                     </div>
                                     @error('height')
@@ -356,12 +257,12 @@
                             </div>
 
 
-                            <hr style="border: 2px solid red; width: 100%;margin-top: 20px ;margin-bottom: 20px" >
+                            <hr style="border: 2px solid red; width: 100%;margin-top: 20px ;margin-bottom: 20px">
                             <div class="col-md-12 row" style="margin-top: 10px; direction: ltr;">
                                 <table id="table" class="example table table-bordered responsive nowrap text-center"
                                        cellspacing="0" width="100%" style="direction: ltr;">
                                     <thead>
-                                    <tr class="greentd">
+                                    <tr class="greentd" style="background-color: darkblue;color: white">
                                         <th>{{trans('tests.point_number') }}</th>
                                         @if(isset($compaction_test) || !empty($compaction_test ) || $compaction_test->isEmpty() )
                                             @foreach ($compaction_test[0]->compaction_test_details as $test)
@@ -399,7 +300,7 @@
                                         @if ($key == 4)
                                             <tr>
                                                 <td colspan="{{ count($compaction_test[0]->compaction_test_details) + 1 }}"
-                                                    style="">
+                                                    style="background-color: darkblue;color: white">
                                                     Moisture Determination
                                                 </td>
                                             </tr>
@@ -407,7 +308,7 @@
                                         @if ($key == 13)
                                             <tr>
                                                 <td colspan="{{ count($compaction_test[0]->compaction_test_details) + 1 }}"
-                                                    style="">
+                                                    style="background-color: darkblue;color: white">
                                                     Density Determination
                                                 </td>
                                             </tr>
@@ -437,17 +338,43 @@
                                 </table>
                             </div>
 
+                            <div class="col-md-12 row" style="margin-top: 10px">
+                                <div class="col-md-12 d-flex justify-content-end">
+                                    <div class="col-md-2">
+                                        <label for="project_code" class="form-label">{{ trans('tests.sader_num') }}</label>
+                                        <div class="input-group flex-nowrap">
+                                            <input type="number" step="any" class="form-control" name="sader_num" id="sader_num" value="">
+                                        </div>
+                                        @error('sader_num')
+                                        <span class="invalid-feedback d-block" role="alert">{{ $message }}</span>
+                                        @enderror
+                                    </div>
 
+                                    <div class="col-md-2">
+                                        <label for="project_code" class="form-label">{{ trans('tests.sader_date') }}</label>
+                                        <div class="input-group flex-nowrap">
+                                            <input type="date" class="form-control" name="sader_date" id="sader_date" value="">
+                                        </div>
+                                        @error('sader_date')
+                                        <span class="invalid-feedback d-block" role="alert">{{ $message }}</span>
+                                        @enderror
+                                    </div>
+
+                                    <div class="form-group" style="margin-top: 27px;margin-right: 20px">
+                                        <a href="{{route('admin.soil_sample_report_details',$all_data->id)}}"
+                                           class="btn-primary btn "> <?= trans('tests.PrintButton') ?></a>
+                                        <button type="submit" class="btn btn-success"
+                                                style="margin-right: 10px;margin-left: 10px">{{trans('payment.Save')}}</button>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
 
                     </div>
 
-                    <div class="card-footer d-flex justify-content-end py-6">
-                        <a href="{{route('admin.soil_sample_report_details',$all_data->id)}}"
-                           class="btn-primary btn "> <?= trans('tests.PrintButton') ?></a>
-                        <button type="submit" class="btn btn-success"
-                                style="margin-right: 10px;margin-left: 10px">{{trans('payment.Save')}}</button>
-                    </div>
+
+
+
                 </form>
 
             </div>
@@ -463,6 +390,54 @@
 @endsection
 
 @section('js')
+
+    <script>
+        $(document).ready(function() {
+            $('#sader_date').on('change', function() {
+                var selectedDate = $(this).val();
+                var currentYear = new Date().getFullYear();
+
+                if (selectedDate) {
+                    $.ajax({
+                        url: "{{ route('admin.check_sader_date') }}",
+                        method: 'GET',
+                        data: {
+                            date: selectedDate,
+                            year: currentYear
+                        },
+                        success: function(response) {
+                            if (response.exists) {
+
+                                var numbers = Array.isArray(response.next_number) ? response.next_number : [];
+
+                                var numbersOptions = '<option value="">Select Number</option>'; // Default placeholder
+                                numbers.forEach(function(number) {
+                                    numbersOptions += '<option value="'+number+'">'+number+'</option>';
+                                });
+
+                                $('#sader_num').replaceWith(`
+                            <select class="form-control" name="sader_num" id="sader_num">
+                                ${numbersOptions}
+                            </select>
+                        `);
+                            } else {
+                                var nextNumber = response.next_number;
+                                console.log('nextNumber =', nextNumber);
+
+                                $('#sader_num').replaceWith(`
+                            <input type="number" step="any" class="form-control" name="sader_num" id="sader_num" value="${nextNumber}">
+                        `);
+                            }
+                        },
+                        error: function(xhr, status, error) {
+                            console.error('Error:', error);
+                        }
+                    });
+                }
+            });
+        });
+
+    </script>
 
     <script>
         $(document).ready(function () {

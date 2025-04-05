@@ -8,7 +8,7 @@
 {{--            @if(!empty($all_data->talab_image) && file_exists(public_path('images/' . $all_data->talab_image)))--}}
 {{--                <img  src="{{ asset('images/' . $all_data->talab_image) }}" alt="image"/>--}}
 {{--            @else--}}
-                <img  src="{{ asset('images/test_default.jpg') }}" alt=""/>
+                <img  src="{{ asset('assets/images/compaction_test.jpg') }}" alt=""/>
 {{--            @endif--}}
             <div class="position-absolute translate-middle bottom-0 start-100 mb-6 bg-success rounded-circle border border-4 border-body h-20px w-20px"></div>
         </div>
@@ -21,32 +21,63 @@
             <div class="d-flex flex-column">
 
                 <div class="d-flex align-items-center mb-2">
-                    <a href="#" class="text-gray-900 text-hover-primary fs-2 fw-bold me-1">{{ get_app_config_data('soil_prefix').$all_data->test_code }}</a>
+                    <a href="#" class="text-primary text-hover-dark fs-2 fw-bold me-1">{{$all_data->test_code_st }}</a>
                     <a href="#">
                         <i class="bi bi-patch-check fs-1 text-primary"></i>
                     </a>
-
                 </div>
-
-                <div class="d-flex flex-wrap fw-semibold fs-6 mb-4 pe-2">
-                    <a href="#" class="d-flex align-items-center text-gray-500 text-hover-primary me-5 mb-2">
-                        <i class="bi bi-person fs-4 me-1"></i> {{optional($all_data->client)->name}}
+                <div class="d-flex flex-wrap fw-semibold fs-6 mb-4 pe-2">   
+                    <a class="d-flex align-items-center text-primary text-hover-dark me-5 mb-2">
+                        <i class="bi bi-person fs-4 me-1"></i> {{ optional($all_data->client)->name }}
                     </a>
-                    <a href="#" class="d-flex align-items-center text-gray-500 text-hover-primary me-5 mb-2">
-                        <i class="bi bi-building fs-4 me-1"></i> {{optional($all_data->company)->name}}
+                    <a href="{{ route('admin.client_companies', optional($all_data->company)->id) }}" class="d-flex align-items-center text-success text-hover-dark me-5 mb-2">
+                        <i class="bi bi-building fs-4 me-1"></i> {{ optional($all_data->company)->name }}
                     </a>
-                    <a href="#" class="d-flex align-items-center text-gray-500 text-hover-primary mb-2">
-                        <i class="bi bi-folder fs-4 me-1"></i> {{optional($all_data->project)->project_name}}
+                    <a href="{{ route('admin.client_projects', optional($all_data->project)->id) }}" class="d-flex align-items-center text-info text-hover-dark mb-2">
+                        <i class="bi bi-folder fs-4 me-1"></i> {{ optional($all_data->project)->project_name }}
                     </a>
-                </div>
-
-                <!--end::Info-->
-            </div>
+                </div> <!--end::Info-->   </div>
 
             <div class="d-flex my-4">
-                <a href="{{route('admin.soil_compaction_soil_test')}}" class="btn btn-sm btn-light me-2" id="kt_user_follow_button">
-                    <i class="ki-duotone ki-check fs-3 d-none"></i>{{$all_data->status}}
+                <!-- Button to trigger the modal -->
+                <a  data-bs-toggle="modal" data-bs-target="#statusModal">
+                    <span class="badge bg-{{ $all_data->status == 'received' ? 'success' : 'danger' }}">{{ trans('tests.'.$all_data->status) }}</span>
                 </a>
+            </div>
+
+            <!-- Modal -->
+            <div class="modal fade" id="statusModal" tabindex="-1" aria-labelledby="statusModalLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="statusModalLabel">Change Status</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+
+                            <form action="{{route('admin.update_test_status',$all_data->id)}}" method="GET">
+                            @csrf
+                                <div class="mb-3">
+                                    <label for="statusSelect" class="form-label">Select Status</label>
+                                    <select class="form-select" id="statusSelect" name="status">
+                                        <option value="pending" {{ $all_data->status == 'pending' ? 'selected' : '' }}>{{ trans('tests.pending') }}</option>
+                                        <option value="received" {{ $all_data->status == 'received' ? 'selected' : '' }}>{{ trans('tests.received') }}</option>
+                                        <option value="test_progress" {{ $all_data->status == 'test_progress' ? 'selected' : '' }}>{{ trans('tests.test_progress') }}</option>
+                                        <option value="test_done" {{ $all_data->status == 'test_done' ? 'selected' : '' }}>{{ trans('tests.test_done') }}</option>
+                                        <option value="reports_progress" {{ $all_data->status == 'reports_progress' ? 'selected' : '' }}>{{ trans('tests.reports_progress') }}</option>
+                                        <option value="reports_done" {{ $all_data->status == 'reports_done' ? 'selected' : '' }}>{{ trans('tests.reports_done') }}</option>
+
+                                    </select>
+                                </div>
+
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                    <button type="submit" class="btn btn-primary">Save changes</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
             </div>
 
         </div>

@@ -1,7 +1,7 @@
 <?php return array (
   'add_client' => 'إضافة جهه مستفيده',
   'back' => 'رجوع',
-  'client_code' => 'كود العميل',
+  'client_code' => 'كود الجهة',
   'name' => 'الاسم',
   'phone' => 'رقم الهاتف',
   'email' => 'البريد الإلكتروني',

@@ -20,23 +20,17 @@
 
         <div class="card">
             <div class="card-header">
-                <div class="card-title fs-3 fw-bold">{{trans('payment.pay_dues')}}</div>
+                <div class="card-title fs-3 fw-bold">{{trans('clients.companies')}}</div>
             </div>
-            <form action="{{ route('admin.company_store_project',$all_data->id) }}" method="post" enctype="multipart/form-data" id="store_form">
-                @csrf
+
                 <div class="card-body">
 
                     @include('dashbord.clients.company.clients_company_form')
 
                 </div>
 
-                <div class="card-footer d-flex justify-content-end py-6">
-                    <button type="reset"
-                            class="btn btn-light btn-active-light-primary me-2">{{trans('payment.discard')}}</button>
-                    <button type="submit" class="btn btn-primary">{{trans('payment.Save')}}</button>
-                </div>
 
-            </form>
+
         </div>
 
         <div class="card" style="margin-top:10px">

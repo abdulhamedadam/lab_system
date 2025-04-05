@@ -36,9 +36,8 @@ class DuesController extends Controller
                 })->editColumn('client', function ($row) {
                     return optional($row->client)->name;
                 })->editColumn('test', function ($row) {
-                    $test_code = optional($row->test_data)->test_code;
-                    $final_code = get_app_config_data('soil_prefix') . $test_code;
-                    return $final_code;
+                    $test_code = optional($row->test_data)->test_code_st;
+                    return $test_code;
                 })->editColumn('test_type', function ($row) {
                     return $row->test_type;
                 })->editColumn('test_title', function ($row) {

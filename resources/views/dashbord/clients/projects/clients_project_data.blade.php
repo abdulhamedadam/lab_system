@@ -32,7 +32,7 @@
                             <a data-bs-toggle="modal" data-bs-target="#myModal" onclick="edit_company({{ $project->id }})" class="btn btn-sm btn-warning" title="{{ trans('clients.edit') }}">
                                 <i class="bi bi-pencil"></i>
                             </a>
-                            <a href="{{ route('admin.client_delete_company', $project->id) }}" onclick="return confirm('Are You Sure To Delete?')" class="btn btn-sm btn-danger">
+                            <a href="{{ route('admin.client_delete_project', $project->id) }}" onclick="return confirm('Are You Sure To Delete?')" class="btn btn-sm btn-danger">
                                 <i class="bi bi-trash"></i>
                             </a>
                         </div>

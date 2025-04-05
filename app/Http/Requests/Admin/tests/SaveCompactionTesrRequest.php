@@ -30,6 +30,8 @@ class SaveCompactionTesrRequest extends FormRequest
             'diameter' => 'required',
             'height' => 'required',
             'volume' => 'required',
+            'sader_num' => 'required',
+            'sader_date' => 'required',
             // Dynamic fields for the table
             'point_location-*' => 'nullable',
             'layer_number-*' => 'nullable',

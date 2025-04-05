@@ -126,6 +126,17 @@ class BasicRepository implements BasicRepositoryInterface
         return $this->model->where($column, $value)->delete();
     }
     /************************************************/
+    public function deleteWhere_arr(array $conditions)
+    {
+        $query = $this->model;
+
+        foreach ($conditions as $condition) {
+            $query = $query->where($condition[0], $condition[1], $condition[2]);
+        }
+
+        return $query->delete();
+    }
+    /************************************************/
     public function countWhere(array $conditions)
     {
         $query = $this->model->query();

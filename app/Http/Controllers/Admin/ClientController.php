@@ -175,6 +175,8 @@ class ClientController extends Controller
         }
     }
     /************************************************/
+
+    /************************************************/
     public function edit_company($company_id)
     {
         $data['company_data']=$this->CompanyRepository->getById($company_id);

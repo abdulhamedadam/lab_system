@@ -38,7 +38,7 @@
                     'tests.company',
                     'tests.project',
                     'tests.talab_title',
-                    'tests.talab_image',
+                  //  'tests.talab_image',
                     'tests.talab_date',
                     'tests.talab_end_date',
                     'tests.sample_number',
@@ -96,10 +96,7 @@
                         data: 'talab_title',
                         className: 'text-center'
                     },
-                    {
-                        data: 'talab_image',
-                        className: 'text-center'
-                    },
+
                     {
                         data: 'talab_date',
                         className: 'text-center'

@@ -100,6 +100,12 @@ class SoilHasaService
                     //  'created_by'       => auth()->user()->id,
                 ];
                 $this->HasaCompactionTestDetailsRepository->update($item->id, $details);
+                $sader_data['num'] = $validated_data['sader_num'];
+                $sader_data['date'] = $validated_data['sader_date'];
+                $sader_data['year'] = now()->year;
+                $sader = TestSader::create($sader_data);
+                $update_test['sader_id'] = $sader->id;
+                $test_updated = $this->TestsRepository->update($test_id, $update_test);
             }
         });
 

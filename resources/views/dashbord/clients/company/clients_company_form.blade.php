@@ -1,5 +1,6 @@
-<form action="{{ route('admin.client_store_company',$all_data->id) }}" method="post" enctype="multipart/form-data" id="store_form">
-    @csrf
+<form action="{{ route('admin.client_store_company', $all_data->id) }}" method="post" enctype="multipart/form-data" id="store_form">
+
+@csrf
     <div class="col-md-12 row" style="margin-top: 10px">
         <input type="hidden" name="client_id" id="client_id" value="{{$all_data->id}}">
         <div class="col-md-4">
@@ -9,9 +10,10 @@
                 <input type="text" class="form-control" name="company_code" id="company_code" value="{{$company_code}}" readonly>
             </div>
             @error('name')
-            <span class="fv-plugins-message-container" role="alert">{{ $message }}</span>
+            <span class="invalid-feedback d-block" role="alert">{{ $message }}</span>
             @enderror
         </div>
+
         <div class="col-md-4">
             <label for="first_name" class="form-label">{{ trans('clients.name') }}</label>
             <div class="input-group flex-nowrap">
@@ -19,7 +21,7 @@
                 <input type="text" class="form-control" name="name" id="name" value="{{ old('name') }}">
             </div>
             @error('name')
-            <span class="fv-plugins-message-container" role="alert">{{ $message }}</span>
+            <span class="invalid-feedback d-block" role="alert">{{ $message }}</span>
             @enderror
         </div>
 

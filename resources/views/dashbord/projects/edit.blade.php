@@ -56,6 +56,7 @@
                                         <option value="{{$item->id}}" {{ old('client_id',$all_data->client_id) == $item->id ? 'selected' : '' }}>{{$item->name}}</option>
                                     @endforeach
                                 </select>
+                                {!! saveClientButtonWithModal() !!}
                             </div>
                             @error('client_id')
                             <span class="invalid-feedback d-block" role="alert">{{ $message }}</span>
@@ -71,6 +72,7 @@
                                     <option value="">{{trans('clients.select')}}</option>
 
                                 </select>
+                                {!! saveCompanyButtonWithModal() !!}
                             </div>
                             @error('company_id')
                             <span class="fv-plugins-message-container" role="alert">{{ $message }}</span>

@@ -1,7 +1,6 @@
 <?php
 
 
-
 use App\Interfaces\BasicRepositoryInterface;
 use App\Traits\ImageProcessing;
 use Illuminate\Support\Facades\DB;
@@ -25,7 +24,7 @@ if (!function_exists('getMainData')) {
 }
 if (!function_exists('extractVideoId')) {
 
-     function extractVideoId($videoLink)
+    function extractVideoId($videoLink)
     {
         // Extract video ID from the YouTube link
         $pattern = '/(?:youtube\.com\/(?:[^\/\n\s]+\/\S+\/|(?:v|e(?:mbed)?)\/|\S*?[?&]v=)|youtu\.be\/)([a-zA-Z0-9_-]{11})/';
@@ -60,7 +59,7 @@ if (!function_exists('formatTimeForDisplay')) {
         $formattedTime = $dateTime->format('g:i a');
         $formattedTime = strtolower($formattedTime);
 
-        return  $formattedTime;
+        return $formattedTime;
     }
 }
 if (!function_exists('formatDateDayDisplay')) {
@@ -109,32 +108,31 @@ if (!function_exists('generateUniqueRandomCode')) {
 }
 
 
-
 /*************************************************************/
-function get_session_attendance($member_id,$additional_sub_id)
+function get_session_attendance($member_id, $additional_sub_id)
 {
-    if ($member_id && $additional_sub_id){
-        $session_num=\App\Models\MembersAttendance::where('member_id',$member_id)->where('additional_subscription_id',$additional_sub_id)->count();
+    if ($member_id && $additional_sub_id) {
+        $session_num = \App\Models\MembersAttendance::where('member_id', $member_id)->where('additional_subscription_id', $additional_sub_id)->count();
         return $session_num;
-    }
-    else{
+    } else {
         return 0;
     }
 
 }
 
 /**************************************************************/
-function get_app_config_data($key){
-    $data=\App\Models\AppConfig::where('key',$key)->first();
+function get_app_config_data($key)
+{
+    $data = \App\Models\AppConfig::where('key', $key)->first();
     return $data->value ?? ' ';
 }
 
 /***************************************************************/
 function AddButton($route)
 {
-     $button='
+    $button = '
             <div class="d-flex">
-                <a href="'.$route.'" class="btn btn-icon btn-sm btn-primary flex-shrink-0 ms-4">
+                <a href="' . $route . '" class="btn btn-icon btn-sm btn-primary flex-shrink-0 ms-4">
                     <span class="svg-icon svg-icon-2">
                         <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                             <rect opacity="0.5" x="11.364" y="20.364" width="16" height="2" rx="1" transform="rotate(-90 11.364 20.364)" fill="currentColor"/>
@@ -145,15 +143,15 @@ function AddButton($route)
                 </a>
             </div>';
 
-     echo $button;
+    echo $button;
 }
 
 /****************************************************************/
 function BackButton($route)
 {
-    $button='
+    $button = '
             <div class="d-flex">
-                <a href="'.$route.'" class="btn btn-icon btn-sm btn-primary flex-shrink-0 ms-4">
+                <a href="' . $route . '" class="btn btn-icon btn-sm btn-primary flex-shrink-0 ms-4">
                     <span class="svg-icon svg-icon-2">
                                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none"
                                         xmlns="http://www.w3.org/2000/svg">
@@ -168,15 +166,16 @@ function BackButton($route)
 
     echo $button;
 }
+
 /****************************************************************/
 function PageTitle($title, $breadcrumbs)
 {
     $breadcrumbItems = '';
     foreach ($breadcrumbs as $breadcrumb) {
         if (isset($breadcrumb['link']) && $breadcrumb['link'] !== '') {
-            $breadcrumbItems .= '<li class="breadcrumb-item text-muted"><a href="'.$breadcrumb['link'].'" class="text-muted text-hover-primary">'.$breadcrumb['label'].'</a></li>';
+            $breadcrumbItems .= '<li class="breadcrumb-item text-muted"><a href="' . $breadcrumb['link'] . '" class="text-muted text-hover-primary">' . $breadcrumb['label'] . '</a></li>';
         } else {
-            $breadcrumbItems .= '<li class="breadcrumb-item text-muted">'.$breadcrumb['label'].'</li>';
+            $breadcrumbItems .= '<li class="breadcrumb-item text-muted">' . $breadcrumb['label'] . '</li>';
         }
         $breadcrumbItems .= '<li class="breadcrumb-item"><span class="bullet bg-gray-400 w-5px h-2px"></span></li>';
     }
@@ -184,9 +183,9 @@ function PageTitle($title, $breadcrumbs)
 
     $pageTitle = '
     <div class="page-title d-flex flex-column justify-content-center flex-wrap me-3">
-        <h1 class="page-heading d-flex text-dark fw-bold fs-3 flex-column justify-content-center my-0">'.$title.'</h1>
+        <h1 class="page-heading d-flex text-dark fw-bold fs-3 flex-column justify-content-center my-0">' . $title . '</h1>
         <ul class="breadcrumb breadcrumb-separatorless fw-semibold fs-7 my-0 pt-1">
-            '.$breadcrumbItems.'
+            ' . $breadcrumbItems . '
         </ul>
     </div>';
 
@@ -218,8 +217,6 @@ function generateTable(array $headers)
     echo $table;
 
 }
-
-
 
 
 /*----------------------------------------------*/
@@ -306,22 +303,21 @@ if (!function_exists('test')) {
 /************************************************/
 /**********************************************/
 if (!function_exists('generateCardHeader')) {
-    function generateCardHeader($card_title,$route,$add_button_title)
+    function generateCardHeader($card_title, $route, $add_button_title)
     {
-        if ($add_button_title != ' ')
-        {
-            $button='<a class="btn btn-primary" href="'. route($route) .'">
-                                <i class="bi bi-plus fs-1"></i>'. htmlspecialchars(trans($add_button_title)).'
+        if ($add_button_title != ' ') {
+            $button = '<a class="btn btn-primary" href="' . route($route) . '">
+                                <i class="bi bi-plus fs-1"></i>' . htmlspecialchars(trans($add_button_title)) . '
                             </a>';
-        }else{
-            $button='';
+        } else {
+            $button = '';
         }
         $header = '
          <div class="card-header">
-                    <h3 class="card-title">'. htmlspecialchars(trans($card_title)).'</h3>
+                    <h3 class="card-title">' . htmlspecialchars(trans($card_title)) . '</h3>
                     <div class="card-toolbar">
                         <div class="text-center">
-                          '.$button.'
+                          ' . $button . '
                         </div>
                     </div>
                 </div>
@@ -358,15 +354,154 @@ if (!function_exists('form_icon')) {
 /***************************************************/
 function get_print_image()
 {
-    $data=\App\Models\Site\SiteData::find(1);
-   // dd($data ? $data->image_print : 'null');
+    $data = \App\Models\Site\SiteData::find(1);
+    // dd($data ? $data->image_print : 'null');
     return $data ? $data->image_print : 'null';
 }
+
 /***************************************************/
 function toTLV($tag, $value)
 {
     $length = strlen($value);
     return chr($tag) . chr($length) . $value;
 }
+
+/***************************************************/
+
+
+if (!function_exists('saveClientButtonWithModal')) {
+    function saveClientButtonWithModal()
+    {
+        return '
+
+            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addClientModal">
+                <i class="fas fa-plus"></i>
+            </button>
+
+
+            <div class="modal fade" id="addClientModal" tabindex="-1" aria-labelledby="addClientModalLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="addClientModalLabel">' . trans('clients.add_new') . '</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            <div class="mb-3">
+                                <label for="client_name" class="form-label">' . trans('clients.name') . '</label>
+                                <input type="text" class="form-control" id="client_name" name="client_name">
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">' . trans('common.close') . '</button>
+                            <button type="button" onclick="saveClient()" class="btn btn-primary">' . trans('common.save') . '</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+            <script>
+                function saveClient() {
+                    var clientName = $("#client_name").val();
+                    if (clientName) {
+                        $.ajax({
+                            url: "' . route('admin.save_client_popup') . '",
+                            type: "POST",
+                            data: {
+                                name: clientName,
+                                _token: $("meta[name=\'csrf-token\']").attr("content")
+                            },
+                            dataType: "json",
+                            success: function (data) {
+                                if (data.success) {
+                                    $("#client_id").append(new Option(data.client.name, data.client.id, true, true));
+                                    if ($.fn.select2) {
+                                        $("#client_id").trigger("change");
+                                    }
+                                    $("#addClientModal").modal("hide");
+                                    $("#client_name").val("");
+                                }
+                            }
+                        });
+                    }
+                }
+            </script>
+        ';
+    }
+}
+
+
+if (!function_exists('saveCompanyButtonWithModal')) {
+    function saveCompanyButtonWithModal()
+    {
+        return '
+            <!-- زر فتح المودال -->
+            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addCompanyModal">
+                <i class="fas fa-plus"></i>
+            </button>
+
+            <!-- المودال -->
+            <div class="modal fade" id="addCompanyModal" tabindex="-1" aria-labelledby="addCompanyModalLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="addCompanyModalLabel">' . trans('companies.add_new') . '</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            <div class="mb-3">
+                                <label for="company_name" class="form-label">' . trans('companies.name') . '</label>
+                                <input type="text" class="form-control" id="company_name" name="company_name">
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">' . trans('common.close') . '</button>
+                            <button type="button" onclick="saveCompany()" class="btn btn-primary">' . trans('common.save') . '</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- سكريبت الحفظ -->
+            <script>
+                var saveCompanyUrl = "' . route('admin.save_company_popup') . '";
+
+                function saveCompany() {
+                    var companyName = $("#company_name").val();
+                    if (companyName) {
+                        $.ajax({
+                            url: saveCompanyUrl,
+                            type: "POST",
+                            data: {
+                                name: companyName,
+                                _token: $("meta[name=\'csrf-token\']").attr("content")
+                            },
+                            dataType: "json",
+                            success: function (data) {
+                                if (data.success) {
+                                    $("#company_id").append(new Option(data.company.name, data.company.id, true, true));
+                                    if ($.fn.select2) {
+                                        $("#company_id").trigger("change");
+                                    }
+                                    $("#addCompanyModal").modal("hide");
+                                    $("#company_name").val("");
+                                }
+                            }
+                        });
+                    }
+                }
+            </script>
+        ';
+    }
+}
+
+/*****************************************************/
+function get_prefix($type)
+{
+    $type_arr = ['soil' => 'soil_prefix', 'concrete' => 'concrete_prefix', 'roads' => 'road_prefix', 'mechanic' => 'mechanic_prefix'];
+    return get_app_config_data($type_arr);
+}
+
 
 

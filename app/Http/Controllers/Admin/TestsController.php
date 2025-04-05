@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Admin\Sader\SaveSaderRequest;
 use App\Http\Requests\Admin\tests\SaveCompactionTesrRequest;
 use App\Http\Requests\Admin\tests\SaveRequest;
 use App\Interfaces\BasicRepositoryInterface;
@@ -258,34 +259,22 @@ class TestsController extends Controller
     /*********************************************/
     public function add_sader(HelperService $helperService)
     {
-        $data['all_data'] = $helperService->get_all_tests();
+        $data['saderData'] = $helperService->get_all_sader();
         return view('dashbord.tests.add_sader', $data);
 
     }
 
     /**********************************************/
-    public function save_sader(Request $request)
+    public function save_sader(SaveSaderRequest $request,HelperService $helperService)
     {
-        $request->validate([
-            'sader_number' => [
-                'required',
-                Rule::unique('tbl_tests')->where(function ($query) use ($request) {
-                    return $query->whereRaw('YEAR(sader_date) = ?', [date('Y')]);
-                })
-            ],
-            'sader_date' => 'required|date',
-        ]);
+        try {
 
-
-        $test = Test::find($request->id);
-        if ($test) {
-            $test->sader_number = $request->sader_number;
-            $test->sader_date = $request->sader_date;
-            $test->save();
-
-            return response()->json(['success' => true]);
+            $helperService->save_sader_data($request);
+            toastr()->addSuccess(trans('forms.success'));
+            return redirect()->route('admin.add_sader');
+        } catch (\Exception $e) {
+            dd($e->getMessage());
+            return redirect()->back()->withErrors(['error' => $e->getMessage()]);
         }
-
-        return response()->json(['success' => false]);
     }
 }

@@ -16,7 +16,7 @@
 
 
         <div class="d-flex align-items-center gap-2 gap-lg-3">
-            {{ BackButton(route('admin.soil_compaction_soil_test')) }}
+            {{ BackButton(route('admin.hasa_compaction_soil_test')) }}
 
 
         </div>

@@ -1,18 +1,69 @@
 @extends('dashbord.layouts.master')
+
 @section('toolbar')
     <div id="kt_app_toolbar_container" class="app-container container-xxl d-flex flex-stack">
         @php
             $title = trans('tests.tests');
-         $breadcrumbs = [
-                  ['label' => trans('Toolbar.home'), 'link' => route('admin.test.index')],
-                  ['label' => trans('Toolbar.tests'), 'link' => ''],
-                  ['label' => trans('tests.tests_table'), 'link' => '']
-                  ];
+            $breadcrumbs = [
+            ['label' => trans('Toolbar.home'), 'link' => route('admin.test.index')],
+            ['label' => trans('Toolbar.tests'), 'link' => ''],
+            ['label' => trans('tests.sader_data'), 'link' => '']
+            ];
 
-          PageTitle($title, $breadcrumbs);
+            PageTitle($title, $breadcrumbs);
         @endphp
 
+        <div class="d-flex align-items-center gap-2 gap-lg-3">
 
+            <div class="d-flex">
+                <button type="button" class="btn btn-icon btn-sm btn-primary flex-shrink-0 ms-4" data-bs-toggle="modal"
+                        data-bs-target="#exampleModal">
+            <span class="svg-icon svg-icon-2">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <rect opacity="0.5" x="11.364" y="20.364" width="16" height="2" rx="1"
+                      transform="rotate(-90 11.364 20.364)" fill="currentColor"/>
+                <rect x="4.36396" y="11.364" width="16" height="2" rx="1" fill="currentColor"/>
+                </svg>
+            </span>
+                </button>
+            </div>
+
+            <!-- Modal -->
+            <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel"
+                 aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <form action="{{route('admin.save_sader')}}" method="post">
+                            @csrf
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="exampleModalLabel">Add Details</h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                        aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body">
+
+
+                                <div class="mb-3">
+                                    <label for="modalDate2" class="form-label">Date 2</label>
+                                    <input type="date" class="form-control" id="modalDate2" name="date">
+                                </div>
+                                <div class="mb-3">
+                                    <label for="modalNumber" class="form-label">Number</label>
+                                    <input type="number" class="form-control" id="modalNumber" name="num">
+                                </div>
+
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                <button type="submit" class="btn btn-primary" id="saveModalData">Save</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+
+        </div>
     </div>
 
 @endsection
@@ -27,34 +78,24 @@
 
 
             <div class="card-body">
-                <table class="table table-bordered">
-                    <thead>
-                    <tr>
-                        <th>Test Code</th>
-                        <th>Test Title</th>
-                        <th>Sader Number</th>
-                        <th>Sader Date</th>
-                        <th>Action</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    @foreach($all_data as $item)
-                        <tr>
-                            <td>{{ $item->test_code_st }}</td>
-                            <td>{{ $item->talab_title }}</td>
-                            <td>
-                                <input type="text" class="form-control sader_number" data-id="{{ $item->id }}" placeholder="Enter Sader Number">
-                            </td>
-                            <td>
-                                <input type="date" class="form-control sader_date" data-id="{{ $item->id }}">
-                            </td>
-                            <td>
-                                <button class="btn btn-primary save-btn" data-id="{{ $item->id }}">Save</button>
-                            </td>
-                        </tr>
+                <div class="row">
+                    @foreach($saderData as $sader)
+                        <div class="col-md-1 mb-4">
+                            <div class="border text-center"
+                                 style="width: 100px; height: 100px; @if($sader->test) background-color: lightgreen; @endif">
+                                <p style="@if(!$sader->test) font-weight: bold; @endif">{{ $sader->num }}</p>
+                                <p>{{ $sader->date }}</p>
+                                @if($sader->test && $sader->test->test_sub_category =='soil')
+                                    <a href="{{route('admin.samples_test',$sader->id)}}"><p>{{ optional($sader->test)->test_code_st }}</p></a>
+                                @elseif($sader->test && $sader->test->test_sub_category =='hasa')
+                                    <a href="{{route('admin.hasa_samples_test',$sader->id)}}"><p>{{ optional($sader->test)->test_code_st }}</p></a>
+                                @else
+
+                                @endif
+                            </div>
+                        </div>
                     @endforeach
-                    </tbody>
-                </table>
+                </div>
             </div>
 
         </div>
@@ -65,45 +106,46 @@
 @stop
 @section('js')
 
-  <script>
-      $(document).on('click', '.save-btn', function() {
-          let id = $(this).data('id');
-          let saderNumber = $('.sader_number[data-id="'+id+'"]').val();
-          let saderDate = $('.sader_date[data-id="'+id+'"]').val();
+    <script>
+        $(document).on('click', '.save-btn', function () {
+            let id = $(this).data('id');
+            let saderNumber = $('.sader_number[data-id="' + id + '"]').val();
+            let saderDate = $('.sader_date[data-id="' + id + '"]').val();
 
-          if (saderNumber === '' || saderDate === '') {
-              alert('Please fill all fields.');
-              return;
-          }
+            if (saderNumber === '' || saderDate === '') {
+                alert('Please fill all fields.');
+                return;
+            }
 
-          $.ajax({
-              url: "{{ route('admin.save_sader') }}",
-              method: "POST",
-              data: {
-                  _token: "{{ csrf_token() }}",
-                  id: id,
-                  sader_number: saderNumber,
-                  sader_date: saderDate
-              },
-              success: function(response) {
-                  if (response.success) {
-                      alert('Saved successfully!');
-                      location.reload();
-                  } else {
-                      alert('Failed to save.');
-                  }
-              },
-              error: function(xhr) {
-                  if (xhr.status === 422) {
-                      alert('Sader Number must be unique for this year.');
-                  } else {
-                      alert('Something went wrong!');
-                  }
-              }
-          });
-      });
+            $.ajax({
+                url: "{{ route('admin.save_sader') }}",
+                method: "POST",
+                data: {
+                    _token: "{{ csrf_token() }}",
+                    id: id,
+                    sader_number: saderNumber,
+                    sader_date: saderDate
+                },
+                success: function (response) {
+                    if (response.success) {
+                        alert('Saved successfully!');
+                        location.reload();
+                    } else {
+                        alert('Failed to save.');
+                    }
+                },
+                error: function (xhr) {
+                    if (xhr.status === 422) {
+                        alert('Sader Number must be unique for this year.');
+                    } else {
+                        alert('Something went wrong!');
+                    }
+                }
+            });
+        });
+    </script>
 
-  </script>
+
+
 
 @endsection
-

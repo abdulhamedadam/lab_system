@@ -10,6 +10,8 @@ use App\Interfaces\BasicRepositoryInterface;
 use App\Models\Admin\Employee;
 use App\Models\Admin\SoilCompactionTest;
 use App\Models\Admin\SoilCompactionTestDetails;
+use App\Models\Admin\SoilHasaCompactionTest;
+use App\Models\Admin\SoilHasaCompactionTestDetails;
 use App\Models\Admin\Test;
 use App\Models\Clients;
 use App\Models\ClientsCompanies;
@@ -41,8 +43,8 @@ class SoilTestController extends Controller
         $this->projectsRepository   = createRepository($basicRepository, new ClientsProjects());
         $this->clientsRepository = createRepository($basicRepository, new Clients());
         $this->companyRepository   = createRepository($basicRepository, new ClientsCompanies());
-        $this->SoilCompactionTestRepository   = createRepository($basicRepository, new SoilCompactionTest());
-        $this->SoilCompactionTestDetailsRepository   = createRepository($basicRepository, new SoilCompactionTestDetails());
+        $this->SoilCompactionTestRepository   = createRepository($basicRepository, new SoilHasaCompactionTest());
+        $this->SoilCompactionTestDetailsRepository   = createRepository($basicRepository, new SoilHasaCompactionTestDetails());
         $this->EmployeeRepository   = createRepository($basicRepository, new Employee());
         $this->testsRepository   = createRepository($basicRepository, new Test());
         $this->testsService   = $testsService;
@@ -56,75 +58,86 @@ class SoilTestController extends Controller
         //   dd($allData);
         if ($request->ajax()) {
 
-            $allData = Test::with(['company', 'client', 'project', 'user'])->where('test_type', 'hasa')->where('sub_test_type', 'compaction')->orderBy('id', 'desc')->get();
+            $allData = Test::with(['company', 'client', 'project', 'user'])->where('test_category', 'soil')->where('test_sub_category', 'hasa')->where('test', 'compaction')->orderBy('id', 'desc')->get();
             return DataTables::of($allData)
-                ->editColumn('client', function ($row) {
-                    return $row->client ? $row->client->name : 'N/A';
-                })
-                ->editColumn('test_code', function ($row) {
-                    return get_app_config_data('soil_prefix') . $row->test_code;
-                })
-                ->editColumn('company', function ($row) {
-                    return $row->company ? $row->company->name : 'N/A';
-                })
-                ->editColumn('project', function ($row) {
-                    return $row->project ? $row->project->project_name : 'N/A';
-                })
+            ->editColumn('client', function ($row) {
+                //  return optional($row->client)->name;
+                return '<a href="'.route('admin.client_companies', $row->client_id).'" class="text-primary fw-bold">'.($row->client)->name.'</a>';
 
-                ->editColumn('talab_title', function ($row) {
-                    return $row->talab_title;
-                })
-                ->editColumn('talab_image', function ($row) {
-                    if ($row->talab_image) {
-                        $imagePath = asset('images/' . $row->talab_image);
-                        return '<img src="' . $imagePath . '" alt="Employee Image" class="img-thumbnail" style="width: 50px; height: 50px;" onclick="showImagePopup(\'' . $imagePath . '\')">';
-                    } else {
-                        return 'N\A';
-                    }
-                })
-                ->editColumn('talab_date', function ($row) {
-                    return $row->talab_date;
-                })
-                ->editColumn('talab_end_date', function ($row) {
-                    return $row->talab_end_date;
-                })
-                ->editColumn('sample_number', function ($row) {
-                    return $row->sample_number;
-                })
-                ->editColumn('status', function ($row) {
-                    $status_arr = [
-                        'pending' => trans('tests.pending'),
-                        'received' => trans('tests.received'),
-                        'test_progress' => trans('tests.test_progress'),
-                        'test_done' => trans('tests.test_done'),
-                        'reports_progress' => trans('tests.reports_progress'),
-                        'reports_done' => trans('tests.reports_done')
-                    ];
-                    return $status_arr[$row->status];
-                })
-                ->addColumn('action', function ($row) {
-                    return '
-                        <div class="btn-group btn-group-sm">
-                            <a href="' . route('admin.hasa_compaction_edit_soil_test', [$row->id]) . '" class="btn btn-sm btn-primary" title="' . trans('tests.edit') . '" style="font-size: 16px;">
-                                <i class="bi bi-pencil-square"></i>
-                            </a>
-                            <a onclick="return confirm(\'Are You Sure To Delete?\')"  href="' . route('admin.delete_test', $row->id) . '"  class="btn btn-sm btn-danger" title="' . trans('tests.delete') . '" style="font-size: 16px;" onclick="return confirm(\'' . trans('masrofat.confirm_delete') . '\')">
-                                <i class="bi bi-trash3"></i>
-                            </a>
-                            <a href="' . route('admin.hasa_compaction_test', $row->id) . '" class="btn btn-sm btn-success" title="' . trans('tests.samples_test') . '" style="font-size: 16px;">
-                                <i class="bi bi-clipboard-check"></i>
-                            </a>
-                            <a href="' . route('admin.print_compaction_test', $row->id) . '" class="btn btn-sm btn-dark" title="' . trans('tests.print_samples_test') . '" style="font-size: 16px;">
-                                <i class="bi bi-printer ms-1"></i>
-                            </a>
+            })
+            ->editColumn('test_code', function ($row) {
+                return '<a href="'.route('admin.samples_test', $row->id).'" class="text-primary fw-bold">'. $row->test_code_st.'</a>';
+            })
+            ->editColumn('company', function ($row) {
+                // return  optional($row->company)->name ;
+                return '<a  href="'.route('admin.company_projects', $row->company_id).'" class="text-primary fw-bold" style="color:red">'.optional($row->company)->name.'</a>';
 
-                        </div>';
-                })
-                ->rawColumns(['action', 'talab_image'])
-                ->make(true);
-        }
+            })
+            ->editColumn('project', function ($row) {
+                return $row->project ? $row->project->project_name : 'N/A';
+            })
+
+            ->editColumn('talab_title', function ($row) {
+                return $row->talab_title;
+            })
+
+            ->editColumn('talab_date', function ($row) {
+                return $row->talab_date;
+            })
+            ->editColumn('talab_end_date', function ($row) {
+                return $row->talab_end_date;
+            })
+            ->editColumn('sample_number', function ($row) {
+                return $row->sample_number;
+            })
+            ->editColumn('status', function ($row) {
+                $status_arr = [
+                    'pending' => trans('tests.pending'),
+                    'received' => trans('tests.received'),
+                    'test_progress' => trans('tests.test_progress'),
+                    'test_done' => trans('tests.test_done'),
+                    'reports_progress' => trans('tests.reports_progress'),
+                    'reports_done' => trans('tests.reports_done')
+                ];
+                return $status_arr[$row->status];
+            })
+            ->addColumn('action', function ($row) {
+                return '
+    <div class="dropdown">
+        <button class="btn btn-secondary dropdown-toggle" type="button" id="actionDropdown'.$row->id.'" data-bs-toggle="dropdown" aria-expanded="false">
+            <i class="bi bi-gear"></i> ' . trans('tests.actions') . '
+        </button>
+        <ul class="dropdown-menu" aria-labelledby="actionDropdown'.$row->id.'">
+            <li>
+                <a class="dropdown-item" href="' . route('admin.soil_compaction_edit_soil_test', [$row->id]) . '">
+                    <i class="bi bi-pencil-square me-2"></i> ' . trans('tests.edit') . '
+                </a>
+            </li>
+            <li>
+                <a class="dropdown-item text-danger" href="' . route('admin.delete_test', $row->id) . '"
+                   onclick="return confirm(\'' . trans('masrofat.confirm_delete') . '\')">
+                    <i class="bi bi-trash3 me-2"></i> ' . trans('tests.delete') . '
+                </a>
+            </li>
+            <li>
+                <a class="dropdown-item" href="' . route('admin.hasa_samples_test', $row->id) . '">
+                    <i class="bi bi-clipboard-check me-2"></i> ' . trans('tests.samples_test') . '
+                </a>
+            </li>
+            <li>
+                <a class="dropdown-item" href="' . route('admin.print_soil_sample_report', $row->id) . '">
+                    <i class="bi bi-printer me-2"></i> ' . trans('tests.print_samples_test') . '
+                </a>
+            </li>
+        </ul>
+    </div>';
+            })
+            ->rawColumns(['action', 'talab_image','test_code','company','client'])
+            ->make(true);
+    }
         return view('dashbord.tests.soil.hasa.compaction_index');
     }
+
     /****************************************************************/
     public function hasa_compaction_create()
     {
@@ -140,6 +153,7 @@ class SoilTestController extends Controller
         // $data['test'] = $test;
         return view('dashbord.tests.soil.hasa.compaction_form', $data);
     }
+
     /****************************************************************/
     public function hasa_compaction_store(SaveSoilTestRequest $request)
     {
@@ -192,5 +206,12 @@ class SoilTestController extends Controller
         $data['all_emps'] = Employee::all();
         //dd($data['dues']);
         return view('dashbord.tests.soil.payments.dues', $data);
+    }
+    /****************************************************************/
+    public function hasa_compaction_test($id)
+    {
+        $data['all_data'] = $this->testsRepository->getById($id);
+        $data['compaction_test'] = $this->SoilCompactionTestRepository->getWithRelationsAndWhere(['compaction_test_details'], 'soil_test_id', $id);
+        return view('dashbord.tests.soil.hasa.compaction_test', $data);
     }
 }

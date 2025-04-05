@@ -47,6 +47,7 @@
                                         <option value="{{$item->id}}" {{ old('client_id',$all_data->client_id) == $item->id ? 'selected' : '' }}>{{$item->name}}</option>
                                     @endforeach
                                 </select>
+                                {!! saveClientButtonWithModal() !!}
                             </div>
                             @error('client_id')
                             <span class="invalid-feedback d-block" role="alert">{{ $message }}</span>

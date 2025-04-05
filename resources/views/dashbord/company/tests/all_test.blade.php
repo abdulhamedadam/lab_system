@@ -57,14 +57,7 @@
                 <div class="card-header mt-5 d-flex justify-content-between align-items-center">
                     <div class="card-title flex-column">
                         <h3 class="fw-bold mb-1">{{ trans('company.tests_cost') }}</h3>
-                        @php
-                            $cost = $tests_data->sum('cost');
-                        @endphp
-                        <div class="fs-2 text-gray-500">
-                            <span class="badge bg-light-success text-danger">
-                                Total tests cost : ${{ number_format($cost, 2) }}
-                            </span>
-                        </div>
+
                     </div>
 
                 </div>
@@ -80,11 +73,12 @@
                                     <th>{{ trans('tests.client') }}</th>
                                     <th>{{ trans('tests.project') }}</th>
                                     <th>{{ trans('tests.cost') }}</th>
-                                    <th>{{ trans('tests.talab_image') }}</th>
                                     <th>{{ trans('tests.talab_title') }}</th>
                                     <th>{{ trans('tests.talab_date') }}</th>
                                     <th>{{ trans('tests.wared_number') }}</th>
                                     <th>{{ trans('tests.book_number') }}</th>
+                                    <th>{{ trans('tests.sader_num') }}</th>
+                                    <th>{{ trans('tests.sader_date') }}</th>
                                     <th>{{ trans('tests.status') }}</th>
                                     <th>{{ trans('tests.action') }}</th>
 
@@ -93,49 +87,36 @@
                             <tbody class="fs-6">
                                 @foreach ($tests_data as $test)
                                     <tr>
-                                        <td>{{ get_app_config_data(in_array($test->test_type, ['soil', 'hasa']) ? 'soil_prefix' : $test->test_type . '_prefix') . $test->test_code }}
+                                        <td>{{ $test->test_code_st }}
                                         </td>
-                                        <td>{{ optional($test->client)->name }}</td>
-                                        <td>{{ optional($test->project)->project_name }}</td>
-                                        <td>{{ $test->cost }}</td>
-                                        <td>{{ $test->talab_image }}</td>
-                                        <td>{{ $test->talab_title }}</td>
-                                        <td>{{ $test->talab_date }}</td>
-                                        <td>{{ $test->wared_number }}</td>
-                                        <td>{{ $test->book_number }}</td>
-                                        <td>{{ $test->status }}</td>
-                                        <td>
-                                            <a href="#" class="btn btn-sm btn-light btn-active-light-primary"
-                                                target="_blank">
-                                                {{ trans('tests.view') }}
-                                            </a>
-                                        </td>
-
-                                    </tr>
-                                @endforeach
-
-                                @foreach($external_test as $test)
-
-                                    <tr>
-                                        <td>{{$test->test_code }}</td>
                                         <td>{{ optional($test->client)->name }}</td>
                                         <td>{{ optional($test->project)->project_name }}</td>
                                         <td>{{ $test->total_cost }}</td>
-                                        <td>{{ $test->talab_image ?? '-'}}</td>
-                                        <td>{{ $test->talab_title ?? $test->test_type}}</td>
-                                        <td>{{ $test->report_date }}</td>
-                                        <td>{{ $test->report_number }}</td>
+                                        <td>{{ $test->talab_title ?? '-' }}</td>
+                                        <td>{{ $test->talab_date ?? '-' }}</td>
+                                        <td>{{ $test->wared_number ?? '-' }}</td>
                                         <td>{{ $test->book_number ?? '-' }}</td>
-                                        <td>{{ $test->status ?? '-' }}</td>
+                                        <td>{{ optional($test->sader)->num }}</td>
+                                        <td>{{ optional($test->sader)->date }}</td>
+                                        <td>{{ $test->status }}</td>
                                         <td>
-                                            <a href="#" class="btn btn-sm btn-light btn-active-light-primary"
-                                               target="_blank">
+                                            @if($test->test_sub_category == 'soil')
+                                            <a href="{{route('admin.samples_test',$test->id)}}" class="btn btn-sm btn-light btn-active-light-primary"
+                                                target="_blank">
                                                 {{ trans('tests.view') }}
                                             </a>
+                                            @elseif($test->test_sub_category == 'hasa')
+                                                <a href="{{route('admin.hasa_samples_test',$test->id)}}" class="btn btn-sm btn-light btn-active-light-primary"
+                                                   target="_blank">
+                                                    {{ trans('tests.view') }}
+                                                </a>
+                                            @endif
                                         </td>
 
                                     </tr>
                                 @endforeach
+
+
                             </tbody>
                         </table>
                         <!--end::Table-->

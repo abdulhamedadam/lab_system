@@ -234,7 +234,7 @@ class CompanyController extends Controller
             ->sum(function ($test) {
                 return $test->client_test_payment->sum('value');
             });
-        // dd($data);
+        //dd($data['tests_data']);
         //dd( $data['paid_dues'] );
         return view($this->admin_view . '.tests.all_test', $data);
     }

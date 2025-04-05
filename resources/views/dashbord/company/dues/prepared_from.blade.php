@@ -66,7 +66,7 @@
 <hr style="margin-top: 30px; width: 100%; border: 2px solid #000000;">
 @foreach($dues as $index => $due)
     <div class="row" style="margin-top: 10px">
-        <input type="hidden" name="client_test_id" value="{{$due->id}}">
+        <input type="hidden" name="client_test_id[]" value="{{$due->id}}">
         <div class="col-md-3">
             <label class="required form-label">{{trans('dues.num')}}</label>
             <div class="input-group flex-nowrap">

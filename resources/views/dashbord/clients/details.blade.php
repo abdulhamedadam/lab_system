@@ -7,7 +7,7 @@
 {{--            @if(!empty($all_data->image) && file_exists(public_path('images/' . $all_data->image)))--}}
 {{--                <img  src="{{ asset('images/' . $all_data->image) }}" alt="image"/>--}}
 {{--            @else--}}
-                <img  src="{{ asset('images/default_company_logo.png') }}" alt=""/>
+                <img  src="{{ asset('assets/images/company.jpg') }}" alt=""/>
 {{--            @endif--}}
             <div class="position-absolute translate-middle bottom-0 start-100 mb-6 bg-success rounded-circle border border-4 border-body h-20px w-20px"></div>
         </div>
@@ -28,16 +28,17 @@
                 </div>
 
                 <div class="d-flex flex-wrap fw-semibold fs-6 mb-4 pe-2">
-                    <a href="#" class="d-flex align-items-center text-gray-500 text-hover-primary me-5 mb-2">
-                        <i class="bi bi-telephone fs-4 me-1"></i> {{$all_data->phone}}
-                    </a>
-                    <a href="#" class="d-flex align-items-center text-gray-500 text-hover-primary me-5 mb-2">
-                        <i class="bi bi-geo-alt fs-4 me-1"></i> {{$all_data->address1}}
-                    </a>
-                    <a href="#" class="d-flex align-items-center text-gray-500 text-hover-primary mb-2">
-                        <i class="bi bi-envelope fs-4 me-1"></i> {{$all_data->email}}
-                    </a>
+    <span class="d-flex align-items-center text-gray-500 me-5 mb-2">
+        <i class="bi bi-telephone fs-4 me-1"></i> {{$all_data->phone}}
+    </span>
+                    <span class="d-flex align-items-center text-gray-500 me-5 mb-2">
+        <i class="bi bi-geo-alt fs-4 me-1"></i> {{$all_data->address1}}
+    </span>
+                    <span class="d-flex align-items-center text-gray-500 mb-2">
+        <i class="bi bi-envelope fs-4 me-1"></i> {{$all_data->email}}
+    </span>
                 </div>
+
 
                 <!--end::Info-->
             </div>

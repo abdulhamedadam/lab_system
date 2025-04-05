@@ -22,22 +22,22 @@ class SaveRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'test_code' => 'required|string|max:255',
+            'test_code_st' => 'required|string',
             'client_id' => 'required',
             'company_id' => 'required',
             'project_id' => 'required',
-            'test_type' => 'required',
+            'test_category' => 'required',
+            'test_sub_category' => 'required',
+            'test' => 'required',
             'sample_num' => 'required|integer|min:1',
             'sample_cost' => 'required|numeric|min:0',
             'discount_type' => 'nullable|in:p,v',
             'discount' => 'nullable|numeric|min:0',
             'total_cost' => 'required|numeric|min:0',
-            'report_num' => 'required|integer|min:1',
-            'report_date' => 'required|date',
+            'sader_num' => 'required',
+            'sader_date' => 'required',
             'notes' => 'nullable|string',
-            'kt_docs_repeater_basic.*.invoice_num' => 'required|integer|min:1',
-            'kt_docs_repeater_basic.*.invoice_date' => 'required|date',
-            'kt_docs_repeater_basic.*.value' => 'required|numeric|min:0',
+
         ];
     }
 }

@@ -38,7 +38,7 @@
     <div id="kt_app_content_container" class="app-container container-xxxl">
 
         <div class="card shadow-sm" style="border-top: 3px solid #007bff;">
-            @php
+        @php
                 $headers = [
                     'tests.ID',
                     'tests.test_code',
@@ -46,7 +46,7 @@
                     'tests.company',
                     'tests.project',
                     'tests.talab_title',
-                    'tests.talab_image',
+                  //  'tests.talab_image',
                     'tests.talab_date',
                     'tests.talab_end_date',
                     'tests.sample_number',
@@ -104,10 +104,7 @@
                         data: 'talab_title',
                         className: 'text-center'
                     },
-                    {
-                        data: 'talab_image',
-                        className: 'text-center'
-                    },
+
                     {
                         data: 'talab_date',
                         className: 'text-center'
@@ -197,23 +194,34 @@
                 ],
                 "order": [],
                 "dom": '<"row align-items-center"<"col-md-3"l><"col-md-6"f><"col-md-3"B>>rt<"row align-items-center"<"col-md-6"i><"col-md-6"p>>',
-                "buttons": [{
-                    "extend": 'excel',
-                  ////  "text": '<i class="bi bi-file-earmark-excel"></i>إكسل',
-                   // "className": 'btn btn-dark'
-                },
+                "buttons": [
                     {
-                        "extend": 'copy',
-                      //  "text": '<i class="bi bi-clipboard"></i>نسخ',
-                     //   "className": 'btn btn-primary'
+                        "extend": 'excel',
+                        "className": 'btn btn-sm btn-light ',
+                        "text": '<i class="bi bi-file-earmark-excel"></i>',
+                        "titleAttr": 'Excel'
                     },
                     {
                         "extend": 'print',
-                        //  "text": '<i class="bi bi-clipboard"></i>نسخ',
-                        //   "className": 'btn btn-primary'
+                        "className": 'btn btn-sm btn-light ',
+                        "text": '<i class="bi bi-printer"></i>',
+                        "titleAttr": 'Print'
+                    },
+                    {
+                        "extend": 'colvis',
+                        "className": 'btn btn-sm btn-light ',
+                        "text": '<i class="bi bi-columns"></i>',
+                        "titleAttr": 'Columns'
+                    },
+                    {
+                        "text": '<i class="bi bi-arrow-repeat"></i>',
+                        "className": 'btn btn-sm btn-light',
+                        "titleAttr": 'Reload',
+                        "action": function (e, dt, node, config) {
+                            dt.ajax.reload();
+                        }
                     }
                 ],
-
                 "language": {
                     "lengthMenu": "عرض _MENU_ سجلات",
                     "zeroRecords": "لا توجد سجلات",

@@ -50,12 +50,13 @@ class SoilEarthTestController extends Controller
     /***************************************************************/
     public function soil_compaction_index(Request $request)
     {
+
         //  $allData = Test::with(['company', 'client', 'project', 'user'])->where('test_type',$type)->where('sub_test_type',$test)->orderBy('id','desc')->get();
 
-        //   dd($allData);
+
         if ($request->ajax()) {
 
-            $allData = Test::with(['company', 'client', 'project', 'user'])->where('test_type', 'soil')->where('sub_test_type', 'compaction')->orderBy('id', 'desc')->get();
+            $allData = Test::with(['company', 'client', 'project', 'user'])->where('test_category', 'soil')->where('test_sub_category', 'soil')->where('test', 'compaction')->orderBy('id', 'desc')->get();
             return DataTables::of($allData)
                 ->editColumn('client', function ($row) {
                     //  return optional($row->client)->name;
@@ -63,7 +64,7 @@ class SoilEarthTestController extends Controller
 
                 })
                 ->editColumn('test_code', function ($row) {
-                    return '<a href="'.route('admin.samples_test', $row->id).'" class="text-primary fw-bold">'.get_app_config_data('soil_prefix') . $row->test_code.'</a>';
+                    return '<a href="'.route('admin.samples_test', $row->id).'" class="text-primary fw-bold">'. $row->test_code_st.'</a>';
                 })
                 ->editColumn('company', function ($row) {
                     // return  optional($row->company)->name ;
@@ -77,14 +78,7 @@ class SoilEarthTestController extends Controller
                 ->editColumn('talab_title', function ($row) {
                     return $row->talab_title;
                 })
-                ->editColumn('talab_image', function ($row) {
-                    if ($row->talab_image) {
-                        $imagePath = asset('images/' . $row->talab_image);
-                        return '<img src="' . $imagePath . '" alt="Employee Image" class="img-thumbnail" style="width: 50px; height: 50px;" onclick="showImagePopup(\'' . $imagePath . '\')">';
-                    } else {
-                        return 'N\A';
-                    }
-                })
+
                 ->editColumn('talab_date', function ($row) {
                     return $row->talab_date;
                 })
@@ -144,6 +138,7 @@ class SoilEarthTestController extends Controller
     /****************************************************************/
     public function soil_compaction_create()
     {
+
         $data['test_code'] = $this->testsRepository->getLastFieldValue('test_code');
         $data['wared_number'] = $this->testsRepository->getLastFieldValue('wared_number');
         $data['talab_number'] = $this->testsRepository->getLastFieldValue('talab_number');
@@ -201,6 +196,7 @@ class SoilEarthTestController extends Controller
     {
         $data['all_data'] = $this->testsRepository->getById($id);
         $data['compaction_test'] = $this->SoilCompactionTestRepository->getWithRelationsAndWhere(['compaction_test_details'], 'soil_test_id', $id);
+
         //dd($data['compaction_test'][0]->compaction_test_details);
         // dd('ss');
         return view('dashbord.tests.soil.torabia.samples_test', $data);
@@ -246,7 +242,7 @@ class SoilEarthTestController extends Controller
         $data['required_value'] = $data['dues']->test_value - $data['dues']->client_test_payment->sum('value');
         $data['num'] = $duesService->get_last_num();
         $data['all_emps'] = Employee::all();
-        return view('dashbord.tests.soil.torabia.payments.dues', $data);
+        return view('dashbord.tests.soil.payments.dues', $data);
     }
 
 

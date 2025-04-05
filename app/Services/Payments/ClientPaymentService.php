@@ -39,21 +39,25 @@ class ClientPaymentService
     /*****************************************************/
     public function save_company_pay_dues($request,$id)
     {
-
+       // dd($request);
         foreach ($request->num as $index => $num) {
-            $data['client_id']     = $id;
-            $data['created_by']    = auth()->user()->id;
-            $data['paid_date']     = $request->paid_date;
-            $data['payment_type']  = $request->payment_type;
-            $data['received_by']   = $request->received_by;
-            $data['num']           = $num;
-            $data['value']         = $request->value[$index];
-            $data['client_test_id']= $request->client_test_id[$index];
+            if (!isset($request->value[$index]) || !isset($request->client_test_id[$index])) {
+                continue; // تخطي التكرار ده لو ناقص بيانات
+            }
 
-         //   dd($data);
+            $data = [
+                'client_id'       => $id,
+                'created_by'      => auth()->user()->id,
+                'paid_date'       => $request->paid_date,
+                'payment_type'    => $request->payment_type,
+                'received_by'     => $request->received_by,
+                'num'             => $num,
+                'value'           => $request->value[$index],
+                'client_test_id'  => $request->client_test_id[$index],
+            ];
+
             $this->clientPaymentRepository->create($data);
         }
-
 
 
     }
