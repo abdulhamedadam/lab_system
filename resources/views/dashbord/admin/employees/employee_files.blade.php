@@ -1,63 +1,87 @@
+
+
+
 @extends('dashbord.layouts.master')
 @section('css')
-
-    @notifyCss
 @endsection
-@section('content')
+@section('toolbar')
+    <div id="kt_app_toolbar_container" class="app-container container-xxl d-flex flex-stack">
+        <!--begin::Page title-->
+        <div class="page-title d-flex flex-column justify-content-center flex-wrap me-3">
+            <!--begin::Title-->
+            <h1 class="page-heading d-flex text-dark fw-bold fs-3 flex-column justify-content-center my-0">
+                {{trans('Toolbar.account_statement')}}</h1>
+            <!--end::Title-->
+            <!--begin::Breadcrumb-->
+            <ul class="breadcrumb breadcrumb-separatorless fw-semibold fs-7 my-0 pt-1">
 
-    @include('dashbord.admin.employees.employee_nav')
+                <li class="breadcrumb-item text-muted">
+                    <a href="{{ route('admin.dashboard') }}" class="text-muted text-hover-primary">
+                        {{trans('Toolbar.home')}}</a>
+                </li>
+                <li class="breadcrumb-item">
+                    <span class="bullet bg-gray-400 w-5px h-2px"></span>
+                </li>
+                <li class="breadcrumb-item text-muted">
+                    {{trans('Toolbar.Payment')}}
+                </li>
+                <li class="breadcrumb-item">
+                    <span class="bullet bg-gray-400 w-5px h-2px"></span>
+                </li>
+                <li class="breadcrumb-item text-muted">
+                    {{trans('Toolbar.account_statement')}}
+                </li>
 
-    <div id="kt_app_content" class="app-content flex-column-fluid">
-        <div id="kt_app_content_container" class="t_container">
 
+            </ul>
 
-            <div class="card shadow-sm" style="border-top: 3px solid #007bff;">
-                <div class="card-header" style="background-color: #f8f9fa;">
-                    <h3 class="card-title"></i> {{trans('employees.employee_files')}}</h3>
-                    <div class="card-toolbar">
-                        <div class="text-center">
-                        </div>
-                    </div>
-                </div>
-
-                <div class="card-body" style="padding-left: 0px !important;">
-                    <div class="col-md-12 row">
-                        <div class="col-md-8">
-                            @include('dashbord.admin.employees.employee_files_form')
-
-                            @include('dashbord.admin.employees.employee_files_data')
-                        </div>
-                        <div class="col-md-4">
-                            @include('dashbord.admin.employees.load_employee_data')
-
-                        </div>
-
-                    </div>
-
-                </div>
-            </div>
         </div>
 
     </div>
 
-    </div>
-
-
-
-
-
-
-
-
-
 @endsection
+
+@section('content')
+    <div id="kt_app_content" class="app-content flex-column-fluid">
+
+        <div id="kt_app_content_container" class="app-container container-xxl">
+
+            <div class="card mb-6 mb-xl-9">
+                <div class="card-body pt-9 pb-0">
+                    @include('dashbord.admin.employees.employee_details')
+                    @include('dashbord.admin.employees.employee_nav')
+                   
+
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-title fs-3 fw-bold">{{trans('payment.pay_dues')}}</div>
+                </div>
+              
+                    <div class="card-body">
+
+                    @include('dashbord.admin.employees.employee_files_form')
+
+                    </div>
+
+                       
+
+               
+            </div>
+
+            <div class="card" style="margin-top:10px">
+            @include('dashbord.admin.employees.employee_files_data')
+            </div>
+
+        </div>
+
+    </div>
+@endsection
+
 
 @section('js')
 
-
-    @notifyJs
-
 @endsection
-
-
 

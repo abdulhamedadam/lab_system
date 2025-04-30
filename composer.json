@@ -10,6 +10,8 @@
         "darryldecode/cart": "^4.2",
         "google/apiclient": "^2.18",
         "guzzlehttp/guzzle": "^7.9",
+        "inspector-apm/inspector-laravel": "^4.11",
+        "inspector-apm/neuron-ai": "^1.8",
         "intervention/image": "^2.7",
         "irazasyed/telegram-bot-sdk": "^3.15",
         "joedixon/laravel-translation": "^2.2",

@@ -286,7 +286,7 @@
             </div>
             <div class="summary-row total-due">
                 <span class="summary-label">{{trans('payment.total_amount')}}:</span>
-                <span class="summary-value">${{ number_format($all_data->sum('value'), 2) }}</span>
+                <span class="summary-value">دينار{{ number_format($all_data->sum('value'), 2) }}</span>
             </div>
         </div>
 
@@ -313,7 +313,7 @@
             @endforeach
             <tr class="total-row">
                 <td colspan="4" class="text-right">Total{{trans('payment.Total')}}:</td>
-                <td class="amount-cell">${{ number_format($all_data->sum('value'), 2) }}</td>
+                <td class="amount-cell">دينار{{ number_format($all_data->sum('value'), 2) }}</td>
             </tr>
             </tbody>
         </table>

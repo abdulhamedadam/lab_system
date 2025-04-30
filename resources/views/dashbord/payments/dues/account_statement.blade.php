@@ -62,7 +62,7 @@
                         @endphp
                         <div class="fs-2 text-gray-500">
             <span class="badge bg-light-success text-danger">
-                Total : ${{ number_format($totalPayment, 2) }}
+                Total : دينار{{ number_format($totalPayment, 2) }}
             </span>
                         </div>
                     </div>

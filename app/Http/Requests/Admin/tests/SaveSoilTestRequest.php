@@ -29,7 +29,7 @@ class SaveSoilTestRequest extends FormRequest
             'monamzig_id' => 'required',
             'authorized_name' => 'required',
             //'test_type' => 'required',
-            'company_id' => 'required|exists:tbl_clients_companies,id',
+            'company_id' => 'required',
             'project_id' => 'required|exists:tbl_clients_projects,id',
             'test_code' => 'required|string|max:255',
             'talab_number' => 'required|string|max:255',
@@ -38,11 +38,12 @@ class SaveSoilTestRequest extends FormRequest
             'talab_date' => 'required|date',
             'talab_end_date' => 'required|date|after:talab_date',
             'sample_number' => 'required',
-            'cost' => 'required',
-            'sample_cost' => 'required',
-            'discount_type' => 'required',
-            'discount' => 'required',
-            'total_cost' => 'required',
+
+          //  'cost' => 'required',
+          //  'sample_cost' => 'required',
+          //  'discount_type' => 'required',
+          //  'discount' => 'required',
+           // 'total_cost' => 'required',
         ];
     }
 }

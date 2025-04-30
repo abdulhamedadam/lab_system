@@ -14,12 +14,12 @@ class ClientsCompanies extends Model
     /********************************************/
     public function company()
     {
-        return $this->belongsTo(ClientsCompanies::class,'company_id','id');
+        return $this->belongsTo(Companies::class,'company_id','id');
     }
 
     /********************************************/
     public function client()
     {
-        return $this->belongsTo(Clients::class,'client_id','id');
+        return $this->hasMany(Clients::class,'client_id','id');
     }
 }

@@ -51,13 +51,150 @@
         </div>
 
     </div>
+    <div class="modal fade" tabindex="-1" id="testCostModal">
+        <div class="modal-dialog modal-xl">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h3 class="modal-title"></h3>
+                    <div class="btn btn-icon btn-sm btn-active-light-primary ms-2" data-bs-dismiss="modal"
+                         aria-label="Close">
+                        <i class="ki-duotone ki-cross fs-1">&times;</i>
+                    </div>
+                </div>
+                <form method="post" action="{{route('admin.add_test_cost')}}" enctype="multipart/form-data" id="form">
+                    @csrf
+                    <input type="hidden" name="row_id" id="row_id" value="">
+                    <div class="modal-body">
+                        <div class="row">
+                            <div class="col-md-4">
+                                <label for="talab_date" class="form-label">{{ trans('tests.sample_number') }}</label>
+                                <div class="input-group flex-nowrap">
+                                    <span class="input-group-text" id="basic-addon3">{!! form_icon('number') !!}</span>
+                                    <input type="number" class="form-control" name="sample_number" id="sample_number"
+                                           value="{{ old('sample_number', 1) }}" min="1" oninput="calculateTotal()">
+                                </div>
+                                @error('sample_number')
+                                <span class="invalid-feedback d-block" role="alert">{{ $message }}</span>
+                                @enderror
+                            </div>
 
+                            <div class="col-md-4">
+                                <label for="sample_cost" class="form-label">{{ trans('tests.sample_cost') }}</label>
+                                <div class="input-group flex-nowrap">
+                                    <span class="input-group-text" id="basic-addon3">{!! form_icon('text') !!}</span>
+                                    <input type="number" class="form-control" name="sample_cost" id="sample_cost"
+                                           required
+                                           value="{{ old('sample_cost') }}" step="0.01" min="0"
+                                           oninput="calculateTotal()">
+                                </div>
+                                @error('sample_cost')
+                                <span class="invalid-feedback d-block" role="alert">{{ $message }}</span>
+                                @enderror
+                            </div>
 
+                            @php
+                                $discount_type=['p'=>trans('tests.percentage'),'v'=>trans('tests.value')]
+                            @endphp
+
+                            <div class="col-md-4">
+                                <label for="discount_type" class="form-label">{{ trans('tests.discount_type') }}</label>
+                                <div class="input-group flex-nowrap">
+                                    <span class="input-group-text" id="basic-addon3">{!! form_icon('text') !!}</span>
+                                    <select class="form-select" name="discount_type" id="discount_type" required
+                                            onchange="calculateTotal()">
+                                        <option value="">{{trans('clients.select')}}</option>
+                                        @foreach($discount_type as $index=>$value)
+                                            <option
+                                                value="{{$index}}" {{ old('discount_type') == $index ? 'selected' : '' }}>{{$value}}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                                @error('discount_type')
+                                <span class="invalid-feedback d-block" role="alert">{{ $message }}</span>
+                                @enderror
+                            </div>
+
+                            <div class="col-md-4">
+                                <label for="discount" class="form-label">{{ trans('tests.discount') }}</label>
+                                <div class="input-group flex-nowrap">
+                                    <span class="input-group-text" id="basic-addon3">{!! form_icon('number') !!}</span>
+                                    <input type="number" class="form-control" name="discount" id="discount" required
+                                           value="{{ old('discount',0.00) }}" step="0.01" min="0"
+                                           oninput="calculateTotal()">
+                                </div>
+                                @error('discount')
+                                <span class="invalid-feedback d-block" role="alert">{{ $message }}</span>
+                                @enderror
+                            </div>
+
+                            <div class="col-md-4">
+                                <label for="total_cost" class="form-label">{{ trans('tests.total_cost') }}</label>
+                                <div class="input-group flex-nowrap">
+                                    <span class="input-group-text" id="basic-addon3">{!! form_icon('text') !!}</span>
+                                    <input type="number" class="form-control" name="total_cost" id="total_cost" value=""
+                                           readonly>
+                                </div>
+                                @error('total_cost')
+                                <span class="invalid-feedback d-block" role="alert">{{ $message }}</span>
+                                @enderror
+                            </div>
+
+                            <div class="col-md-4">
+                                <label for="cost" class="form-label">{{ trans('tests.test_cost') }}</label>
+                                <div class="input-group flex-nowrap">
+                                    <span class="input-group-text" id="basic-addon3">{!! form_icon('number') !!}</span>
+                                    <input type="number" class="form-control" name="cost" id="cost"
+                                           value="{{ old('cost') }}" step="0.01" min="0">
+                                </div>
+                                @error('cost')
+                                <span class="invalid-feedback d-block" role="alert">{{ $message }}</span>
+                                @enderror
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-light" data-bs-dismiss="modal">Close</button>
+                        <button type="submit" class="btn btn-primary">Save changes</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
 @stop
 @section('js')
+    <script>
+        function calculateTotal() {
+
+            const sampleNumber = parseInt(document.getElementById('sample_number').value) || 1;
+            const sampleCost = parseFloat(document.getElementById('sample_cost').value) || 0;
+            const discountType = document.getElementById('discount_type').value;
+            const discountValue = parseFloat(document.getElementById('discount').value) || 0;
+
+            const baseCost = sampleCost * sampleNumber;
+            let totalCost = baseCost;
+            if (discountType && !isNaN(discountValue)) {
+                if (discountType === 'p') {
+
+                    const discountAmount = baseCost * (discountValue / 100);
+                    totalCost = baseCost - discountAmount;
+                } else if (discountType === 'v') {
+
+                    totalCost = baseCost - discountValue;
+                }
+            }
+
+            totalCost = Math.max(0, totalCost);
+            document.getElementById('total_cost').value = totalCost.toFixed(2);
+            document.getElementById('cost').value = totalCost.toFixed(2);
+        }
+
+        document.getElementById('testCostModal').addEventListener('shown.bs.modal', function () {
+            calculateTotal();
+        });
+    </script>
 
     <script>
-        $(document).ready(function() {
+        $(document).ready(function () {
             //datatables
             table = $('#table1').DataTable({
                 "language": {
@@ -126,7 +263,7 @@
                 },
                     {
                         "targets": [1],
-                        "createdCell": function(td, cellData, rowData, row, col) {
+                        "createdCell": function (td, cellData, rowData, row, col) {
                             $(td).css({
 
                                 'text-align': 'center',
@@ -138,7 +275,7 @@
                     },
                     {
                         "targets": [3, 4],
-                        "createdCell": function(td, cellData, rowData, row, col) {
+                        "createdCell": function (td, cellData, rowData, row, col) {
                             $(td).css({
 
                                 'text-align': 'center',
@@ -148,7 +285,7 @@
                     },
                     {
                         "targets": [2],
-                        "createdCell": function(td, cellData, rowData, row, col) {
+                        "createdCell": function (td, cellData, rowData, row, col) {
                             $(td).css({
 
                                 'text-align': 'center',
@@ -160,7 +297,7 @@
 
                     {
                         "targets": [5],
-                        "createdCell": function(td, cellData, rowData, row, col) {
+                        "createdCell": function (td, cellData, rowData, row, col) {
                             $(td).css({
                                 'text-align': 'center',
                                 'color': 'red',
@@ -170,7 +307,7 @@
                     },
                     {
                         "targets": [10],
-                        "createdCell": function(td, cellData, rowData, row, col) {
+                        "createdCell": function (td, cellData, rowData, row, col) {
                             $(td).css({
                                 'text-align': 'center',
                                 'vertical-align': 'middle',
@@ -178,9 +315,6 @@
 
                         }
                     },
-
-
-
 
 
                 ],
@@ -230,24 +364,26 @@
                     }
                 },
                 "lengthMenu": [
-                    [ 10, 25, 50, -1],
-                    [ 10, 25, 50, "الكل"]
+                    [10, 25, 50, -1],
+                    [10, 25, 50, "الكل"]
                 ],
             });
 
-            $("input").change(function() {
+            $("input").change(function () {
                 $(this).parent().parent().removeClass('has-error');
                 $(this).next().empty();
             });
-            $("textarea").change(function() {
+            $("textarea").change(function () {
                 $(this).parent().parent().removeClass('has-error');
                 $(this).next().empty();
             });
-            $("select").change(function() {
+            $("select").change(function () {
                 $(this).parent().parent().removeClass('has-error');
                 $(this).next().empty();
             });
         });
+
+
     </script>
 
     <script>
@@ -297,6 +433,28 @@
             popup.appendChild(img);
             popup.appendChild(closeBtn);
             document.body.appendChild(popup);
+        }
+    </script>
+    <script>
+        function edit_test_cost(id) {
+            $.ajax({
+                url: "{{ route('admin.get_test_sample', ['id' => '__id__']) }}".replace('__id__', id),
+                type: "get",
+                dataType: "json",
+                success: function (data) {
+                    var allData = data.all_data;
+                    //console.log(allData);
+                    $('#row_id').val(allData.id);
+                    $('#sample_number').val(allData.sample_number);
+                    $('.modal-title').text(allData.test_code_st);
+                    $('#sample_cost').val(allData.sample_cost);
+                    $('#discount').val(allData.discount);
+                    $('#discount_type').val(allData.discount_type);
+                    $('#total_cost').val(allData.total_cost);
+                    $('#cost').val(allData.cost);
+
+                },
+            });
         }
     </script>
 

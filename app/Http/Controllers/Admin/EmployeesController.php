@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\Employee\EmployeeStoreRequest;
+use App\Http\Requests\Admin\Employee\SaveSalaryRequest;
 use App\Http\Requests\Admin\Employees\AddEmployeeRequest;
 use App\Interfaces\BasicRepositoryInterface;
 use App\Models\Admin;
@@ -11,12 +12,15 @@ use App\Models\Admin\AreaSetting;
 use App\Models\Admin\Branch;
 use App\Models\Admin\Employee;
 use App\Models\Admin\EmployeeFiles;
+use App\Models\Admin\EmployeeSalary;
+use App\Services\EmployeeService;
 use App\Traits\ImageProcessing;
 use App\Traits\ValidationMessage;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Request;
 use DataTables;
 use Illuminate\Support\Facades\Storage;
+use App\Interfaces\EmployeeInterface;
 
 class EmployeesController extends Controller
 {
@@ -31,12 +35,15 @@ class EmployeesController extends Controller
     protected $AreasSettingRepository;
     protected $EmployeeRepository;
     protected $EmployeeFilesRepository;
-    public function __construct(BasicRepositoryInterface $basicRepository)
+    protected $employee_service;
+
+    public function __construct(BasicRepositoryInterface $basicRepository, EmployeeService $employee_service)
     {
-        $this->AreasSettingRepository   = createRepository($basicRepository, new AreaSetting());
-        $this->BranchRepository         = createRepository($basicRepository, new Branch());
-        $this->EmployeeRepository       = createRepository($basicRepository, new Employee());
-        $this->EmployeeFilesRepository  = createRepository($basicRepository, new EmployeeFiles());
+        $this->AreasSettingRepository = createRepository($basicRepository, new AreaSetting());
+        $this->BranchRepository = createRepository($basicRepository, new Branch());
+        $this->EmployeeRepository = createRepository($basicRepository, new Employee());
+        $this->EmployeeFilesRepository = createRepository($basicRepository, new EmployeeFiles());
+        $this->employee_service = $employee_service;
     }
 
     /************************************************************/
@@ -46,6 +53,7 @@ class EmployeesController extends Controller
         // dd($data);
         return view('dashbord.admin.employees.employee_data');
     }
+
     /***********************************************************/
     public function get_ajax_employee(Request $request)
     {
@@ -64,25 +72,25 @@ class EmployeesController extends Controller
                     }
                 })
                 ->addColumn('name', function ($row) {
-                    return  $row->first_name . ' ' . $row->last_name;
+                    return $row->first_name . ' ' . $row->last_name;
                 })
                 ->addColumn('email', function ($row) {
-                    return  $row->email;
+                    return $row->email;
                 })
                 ->addColumn('branch', function ($row) {
-                    return  $row->branch ? $row->branch->name: '';
+                    return $row->branch ? $row->branch->name : '';
                 })
                 ->addColumn('address', function ($row) {
-                    return  $row->address;
+                    return $row->address;
                 })
                 ->addColumn('position', function ($row) {
-                    return  $row->position;
+                    return $row->position;
                 })
                 ->addColumn('governate', function ($row) {
-                    return  $row->governate->title;
+                    return $row->governate->title;
                 })
                 ->addColumn('area', function ($row) {
-                    return  $row->area ? $row->area->title : '';
+                    return $row->area ? $row->area->title : '';
                 })
                 ->addColumn('action', function ($row) {
                     return '<div class="btn-group">
@@ -103,22 +111,24 @@ class EmployeesController extends Controller
             return response()->json($data);
         }
     }
+
     /***********************************************************/
     public function add_employee()
     {
-        $data['emp_code']   = $this->EmployeeRepository->getLastFieldValue('emp_code');
+        $data['emp_code'] = $this->EmployeeRepository->getLastFieldValue('emp_code');
         $data['governates'] = $this->AreasSettingRepository->getBywhere(array('parent_id' => null));
         $data['branches'] = $this->BranchRepository->getAll();
         // dd($data);
         return view('dashbord.admin.employees.employee_form', $data);
     }
+
     //     /*********************************************************/
     public function save_employee(AddEmployeeRequest $request)
     {
         try {
             // dd($request->all());
-            $emplyee_model   = new Employee();
-            $insert_data     = $emplyee_model->data_to_insert($request);
+            $emplyee_model = new Employee();
+            $insert_data = $emplyee_model->data_to_insert($request);
             if ($request->hasFile('personal_photo')) {
                 $file = $request->file('personal_photo');
                 $dataX = $this->saveImage($file, 'employees');
@@ -135,24 +145,26 @@ class EmployeesController extends Controller
             return redirect()->back()->withErrors(['error' => $e->getMessage()]);
         }
     }
+
     /*********************************************************/
     public function edit_employee($id)
     {
-        $data['emp_code']   = $this->EmployeeRepository->getLastFieldValue('emp_code');
+        $data['emp_code'] = $this->EmployeeRepository->getLastFieldValue('emp_code');
         $data['governates'] = $this->AreasSettingRepository->getBywhere(array('parent_id' => null));
         // $data['branches'] = $this->AreasSettingRepository->getBywhere(array('parent_id' => null));
         $data['branches'] = $this->BranchRepository->getAll();
-        $data['employee']        = $this->EmployeeRepository->getById($id);
+        $data['employee'] = $this->EmployeeRepository->getById($id);
         //dd($data['all_data']);
         return view('dashbord.admin.employees.employee_edit', $data);
     }
+
     /***********************************************************/
     public function update_employee(Request $request, $id)
     {
         try {
             //dd('sss');
-            $emplyee_model   = new Employee();
-            $insert_data     = $emplyee_model->data_to_insert($request);
+            $emplyee_model = new Employee();
+            $insert_data = $emplyee_model->data_to_insert($request);
             if ($request->hasFile('personal_photo')) {
                 $file = $request->file('personal_photo');
                 $dataX = $this->saveImage($file, 'employees');
@@ -167,14 +179,17 @@ class EmployeesController extends Controller
             return redirect()->back()->withErrors(['error' => $e->getMessage()]);
         }
     }
+
     /***********************************************************/
-    public function delete_employee($id) {}
+    public function delete_employee($id)
+    {
+    }
 
     /***********************************************************/
     public function employee_files($id)
     {
-        $data['all_data']     =  $this->EmployeeRepository->getWithRelations(['area', 'governate', 'branch'])->where('id', $id)->first();
-        $data['files_data']   =  $this->EmployeeFilesRepository->getBywhere(array('emp_id' => $id));
+        $data['all_data'] = $this->EmployeeRepository->getWithRelations(['area', 'governate', 'branch'])->where('id', $id)->first();
+        $data['files_data'] = $this->EmployeeFilesRepository->getBywhere(array('emp_id' => $id));
         // dd($data);
         return view('dashbord.admin.employees.employee_files', $data);
     }
@@ -192,12 +207,12 @@ class EmployeesController extends Controller
                 $file = $request->file('file');
                 $dataX = $this->saveFile($file, 'employee' . $emp->id);
 
-                $data['file']         = $dataX;
-                $data['file_name']    = $request->file_name;
-                $data['emp_id']       = $emp->id;
-                $data['publisher']    = auth('admin')->user()->id;
-                $data['publisher_n']  = auth('admin')->user()->name;
-                $file                 = $this->EmployeeFilesRepository->create($data);
+                $data['file'] = $dataX;
+                $data['file_name'] = $request->file_name;
+                $data['emp_id'] = $emp->id;
+                $data['publisher'] = auth('admin')->user()->id;
+                $data['publisher_n'] = auth('admin')->user()->name;
+                $file = $this->EmployeeFilesRepository->create($data);
             }
             notify()->success(trans('File_added_successfully'), '');
             return redirect()->route('admin.employee_files', $emp_id);
@@ -206,10 +221,11 @@ class EmployeesController extends Controller
             return redirect()->back()->withErrors(['error' => $e->getMessage()]);
         }
     }
+
     /**********************************************************/
     public function employee_details($id)
     {
-        $data['all_data']     =  $this->EmployeeRepository->getWithRelations(['area', 'governate', 'branch'])->where('id', $id)->first();
+        $data['all_data'] = $this->EmployeeRepository->getWithRelations(['area', 'governate', 'branch'])->where('id', $id)->first();
         return view('dashbord.admin.employees.employee_details', $data);
     }
 
@@ -259,11 +275,38 @@ class EmployeesController extends Controller
             // dd($emp_id);
             $this->EmployeeFilesRepository->delete($file_id);
 
-            $request->session()->flash('toastMessage', trans('File_deleted_successfully'));
+
             return redirect()->route('admin.employee_files', $emp_id);
         } catch (\Exception $e) {
             test($e->getMessage());
             return redirect()->back()->withErrors(['error' => $e->getMessage()]);
         }
+    }
+
+    /************************************************** */
+    public function employee_salary($id)
+    {
+        $data['all_data'] = $this->EmployeeRepository->getWithRelations(['area', 'governate', 'branch','employee_salary'])->where('id', $id)->first();
+        //dd($data['all_data']->employee_salary);
+        return view('dashbord.admin.employees.employee_salary', $data);
+    }
+
+    /******************************************************  */
+    public function save_employee_salary(SaveSalaryRequest $request, $id)
+    {
+        try {
+            $this->employee_service->save_employee_salary($request, $id);
+            $request->session()->flash('toastMessage', trans('File_deleted_successfully'));
+            return redirect()->route('admin.employee_salary', $id);
+        } catch (\Exception $e) {
+            dd($e);
+            return redirect()->back()->with('error', trans('employee.error_saving_salary'));
+        }
+    }
+    /*******************************************************/
+    public function employee_loans($id)
+    {
+        $data['all_data'] = $this->EmployeeRepository->getWithRelations(['area', 'governate', 'branch','employee_salary'])->where('id', $id)->first();
+        return view('dashbord.admin.employees.employee_loans', $data);
     }
 }

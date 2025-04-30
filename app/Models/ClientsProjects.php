@@ -14,7 +14,7 @@ class ClientsProjects extends Model
     /**************************************/
     public function company()
     {
-        return $this->belongsTo(ClientsCompanies::class,'company_id','id');
+        return $this->belongsTo(Companies::class,'company_id','id');
     }
     /**************************************/
     public function client()

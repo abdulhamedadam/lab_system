@@ -2,7 +2,7 @@
 
 @csrf
     <div class="col-md-12 row" style="margin-top: 10px">
-        <input type="hidden" name="client_id" id="client_id" value="{{$all_data->id}}">
+        <input type="hidden" name="client_id[]" id="client_id" value="{{$all_data->id}}">
         <div class="col-md-4">
             <label for="first_name" class="form-label">{{ trans('clients.company_code') }}</label>
             <div class="input-group flex-nowrap">

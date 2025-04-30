@@ -26,7 +26,7 @@ class AllTestsController extends Controller
                         ($row->project ? $row->project->project_name : 'N/A');
                 })
                 ->editColumn('type', function ($row) {
-                    return $row->type;
+                    return $row->test_type;
                 })
                 ->editColumn('test_type', function ($row) {
                     return $row->test_sub_category;

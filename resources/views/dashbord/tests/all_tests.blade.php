@@ -75,7 +75,7 @@
 
 @endsection
 @section('content')
-    <div id="kt_app_content" class="app-content flex-column-fluid">
+   <!-- <div id="kt_app_content" class="app-content flex-column-fluid">
         <div id="kt_app_content_container" class="t_container">
             <div class="card shadow-sm" style="border-top: 3px solid #007bff;">
                 <div class="card-header" style="background-color: #f8f9fa;">
@@ -228,7 +228,7 @@
                 </div>
             </div>
         </div>
-    </div>
+    </div> -->
 
 
 

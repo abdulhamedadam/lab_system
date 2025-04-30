@@ -4,6 +4,7 @@
 namespace App\Services;
 
 
+use App\Models\TestSader;
 use App\Repositories\HelperRepository;
 
 class HelperService
@@ -17,6 +18,11 @@ class HelperService
     public function save_client($data)
     {
         return $this->helperRepository->save_client($data);
+    }
+    /*************************************************/
+    public function save_client_company($data)
+    {
+        return $this->helperRepository->save_client_company($data);
     }
     /*************************************************/
     public function save_company($data)
@@ -85,5 +91,35 @@ class HelperService
     {
 
         return $this->helperRepository->get_last_sader_num();
+    }
+    /*****************************************************/
+    public function add_new_sader()
+    {
+        return $this->helperRepository->add_new_sader();
+    }
+    /*****************************************************/
+    public function updateSader($request)
+    {
+        $sader = TestSader::findOrFail($request->id);
+        $sader->num = $request->num;
+        $sader->date = $request->date;
+       return $sader->save();
+    }
+    /*******************************************************/
+    public function get_test_sample($id)
+    {
+        return $this->helperRepository->get_test_sample($id);
+    }
+    /*******************************************************/
+    public function add_test_cost($request)
+    {
+
+        $test_id=$request->row_id;
+        $data['sample_cost']=$request->sample_cost;
+        $data['discount_type']=$request->discount_type;
+        $data['discount']=$request->discount;
+        $data['total_cost']=$request->total_cost;
+        $data['cost']=$request->cost;
+        return $this->helperRepository->add_test_cost($test_id,$data);
     }
 }

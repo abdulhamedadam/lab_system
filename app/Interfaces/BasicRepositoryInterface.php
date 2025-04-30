@@ -20,6 +20,7 @@ interface BasicRepositoryInterface
     public function getBywhere(array $conditions);
     public function getWithRelations($relations = []);
     public function getLastFieldValue($field);
+    public function getLastFieldValue_2($field);
     public function getWithRelationsAndWhere(array $relations, string $column, $value);
     public function deleteWhere( $column, $value);
     public function countWhere(array $conditions);

@@ -2,6 +2,11 @@
 
 namespace App\Models\Admin;
 
+
+use App\Models\Bonus;
+use App\Models\Deductions;
+
+use App\Models\Loans;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -25,6 +30,26 @@ class Employee extends Model
     public function governate()
     {
         return $this->belongsTo(AreaSetting::class, 'governate_id');
+    }
+    /********************************************************/
+    public function all_loan()
+    {
+        return $this->hasMany(Loans::class, 'emp_id');
+    }
+    /********************************************************/
+    public function all_deductions()
+    {
+        return $this->hasMany(Deductions::class, 'emp_id');
+    }
+    /********************************************************/
+    public function all_bonus()
+    {
+        return $this->hasMany(Bonus::class, 'emp_id');
+    }
+    /********************************************************/
+    public function employee_salary()
+    {
+        return $this->hasOne(EmployeeSalary::class,'employee_id','id');
     }
 
     public function data_to_insert($request)

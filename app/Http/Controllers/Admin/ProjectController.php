@@ -9,12 +9,15 @@ use App\Models\Admin\AreaSetting;
 use App\Models\Clients;
 use App\Models\ClientsCompanies;
 use App\Models\ClientsProjects;
+use App\Models\Companies;
+use App\Services\ClientService;
 use App\Services\CompanyService;
 use App\Services\ProjectsService;
 use App\Traits\ImageProcessing;
 use App\Traits\ValidationMessage;
 use Illuminate\Http\Request;
 use DataTables;
+
 class ProjectController extends Controller
 {
     use ImageProcessing;
@@ -28,23 +31,21 @@ class ProjectController extends Controller
     protected $CompanyRepository;
     protected $ProjectsRepository;
 
-    public function __construct(BasicRepositoryInterface $basicRepository,ProjectsService $projectsService)
+    public function __construct(BasicRepositoryInterface $basicRepository, ProjectsService $projectsService,ClientService $clientService)
     {
         $this->AreasSettingRepository = createRepository($basicRepository, new AreaSetting());
-        $this->ClientsRepository = createRepository($basicRepository, new Clients());
-        $this->CompanyRepository   = createRepository($basicRepository, new ClientsCompanies());
-        $this->ProjectsRepository   = createRepository($basicRepository, new ClientsProjects());
-        $this->projectsService   = $projectsService;
-
-
+        $this->ClientsRepository      = createRepository($basicRepository, new Clients());
+        $this->CompanyRepository      = createRepository($basicRepository, new Companies());
+        $this->ProjectsRepository     = createRepository($basicRepository, new ClientsProjects());
+        $this->projectsService        = $projectsService;
+        $this->clientService         = $clientService;
     }
 
     public function index(Request $request)
     {
         if ($request->ajax()) {
-            $allData = ClientsProjects::select('*')->OrderBy('id','desc')->get();
+            $allData = ClientsProjects::select('*')->OrderBy('id', 'desc')->get();
             return Datatables::of($allData)
-
                 ->editColumn('project_name', function ($row) {
 
                     return $row->project_name;
@@ -52,11 +53,11 @@ class ProjectController extends Controller
                 })
                 ->editColumn('client', function ($row) {
 
-                    return '<a href="'.route('admin.client_companies', $row->client_id).'" class="text-primary fw-bold">'.optional($row->client)->name.'</a>';
+                    return '<a href="' . route('admin.client_companies', $row->client_id) . '" class="text-primary fw-bold">' . optional($row->client)->name . '</a>';
 
                 })
                 ->editColumn('company', function ($row) {
-                    return '<a href="'.route('admin.company_projects', $row->company_id).'" class="text-primary fw-bold">'.optional($row->company)->name.'</a>';
+                    return '<a href="' . route('admin.company_projects', $row->company_id) . '" class="text-primary fw-bold">' . optional($row->company)->name . '</a>';
 
                 })
                 ->addColumn('action', function ($row) {
@@ -73,7 +74,7 @@ class ProjectController extends Controller
     </div>
 ';
                 })
-                ->rawColumns(['image', 'action','project_name','client','company'])
+                ->rawColumns(['image', 'action', 'project_name', 'client', 'company'])
                 ->make(true);
         }
         return view($this->admin_view . '.index');
@@ -83,7 +84,7 @@ class ProjectController extends Controller
     public function create()
     {
         $data['project_code'] = $this->ProjectsRepository->getLastFieldValue('project_code');
-        $data['clients']      = $this->ClientsRepository->getAll();
+        $data['clients'] = $this->ClientsRepository->getAll();
         return view($this->admin_view . '.form', $data);
     }
 
@@ -109,8 +110,8 @@ class ProjectController extends Controller
     /********************************************/
     public function edit(string $id)
     {
-        $data['all_data']     = $this->ProjectsRepository->getById($id);
-        $data['clients']      = $this->ClientsRepository->getAll();
+        $data['all_data'] = $this->ProjectsRepository->getById($id);
+        $data['clients'] = $this->ClientsRepository->getAll();
         return view($this->admin_view . '.edit', $data);
     }
 
@@ -118,7 +119,7 @@ class ProjectController extends Controller
     public function update(SaveRequest $request, string $id)
     {
         try {
-            $this->projectsService->update($request,$id);
+            $this->projectsService->update($request, $id);
             toastr()->addSuccess(trans('forms.success'));
             return redirect()->route('admin.project.index');
         } catch (\Exception $e) {
@@ -139,11 +140,20 @@ class ProjectController extends Controller
             return redirect()->back()->withErrors(['error' => $e->getMessage()]);
         }
     }
+
     /********************************************/
     public function get_company($id)
     {
-        $data['companies']=$this->CompanyRepository->getBywhere(['client_id'=>$id]);
+       // $data['companies'] = $this->CompanyRepository->getBywhere(['client_id' => $id]);
+        $data['companies'] = $this->clientService->get_client_company($id);
+
         //dd($data['companies']);
-        return view($this->admin_view . '.get_company_list',$data);
+        return view($this->admin_view . '.get_company_list', $data);
+    }
+    /********************************************/
+    public function get_project($client_id,$company_id)
+    {
+        $data['projects'] = $this->clientService->get_project($client_id,$company_id);
+        return view($this->admin_view . '.get_project_list', $data);
     }
 }

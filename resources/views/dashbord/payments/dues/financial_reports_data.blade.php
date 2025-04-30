@@ -36,8 +36,8 @@
                         @endif
                     </td>
                     <td>{{ $transaction->description }}</td>
-                    <td>{{ number_format($transaction->value, 2) }} $</td>
-                    <td>{{ number_format($transaction->balance, 2) }} $</td>
+                    <td>{{ number_format($transaction->value, 2) }} دينار</td>
+                    <td>{{ number_format($transaction->balance, 2) }} دينار</td>
                 </tr>
             @endforeach
             </tbody>
@@ -46,8 +46,8 @@
                 <td colspan="3" class="text-end fw-bolder">{{trans('payment.summary')}}</td>
                 <td class="fw-bolder">
                     <div class="d-flex flex-column">
-                        <span class="text-success"><i class="bi bi-arrow-up"></i> {{trans('payment.total_income')}}: {{ number_format($totalIncome, 2) }} $</span>
-                        <span class="text-danger"><i class="bi bi-arrow-down"></i> {{trans('payment.total_expense')}}: {{ number_format($totalExpense, 2) }} $</span>
+                        <span class="text-success"><i class="bi bi-arrow-up"></i> {{trans('payment.total_income')}}: {{ number_format($totalIncome, 2) }} دينار</span>
+                        <span class="text-danger"><i class="bi bi-arrow-down"></i> {{trans('payment.total_expense')}}: {{ number_format($totalExpense, 2) }} دينار</span>
                     </div>
                 </td>
                 <td class="fw-bolder">
@@ -56,9 +56,9 @@
                     @endphp
 
                     @if($netProfit >= 0)
-                        <span class="badge bg-success fs-6 p-2"><i class="bi bi-arrow-up"></i> {{trans('payment.net_profit')}}: {{ number_format($netProfit, 2) }} $</span>
+                        <span class="badge bg-success fs-6 p-2"><i class="bi bi-arrow-up"></i> {{trans('payment.net_profit')}}: {{ number_format($netProfit, 2) }} دينار</span>
                     @else
-                        <span class="badge bg-danger fs-6 p-2"><i class="bi bi-arrow-down"></i> {{trans('payment.net_loss')}}: {{ number_format(abs($netProfit), 2) }} $</span>
+                        <span class="badge bg-danger fs-6 p-2"><i class="bi bi-arrow-down"></i> {{trans('payment.net_loss')}}: {{ number_format(abs($netProfit), 2) }} دينار</span>
                     @endif
                 </td>
             </tr>

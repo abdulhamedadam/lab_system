@@ -14,6 +14,7 @@ use App\Models\Admin\EmployeeFiles;
 use App\Models\Clients;
 use App\Models\ClientsCompanies;
 use App\Models\ClientsProjects;
+use App\Models\Companies;
 use App\Services\ClientService;
 use App\Services\CompanyService;
 use App\Services\ProjectsService;
@@ -41,7 +42,7 @@ class ClientController extends Controller
         $this->AreasSettingRepository = createRepository($basicRepository, new AreaSetting());
         $this->ClientsRepository = createRepository($basicRepository, new Clients());
         $this->clientService = $clientService;
-        $this->CompanyRepository   = createRepository($basicRepository, new ClientsCompanies());
+        $this->CompanyRepository   = createRepository($basicRepository, new Companies());
         $this->ProjectsRepository   = createRepository($basicRepository, new ClientsProjects());
         $this->companyService   = $companyService;
         $this->projectsService   = $projectsService;
@@ -156,7 +157,9 @@ class ClientController extends Controller
     {
         $data['all_data']     =  $this->ClientsRepository->getById($id);
         $data['company_code'] =  $this->CompanyRepository->getLastFieldValue('company_code');
-        $data['companies_data']=$this->CompanyRepository->getBywhere(['client_id'=>$id]);
+       // $data['companies_data']= $this->CompanyRepository->getBywhere(['client_id'=>$id]);
+        $data['companies_data']= $this->clientService->get_client_company($id);
+
         $data['projects_data']=$this->ProjectsRepository->getBywhere(['client_id'=>$id]);
        // dd($data['all_data']);
         return view($this->admin_view . '.company.clients_company', $data);

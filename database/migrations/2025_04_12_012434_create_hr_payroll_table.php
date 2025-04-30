@@ -1,0 +1,36 @@
+<?php
+
+use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
+
+return new class extends Migration
+{
+    /**
+     * Run the migrations.
+     */
+    public function up(): void
+    {
+        Schema::create('hr_payroll', function (Blueprint $table) {
+            $table->id();
+            $table->string('from_date')->nullable();
+            $table->string('to_date')->nullable();
+            $table->date('report_date')->nullable();
+            $table->decimal('total_main_salary', 10, 2)->nullable();
+            $table->decimal('total_bonus', 10, 2)->nullable();
+            $table->decimal('total_deductions', 10, 2)->nullable();
+            $table->decimal('total_loans', 10, 2)->nullable();
+            $table->decimal('grand_total', 10, 2);
+            $table->integer('created_by')->nullable();
+            $table->timestamps();
+        });
+    }
+
+    /**
+     * Reverse the migrations.
+     */
+    public function down(): void
+    {
+        Schema::dropIfExists('hr_payroll');
+    }
+};

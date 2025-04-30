@@ -155,7 +155,7 @@
                         <i class="bi bi-arrow-up fs-3 text-success me-2"></i>
                         <div class="fs-4 fw-bold" data-kt-countup="true"
                              data-kt-countup-value="{{$all_data->test_value}}"
-                             data-kt-countup-prefix="$">0
+                             data-kt-countup-prefix="دينار">0
                         </div>
                     </div>
                     <div class="fw-semibold fs-6 text-gray-500">{{trans('payment.test_cost')}}</div>
@@ -167,7 +167,7 @@
                         <i class="bi bi-arrow-up fs-3 text-success me-2"></i>
                         <div class="fs-4 fw-bold" data-kt-countup="true"
                              data-kt-countup-value="{{$all_data->test_value-$required_value}}"
-                             data-kt-countup-prefix="$">0
+                             data-kt-countup-prefix="دينار">0
                         </div>
                     </div>
                     <div
@@ -182,7 +182,7 @@
                         <i class="bi bi-arrow-down fs-3 text-danger me-2"></i>
                         <div class="fs-4 fw-bold" data-kt-countup="true"
                              data-kt-countup-value="{{$required_value}}"
-                             data-kt-countup-prefix="$">0
+                             data-kt-countup-prefix="دينار">0
                         </div>
                     </div>
                     <div class="fw-semibold fs-6 text-gray-500">{{trans('payment.remain')}}</div>

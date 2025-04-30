@@ -10,6 +10,8 @@ use App\Models\Admin\Test;
 use App\Models\Clients;
 use App\Models\ClientsCompanies;
 use App\Models\ClientsProjects;
+use App\Models\ClientTests;
+use App\Models\Companies;
 use App\Models\TestSader;
 
 class HelperRepository implements HelperInterface
@@ -30,16 +32,21 @@ class HelperRepository implements HelperInterface
     /**********************************/
     public function save_company($data)
     {
-        $lastCompany = ClientsCompanies::orderBy('company_code', 'desc')->first();
+        $lastCompany = Companies::orderBy('company_code', 'desc')->first();
         if ($lastCompany) {
             $newCompanyCode = $lastCompany->company_code + 1;
         } else {
             $newCompanyCode = 1;
         }
         $data['company_code'] = $newCompanyCode;
-        return ClientsCompanies::create($data);
+        return Companies::create($data);
     }
 
+    /**********************************/
+    public function save_client_company($data)
+    {
+        return ClientsCompanies::create($data);
+    }
     /**********************************/
     public function save_project($data)
     {
@@ -52,28 +59,33 @@ class HelperRepository implements HelperInterface
         $data['project_code'] = $newcode;
         return ClientsProjects::create($data);
     }
+
     /************************************/
     public function get_companies()
     {
         return ClientsCompanies::all();
     }
+
     /************************************/
     public function get_bnod_sarf()
     {
         return SarfBand::all();
     }
+
     /*************************************/
     public function get_all_tests()
     {
-       return Test::where('sader_number',null)->get();
+        return Test::where('sader_number', null)->get();
     }
+
     /*************************************/
-    public function update_test_status($status,$id)
+    public function update_test_status($status, $id)
     {
-        $test=Test::find($id);
-        $data['status']=$status;
+        $test = Test::find($id);
+        $data['status'] = $status;
         return $test->update($data);
     }
+
     /************************************/
     public function check_sader_date($date, $year)
     {
@@ -83,7 +95,7 @@ class HelperRepository implements HelperInterface
 
         if ($records->count() > 0) {
 
-            $numbers=$records->pluck('num')->toArray();
+            $numbers = $records->pluck('num')->toArray();
         } else {
             $lastRecord = TestSader::whereYear('date', $year)
                 ->orderByDesc('num')
@@ -95,25 +107,65 @@ class HelperRepository implements HelperInterface
             ]);
         }
     }
+
     /***********************************    */
     public function get_all_sader()
     {
         return TestSader::with('test')->get();
     }
+
     /**********************************/
     public function get_sader_by_id($id)
     {
         return TestSader::find($id);
     }
+
     /**********************************/
     public function get_last_sader_num()
     {
-       return $lastSader = TestSader::orderBy('num', 'desc')->first();
+        return $lastSader = TestSader::orderBy('num', 'desc')->first();
     }
+
     /*********************************/
     public function save_sader($test_data)
     {
         return TestSader::create($test_data);
+    }
+
+    /**********************************/
+    public function add_new_sader()
+    {
+        $lastSader = $this->get_last_sader_num();
+        $lastNum = $lastSader ? $lastSader->num : 0;
+
+        $newRows = [];
+
+        for ($i = 1; $i <= 10; $i++) {
+            $newRows[] = [
+                'num' => $lastNum + $i,
+                'created_at' => now(),
+                'updated_at' => now(),
+                'year' => now()->year,
+            ];
+        }
+        return TestSader::insert($newRows);
+    }
+
+    /***************************************/
+    public function get_test_sample($id)
+    {
+        return Test::find($id);
+    }
+
+    /***************************************/
+    public function add_test_cost($test_id, $data)
+    {
+        //return
+        $test = $this->get_test_sample($test_id);
+        $client_test_data['test_value'] = $data['total_cost'];
+        $client_test = ClientTests::where('test_id', $test_id)->first();
+        $client_test->update($client_test_data);
+        return $test->update($data);
     }
 
 

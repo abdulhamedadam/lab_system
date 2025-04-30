@@ -40,7 +40,7 @@
                             <label for="first_name" class="form-label">{{ trans('tests.test_code') }}</label>
                             <div class="input-group flex-nowrap">
                                 <span class="input-group-text" id="basic-addon3">{!! form_icon('text') !!}</span>
-                                <input type="text" class="form-control" name="test_code_st" id="test_code_st" value="">
+                                <input type="text" class="form-control" name="test_code_st" id="test_code_st" value="{{old('test_code_st',$test_code)}}">
                             </div>
                             @error('test_code_st')
                             <span class="invalid-feedback d-block" role="alert">{{ $message }}</span>
@@ -110,6 +110,95 @@
                         </div>
                     </div>
 
+                    <div class="col-md-12 row" style="margin-top: 10px">
+                        <div class="col-md-3">
+                            <label for="talab_number" class="form-label">{{ trans('tests.wared_number') }}</label>
+                            <div class="input-group flex-nowrap">
+                                <span class="input-group-text" id="basic-addon3">{!! form_icon('text') !!}</span>
+                                <input type="number" class="form-control" name="wared_number" id="wared_number"
+                                       value="{{ old('wared_number',$wared_number) }}">
+                            </div>
+                            @error('wared_number')
+                            <span class="invalid-feedback d-block" role="alert">{{ $message }}</span>
+                            @enderror
+                        </div>
+
+                        <div class="col-md-3">
+                            <label for="talab_number" class="form-label">{{ trans('tests.wared_date') }}</label>
+                            <div class="input-group flex-nowrap">
+                                <span class="input-group-text" id="basic-addon3">{!! form_icon('text') !!}</span>
+                                <input type="date" class="form-control" name="wared_date" id="wared_date"
+                                       value="{{ old('wared_date',$wared_number) }}">
+                            </div>
+                            @error('wared_date')
+                            <span class="invalid-feedback d-block" role="alert">{{ $message }}</span>
+                            @enderror
+                        </div>
+
+                        <div class="col-md-3">
+                            <label for="talab_number" class="form-label">{{ trans('tests.talab_number') }}</label>
+                            <div class="input-group flex-nowrap">
+                                <span class="input-group-text" id="basic-addon3">{!! form_icon('text') !!}</span>
+                                <input type="text" class="form-control" name="talab_number" id="talab_number"
+                                       value="{{ old('talab_number',$talab_number) }}">
+                            </div>
+                            @error('talab_number')
+                            <span class="invalid-feedback d-block" role="alert">{{ $message }}</span>
+                            @enderror
+                        </div>
+
+                        <div class="col-md-3">
+                            <label for="talab_title" class="form-label">{{ trans('tests.talab_title') }}</label>
+                            <div class="input-group flex-nowrap">
+                                <span class="input-group-text" id="basic-addon3">{!! form_icon('text') !!}</span>
+                                <input type="text" class="form-control" name="talab_title" id="talab_title"
+                                       value="{{ old('talab_title') }}">
+                            </div>
+                            @error('talab_title')
+                            <span class="invalid-feedback d-block" role="alert">{{ $message }}</span>
+                            @enderror
+                        </div>
+
+
+                    </div>
+
+                    <div class="col-md-12 row" style="margin-top: 10px">
+                        <div class="col-md-3">
+                            <label for="talab_image" class="form-label">{{ trans('tests.talab_image') }}</label>
+                            <div class="input-group flex-nowrap">
+                                <span class="input-group-text" id="basic-addon3">{!! form_icon('image') !!}</span>
+                                <input type="file" class="form-control" name="talab_image" id="talab_image">
+                            </div>
+                            @error('talab_image')
+                            <span class="invalid-feedback d-block" role="alert">{{ $message }}</span>
+                            @enderror
+                        </div>
+
+                        <div class="col-md-3">
+                            <label for="talab_date" class="form-label">{{ trans('tests.talab_date') }}</label>
+                            <div class="input-group flex-nowrap">
+                                <span class="input-group-text" id="basic-addon3">{!! form_icon('date') !!}</span>
+                                <input type="date" class="form-control" name="talab_date" id="talab_date"
+                                       value="{{ old('talab_date') }}">
+                            </div>
+                            @error('talab_date')
+                            <span class="invalid-feedback d-block" role="alert">{{ $message }}</span>
+                            @enderror
+                        </div>
+
+                        <div class="col-md-3">
+                            <label for="talab_end_date" class="form-label">{{ trans('tests.talab_end_date') }}</label>
+                            <div class="input-group flex-nowrap">
+                                <span class="input-group-text" id="basic-addon3">{!! form_icon('date') !!}</span>
+                                <input type="date" class="form-control" name="talab_end_date" id="talab_end_date"
+                                       value="{{ old('talab_end_date') }}">
+                            </div>
+                            @error('talab_end_date')
+                            <span class="invalid-feedback d-block" role="alert">{{ $message }}</span>
+                            @enderror
+                        </div>
+
+                    </div>
                     <div class="col-md-12 row" style="margin-top: 20px">
                         <div class="col-md-2">
                             <label for="first_name" class="form-label">{{ trans('tests.sample_num') }}</label>
@@ -184,10 +273,11 @@
                             <label for="client_id" class="form-label">{{ trans('tests.soil_test_type') }}</label>
                             <div class="input-group flex-nowrap">
 
-                                <select class="form-select rounded-start-0" name="test_category" id="test_category" >
+                                <select class="form-select rounded-start-0" name="test_category" id="test_category">
                                     <option value="">{{trans('tests.select')}}</option>
                                     @foreach($test_type as $key=>$value)
-                                        <option value="{{$key}}" {{ old('test_category') == $key ? 'selected' : '' }}>{{$value}}</option>
+                                        <option
+                                            value="{{$key}}" {{ old('test_category') == $key ? 'selected' : '' }}>{{$value}}</option>
                                     @endforeach
                                 </select>
                             </div>
@@ -199,7 +289,8 @@
                             <label for="first_name" class="form-label">{{ trans('tests.test_sub_category') }}</label>
                             <div class="input-group flex-nowrap">
 
-                                <input type="text" class="form-control" name="test_sub_category" id="test_sub_category" value="">
+                                <input type="text" class="form-control" name="test_sub_category" id="test_sub_category"
+                                       value="">
                             </div>
                             @error('test_sub_category')
                             <span class="invalid-feedback d-block" role="alert">{{ $message }}</span>
@@ -264,41 +355,56 @@
                                     <div data-repeater-item>
                                         <div class="form-group row">
                                             <div class="col-md-3">
-                                                <label for="first_name" class="form-label">{{ trans('tests.invoice_num') }}</label>
+                                                <label for="first_name"
+                                                       class="form-label">{{ trans('tests.invoice_num') }}</label>
                                                 <div class="input-group flex-nowrap">
-                                                    <span class="input-group-text" id="basic-addon3">{!! form_icon('number') !!}</span>
-                                                    <input type="number" class="form-control" name="invoice_num" id="invoice_num" value="">
+                                                    <span class="input-group-text"
+                                                          id="basic-addon3">{!! form_icon('number') !!}</span>
+                                                    <input type="number" class="form-control" name="invoice_num"
+                                                           id="invoice_num" value="">
                                                 </div>
                                                 @error('invoice_num')
-                                                <span class="invalid-feedback d-block" role="alert">{{ $message }}</span>
+                                                <span class="invalid-feedback d-block"
+                                                      role="alert">{{ $message }}</span>
                                                 @enderror
                                             </div>
                                             <div class="col-md-3">
-                                                <label for="first_name" class="form-label">{{ trans('tests.invoice_date') }}</label>
+                                                <label for="first_name"
+                                                       class="form-label">{{ trans('tests.invoice_date') }}</label>
                                                 <div class="input-group flex-nowrap">
-                                                    <span class="input-group-text" id="basic-addon3">{!! form_icon('date') !!}</span>
-                                                    <input type="date" class="form-control" name="invoice_date" id="invoice_date" value="">
+                                                    <span class="input-group-text"
+                                                          id="basic-addon3">{!! form_icon('date') !!}</span>
+                                                    <input type="date" class="form-control" name="invoice_date"
+                                                           id="invoice_date" value="">
                                                 </div>
                                                 @error('invoice_date')
-                                                <span class="invalid-feedback d-block" role="alert">{{ $message }}</span>
+                                                <span class="invalid-feedback d-block"
+                                                      role="alert">{{ $message }}</span>
                                                 @enderror
                                             </div>
 
 
                                             <div class="col-md-3">
-                                                <label for="first_name" class="form-label">{{ trans('tests.value') }}</label>
+                                                <label for="first_name"
+                                                       class="form-label">{{ trans('tests.value') }}</label>
                                                 <div class="input-group flex-nowrap">
-                                                    <span class="input-group-text" id="basic-addon3">{!! form_icon('number') !!}</span>
-                                                    <input type="number" class="form-control" name="value" id="value" value="">
+                                                    <span class="input-group-text"
+                                                          id="basic-addon3">{!! form_icon('number') !!}</span>
+                                                    <input type="number" class="form-control" name="value" id="value"
+                                                           value="">
                                                 </div>
                                                 @error('value')
-                                                <span class="invalid-feedback d-block" role="alert">{{ $message }}</span>
+                                                <span class="invalid-feedback d-block"
+                                                      role="alert">{{ $message }}</span>
                                                 @enderror
                                             </div>
 
                                             <div class="col-md-2">
-                                                <a href="javascript:;" data-repeater-delete class="btn btn-sm btn-light-danger mt-3 mt-md-8">
-                                                    <i class="ki-duotone ki-trash fs-5"><span class="path1"></span><span class="path2"></span><span class="path3"></span><span class="path4"></span><span class="path5"></span></i>
+                                                <a href="javascript:;" data-repeater-delete
+                                                   class="btn btn-sm btn-light-danger mt-3 mt-md-8">
+                                                    <i class="ki-duotone ki-trash fs-5"><span class="path1"></span><span
+                                                            class="path2"></span><span class="path3"></span><span
+                                                            class="path4"></span><span class="path5"></span></i>
                                                     Delete
                                                 </a>
                                             </div>
@@ -621,25 +727,25 @@
     </script>
 
     <script>
-        $(document).ready(function() {
+        $(document).ready(function () {
             $('#kt_docs_repeater_basic').repeater({
                 initEmpty: false,
-                show: function() {
+                show: function () {
                     $(this).slideDown();
                     calculateTotal();
-                    $(this).find('input[id="value"]').on('input', function() {
+                    $(this).find('input[id="value"]').on('input', function () {
                         calculateTotal();
                     });
                 },
 
-                hide: function(deleteElement) {
+                hide: function (deleteElement) {
                     $(this).slideUp(deleteElement);
-                    setTimeout(function() {
+                    setTimeout(function () {
                         calculateTotal();
                     }, 500);
                 }
             });
-            $(document).on('input', 'input[id="value"]', function() {
+            $(document).on('input', 'input[id="value"]', function () {
                 calculateTotal();
             });
 
@@ -656,9 +762,10 @@
             }
 
             calculateTotal();
+
             function calculateTotal() {
                 let total = 0;
-                $('input[id="value"]').each(function() {
+                $('input[id="value"]').each(function () {
                     let val = parseFloat($(this).val()) || 0;
                     total += val;
                 });
@@ -672,8 +779,8 @@
 
 
     <script>
-        $(document).ready(function() {
-            $('#sader_date').on('change', function() {
+        $(document).ready(function () {
+            $('#sader_date').on('change', function () {
                 var selectedDate = $(this).val();
                 var currentYear = new Date().getFullYear();
 
@@ -685,14 +792,14 @@
                             date: selectedDate,
                             year: currentYear
                         },
-                        success: function(response) {
+                        success: function (response) {
                             if (response.exists) {
 
                                 var numbers = Array.isArray(response.next_number) ? response.next_number : [];
 
                                 var numbersOptions = '<option value="">Select Number</option>'; // Default placeholder
-                                numbers.forEach(function(number) {
-                                    numbersOptions += '<option value="'+number+'">'+number+'</option>';
+                                numbers.forEach(function (number) {
+                                    numbersOptions += '<option value="' + number + '">' + number + '</option>';
                                 });
 
                                 $('#sader_num').replaceWith(`
@@ -709,7 +816,7 @@
                         `);
                             }
                         },
-                        error: function(xhr, status, error) {
+                        error: function (xhr, status, error) {
                             console.error('Error:', error);
                         }
                     });

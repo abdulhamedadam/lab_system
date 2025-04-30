@@ -360,6 +360,12 @@ function get_print_image()
 }
 
 /***************************************************/
+function get_clients()
+{
+    $data = \App\Models\Clients::all();
+    return $data ?? [];
+}
+/***************************************************/
 function toTLV($tag, $value)
 {
     $length = strlen($value);
@@ -435,65 +441,85 @@ if (!function_exists('saveClientButtonWithModal')) {
 if (!function_exists('saveCompanyButtonWithModal')) {
     function saveCompanyButtonWithModal()
     {
-        return '
-            <!-- زر فتح المودال -->
-            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addCompanyModal">
-                <i class="fas fa-plus"></i>
-            </button>
+        $clients = get_clients(); // استدعاء الكلاينتس هنا مرة واحدة
 
-            <!-- المودال -->
-            <div class="modal fade" id="addCompanyModal" tabindex="-1" aria-labelledby="addCompanyModalLabel" aria-hidden="true">
-                <div class="modal-dialog">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <h5 class="modal-title" id="addCompanyModalLabel">' . trans('companies.add_new') . '</h5>
-                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        $clientOptions = '';
+        foreach ($clients as $client) {
+            $clientOptions .= '<option value="' . $client->id . '">' . $client->name . '</option>';
+        }
+
+        return '
+        <!-- زر فتح المودال -->
+        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addCompanyModal">
+            <i class="fas fa-plus"></i>
+        </button>
+
+        <!-- المودال -->
+        <div class="modal fade" id="addCompanyModal" tabindex="-1" aria-labelledby="addCompanyModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="addCompanyModalLabel">' . trans('companies.add_new') . '</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+
+                      <div class="mb-3">
+                            <label for="client_id" class="form-label">' . trans('companies.client') . '</label>
+                            <select class="form-select" id="client_id" name="client_id">
+
+                                ' . $clientOptions . '
+                            </select>
                         </div>
-                        <div class="modal-body">
-                            <div class="mb-3">
-                                <label for="company_name" class="form-label">' . trans('companies.name') . '</label>
-                                <input type="text" class="form-control" id="company_name" name="company_name">
-                            </div>
+                        <div class="mb-3">
+                            <label for="company_name" class="form-label">' . trans('companies.name') . '</label>
+                            <input type="text" class="form-control" id="company_name" name="company_name">
                         </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">' . trans('common.close') . '</button>
-                            <button type="button" onclick="saveCompany()" class="btn btn-primary">' . trans('common.save') . '</button>
-                        </div>
+
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">' . trans('common.close') . '</button>
+                        <button type="button" onclick="saveCompany()" class="btn btn-primary">' . trans('common.save') . '</button>
                     </div>
                 </div>
             </div>
+        </div>
 
-            <!-- سكريبت الحفظ -->
-            <script>
-                var saveCompanyUrl = "' . route('admin.save_company_popup') . '";
+        <!-- سكريبت الحفظ -->
+        <script>
+            var saveCompanyUrl = "' . route('admin.save_company_popup') . '";
 
-                function saveCompany() {
-                    var companyName = $("#company_name").val();
-                    if (companyName) {
-                        $.ajax({
-                            url: saveCompanyUrl,
-                            type: "POST",
-                            data: {
-                                name: companyName,
-                                _token: $("meta[name=\'csrf-token\']").attr("content")
-                            },
-                            dataType: "json",
-                            success: function (data) {
-                                if (data.success) {
-                                    $("#company_id").append(new Option(data.company.name, data.company.id, true, true));
-                                    if ($.fn.select2) {
-                                        $("#company_id").trigger("change");
-                                    }
-                                    $("#addCompanyModal").modal("hide");
-                                    $("#company_name").val("");
+            function saveCompany() {
+                var companyName = $("#company_name").val();
+                var clientId = $("#client_id").val();
+                if (companyName && clientId) {
+                    $.ajax({
+                        url: saveCompanyUrl,
+                        type: "POST",
+                        data: {
+                            name: companyName,
+                            client_id: clientId,
+                            _token: $("meta[name=\'csrf-token\']").attr("content")
+                        },
+                        dataType: "json",
+                        success: function (data) {
+                            if (data.success) {
+                                $("#company_id").append(new Option(data.company.name, data.company.id, true, true));
+                                if ($.fn.select2) {
+                                    $("#company_id").trigger("change");
                                 }
+                                $("#addCompanyModal").modal("hide");
+                                $("#company_name").val("");
+                                $("#client_id").val("");
                             }
-                        });
-                    }
+                        }
+                    });
                 }
-            </script>
-        ';
+            }
+        </script>
+    ';
     }
+
 }
 
 /*****************************************************/
@@ -501,6 +527,16 @@ function get_prefix($type)
 {
     $type_arr = ['soil' => 'soil_prefix', 'concrete' => 'concrete_prefix', 'roads' => 'road_prefix', 'mechanic' => 'mechanic_prefix'];
     return get_app_config_data($type_arr);
+}
+/*****************************************************/
+function get_last_sader()
+{
+    $lastRecord = \App\Models\TestSader::orderBy('id','desc')->first();
+
+    if ($lastRecord) {
+        return $lastRecord;
+    }
+    return null;
 }
 
 

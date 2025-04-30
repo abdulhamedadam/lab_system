@@ -51,4 +51,7 @@
   'Users' => 'المستخدمين',
   'Masrofat' => 'المصروفات',
   'permissions_updated_successfully' => 'permissions_updated_successfully',
+  'delete_confirm' => 'delete_confirm',
+  'add_permission' => 'add_permission',
+  'parent_page' => 'parent_page',
 );

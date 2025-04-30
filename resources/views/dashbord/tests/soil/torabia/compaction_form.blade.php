@@ -205,7 +205,7 @@
 
 
 
-                    <div class="col-md-12 row" style="margin-top: 10px">
+                   {{-- <div class="col-md-12 row" style="margin-top: 10px">
                         <div class="col-md-3">
                             <label for="first_name" class="form-label">{{ trans('tests.sample_cost') }}</label>
                             <div class="input-group flex-nowrap">
@@ -258,7 +258,7 @@
                             @enderror
                         </div>
 
-                    </div>
+                    </div>--}}
 
 
 
@@ -274,7 +274,7 @@
                             <span class="invalid-feedback d-block" role="alert">{{ $message }}</span>
                             @enderror
                         </div>
-                        <div class="col-md-3">
+                      {{--  <div class="col-md-3">
                             <label for="talab_date" class="form-label">{{ trans('tests.test_cost') }}</label>
                             <div class="input-group flex-nowrap">
                                 <span class="input-group-text" id="basic-addon3">{!! form_icon('number') !!}</span>
@@ -283,7 +283,7 @@
                             @error('cost')
                             <span class="invalid-feedback d-block" role="alert">{{ $message }}</span>
                             @enderror
-                        </div>
+                        </div> --}}
                         @php
                            $test_type=['soil'=>trans('tests.soil'),'hasa'=>trans('tests.hasa')]
                         @endphp
@@ -332,11 +332,7 @@
                             <span class="invalid-feedback d-block" role="alert">{{ $message }}</span>
                             @enderror
                         </div>
-                    </div>
 
-
-
-                    <div class="col-md-12 row" style="margin-top: 10px">
                         <div class="col-md-3">
                             <label for="talab_date" class="form-label">{{ trans('tests.authorized_name') }}</label>
                             <div class="input-group flex-nowrap">
@@ -347,6 +343,12 @@
                             <span class="invalid-feedback d-block" role="alert">{{ $message }}</span>
                             @enderror
                         </div>
+
+                    </div>
+
+
+
+                    <div class="col-md-12 row" style="margin-top: 10px">
 
                         <div class="col-md-3">
                             <label for="client_id" class="form-label">{{ trans('tests.monamzig') }}</label>

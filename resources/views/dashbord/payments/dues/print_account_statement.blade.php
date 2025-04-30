@@ -319,12 +319,12 @@
                 <tr>
                     <td>{{ 'INV-' . $pay->num }}</td>
                     <td>{{ $pay->paid_date }}</td>
-                    <td class="amount-cell">${{ number_format($pay->value, 2) }}</td>
+                    <td class="amount-cell">دينار{{ number_format($pay->value, 2) }}</td>
                 </tr>
             @endforeach
             <tr class="total-row">
                 <td colspan="2" class="text-right">Total:</td>
-                <td class="amount-cell">${{ number_format($totalPayment, 2) }}</td>
+                <td class="amount-cell">دينار{{ number_format($totalPayment, 2) }}</td>
             </tr>
             </tbody>
         </table>

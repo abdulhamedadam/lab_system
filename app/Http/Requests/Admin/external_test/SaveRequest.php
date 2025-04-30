@@ -26,6 +26,14 @@ class SaveRequest extends FormRequest
             'client_id' => 'required',
             'company_id' => 'required',
             'project_id' => 'required',
+            'wared_number' => 'required',
+            'wared_date' => 'required',
+            'talab_number' => 'required',
+            'talab_title' => 'required',
+            'talab_image' => 'nullable',
+            'talab_date' => 'required',
+            'talab_end_date' => 'nullable',
+
             'test_category' => 'required',
             'test_sub_category' => 'required',
             'test' => 'required',
@@ -37,6 +45,7 @@ class SaveRequest extends FormRequest
             'sader_num' => 'required',
             'sader_date' => 'required',
             'notes' => 'nullable|string',
+
 
         ];
     }

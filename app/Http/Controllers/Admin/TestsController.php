@@ -277,4 +277,36 @@ class TestsController extends Controller
             return redirect()->back()->withErrors(['error' => $e->getMessage()]);
         }
     }
+
+    /***************************************************/
+    public function add_new_sader(Request $request,HelperService $helperService)
+    {
+        try {
+
+            $helperService->add_new_sader();
+            toastr()->addSuccess(trans('forms.success'));
+            return redirect()->route('admin.add_sader');
+        } catch (\Exception $e) {
+            dd($e->getMessage());
+            return redirect()->back()->withErrors(['error' => $e->getMessage()]);
+        }
+    }
+    /***************************************************/
+    public function update_sader(Request $request,HelperService $helperService)
+    {
+        try {
+
+            $helperService->updateSader($request);
+            toastr()->addSuccess(trans('forms.success'));
+            return redirect()->route('admin.add_sader');
+        } catch (\Exception $e) {
+            dd($e->getMessage());
+            return redirect()->back()->withErrors(['error' => $e->getMessage()]);
+        }
+
+
+
+    }
+
+
 }

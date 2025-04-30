@@ -1,0 +1,16 @@
+<?php return array (
+  'basic_salary' => 'basic_salary',
+  'housing_allowance' => 'housing_allowance',
+  'transportation_allowance' => 'transportation_allowance',
+  'food_allowance' => 'food_allowance',
+  'other_allowances' => 'other_allowances',
+  'total_salary' => 'total_salary',
+  'save_salary' => 'save_salary',
+  'salaries' => 'salaries',
+  'basic_salary_required' => 'basic_salary_required',
+  'basic_salary_numeric' => 'basic_salary_numeric',
+  'basic_salary_min' => 'basic_salary_min',
+  'effective_date_required' => 'effective_date_required',
+  'effective_date_invalid' => 'effective_date_invalid',
+  'error_saving_salary' => 'error_saving_salary',
+);

@@ -13,8 +13,9 @@ class HelperController extends Controller
 {
     public function __construct(HelperService $helperService)
     {
-        $this->helperService=$helperService;
+        $this->helperService = $helperService;
     }
+
     /****************************************************/
     public function save_client_popup(Request $request)
     {
@@ -22,9 +23,9 @@ class HelperController extends Controller
             'name' => 'required|string|max:255',
         ]);
         try {
-            $client_name=$request->name;
-            $data['name']=$client_name;
-            $client=$this->helperService->save_client($data);
+            $client_name = $request->name;
+            $data['name'] = $client_name;
+            $client = $this->helperService->save_client($data);
             return response()->json([
                 'success' => true,
                 'message' => 'Client added successfully',
@@ -38,6 +39,7 @@ class HelperController extends Controller
         }
 
     }
+
     /****************************************************/
     public function save_company_popup(Request $request)
     {
@@ -45,9 +47,14 @@ class HelperController extends Controller
             'name' => 'required|string|max:255',
         ]);
         try {
-            $company_name=$request->name;
-            $data['name']=$company_name;
-            $company=$this->helperService->save_company($data);
+            $company_name = $request->name;
+            $client_id = $request->client_id;
+            $data['name'] = $company_name;
+            $company = $this->helperService->save_company($data);
+
+            $client_company['client_id'] = $client_id;
+            $client_company['company_id'] = $company->id;
+            $this->helperService->save_client_company($client_company);
             return response()->json([
                 'success' => true,
                 'message' => 'Client added successfully',
@@ -60,6 +67,7 @@ class HelperController extends Controller
             ], 500);
         }
     }
+
     /****************************************************/
     public function save_project_popup(Request $request)
     {
@@ -67,9 +75,13 @@ class HelperController extends Controller
             'project_name' => 'required|string|max:255',
         ]);
         try {
-            $project_name=$request->project_name;
-            $data['project_name']=$project_name;
-            $project=$this->helperService->save_project($data);
+            $project_name = $request->project_name;
+            $client_id = $request->client_id;
+            $company_id = $request->company_id;
+            $data['project_name'] = $project_name;
+            $data['client_id'] = $client_id;
+            $data['company_id'] = $company_id;
+            $project = $this->helperService->save_project($data);
             return response()->json([
                 'success' => true,
                 'message' => 'Client added successfully',
@@ -93,6 +105,7 @@ class HelperController extends Controller
         }
         return redirect()->back();
     }
+
     /**************************************************/
     public function check_sader_date(Request $request)
     {
@@ -141,7 +154,39 @@ class HelperController extends Controller
         }
     }
 
+    /****************************************************/
+    public function get_test_sample($id)
+    {
+        try {
 
+            $test = $this->helperService->get_test_sample($id);
+            return response()->json([
+                'success' => true,
+                'message' => 'Client added successfully',
+                'all_data' => $test
+            ]);
+        } catch (\Exception $e) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Failed to add client: ' . $e->getMessage()
+            ], 500);
+        }
+    }
+
+    /*****************************************************/
+    public function add_test_cost(Request $request)
+    {
+
+        try {
+            //dd($request->all());
+            $this->helperService->add_test_cost($request);
+            toastr()->addSuccess(trans('forms.success'));
+            return redirect()->back();
+        } catch (\Exception $e) {
+            dd($e->getMessage());
+            return redirect()->back()->withErrors(['error' => $e->getMessage()]);
+        }
+    }
 
 
 }

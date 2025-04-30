@@ -52,7 +52,7 @@
   'videos' => 'مكتبة الفديوهات',
   'web_site' => 'ادارة الموقع',
   'web_site_pages' => 'صفح الموقع',
-  'Employee_Operations' => 'الاجرآت على قسم الموظفين',
+  'Employee_Operations' => 'الاجرآت على الموظفين',
   'exercise_devices' => 'تمارين الاجهزة',
   'devices' => 'الاجهزة',
   'task_management' => 'اداره المهام ',
@@ -115,4 +115,6 @@
   'expense_report' => 'تقرير المصروفات',
   'revenue_report' => 'تقرير الإيردات',
   'test_sader' => 'test_sader',
+  'payroll_report' => 'payroll_report',
+  'permissions' => 'permissions',
 );

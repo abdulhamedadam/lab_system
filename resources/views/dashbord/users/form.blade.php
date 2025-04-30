@@ -127,7 +127,7 @@
                                     <option value="">{{ trans('users.select_role') }}</option>
                                     @foreach($roles as $role)
                                         <option value="{{ $role->id }}" {{ old('role') == $role->id ? 'selected' : '' }}>
-                                            {{ $role->title }}
+                                            {{ $role->name }}
                                         </option>
                                     @endforeach
                                 </select>

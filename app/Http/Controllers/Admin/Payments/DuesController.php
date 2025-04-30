@@ -88,7 +88,6 @@ class DuesController extends Controller
 
         return view($this->root_view . 'all_dues');
     }
-
     /********************************************************/
     public function create()
     {
@@ -168,7 +167,6 @@ class DuesController extends Controller
                         return '<a href="' . route('admin.samples_test', optional(optional($row->client_test)->test)->id) . '" class="text-primary fw-bold">' . $final_code . '</a>';
 
                     }
-
                     return $final_code;
                 })->editColumn('test_type', function ($row) {
                     return $row->client_test->test_type;

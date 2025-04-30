@@ -38,15 +38,16 @@ class SoilEarthTestController extends Controller
 
     public function __construct(BasicRepositoryInterface $basicRepository, TestsService $testsService)
     {
-        $this->projectsRepository   = createRepository($basicRepository, new ClientsProjects());
+        $this->projectsRepository = createRepository($basicRepository, new ClientsProjects());
         $this->clientsRepository = createRepository($basicRepository, new Clients());
-        $this->companyRepository   = createRepository($basicRepository, new ClientsCompanies());
-        $this->SoilCompactionTestRepository   = createRepository($basicRepository, new SoilCompactionTest());
-        $this->SoilCompactionTestDetailsRepository   = createRepository($basicRepository, new SoilCompactionTestDetails());
-        $this->EmployeeRepository   = createRepository($basicRepository, new Employee());
-        $this->testsRepository   = createRepository($basicRepository, new Test());
-        $this->testsService   = $testsService;
+        $this->companyRepository = createRepository($basicRepository, new ClientsCompanies());
+        $this->SoilCompactionTestRepository = createRepository($basicRepository, new SoilCompactionTest());
+        $this->SoilCompactionTestDetailsRepository = createRepository($basicRepository, new SoilCompactionTestDetails());
+        $this->EmployeeRepository = createRepository($basicRepository, new Employee());
+        $this->testsRepository = createRepository($basicRepository, new Test());
+        $this->testsService = $testsService;
     }
+
     /***************************************************************/
     public function soil_compaction_index(Request $request)
     {
@@ -60,25 +61,23 @@ class SoilEarthTestController extends Controller
             return DataTables::of($allData)
                 ->editColumn('client', function ($row) {
                     //  return optional($row->client)->name;
-                    return '<a href="'.route('admin.client_companies', $row->client_id).'" class="text-primary fw-bold">'.($row->client)->name.'</a>';
+                    return '<a href="' . route('admin.client_companies', $row->client_id) . '" class="text-primary fw-bold">' . ($row->client)->name . '</a>';
 
                 })
                 ->editColumn('test_code', function ($row) {
-                    return '<a href="'.route('admin.samples_test', $row->id).'" class="text-primary fw-bold">'. $row->test_code_st.'</a>';
+                    return '<a href="' . route('admin.samples_test', $row->id) . '" class="text-primary fw-bold">' . $row->test_code_st . '</a>';
                 })
                 ->editColumn('company', function ($row) {
                     // return  optional($row->company)->name ;
-                    return '<a  href="'.route('admin.company_projects', $row->company_id).'" class="text-primary fw-bold" style="color:red">'.optional($row->company)->name.'</a>';
+                    return '<a  href="' . route('admin.company_projects', $row->company_id) . '" class="text-primary fw-bold" style="color:red">' . optional($row->company)->name . '</a>';
 
                 })
                 ->editColumn('project', function ($row) {
                     return $row->project ? $row->project->project_name : 'N/A';
                 })
-
                 ->editColumn('talab_title', function ($row) {
                     return $row->talab_title;
                 })
-
                 ->editColumn('talab_date', function ($row) {
                     return $row->talab_date;
                 })
@@ -102,10 +101,16 @@ class SoilEarthTestController extends Controller
                 ->addColumn('action', function ($row) {
                     return '
         <div class="dropdown">
-            <button class="btn btn-secondary dropdown-toggle" type="button" id="actionDropdown'.$row->id.'" data-bs-toggle="dropdown" aria-expanded="false">
+            <button class="btn btn-secondary dropdown-toggle" type="button" id="actionDropdown' . $row->id . '" data-bs-toggle="dropdown" aria-expanded="false">
                 <i class="bi bi-gear"></i> ' . trans('tests.actions') . '
             </button>
-            <ul class="dropdown-menu" aria-labelledby="actionDropdown'.$row->id.'">
+            <ul class="dropdown-menu" aria-labelledby="actionDropdown' . $row->id . '">
+
+            <li>
+                <a class="dropdown-item test-cost-btn" href="#" data-bs-toggle="modal"  data-bs-target="#testCostModal" onclick="edit_test_cost(' . $row->id . ')">
+                    <i class="bi bi-currency-dollar me-2"></i> ' . trans('tests.test_cost') . '
+                </a>
+            </li>
                 <li>
                     <a class="dropdown-item" href="' . route('admin.soil_compaction_edit_soil_test', [$row->id]) . '">
                         <i class="bi bi-pencil-square me-2"></i> ' . trans('tests.edit') . '
@@ -130,11 +135,12 @@ class SoilEarthTestController extends Controller
             </ul>
         </div>';
                 })
-                ->rawColumns(['action', 'talab_image','test_code','company','client'])
+                ->rawColumns(['action', 'talab_image', 'test_code', 'company', 'client'])
                 ->make(true);
         }
         return view('dashbord.tests.soil.torabia.compaction_index');
     }
+
     /****************************************************************/
     public function soil_compaction_create()
     {
@@ -143,14 +149,15 @@ class SoilEarthTestController extends Controller
         $data['wared_number'] = $this->testsRepository->getLastFieldValue('wared_number');
         $data['talab_number'] = $this->testsRepository->getLastFieldValue('talab_number');
         $data['book_number'] = $this->testsRepository->getLastFieldValue('book_number');
-        $data['clients']      = $this->clientsRepository->getAll();
-        $data['companies']      = $this->companyRepository->getAll();
+        $data['clients'] = $this->clientsRepository->getAll();
+        $data['companies'] = $this->companyRepository->getAll();
         $data['projects'] = $this->projectsRepository->getAll();
         $data['employees'] = $this->EmployeeRepository->getAll();
         // $data['type'] = $type;
         // $data['test'] = $test;
         return view('dashbord.tests.soil.torabia.compaction_form', $data);
     }
+
     /****************************************************************/
     public function soil_compaction_store(SaveSoilTestRequest $request)
     {
@@ -165,19 +172,21 @@ class SoilEarthTestController extends Controller
             return redirect()->back()->withErrors(['error' => $e->getMessage()]);
         }
     }
+
     /**************************************************************/
     public function soil_compaction_edit($id)
     {
-        $data['all_data']     = $this->testsRepository->getById($id);
-        $data['clients']      = $this->clientsRepository->getAll();
-        $data['companies']    = $this->companyRepository->getAll();
-        $data['projects']     = $this->projectsRepository->getAll();
+        $data['all_data'] = $this->testsRepository->getById($id);
+        $data['clients'] = $this->clientsRepository->getAll();
+        $data['companies'] = $this->companyRepository->getAll();
+        $data['projects'] = $this->projectsRepository->getAll();
         $data['employees'] = $this->EmployeeRepository->getAll();
         //  dd($data['employees']);
         $data['type'] = 'soil';
         $data['test'] = 'compaction';
         return view('dashbord.tests.soil.torabia.compaction_edit', $data);
     }
+
     /**************************************************************/
     public function soil_compaction_update(SaveSoilTestRequest $request, $id)
     {
@@ -191,6 +200,7 @@ class SoilEarthTestController extends Controller
             return redirect()->back()->withErrors(['error' => $e->getMessage()]);
         }
     }
+
     /**************************************************************/
     public function soil_compaction_test($id)
     {
@@ -202,6 +212,7 @@ class SoilEarthTestController extends Controller
         return view('dashbord.tests.soil.torabia.samples_test', $data);
 
     }
+
     /**************************************************************/
     public function save_soil_compaction_test(SaveCompactionTesrRequest $request, $test_id)
     {
@@ -216,6 +227,7 @@ class SoilEarthTestController extends Controller
             return redirect()->back()->withErrors(['error' => $e->getMessage()]);
         }
     }
+
     /**************************************************************/
     public function soil_sample_report_details($id)
     {
@@ -225,6 +237,7 @@ class SoilEarthTestController extends Controller
         return view('dashbord.tests.samples.soil_sample_report', $data);
 
     }
+
     /*************************************************************/
     public function print_soil_sample_report($id)
     {
@@ -233,6 +246,7 @@ class SoilEarthTestController extends Controller
         //dd($data['compaction_test'][0]->compaction_test_details);
         return view('dashbord.tests.samples.print_soil_sample_report', $data);
     }
+
     /**************************************************************/
     public function soil_test_dues($id, DuesService $duesService)
     {
@@ -244,8 +258,6 @@ class SoilEarthTestController extends Controller
         $data['all_emps'] = Employee::all();
         return view('dashbord.tests.soil.payments.dues', $data);
     }
-
-
 
 
 }

@@ -74,8 +74,14 @@
 
                                             <th>{{ trans('tests.test_code') }}</th>
                                             <th>{{ trans('tests.test_name') }}</th>
+                                            <th>{{ trans('tests.sample_number') }}</th>
+                                            <th>{{ trans('tests.sample_cost') }}</th>
                                             <th>{{ trans('tests.test_value') }}</th>
-                                            <th>{{ trans('tests.created_at') }}</th>
+                                            <th>{{ trans('tests.wared_number') }}</th>
+                                            <th>{{ trans('tests.wared_date') }}</th>
+
+                                            <th>{{ trans('tests.sader_num') }}</th>
+                                            <th>{{ trans('tests.sader_date') }}</th>
                                             <th>{{ trans('tests.action') }}</th>
 
                                         </tr>
@@ -83,15 +89,21 @@
                                     <tbody class="fs-6">
                                         @foreach ($dues_data as $record)
                                             <tr>
-                                                <td>{{ get_app_config_data(in_array($record->test_data->test_type, ['soil', 'hasa']) ? 'soil_prefix' : $record->test_data->test_type . '_prefix') . $record->test_data->test_code }}
+                                                <td>{{  optional($record->test_data)->test_code_st }}
                                                 </td>
                                                 <td>{{ $record->test_name }}</td>
+                                                <td>{{ optional($record->test_data)->sample_number }}</td>
+                                                <td>{{ optional($record->test_data)->sample_cost }}</td>
                                                 <td>{{ $record->test_value }}</td>
-                                                <td>{{ $record->created_at }}</td>
+                                                <td>{{ optional($record->test_data)->wared_number }}</td>
+                                                <td>{{ optional($record->test_data)->wared_date }}</td>
+                                                <td>{{ optional($record->test_data)->sader->num }}</td>
+                                                <td>{{ optional($record->test_data)->sader->date }}</td>
+
 
                                                 <td>
                                                     <a onclick="show_due_details({{ $record->id }})"
-                                                        class="btn btn-sm btn-light btn-active-light-primary"
+                                                        class="btn btn-sm  btn-primary"
                                                         target="_blank">
                                                         {{ trans('tests.view') }}
                                                     </a>

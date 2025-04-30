@@ -175,7 +175,8 @@ return [
         App\Providers\RepositoryServiceProvider::class,
         Spatie\Permission\PermissionServiceProvider::class,
         SimpleSoftwareIO\QrCode\QrCodeServiceProvider::class,
-        Mckenziearts\Notify\LaravelNotifyServiceProvider::class
+        Mckenziearts\Notify\LaravelNotifyServiceProvider::class,
+        Inspector\Laravel\InspectorServiceProvider::class,
 
     ])->toArray(),
 
@@ -196,6 +197,7 @@ return [
          'JWTAuth'    => Tymon\JWTAuth\Facades\JWTAuth::class,
          'JWTFactory' => Tymon\JWTAuth\Facades\JWTFactory::class,
         'QrCode' => SimpleSoftwareIO\QrCode\Facades\QrCode::class,
+        'Inspector' => Inspector\Laravel\Inspector::class,
 
     ])->toArray(),
 

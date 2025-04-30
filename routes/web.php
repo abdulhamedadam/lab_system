@@ -6,6 +6,10 @@ use App\Http\Controllers\Site\HomeController;
 use Illuminate\Support\Facades\Route;
 use Mcamara\LaravelLocalization\Facades\LaravelLocalization;
 
+Route::get('/lawyer-assistant', [\App\Http\Controllers\LawyerAssistantController::class, 'index'])->name('lawyer.assistant');
+Route::post('/ask', [\App\Http\Controllers\LawyerAssistantController::class, 'ask'])->name('ask');
+Route::get('/history', [\App\Http\Controllers\LawyerAssistantController::class, 'chatHistory'])->name('chat_h');
+Route::delete('/history', [\App\Http\Controllers\LawyerAssistantController::class, 'clearHistory'])->name('name_h');
 
 Route::get('/books/{id}', [BookController::class, 'show']);
 Route::get('/books', [BookController::class, 'index'])->name('books.index');

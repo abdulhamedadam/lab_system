@@ -61,7 +61,8 @@ class UsersController extends Controller
                     return $row->email ?? 'N/A';
                 })
                 ->editColumn('role', function ($row) {
-                    return $row->roles->isNotEmpty() ? $row->roles->first()->title : 'N/A';
+
+                    return implode(', ', $row->getRoleNames()->toArray()) ?? 'N/A';
                 })
                 ->editColumn('position', function ($row) {
                     return $row->position ?? 'N/A';
@@ -90,9 +91,7 @@ class UsersController extends Controller
                             <a onclick="return confirm(\'Are You Sure To Delete?\')"  href="' . route('admin.delete_user', $row->id) . '"  class="btn btn-sm btn-danger" title="' . trans('users.delete') . '" style="font-size: 16px;" onclick="return confirm(\'' . trans('users.confirm_delete') . '\')">
                                 <i class="bi bi-trash3"></i>
                             </a>
-                            <a href="' . route('admin.users.permissions', $row->id) . '" class="btn btn-sm btn-info" title="' . trans('users.set_permissions') . '" style="font-size: 16px;">
-                                <i class="bi bi-lock"></i>
-                            </a>
+
                         </div>
                     ';
                 })
@@ -108,6 +107,7 @@ class UsersController extends Controller
         // $adminUser          = new Admin();
         // $data['roles']      = $adminUser->get_roles();
         $data['roles']      = $this->rolesRepository->getAll();
+        //dd($data['roles']);
         $data['employees']  = $this->employeesRepository->getAll();
         // dd($data);
         return view('dashbord.users.form', $data);

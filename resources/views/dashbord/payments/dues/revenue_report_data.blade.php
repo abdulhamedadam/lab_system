@@ -42,7 +42,7 @@
             <tbody class="fs-6">
             @foreach($all_data as $record)
                 <tr style="background-color: #f8f9fa;">
-                    <td style="text-align-last: center">{{ get_app_config_data(in_array($record->test_data->test_type, ['soil', 'hasa']) ? 'soil_prefix' : $record->test_data->test_type . '_prefix') . $record->test_data->test_code }}</td>
+                    <td style="text-align-last: center">{{  optional($record->test_data)->test_code_st }}</td>
                     <td style="text-align-last: center">{{optional(optional($record->test_data)->company)->name}}</td>
                     <td style="text-align-last: center">{{ $record->paid_date }}</td>
                     <td style="text-align-last: center">{{$record->notes}}</td>

@@ -3,10 +3,13 @@
 use App\Http\Controllers\Admin\AllTestsController;
 use App\Http\Controllers\Admin\app_setting\NotificationController;
 use App\Http\Controllers\Admin\app_setting\DiscountController;
+
+use App\Http\Controllers\Admin\BonusController;
 use App\Http\Controllers\Admin\ClientController;
 use App\Http\Controllers\Admin\CompanyController;
 use App\Http\Controllers\Admin\ConfigAppController;
 use App\Http\Controllers\Admin\DashboardController;
+use App\Http\Controllers\admin\DeductionsController;
 use App\Http\Controllers\Admin\EmployeesController;
 
 use App\Http\Controllers\Admin\ExternalTestsController;
@@ -14,15 +17,20 @@ use App\Http\Controllers\Admin\Finance\AccountsController;
 use App\Http\Controllers\Admin\Finance\ReceiptVoucherController;
 use App\Http\Controllers\Admin\GeneralSettingsController;
 use App\Http\Controllers\Admin\HelperController;
+use App\Http\Controllers\Admin\LoansController;
 use App\Http\Controllers\Admin\MasrofatController;
 use App\Http\Controllers\Admin\Payments\DuesController;
+use App\Http\Controllers\Admin\PayrollController;
+use App\Http\Controllers\Admin\PermissionController;
 use App\Http\Controllers\Admin\PopUpController;
 use App\Http\Controllers\Admin\ProjectController;
+use App\Http\Controllers\Admin\RoleController;
 use App\Http\Controllers\Admin\SoilEarthTestController;
 use App\Http\Controllers\Admin\SoilHasaTestsController;
 use App\Http\Controllers\Admin\SoilTestController;
 use App\Http\Controllers\Admin\TestsController;
 use App\Http\Controllers\Admin\UsersController;
+
 use App\Http\Controllers\TelegramController;
 use Illuminate\Support\Facades\Route;
 use Mcamara\LaravelLocalization\Facades\LaravelLocalization;
@@ -66,7 +74,7 @@ Route::group(
                 return ' test admin ';
             });
 
-            Route::resource('clients', ClientController::class);
+            Route::resource('clients', ClientController::class)->middleware('can:clients');
             Route::get('delete/{id}', [ClientController::class, 'destroy'])->name('delete_client');
             /********************************************************************************************************************************/
             Route::get('clients/{id}/companies', [ClientController::class, 'companies'])->name('client_companies');
@@ -76,13 +84,13 @@ Route::group(
             Route::post('clients/companies/update/{id}', [ClientController::class, 'update_company'])->name('client_update_company');
             Route::get('clients/companies/delete/{id}', [ClientController::class, 'delete_company'])->name('client_delete_company');
             /********************************************************************************************************************************/
-            Route::get('clients/{id}/projects', [ClientController::class, 'projects'])->name('client_projects');
+            Route::get('clients/{id}/projects', [ClientController::class, 'projects'])->name('client_projects')->middleware('can:projects');
             Route::post('clients/{id}/projects/save', [ClientController::class, 'store_project'])->name('client_store_project');
             Route::get('clients/projects/edit/{id}', [ClientController::class, 'edit_project'])->name('client_edit_project');
             Route::post('clients/projects/update/{id}', [ClientController::class, 'update_project'])->name('client_update_project');
             Route::get('clients/projects/delete/{id}', [ClientController::class, 'delete_project'])->name('client_delete_project');
             /********************************************************************************************************************************/
-            Route::resource('company', CompanyController::class);
+            Route::resource('company', CompanyController::class)->middleware('can:companies');
             Route::get('company/delete/{id}', [CompanyController::class, 'destroy'])->name('delete_company');
             /********************************************************************************************************************************/
             Route::get('company/{id}/projects', [CompanyController::class, 'projects'])->name('company_projects');
@@ -102,6 +110,7 @@ Route::group(
             Route::resource('project', ProjectController::class);
             Route::get('project/delete/{id}', [ProjectController::class, 'destroy'])->name('delete_project');
             Route::get('get_company/{id}', [ProjectController::class, 'get_company'])->name('get_company');
+            Route::get('get_project/{client_id}/{company_id}', [ProjectController::class, 'get_project'])->name('get_project');
             /********************************************************************************************************************************/
             /************************** MAINDATA *****************************/
             // Route::resource('mdata', MaindataController::class);
@@ -156,6 +165,13 @@ Route::group(
             Route::get('/employee_files/{id}', [EmployeesController::class, 'employee_files'])->name('employee_files');
             Route::get('/employee_details/{id}', [EmployeesController::class, 'employee_details'])->name('employee_details');
 
+            Route::get('/employee_salary/{id}', [EmployeesController::class, 'employee_salary'])->name('employee_salary');
+            Route::post('/save_employee_salary/{id}', [EmployeesController::class, 'save_employee_salary'])->name('save_employee_salary');
+
+            Route::get('/employee_loans/{id}', [EmployeesController::class, 'employee_loans'])->name('employee_loans');
+            Route::get('/save_employee_loans/{id}', [EmployeesController::class, 'save_employee_loans'])->name('save_employee_loans');
+
+
             Route::post('/employee_add_files/{id}', [EmployeesController::class, 'employee_add_files'])->name('employee_add_files');
             Route::get('/employee_read_file/{id}', [EmployeesController::class, 'read_file'])->name('employee_read_file');
             Route::get('/employee_download_file/{id}/{file?}', [EmployeesController::class, 'download_file'])->name('employee_download_file');
@@ -173,6 +189,8 @@ Route::group(
 
             Route::resource('test', TestsController::class);
             Route::get('tests/add_sader', [TestsController::class,'add_sader'])->name('add_sader');
+            Route::post('tests/update_sader', [TestsController::class,'update_sader'])->name('update_sader');
+            Route::get('tests/add_new_sader', [TestsController::class,'add_new_sader'])->name('add_new_sader');
             Route::post('tests/save_sader', [TestsController::class,'save_sader'])->name('save_sader');
             Route::get('tests/delete/{id}', [TestsController::class, 'destroy'])->name('delete_test');
              // Route::get('tests/samples_test/{id}', [TestsController::class, 'samples_test'])->name('samples_test');
@@ -185,15 +203,19 @@ Route::group(
             Route::post('setting/app_config/save', [ConfigAppController::class, 'store'])->name('save_app_config');
 
             Route::resource('users', UsersController::class);
+            Route::resource('roles',RoleController::class);
+            Route::get('/admin/roles/{id}/permissions', [RoleController::class, 'permissions'])->name('roles.permissions');
+            Route::post('/admin/roles/{id}/permissions', [RoleController::class, 'save_role_permissions'])->name('roles.role_permission.store');
             Route::get('user/delete/{id}', [UsersController::class, 'destroy'])->name('delete_user');
             Route::get('users/change_status/{id}/{status}', [UsersController::class, 'change_status'])->name('change_status');
 
             Route::get('admin/users/{user}/permissions', [UsersController::class, 'permissions'])->name('users.permissions');
             Route::post('admin/users/{user}/permissions', [UsersController::class, 'updatePermissions'])->name('users.update_permissions');
+            Route::resource('permissions',PermissionController::class)->middleware('can:permissions');
 
             /**********************************************************************************************************/
             //all_test
-            Route::get('all-tests', [AllTestsController::class, 'index'])->name('all_tests');
+            Route::get('all-tests', [AllTestsController::class, 'index'])->name('all_tests')->middleware('can:all_tests');
             Route::get('update_test_status/{id}',[HelperController::class,'update_test_status'])->name('update_test_status');
             Route::get('check_sader_date',[HelperController::class,'check_sader_date'])->name('check_sader_date');
 
@@ -202,7 +224,8 @@ Route::group(
             Route::get('soil_test/edit/{id}/{type?}/{test?}', [SoilTestController::class, 'edit'])->name('edit_soil_test');
             Route::post('soil_test/save/{type?}/{test?}', [SoilTestController::class, 'store'])->name('store_soil_test');
             Route::post('soil_test/update/{id}/{type?}/{test?}', [SoilTestController::class, 'update'])->name('update_soil_test');*/
-
+            Route::get('get_test_sample/{id}',[HelperController::class,'get_test_sample'])->name('get_test_sample');
+            Route::post('add_test_cost',[HelperController::class,'add_test_cost'])->name('add_test_cost');
 
             //soil_test
             Route::get('soil_test/soil/compaction/', [SoilEarthTestController::class, 'soil_compaction_index'])->name('soil_compaction_soil_test');
@@ -274,6 +297,19 @@ Route::group(
             Route::post('save_client_popup',[HelperController::class,'save_client_popup'])->name('save_client_popup');
             Route::post('save_company_popup',[HelperController::class,'save_company_popup'])->name('save_company_popup');
             Route::post('save_project_popup',[HelperController::class,'save_project_popup'])->name('save_project_popup');
+            /************************************************************************************************************/
+            Route::resource('loans', LoansController::class);
+            Route::get('loans/delete/{id}', [LoansController::class,'delete'])->name('delete_loan');
+
+            Route::resource('deductions', DeductionsController::class);
+            Route::get('deductions/delete/{id}', [DeductionsController::class,'delete'])->name('delete_deduction');
+
+            Route::resource('bonuses', BonusController::class);
+            Route::get('bonuses/delete/{id}', [BonusController::class,'delete'])->name('delete_bonus');
+
+            Route::resource('payroll', PayrollController::class);
+            Route::get('get_payroll', [PayrollController::class,'get_payroll'])->name('get_payroll');
+
         });
     }
 );

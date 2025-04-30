@@ -16,6 +16,7 @@ use App\Models\Admin\Test;
 use App\Models\Clients;
 use App\Models\ClientsCompanies;
 use App\Models\ClientsProjects;
+use App\Models\Companies;
 use App\Services\Payments\DuesService;
 use App\Services\TestsService;
 use App\Traits\ImageProcessing;
@@ -42,7 +43,7 @@ class SoilTestController extends Controller
     {
         $this->projectsRepository   = createRepository($basicRepository, new ClientsProjects());
         $this->clientsRepository = createRepository($basicRepository, new Clients());
-        $this->companyRepository   = createRepository($basicRepository, new ClientsCompanies());
+        $this->companyRepository   = createRepository($basicRepository, new Companies());
         $this->SoilCompactionTestRepository   = createRepository($basicRepository, new SoilHasaCompactionTest());
         $this->SoilCompactionTestDetailsRepository   = createRepository($basicRepository, new SoilHasaCompactionTestDetails());
         $this->EmployeeRepository   = createRepository($basicRepository, new Employee());

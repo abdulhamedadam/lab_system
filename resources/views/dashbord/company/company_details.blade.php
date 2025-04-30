@@ -39,7 +39,7 @@
         </tr>
         <tr>
             <td class="class_label" style="width: 25%"><?= trans('company.client') ?></td>
-            <td class="class_result">{{ $all_data->client->name }}</td>
+            <td class="class_result"></td>
         </tr>
         </tbody>
     </table>
@@ -142,7 +142,7 @@
                         <!--begin::Number-->
                         <div class="d-flex align-items-center">
                             <i class="bi bi-cash-coin fs-3 text-success me-2"></i>
-                            <div class="fs-2 fw-bold" data-kt-countup="true" data-kt-countup-value="{{$all_dues}}" data-kt-countup-prefix="$">{{$all_dues}}</div>
+                            <div class="fs-2 fw-bold" data-kt-countup="true" data-kt-countup-value="{{$all_dues}}" data-kt-countup-prefix="دينار ">{{$all_dues}}</div>
                         </div>
                         <div class="fw-semibold fs-6 text-gray-500">{{trans('company.dues')}}</div>
                     </div>
@@ -150,7 +150,7 @@
                     <div class="border border-gray-300 border-dashed rounded min-w-125px py-3 px-4 me-6 mb-3">
                         <div class="d-flex align-items-center">
                             <i class="bi bi-check-circle fs-3 text-success me-2"></i>
-                            <div class="fs-2 fw-bold" data-kt-countup="true" data-kt-countup-value="{{$paid_dues}}" data-kt-countup-prefix="$">{{$paid_dues}}</div>
+                            <div class="fs-2 fw-bold" data-kt-countup="true" data-kt-countup-value="{{$paid_dues}}" data-kt-countup-prefix="دينار ">{{$paid_dues}}</div>
                         </div>
                         <div class="fw-semibold fs-6 text-gray-500">{{trans('company.paid_dues')}}</div>
                     </div>
@@ -158,7 +158,7 @@
                     <div class="border border-gray-300 border-dashed rounded min-w-125px py-3 px-4 me-6 mb-3">
                         <div class="d-flex align-items-center">
                             <i class="bi bi-exclamation-circle fs-3 text-warning me-2"></i>
-                            <div class="fs-2 fw-bold" data-kt-countup="true" data-kt-countup-value="{{$all_dues-$paid_dues}}" data-kt-countup-prefix="$">{{$all_dues-$paid_dues}}</div>
+                            <div class="fs-2 fw-bold" data-kt-countup="true" data-kt-countup-value="{{$all_dues-$paid_dues}}" data-kt-countup-prefix="دينار ">{{$all_dues-$paid_dues}}</div>
                         </div>
                         <div class="fw-semibold fs-6 text-gray-500">{{trans('company.remain_dues')}}</div>
                     </div>

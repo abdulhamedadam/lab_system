@@ -18,31 +18,33 @@
             @php
                 $x = 1;
             @endphp
-            @foreach ($companies_data as $company)
+
+
+            @foreach ($companies_data as $item)
 
                 <tr>
                     <td>{{ $x++ }}</td>
-                    <td>{{ $company->company_code }}</td>
+                    <td>{{ optional($item->company)->company_code }}</td>
                     <td>
-                        {{ $company->name }}
+                        {{ optional($item->company)->name }}
                     </td>
                     <td>
-                        {{ $company->phone }}
+                        {{ optional($item->company)->phone }}
                     </td>
                     <td>
-                        {{ $company->email }}
+                        {{ optional($item->company)->email }}
                     </td>
 
                     <td>
-                        {{ $company->address1 }}
+                        {{ optional($item->company)->address1 }}
                     </td>
 
                     <td>
                         <div class="btn-group">
-                            <a data-bs-toggle="modal" data-bs-target="#myModal" onclick="edit_company({{ $company->id }})" class="btn btn-sm btn-warning" title="{{ trans('clients.edit') }}">
+                            <a data-bs-toggle="modal" data-bs-target="#myModal" onclick="edit_company({{ optional($item->company)->id }})" class="btn btn-sm btn-warning" title="{{ trans('clients.edit') }}">
                                 <i class="bi bi-pencil"></i>
                             </a>
-                            <a href="{{ route('admin.client_delete_company', $company->id) }}" onclick="return confirm('Are You Sure To Delete?')" class="btn btn-sm btn-danger">
+                            <a href="{{ route('admin.client_delete_company', optional($item->company)->id) }}" onclick="return confirm('Are You Sure To Delete?')" class="btn btn-sm btn-danger">
                                 <i class="bi bi-trash"></i>
                             </a>
                         </div>

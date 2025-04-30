@@ -40,7 +40,7 @@
                             <label for="first_name" class="form-label">{{ trans('company.client') }}</label>
                             <div class="input-group flex-nowrap">
                                 <span class="input-group-text" id="basic-addon3">{!! form_icon('select') !!}</span>
-                                <select class="form-select rounded-start-0" name="client_id" id="client_id">
+                                <select class="form-select rounded-start-0" data-control="select2" name="client_id[]" id="client_id" multiple>
                                     <option value="">{{trans('clients.select')}}</option>
                                     @foreach($clients as $item)
                                         <option value="{{$item->id}}" {{ old('client_id') == $item->id ? 'selected' : '' }}>{{$item->name}}</option>

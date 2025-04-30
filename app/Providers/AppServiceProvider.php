@@ -2,11 +2,20 @@
 
 namespace App\Providers;
 
+use App\Interfaces\ClientInterface;
+use App\Interfaces\CompanyInterface;
+use App\Repositories\ClientRepository;
+use App\Repositories\CompanyRepository;
+use App\Services\ClientService;
+use App\Services\CompanyService;
+use App\Services\EmployeeService;
 use Illuminate\Pagination\Paginator;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Lang;
+use App\Interfaces\EmployeeInterface;
+use App\Repositories\EmployeeRepository;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -15,7 +24,9 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register(): void
     {
-        //
+        $this->app->bind(EmployeeInterface::class, EmployeeService::class,EmployeeRepository::class);
+        $this->app->bind(CompanyInterface::class, CompanyRepository::class,CompanyService::class);
+        $this->app->bind(ClientInterface::class, ClientRepository::class,ClientService::class);
     }
 
     /**

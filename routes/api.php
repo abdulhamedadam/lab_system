@@ -13,10 +13,10 @@ use http\Client\Request;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Route;
 
-
-Route::post('/webhook', function (Request $request) {
-    Log::info('Telegram Webhook:', $request->all());
-    return response()->json(['status' => 'success']);
+Route::prefix('lawyer-assistant')->group(function() {
+    Route::post('/ask', [\App\Http\Controllers\LawyerAssistantController::class, 'ask']);
+    Route::get('/history', [\App\Http\Controllers\LawyerAssistantController::class, 'chatHistory']);
+    Route::delete('/history', [\App\Http\Controllers\LawyerAssistantController::class, 'clearHistory']);
 });
 
 

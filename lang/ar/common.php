@@ -1,4 +1,16 @@
 <?php return array (
   'close' => 'close',
   'save' => 'save',
+  'loans' => 'loans',
+  'Deductions' => 'Deductions',
+  'Bonus' => 'Bonus',
+  'job_title' => 'job_title',
+  'main_salary' => 'main_salary',
+  'Loan' => 'Loan',
+  'absence' => 'absence',
+  'sader_num' => 'sader_num',
+  'sader_date' => 'sader_date',
+  'last_sader' => 'اخر صادر',
+  'select' => 'select',
+  'tests' => 'tests',
 );

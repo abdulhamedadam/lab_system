@@ -109,8 +109,18 @@ class BasicRepository implements BasicRepositoryInterface
 
     public function getLastFieldValue($field)
     {
-        $lastValue = $this->model->latest()->value($field);
+        $lastValue = $this->model
+            ->whereNotNull($field)
+            ->orderByDesc('id')
+            ->value($field);
+
         return is_null($lastValue) ? 1 : $lastValue + 1;
+    }
+
+    public function getLastFieldValue_2($field)
+    {
+        $lastValue = $this->model->latest()->value($field);
+        return $lastValue;
     }
 
     /**********************************************/

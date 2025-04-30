@@ -5,34 +5,59 @@ namespace App\Services;
 
 
 use App\Interfaces\BasicRepositoryInterface;
+use App\Interfaces\CompanyInterface;
 use App\Models\Admin\AreaSetting;
 use App\Models\Clients;
 use App\Models\ClientsCompanies;
+use App\Models\Companies;
 use App\Traits\ImageProcessing;
+use Illuminate\Support\Facades\DB;
 
 class CompanyService
 {
 
     use ImageProcessing;
+
     protected $CompanyRepository;
-    public function __construct(BasicRepositoryInterface $basicRepository)
+    protected $CompanyClientRepository;
+    protected $companyInterface;
+
+    public function __construct(BasicRepositoryInterface $basicRepository, CompanyInterface $companyInterface)
     {
-        $this->CompanyRepository   = createRepository($basicRepository, new ClientsCompanies());
+        $this->CompanyRepository = createRepository($basicRepository, new Companies());
+        $this->CompanyClientRepository = createRepository($basicRepository, new ClientsCompanies());
+        $this->companyInterface = $companyInterface;
     }
+
     /************************************************/
     public function store($request)
     {
-        $validated_data=$request->validated();
-        $validated_data['client_id'] = $request->client_id;
-        $validated_data['company_code'] = $request->company_code;
-        $validated_data['created_by']= auth()->user()->id;
-        /* if ($request->hasFile('image')) {
-             $file = $request->file('image');
-             $dataX = $this->saveImage($file, 'clients');
-             $validated_data['image'] = $dataX;
-         }*/
-        //  dd($validated_data);
-        return $this->CompanyRepository->create($validated_data);
+        DB::beginTransaction();
+
+        try {
+            //dd($request);
+            $validated_data = $request->validated();
+            $validated_data['company_code'] = $request->company_code;
+            $validated_data['created_by'] = auth()->user()->id;
+
+            $company = $this->CompanyRepository->create($validated_data);
+
+            foreach ($request->client_id as $index => $client) {
+                $compnay_client_data['client_id'] = $client;
+                $compnay_client_data['company_id'] = $company->id;
+                $this->CompanyClientRepository->create($compnay_client_data);
+                // DB::table('company_client')->insert($compnay_client_data);
+            }
+
+            DB::commit();
+
+            return $company;
+
+        } catch (\Exception $e) {
+            DB::rollBack();
+
+            throw $e;
+        }
     }
 
     /************************************************/
@@ -40,24 +65,45 @@ class CompanyService
     {
         return $this->CompanyRepository->getById($id);
     }
+
     /************************************************/
-    public function update($request,$id)
+    public function update($request, $id)
     {
-        $validated_data=$request->validated();
-        $validated_data['client_id'] = $request->client_id;
-        $validated_data['company_code'] = $request->company_code;
-        $validated_data['updated_by']= auth()->user()->id;
-        /*if ($request->hasFile('image')) {
-            $file = $request->file('image');
-            $dataX = $this->saveImage($file, 'clients');
-            $validated_data['image'] = $dataX;
-        }*/
-        // dd($validated_data);
-        return $this->CompanyRepository->update($id,$validated_data);
+
+        DB::beginTransaction();
+
+        try {
+            $validated_data = $request->validated();
+            $validated_data['company_code'] = $request->company_code;
+            $validated_data['created_by'] = auth()->user()->id;
+
+            $this->CompanyRepository->update($id, $validated_data);
+            ClientsCompanies::where('company_id',$id)->delete();
+            foreach ($request->client_id as $index => $client) {
+                $compnay_client_data['client_id'] = $client;
+                $compnay_client_data['company_id'] = $id;
+                $this->CompanyClientRepository->create($compnay_client_data);
+                // DB::table('company_client')->insert($compnay_client_data);
+            }
+
+            DB::commit();
+
+            return '';
+
+        } catch (\Exception $e) {
+            DB::rollBack();
+
+            throw $e;
+        }
+
+
     }
+
     /**************************************************/
-
-
+    public function get_company_data($id)
+    {
+        return $this->companyInterface->get_company_data($id);
+    }
 
 
 }
