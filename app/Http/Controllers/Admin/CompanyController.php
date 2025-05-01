@@ -18,6 +18,7 @@ use App\Models\Companies;
 use App\Services\ClientService;
 use App\Services\CompanyService;
 use App\Services\ExternalTestsService;
+use App\Services\HelperService;
 use App\Services\Payments\ClientPaymentService;
 use App\Services\Payments\DuesService;
 use App\Services\ProjectsService;
@@ -371,5 +372,89 @@ class CompanyController extends Controller
         return view($this->admin_view . '.dues.account_statement', $data);
     }
 
+    /*****************************************************/
+    public function Payments_received1($id)
+    {
+        $data['all_data'] = $this->CompanyRepository->getById($id);
+        $data['project_code'] = $this->ProjectsRepository->getLastFieldValue('project_code');
+        $data['clients_data'] = $this->ClientsRepository->getAll();
+        $data['projects_data'] = $this->ProjectsRepository->getBywhere(['company_id' => $id]);
+        $data['company_clients'] = $this->ClientsRepository->getAll();
+        $data['tests_data'] = $this->TestsRepository->getBywhere(['company_id' => $id]);
+        $data['dues_data'] = $this->duesService->get_company_dues($id);
+        $data['all_dues'] = ClientTests::where('client_id', $id)->sum('test_value');
+        $data['paid_dues'] = ClientTests::where('client_id', $id)
+            ->with('client_test_payment')
+            ->get()
+            ->sum(function ($test) {
+                return $test->client_test_payment->sum('value');
+            });
+        //dd($data['dues_data']);
+        return view($this->admin_view . '.dues.account_statement', $data);
+    }
+
+    /********************************************************/
+    public function Payments_received()
+    {
+        $data['companies'] = Companies::select('*')->OrderBy('id', 'desc')->get();
+        // dd($data);
+        return view($this->admin_view . '.reports.Payments_received', $data);
+    }
+
+    /********************************************************/
+    public function get_Payments_received(Request $request)
+    {
+        $from_date = $request->input('from_date') ?? false;
+        $to_date = $request->input('to_date') ?? false;
+        $company_id = $request->input('company_id') ?? false;
+        $data['all_data'] = $this->companyService->get_Payments_received($from_date, $to_date, $company_id);
+
+        $data['company_id'] = $company_id;
+        $data['to_date'] = $to_date;
+        $data['from_date'] = $from_date;
+
+        return view($this->admin_view . '.reports.Payments_report_data', $data);
+    }
+
+    /********************************************************/
+    public function print_Payments_received($company_id = false, $from_date = false, $to_date = false)
+    {
+
+        $data['all_data'] = $this->companyService->get_Payments_received($from_date, $to_date, $company_id);
+        $data['from_date'] = $from_date;
+        $data['to_date'] = $to_date;
+        return view($this->admin_view . '.reports.print_payment_report', $data);
+    }
+    /********************************************************/
+    public function unpaid_dues()
+    {
+        $data['companies'] = Companies::select('*')->OrderBy('id', 'desc')->get();
+        return view($this->admin_view . '.reports.unpaid_dues', $data);
+    }
+
+    /********************************************************/
+    public function get_unpaid_dues(Request $request)
+    {
+        $from_date = $request->input('from_date') ?? false;
+        $to_date = $request->input('to_date') ?? false;
+        $company_id = $request->input('company_id') ?? false;
+        $data['all_data'] = $this->companyService->get_unpaid_dues($from_date, $to_date, $company_id);
+
+        $data['company_id'] = $company_id;
+        $data['to_date'] = $to_date;
+        $data['from_date'] = $from_date;
+
+        return view($this->admin_view . '.reports.dues_report_data', $data);
+    }
+
+    /********************************************************/
+    public function print_unpaid_dues($band_id = false, $from_date = false, $to_date = false)
+    {
+
+        $data['all_data'] = $this->companyService->get_unpaid_dues($from_date, $to_date, $band_id);
+        $data['from_date'] = $from_date;
+        $data['to_date'] = $to_date;
+        return view($this->admin_view . '.reports.print_dues_report', $data);
+    }
 
 }

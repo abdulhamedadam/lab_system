@@ -10,6 +10,7 @@ use App\Models\Admin\AreaSetting;
 use App\Models\Clients;
 use App\Models\ClientsCompanies;
 use App\Models\Companies;
+use App\Repositories\CompanyRepository;
 use App\Traits\ImageProcessing;
 use Illuminate\Support\Facades\DB;
 
@@ -21,12 +22,14 @@ class CompanyService
     protected $CompanyRepository;
     protected $CompanyClientRepository;
     protected $companyInterface;
+    protected $CompanyRepository1;
 
-    public function __construct(BasicRepositoryInterface $basicRepository, CompanyInterface $companyInterface)
+    public function __construct(BasicRepositoryInterface $basicRepository, CompanyInterface $companyInterface,CompanyRepository $CompanyRepository1)
     {
         $this->CompanyRepository = createRepository($basicRepository, new Companies());
         $this->CompanyClientRepository = createRepository($basicRepository, new ClientsCompanies());
         $this->companyInterface = $companyInterface;
+        $this->CompanyRepository1 = $CompanyRepository1;
     }
 
     /************************************************/
@@ -105,5 +108,14 @@ class CompanyService
         return $this->companyInterface->get_company_data($id);
     }
 
+    public function get_Payments_received($from_date,$to_date,$company_id)
+    {
+        return $this->CompanyRepository1->get_Payments_received($from_date,$to_date,$company_id);
+    }
+
+    public function get_unpaid_dues($from_date,$to_date,$company_id)
+    {
+        return $this->CompanyRepository1->get_unpaid_dues($from_date,$to_date,$company_id);
+    }
 
 }

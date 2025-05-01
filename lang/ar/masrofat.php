@@ -18,4 +18,7 @@
   'confirm_delete' => 'تأكيد الحذف',
   'edit_masrofat' => 'تعديل المصروفات',
   'update' => 'تعديل',
+  'sarf_date' => 'تاريخ الصرف',
+  'sarf_details' => 'تفاصيل الصرف',
+  'total_expenses' => 'total_expenses',
 );

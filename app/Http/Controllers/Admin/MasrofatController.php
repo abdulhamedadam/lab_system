@@ -48,8 +48,14 @@ class MasrofatController extends Controller
                 ->editColumn('value', function ($row) {
                     return $row->value;
                 })
+                ->editColumn('sarf_date', function ($row) {
+                    return $row->sarf_date ?? 'N\A';
+                })
+                ->editColumn('sarf_details', function ($row) {
+                    return $row->sarf_details ?? 'N\A';
+                })
                 ->editColumn('notes', function ($row) {
-                    return $row->notes;
+                    return $row->notes ?? 'N\A';
                 })
                 ->editColumn('created_by', function ($row) {
                     return $row->user ? $row->user->name : 'N/A';
@@ -69,7 +75,8 @@ class MasrofatController extends Controller
                 ->rawColumns(['action'])
                 ->make(true);
         }
-        return view('dashbord.masrofat.index');
+        $data['total'] = Masrofat::sum('value');
+        return view('dashbord.masrofat.index', $data);
     }
 
     /********************************************/

@@ -7,7 +7,7 @@
   'project_name' => 'اسم المشروع',
   'projects_table' => 'جدول المشاريع',
   'add_project' => 'إضافة مشروع',
-  'name' => 'name',
+  'name' => 'الاسم',
   'description' => 'description',
   'save' => 'save',
   'update' => 'update',

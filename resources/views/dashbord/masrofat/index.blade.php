@@ -27,12 +27,19 @@
     <div id="kt_app_content_container" class="app-container container-xxxl">
 
         <div class="card shadow-sm" style="border-top: 3px solid #007bff;">
+            <div class="card-header border-0 pt-6">
+                <div class="card-title">
+                    <h3 class="fw-bold m-0">الاجمالى : <span class="text-danger">{{ number_format($total, 2) }}</span></h3>
+                </div>
+            </div>
             @php
                 $headers = [
                     'masrofat.ID',
                     'masrofat.emp_name',
                     'masrofat.band_name',
+                    'masrofat.sarf_date',
                     'masrofat.value',
+                    'masrofat.sarf_details',
                     'masrofat.notes',
                     'masrofat.created_by',
                     'masrofat.actions',
@@ -41,6 +48,7 @@
                 generateTable($headers);
             @endphp
         </div>
+
 
     </div>
 
@@ -77,7 +85,15 @@
                         className: 'text-center'
                     },
                     {
+                        data: 'sarf_date',
+                        className: 'text-center'
+                    },
+                    {
                         data: 'value',
+                        className: 'text-center'
+                    },
+                    {
+                        data: 'sarf_details',
                         className: 'text-center'
                     },
                     {
@@ -112,7 +128,7 @@
                         }
                     },
                     {
-                        "targets": [3, 4],
+                        "targets": [3],
                         "createdCell": function(td, cellData, rowData, row, col) {
                             $(td).css({
                                 'font-weight': '600',
@@ -134,7 +150,7 @@
                     },
 
                     {
-                        "targets": [5],
+                        "targets": [4],
                         "createdCell": function(td, cellData, rowData, row, col) {
                             $(td).css({
                                 'font-weight': '600',

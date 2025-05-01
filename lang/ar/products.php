@@ -1,3 +1,3 @@
 <?php return array (
-  'select' => 'select',
+  'select' => 'اختر',
 );

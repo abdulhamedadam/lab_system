@@ -179,7 +179,7 @@ class DuesRepository implements DuesInterface
         }
 
         if ($from_date && $to_date) {
-            $query->whereBetween('created_at', [$from_date, $to_date]);
+            $query->whereBetween('sarf_date', [$from_date, $to_date]);
         }
 
         $expense = $query->get();

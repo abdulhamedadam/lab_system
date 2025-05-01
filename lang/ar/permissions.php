@@ -1,6 +1,6 @@
 <?php return array (
-  'permissions' => 'permissions',
-  'id' => 'id',
-  'name' => 'name',
-  'actions' => 'actions',
+  'permissions' => 'الصلاحيات',
+  'id' => '#',
+  'name' => 'الاسم',
+  'actions' => 'الاجراءات',
 );

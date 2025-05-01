@@ -34,7 +34,9 @@
             <tr>
                 <th style="text-align-last: center">#</th>
                 <th style="text-align-last: center">{{trans('payment.band')}}</th>
-                <th style="text-align-last: center">{{trans('payment.paid_date')}}</th>
+                <th style="text-align-last: center">{{trans('payment.sarf_date')}}</th>
+                <th style="text-align-last: center">{{trans('payment.sarf_details')}}</th>
+                <th style="text-align-last: center">{{trans('payment.created_at')}}</th>
                 <th style="text-align-last: center">{{trans('payment.notes')}}</th>
                 <th style="text-align-last: center">{{trans('payment.amount')}}</th>
             </tr>
@@ -44,15 +46,17 @@
                 <tr style="background-color: #f8f9fa;">
                     <td style="text-align-last: center">{{$loop->iteration}}</td>
                     <td style="text-align-last: center">{{optional($record->sarf_band)->title}}</td>
+                    <td style="text-align-last: center">{{$record->sarf_date}}</td>
+                    <td style="text-align-last: center">{{$record->sarf_details}}</td>
                     <td style="text-align-last: center">{{$record->created_at}}</td>
-                    <td style="text-align-last: center">{{ $record->notes }}</td>
+                    <td style="text-align-last: center">{{$record->notes}}</td>
                     <td style="color: #27ae60; font-weight: bold; text-align-last: center">{{ number_format($record->value, 2) }}</td>
                 </tr>
             @endforeach
             </tbody>
             <tfoot>
             <tr style="background-color: #34495e; color: #ffffff;">
-                <td colspan="4" class="text-end fw-bold">{{trans('payment.total_revenue')}}:</td>
+                <td colspan="6" class="text-end fw-bold">{{trans('payment.total_revenue')}}:</td>
                 <td class="fw-bold">{{ number_format($all_data->sum('value'), 2) }}</td>
             </tr>
             </tfoot>
