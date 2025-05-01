@@ -25,6 +25,8 @@ class MasrofatService
         $validated_data['band_id'] = $request->band_id;
         $validated_data['value'] = $request->value;
         $validated_data['notes'] = $request->notes;
+        $validated_data['sarf_date'] = $request->sarf_date;
+        $validated_data['sarf_details'] = $request->sarf_details;
         $validated_data['created_by']= auth()->user()->id;
 
         return $this->MasrofatRepository->create($validated_data);
@@ -38,6 +40,8 @@ class MasrofatService
         $validated_data['band_id'] = $request->band_id;
         $validated_data['value'] = $request->value;
         $validated_data['notes'] = $request->notes;
+        $validated_data['sarf_date'] = $request->sarf_date;
+        $validated_data['sarf_details'] = $request->sarf_details;
         $validated_data['updated_by']= auth()->user()->id;
 
         //dd($validated_data);

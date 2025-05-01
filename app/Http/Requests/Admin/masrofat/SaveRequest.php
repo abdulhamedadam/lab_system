@@ -21,6 +21,8 @@ class SaveRequest extends FormRequest
             'emp_id' => 'required|integer|exists:tbl_employees,id',
             'band_id' => 'required|integer|exists:tbl_sarf_bands,id',
             'value' => 'required|string|max:255',
+            'sarf_date' => 'required|date',
+            'sarf_details' => 'required|string|max:500',
             'notes' => 'required|string|max:255',
         ];
     }

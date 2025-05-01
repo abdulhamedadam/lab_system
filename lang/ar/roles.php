@@ -93,4 +93,5 @@
   'revenue_report' => 'تقرير الإيرادات',
   'print_revenue_report' => 'طباعة تقرير الإيرادات',
   'permissions_updated_successfully' => 'permissions_updated_successfully',
+  'view_dashboard' => 'view_dashboard',
 );

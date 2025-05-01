@@ -13,6 +13,7 @@ class PermissionRepository implements PermissionInterface
 
     public function all()
     {
+        // return Permission::whereNull('parent_id')->with('children')->get();
         return Permission::whereNull('parent_id')->with('children')->get();
     }
     /***********************************/

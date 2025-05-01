@@ -69,6 +69,18 @@
                         </div>
 
                         <div class="col-md-4">
+                            <label for="sarf_date" class="form-label">{{ trans('masrofat.sarf_date') }}</label>
+                            <div class="input-group flex-nowrap">
+                                <span class="input-group-text" id="basic-addon3">{!! form_icon('calendar') !!}</span>
+                                <input type="date" class="form-control" name="sarf_date" id="sarf_date"
+                                        value="{{ old('sarf_date', now()->format('Y-m-d')) }}">
+                            </div>
+                            @error('sarf_date')
+                            <span class="invalid-feedback d-block" role="alert">{{ $message }}</span>
+                            @enderror
+                        </div>
+
+                        <div class="col-md-4">
                             <label for="value" class="form-label">{{ trans('masrofat.value') }}</label>
                             <div class="input-group flex-nowrap">
                                 <span class="input-group-text" id="basic-addon3">{!! form_icon('text') !!}</span>
@@ -79,6 +91,16 @@
                             @enderror
                         </div>
 
+                    </div>
+
+                    <div class="col-md-12" style="margin-top: 10px">
+                        <div class="mb-3">
+                            <label for="sarf_details" class="form-label">{{ trans('masrofat.sarf_details') }}</label>
+                            <textarea class="form-control" id="sarf_details" name="sarf_details" rows="3" >{{ old('sarf_details') }}</textarea>
+                            @error('sarf_details')
+                            <span class="invalid-feedback d-block" role="alert">{{ $message }}</span>
+                            @enderror
+                        </div>
                     </div>
 
                     <div class="col-md-12" style="margin-top: 10px">

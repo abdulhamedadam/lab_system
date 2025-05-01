@@ -294,8 +294,8 @@
                         <span class="menu-title">
             <span class="d-flex align-items-center gap-2">
                 <span>{{trans('common.last_sader')}}:</span>
-                <span class="badge badge-danger fs-6 px-2 py-1">{{ $sader->num }}  </span>|
-                <span class="badge badge-danger fs-7">{{ $sader->date }}</span>
+                <span class="badge badge-danger fs-6 px-2 py-1">{{ optional($sader)->num }}  </span>|
+                <span class="badge badge-danger fs-7">{{ optional($sader)->date }}</span>
             </span>
         </span>
                     </div>

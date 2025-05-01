@@ -106,6 +106,14 @@ Route::group(
             Route::get('company/{id}/company_prepare_amount', [CompanyController::class, 'company_prepare_amount'])->name('company_prepare_amount');
             Route::post('company/{id}/save_payment_pay_dues', [CompanyController::class, 'save_payment_pay_dues'])->name('save_payment_pay_dues');
             Route::get('company/{id}/due_details/{due_id}', [CompanyController::class, 'due_details'])->name('company_due_details');
+
+            /********************************************************************************************************************************/
+            Route::get('Payments_received',[CompanyController::class,'Payments_received'])->name('Payments_received');
+            Route::get('get_Payments_received',[CompanyController::class,'get_Payments_received'])->name('get_Payments_received');
+            Route::get('print_Payments_received/{id?}/{from_date?}/{to_date?}', [CompanyController::class, 'print_Payments_received'])->name('print_Payments_received');
+            Route::get('unpaid_dues',[CompanyController::class,'unpaid_dues'])->name('unpaid_dues');
+            Route::get('get_unpaid_dues',[CompanyController::class,'get_unpaid_dues'])->name('get_unpaid_dues');
+            Route::get('print_unpaid_dues/{id?}/{from_date?}/{to_date?}', [CompanyController::class, 'print_unpaid_dues'])->name('print_unpaid_dues');
             /********************************************************************************************************************************/
             Route::resource('project', ProjectController::class);
             Route::get('project/delete/{id}', [ProjectController::class, 'destroy'])->name('delete_project');

@@ -1,3 +1,3 @@
 <?php return array (
-  'name' => 'name',
+  'name' => 'الاسم',
 );
