@@ -45,7 +45,7 @@
                                 <input type="text" class="form-control" name="test_code" id="test_code" value="{{ get_app_config_data('soil_prefix').$test_code }}" >
                             </div>
                             @error('test_code')
-                                <span class="invalid-feedback d-block" role="alert">{{ $message }}</span>
+                            <span class="invalid-feedback d-block" role="alert">{{ $message }}</span>
                             @enderror
                         </div>
 
@@ -53,7 +53,7 @@
                             <label for="client_id" class="form-label">{{ trans('tests.client') }}</label>
                             <div class="input-group flex-nowrap">
                                 <span class="input-group-text" id="basic-addon3">{!! form_icon('select') !!}</span>
-                                <select class="form-select rounded-start-0"  data-control="select2" name="client_id" id="client_id">
+                                <select class="form-select rounded-start-0" onchange="get_company(this.value)"  data-control="select2" name="client_id" id="client_id">
                                     <option value="">{{trans('tests.select')}}</option>
                                     @foreach($clients as $item)
                                         <option value="{{$item->id}}" {{ old('client_id') == $item->id ? 'selected' : '' }}>{{$item->name}}</option>
@@ -65,7 +65,7 @@
                                 </button>
                             </div>
                             @error('client_id')
-                                <span class="invalid-feedback d-block" role="alert">{{ $message }}</span>
+                            <span class="invalid-feedback d-block" role="alert">{{ $message }}</span>
                             @enderror
                         </div>
 
@@ -73,19 +73,16 @@
                             <label for="company_id" class="form-label">{{ trans('tests.company') }}</label>
                             <div class="input-group flex-nowrap">
                                 <span class="input-group-text" id="basic-addon3">{!! form_icon('select') !!}</span>
-                                <select class="form-select rounded-start-0"  data-control="select2" name="company_id" id="company_id">
+                                <select class="form-select rounded-start-0" onchange="get_projects(this.value)"  data-control="select2" name="company_id" id="company_id">
                                     <option value="">{{trans('tests.select')}}</option>
                                     @foreach($companies as $item)
                                         <option value="{{$item->id}}" {{ old('company_id') == $item->id ? 'selected' : '' }}>{{$item->name}}</option>
                                     @endforeach
                                 </select>
-                                <button type="button" class="btn btn-primary" data-bs-toggle="modal"
-                                        data-bs-target="#addCompanyModal">
-                                    <i class="fas fa-plus "></i>
-                                </button>
+                                {!! saveCompanyButtonWithModal() !!}
                             </div>
                             @error('company_id')
-                                <span class="invalid-feedback d-block" role="alert">{{ $message }}</span>
+                            <span class="invalid-feedback d-block" role="alert">{{ $message }}</span>
                             @enderror
                         </div>
                         <div class="col-md-3">
@@ -108,7 +105,6 @@
                             @enderror
                         </div>
                     </div>
-
                     <div class="col-md-12 row" style="margin-top: 10px">
                         <div class="col-md-3">
                             <label for="talab_number" class="form-label">{{ trans('tests.wared_number') }}</label>
@@ -435,6 +431,7 @@
             </div>
         </div>
     </div>
+
     <div class="modal fade" id="addProjectModal" tabindex="-1" aria-labelledby="addProjectModalLabel"
          aria-hidden="true">
         <div class="modal-dialog">
@@ -443,7 +440,27 @@
                     <h5 class="modal-title" id="addProjectModalLabel">{{ trans('projects.add_new') }}</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
+
+
                 <div class="modal-body">
+
+                    <div class="mb-3">
+                        <label for="project_name" class="form-label">{{ trans('projects.client') }}</label>
+                        <select type="text" class="form-select"  id="client_id_modal" name="client_id_modal">
+                            @foreach($clients as $client)
+                                <option value="{{$client->id}}">{{$client->name}}</option>
+                            @endforeach
+                        </select>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="project_name" class="form-label">{{ trans('projects.company') }}</label>
+                        <select type="text" class="form-select" id="company_id_modal" name="company_id_modal">
+                            @foreach($companies as $company)
+                                <option value="{{$company->id}}">{{$company->name}}</option>
+                            @endforeach
+                        </select>
+                    </div>
                     <div class="mb-3">
                         <label for="project_name" class="form-label">{{ trans('projects.name') }}</label>
                         <input type="text" class="form-control" id="project_name" name="project_name">
@@ -463,7 +480,46 @@
 
 @stop
 @section('js')
+    <script>
+        $(document).ready(function() {
+            setTimeout(function() {
+                $("#client_id").trigger("change");
+            }, 300);
+        });
+    </script>
+    <script>
+        function get_company(id)
+        {
+            $.ajax({
+                url: "{{ route('admin.get_company', ['id' => '__id__']) }}".replace('__id__', id),
+                type: "get",
+                dataType: "html",
+                success: function (html) {
+                    // console.log(html);
+                    $('#company_id').html(html);
+                    $('#company_id').val(<?= old('company_id')?> );
+                },
+            });
+        }
 
+        function get_projects(company_id) {
+            var client_id = $('#client_id').val();
+
+            $.ajax({
+                url: "{{ route('admin.get_project', ['client_id' => '__client__', 'company_id' => '__company__']) }}"
+                    .replace('__client__', client_id)
+                    .replace('__company__', company_id),
+                type: "get",
+                dataType: "html",
+                success: function (html) {
+                    $('#project_id').html(html);
+                    $('#project_id').val("{{ old('project_id') }}");
+                },
+            });
+        }
+
+
+    </script>
     <script>
         $(document).ready(function () {
             function calculateTotalCost() {

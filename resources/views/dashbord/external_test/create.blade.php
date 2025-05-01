@@ -31,30 +31,30 @@
             @endphp
 
 
-            <form action="{{ route('admin.external_test.store') }}" method="post" enctype="multipart/form-data"
-                  id="store_form">
+            <form action="{{ route('admin.external_test.store') }}" method="post" enctype="multipart/form-data" id="store_form">
                 @csrf
                 <div class="card-body">
                     <div class="col-md-12 row" style="margin-top: 10px">
+
                         <div class="col-md-3">
-                            <label for="first_name" class="form-label">{{ trans('tests.test_code') }}</label>
+                            <label for="test_code" class="form-label">{{ trans('tests.test_code') }}</label>
                             <div class="input-group flex-nowrap">
                                 <span class="input-group-text" id="basic-addon3">{!! form_icon('text') !!}</span>
-                                <input type="text" class="form-control" name="test_code_st" id="test_code_st" value="{{old('test_code_st',$test_code)}}">
+                                <input type="text" class="form-control" name="test_code_st" id="test_code_st" value="{{ get_app_config_data('soil_prefix').$test_code }}" >
                             </div>
-                            @error('test_code_st')
+                            @error('test_code')
                             <span class="invalid-feedback d-block" role="alert">{{ $message }}</span>
                             @enderror
                         </div>
+
                         <div class="col-md-3">
-                            <label for="first_name" class="form-label">{{ trans('tests.client') }}</label>
+                            <label for="client_id" class="form-label">{{ trans('tests.client') }}</label>
                             <div class="input-group flex-nowrap">
                                 <span class="input-group-text" id="basic-addon3">{!! form_icon('select') !!}</span>
-                                <select class="form-select" data-control="select2" name="client_id" id="client_id">
-                                    <option value="">{{trans('clients.select')}}</option>
+                                <select class="form-select rounded-start-0" onchange="get_company(this.value)"  data-control="select2" name="client_id" id="client_id">
+                                    <option value="">{{trans('tests.select')}}</option>
                                     @foreach($clients as $item)
-                                        <option
-                                            value="{{$item->id}}" {{ old('client_id') == $item->id ? 'selected' : '' }}>{{$item->name}}</option>
+                                        <option value="{{$item->id}}" {{ old('client_id') == $item->id ? 'selected' : '' }}>{{$item->name}}</option>
                                     @endforeach
                                 </select>
                                 <button type="button" class="btn btn-primary" data-bs-toggle="modal"
@@ -67,36 +67,30 @@
                             @enderror
                         </div>
 
-
                         <div class="col-md-3">
-                            <label for="first_name" class="form-label">{{ trans('tests.company') }}</label>
+                            <label for="company_id" class="form-label">{{ trans('tests.company') }}</label>
                             <div class="input-group flex-nowrap">
                                 <span class="input-group-text" id="basic-addon3">{!! form_icon('select') !!}</span>
-                                <select class="form-select" data-control="select2" name="company_id" id="company_id">
-                                    <option value="">{{trans('clients.select')}}</option>
+                                <select class="form-select rounded-start-0" onchange="get_projects(this.value)"  data-control="select2" name="company_id" id="company_id">
+                                    <option value="">{{trans('tests.select')}}</option>
                                     @foreach($companies as $item)
-                                        <option
-                                            value="{{$item->id}}" {{ old('client_id') == $item->id ? 'selected' : '' }}>{{$item->name}}</option>
+                                        <option value="{{$item->id}}" {{ old('company_id') == $item->id ? 'selected' : '' }}>{{$item->name}}</option>
                                     @endforeach
                                 </select>
-                                <button type="button" class="btn btn-primary" data-bs-toggle="modal"
-                                        data-bs-target="#addCompanyModal">
-                                    <i class="fas fa-plus "></i>
-                                </button>
+                                {!! saveCompanyButtonWithModal() !!}
                             </div>
                             @error('company_id')
                             <span class="invalid-feedback d-block" role="alert">{{ $message }}</span>
                             @enderror
                         </div>
-
                         <div class="col-md-3">
-                            <label for="last_name" class="form-label">{{ trans('tests.project') }}</label>
+                            <label for="project_id" class="form-label">{{ trans('tests.project') }}</label>
                             <div class="input-group flex-nowrap">
-                                <select class="form-select" data-control="select2" name="project_id" id="project_id">
-                                    <option value="">{{trans('clients.select')}}</option>
+                                <span class="input-group-text" id="basic-addon3">{!! form_icon('select') !!}</span>
+                                <select class="form-select rounded-start-0" data-control="select2" name="project_id" id="project_id">
+                                    <option value="">{{trans('tests.select')}}</option>
                                     @foreach($projects as $item)
-                                        <option
-                                            value="{{$item->id}}" {{ old('client_id') == $item->id ? 'selected' : '' }}>{{$item->project_name}}</option>
+                                        <option value="{{$item->id}}" {{ old('project_id') == $item->id ? 'selected' : '' }}>{{$item->project_name}}</option>
                                     @endforeach
                                 </select>
                                 <button type="button" class="btn btn-primary" data-bs-toggle="modal"
@@ -198,9 +192,7 @@
                             @enderror
                         </div>
 
-                    </div>
-                    <div class="col-md-12 row" style="margin-top: 20px">
-                        <div class="col-md-2">
+                        <div class="col-md-3">
                             <label for="first_name" class="form-label">{{ trans('tests.sample_num') }}</label>
                             <div class="input-group flex-nowrap">
                                 <span class="input-group-text" id="basic-addon3">{!! form_icon('text') !!}</span>
@@ -211,58 +203,8 @@
                             @enderror
                         </div>
 
-                        <div class="col-md-3">
-                            <label for="first_name" class="form-label">{{ trans('tests.sample_cost') }}</label>
-                            <div class="input-group flex-nowrap">
-                                <span class="input-group-text" id="basic-addon3">{!! form_icon('text') !!}</span>
-                                <input type="number" class="form-control" name="sample_cost" id="sample_cost" value="">
-                            </div>
-                            @error('sample_cost')
-                            <span class="invalid-feedback d-block" role="alert">{{ $message }}</span>
-                            @enderror
-                        </div>
-                        @php
-                            $discount_type=['p'=>trans('tests.percentage'),'v'=>trans('tests.value')]
-                        @endphp
-                        <div class="col-md-2">
-                            <label for="first_name" class="form-label">{{ trans('tests.discount_type') }}</label>
-                            <div class="input-group flex-nowrap">
-                                <span class="input-group-text" id="basic-addon3">{!! form_icon('text') !!}</span>
-                                <select class="form-select" name="discount_type" id="discount_type">
-                                    <option value="">{{trans('clients.select')}}</option>
-                                    @foreach($discount_type as $index=>$value)
-                                        <option
-                                            value="{{$index}}" {{ old('discount_type') == $index ? 'selected' : '' }}>{{$value}}</option>
-                                    @endforeach
-                                </select>
-                            </div>
-                            @error('discount_type')
-                            <span class="invalid-feedback d-block" role="alert">{{ $message }}</span>
-                            @enderror
-                        </div>
-
-                        <div class="col-md-2">
-                            <label for="first_name" class="form-label">{{ trans('tests.discount') }}</label>
-                            <div class="input-group flex-nowrap">
-                                <span class="input-group-text" id="basic-addon3">{!! form_icon('number') !!}</span>
-                                <input type="number" class="form-control" name="discount" id="discount" value="">
-                            </div>
-                            @error('discount')
-                            <span class="invalid-feedback d-block" role="alert">{{ $message }}</span>
-                            @enderror
-                        </div>
-
-                        <div class="col-md-3">
-                            <label for="first_name" class="form-label">{{ trans('tests.total_cost') }}</label>
-                            <div class="input-group flex-nowrap">
-                                <span class="input-group-text" id="basic-addon3">{!! form_icon('text') !!}</span>
-                                <input type="number" class="form-control" name="total_cost" id="total_cost" value="">
-                            </div>
-                            @error('total_cost')
-                            <span class="invalid-feedback d-block" role="alert">{{ $message }}</span>
-                            @enderror
-                        </div>
                     </div>
+
 
 
                     <div class="col-md-12 row" style="margin-top: 20px">
@@ -290,7 +232,7 @@
                             <div class="input-group flex-nowrap">
 
                                 <input type="text" class="form-control" name="test_sub_category" id="test_sub_category"
-                                       value="">
+                                       value="{{old('test_sub_category')}}">
                             </div>
                             @error('test_sub_category')
                             <span class="invalid-feedback d-block" role="alert">{{ $message }}</span>
@@ -300,7 +242,7 @@
                             <label for="first_name" class="form-label">{{ trans('tests.test') }}</label>
                             <div class="input-group flex-nowrap">
                                 <span class="input-group-text" id="basic-addon3">{!! form_icon('text') !!}</span>
-                                <input type="text" class="form-control" name="test" id="test" value="">
+                                <input type="text" class="form-control" name="test" id="test" value="{{old('test')}}">
                             </div>
                             @error('test')
                             <span class="invalid-feedback d-block" role="alert">{{ $message }}</span>
@@ -312,7 +254,7 @@
                             <label for="first_name" class="form-label">{{ trans('tests.sader_date') }}</label>
                             <div class="input-group flex-nowrap">
 
-                                <input type="date" class="form-control" name="sader_date" id="sader_date" value="">
+                                <input type="date" class="form-control" name="sader_date" id="sader_date" value="{{old('sader_date')}}">
                             </div>
                             @error('sader_date')
                             <span class="invalid-feedback d-block" role="alert">{{ $message }}</span>
@@ -323,7 +265,7 @@
                             <label for="first_name" class="form-label">{{ trans('tests.sader_number') }}</label>
                             <div class="input-group flex-nowrap">
 
-                                <input type="number" class="form-control" name="sader_num" id="sader_num" value="">
+                                <input type="number" class="form-control" name="sader_num" id="sader_num" value="{{old('sader_num')}}">
                             </div>
                             @error('sader_num')
                             <span class="invalid-feedback d-block" role="alert">{{ $message }}</span>
@@ -438,31 +380,6 @@
 
 
     </div>
-    <div class="modal fade" id="addClientModal" tabindex="-1" aria-labelledby="addClientModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="addClientModalLabel">{{ trans('clients.add_new') }}</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-
-                    <div class="mb-3">
-                        <label for="client_name" class="form-label">{{ trans('clients.name') }}</label>
-                        <input type="text" class="form-control" id="client_name" name="client_name">
-                    </div>
-
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary"
-                            data-bs-dismiss="modal">{{ trans('common.close') }}</button>
-                    <button type="button" onclick="saveClient()" class="btn btn-primary"
-                            id="saveClient">{{ trans('common.save') }}</button>
-                </div>
-            </div>
-        </div>
-    </div>
-
     <div class="modal fade" id="addCompanyModal" tabindex="-1" aria-labelledby="addCompanyModalLabel"
          aria-hidden="true">
         <div class="modal-dialog">
@@ -488,6 +405,7 @@
             </div>
         </div>
     </div>
+
     <div class="modal fade" id="addProjectModal" tabindex="-1" aria-labelledby="addProjectModalLabel"
          aria-hidden="true">
         <div class="modal-dialog">
@@ -496,7 +414,27 @@
                     <h5 class="modal-title" id="addProjectModalLabel">{{ trans('projects.add_new') }}</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
+
+
                 <div class="modal-body">
+
+                    <div class="mb-3">
+                        <label for="project_name" class="form-label">{{ trans('projects.client') }}</label>
+                        <select type="text" class="form-select"  id="client_id_modal" name="client_id_modal">
+                            @foreach($clients as $client)
+                                <option value="{{$client->id}}">{{$client->name}}</option>
+                            @endforeach
+                        </select>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="project_name" class="form-label">{{ trans('projects.company') }}</label>
+                        <select type="text" class="form-select" id="company_id_modal" name="company_id_modal">
+                            @foreach($companies as $company)
+                                <option value="{{$company->id}}">{{$company->name}}</option>
+                            @endforeach
+                        </select>
+                    </div>
                     <div class="mb-3">
                         <label for="project_name" class="form-label">{{ trans('projects.name') }}</label>
                         <input type="text" class="form-control" id="project_name" name="project_name">
@@ -525,11 +463,44 @@
 @stop
 @section('js')
     <script>
-        $(document).ready(function () {
-            setTimeout(function () {
+        $(document).ready(function() {
+            setTimeout(function() {
                 $("#client_id").trigger("change");
             }, 300);
         });
+    </script>
+    <script>
+        function get_company(id)
+        {
+            $.ajax({
+                url: "{{ route('admin.get_company', ['id' => '__id__']) }}".replace('__id__', id),
+                type: "get",
+                dataType: "html",
+                success: function (html) {
+                    // console.log(html);
+                    $('#company_id').html(html);
+                    $('#company_id').val(<?= old('company_id')?> );
+                },
+            });
+        }
+
+        function get_projects(company_id) {
+            var client_id = $('#client_id').val();
+
+            $.ajax({
+                url: "{{ route('admin.get_project', ['client_id' => '__client__', 'company_id' => '__company__']) }}"
+                    .replace('__client__', client_id)
+                    .replace('__company__', company_id),
+                type: "get",
+                dataType: "html",
+                success: function (html) {
+                    $('#project_id').html(html);
+                    $('#project_id').val("{{ old('project_id') }}");
+                },
+            });
+        }
+
+
     </script>
     <script>
         var saveClientUrl = "{{ route('admin.save_client_popup') }}";
@@ -588,12 +559,17 @@
 
         function saveProject() {
             var projectName = $('#project_name').val();
+            var client_id = $('#client_id_modal').val();
+            var company_id = $('#company_id_modal').val();
             if (projectName) {
                 $.ajax({
                     url: saveProjectUrl,
                     type: 'POST',
                     data: {
                         project_name: projectName,
+                        company_id: company_id,
+                        client_id: client_id,
+
                         _token: $('meta[name="csrf-token"]').attr('content')
                     },
                     dataType: 'json',

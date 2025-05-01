@@ -294,6 +294,7 @@ Route::group(
             /***********************************************************************************************************/
 
             Route::resource('external_test',ExternalTestsController::class);
+            Route::post('delete_external_test/{id}',[ExternalTestsController::class,'delete_external_test'])->name('delete_external_test');
             Route::post('save_client_popup',[HelperController::class,'save_client_popup'])->name('save_client_popup');
             Route::post('save_company_popup',[HelperController::class,'save_company_popup'])->name('save_company_popup');
             Route::post('save_project_popup',[HelperController::class,'save_project_popup'])->name('save_project_popup');

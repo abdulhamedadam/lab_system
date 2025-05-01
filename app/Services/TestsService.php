@@ -109,7 +109,6 @@ class TestsService
             throw $e;
         }
     }
-
     /************************************************/
     public function update($request, $id, $type, $test)
     {
@@ -162,7 +161,7 @@ class TestsService
             $client_test['test_model'] = get_class($this->TestsRepository->getModel());
             $client_test['test_name'] = $validated_data['talab_title'];
             $client_test['test_id'] = $test_data->id;
-            $client_test['test_value'] = $validated_data['total_cost'];
+            //$client_test['test_value'] = $validated_data['total_cost'];
             $client_test['test_type'] = $type;
             $client_test['month'] = Carbon::now()->month;
             $client_test['year'] = Carbon::now()->year;

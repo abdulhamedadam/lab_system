@@ -115,6 +115,7 @@ class HelperService
     {
 
         $test_id=$request->row_id;
+//        $data['sample_number']=$request->sample_number;
         $data['sample_cost']=$request->sample_cost;
         $data['discount_type']=$request->discount_type;
         $data['discount']=$request->discount;

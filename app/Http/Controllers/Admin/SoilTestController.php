@@ -109,8 +109,14 @@ class SoilTestController extends Controller
             <i class="bi bi-gear"></i> ' . trans('tests.actions') . '
         </button>
         <ul class="dropdown-menu" aria-labelledby="actionDropdown'.$row->id.'">
-            <li>
-                <a class="dropdown-item" href="' . route('admin.soil_compaction_edit_soil_test', [$row->id]) . '">
+           <li>
+                <a class="dropdown-item test-cost-btn" href="#" data-bs-toggle="modal"  data-bs-target="#testCostModal" onclick="edit_test_cost(' . $row->id . ')">
+                    <i class="bi bi-currency-dollar me-2"></i> ' . trans('tests.test_cost') . '
+                </a>
+            </li>
+
+              <li>
+                <a class="dropdown-item" href="' . route('admin.hasa_compaction_edit_soil_test', [$row->id]) . '">
                     <i class="bi bi-pencil-square me-2"></i> ' . trans('tests.edit') . '
                 </a>
             </li>

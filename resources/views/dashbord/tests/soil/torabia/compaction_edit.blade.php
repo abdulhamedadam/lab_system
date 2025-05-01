@@ -41,10 +41,10 @@
                             <label for="test_code" class="form-label">{{ trans('tests.test_code') }}</label>
                             <div class="input-group flex-nowrap">
                                 <span class="input-group-text" id="basic-addon3">{!! form_icon('text') !!}</span>
-                                <input type="text" class="form-control" name="test_code" id="test_code" value="{{ get_app_config_data('soil_prefix').$all_data->test_code  }}" readonly>
+                                <input type="text" class="form-control" name="test_code" id="test_code" value="{{ $all_data->test_code_st }}" >
                             </div>
                             @error('test_code')
-                                <span class="invalid-feedback d-block" role="alert">{{ $message }}</span>
+                            <span class="invalid-feedback d-block" role="alert">{{ $message }}</span>
                             @enderror
                         </div>
 
@@ -52,10 +52,10 @@
                             <label for="client_id" class="form-label">{{ trans('tests.client') }}</label>
                             <div class="input-group flex-nowrap">
                                 <span class="input-group-text" id="basic-addon3">{!! form_icon('select') !!}</span>
-                                <select class="form-select rounded-start-0" name="client_id" id="client_id">
-                                    <option value="">{{ trans('tests.select') }}</option>
+                                <select class="form-select rounded-start-0" onchange="get_company(this.value)"  data-control="select2" name="client_id" id="client_id">
+                                    <option value="">{{trans('tests.select')}}</option>
                                     @foreach($clients as $item)
-                                        <option value="{{ $item->id }}" {{ $all_data->client_id == $item->id ? 'selected' : '' }}>{{ $item->name }}</option>
+                                        <option value="{{$item->id}}" {{ old('client_id',$all_data->client_id) == $item->id ? 'selected' : '' }}>{{$item->name}}</option>
                                     @endforeach
                                 </select>
                                 <button type="button" class="btn btn-primary" data-bs-toggle="modal"
@@ -64,7 +64,7 @@
                                 </button>
                             </div>
                             @error('client_id')
-                                <span class="invalid-feedback d-block" role="alert">{{ $message }}</span>
+                            <span class="invalid-feedback d-block" role="alert">{{ $message }}</span>
                             @enderror
                         </div>
 
@@ -72,29 +72,26 @@
                             <label for="company_id" class="form-label">{{ trans('tests.company') }}</label>
                             <div class="input-group flex-nowrap">
                                 <span class="input-group-text" id="basic-addon3">{!! form_icon('select') !!}</span>
-                                <select class="form-select rounded-start-0" name="company_id" id="company_id">
-                                    <option value="">{{ trans('tests.select') }}</option>
+                                <select class="form-select rounded-start-0" onchange="get_projects(this.value)"  data-control="select2" name="company_id" id="company_id">
+                                    <option value="">{{trans('tests.select')}}</option>
                                     @foreach($companies as $item)
-                                        <option value="{{ $item->id }}" {{ $all_data->company_id == $item->id ? 'selected' : '' }}>{{ $item->name }}</option>
+                                        <option value="{{$item->id}}" {{ old('company_id',$all_data->company_id) == $item->id ? 'selected' : '' }}>{{$item->name}}</option>
                                     @endforeach
                                 </select>
-                                <button type="button" class="btn btn-primary" data-bs-toggle="modal"
-                                        data-bs-target="#addCompanyModal">
-                                    <i class="fas fa-plus "></i>
-                                </button>
+                                {!! saveCompanyButtonWithModal() !!}
                             </div>
                             @error('company_id')
-                                <span class="invalid-feedback d-block" role="alert">{{ $message }}</span>
+                            <span class="invalid-feedback d-block" role="alert">{{ $message }}</span>
                             @enderror
                         </div>
                         <div class="col-md-3">
                             <label for="project_id" class="form-label">{{ trans('tests.project') }}</label>
                             <div class="input-group flex-nowrap">
                                 <span class="input-group-text" id="basic-addon3">{!! form_icon('select') !!}</span>
-                                <select class="form-select rounded-start-0" name="project_id" id="project_id">
-                                    <option value="">{{ trans('tests.select') }}</option>
+                                <select class="form-select rounded-start-0" data-control="select2" name="project_id" id="project_id">
+                                    <option value="">{{trans('tests.select')}}</option>
                                     @foreach($projects as $item)
-                                        <option value="{{ $item->id }}" {{ $all_data->project_id == $item->id ? 'selected' : '' }}>{{ $item->project_name }}</option>
+                                        <option value="{{$item->id}}" {{ old('project_id',$all_data->project_id) == $item->id ? 'selected' : '' }}>{{$item->project_name}}</option>
                                     @endforeach
                                 </select>
                                 <button type="button" class="btn btn-primary" data-bs-toggle="modal"
@@ -106,9 +103,7 @@
                             <span class="invalid-feedback d-block" role="alert">{{ $message }}</span>
                             @enderror
                         </div>
-
                     </div>
-
                     <div class="col-md-12 row" style="margin-top: 10px">
 
                         <div class="col-md-3">
@@ -493,14 +488,47 @@
         });
     </script>
     <script>
-        function showSuccessMessage(message) {
-            $('#success_message').text(message).removeClass('d-none').show();
+        $(document).ready(function() {
             setTimeout(function() {
-                $('#success_message').fadeOut().addClass('d-none');
-            }, 8000);
-        }
-    </script>
+                $("#client_id").trigger("change");
+                $("#company_id").trigger("change");
 
+            }, 300);
+        });
+    </script>
+    <script>
+        function get_company(id)
+        {
+            $.ajax({
+                url: "{{ route('admin.get_company', ['id' => '__id__']) }}".replace('__id__', id),
+                type: "get",
+                dataType: "html",
+                success: function (html) {
+                    // console.log(html);
+                    $('#company_id').html(html);
+                    $('#company_id').val(<?= old('company_id',$all_data->company_id)?> );
+                },
+            });
+        }
+
+        function get_projects(company_id) {
+            var client_id = $('#client_id').val();
+
+            $.ajax({
+                url: "{{ route('admin.get_project', ['client_id' => '__client__', 'company_id' => '__company__']) }}"
+                    .replace('__client__', client_id)
+                    .replace('__company__', company_id),
+                type: "get",
+                dataType: "html",
+                success: function (html) {
+                    $('#project_id').html(html);
+                    $('#project_id').val("{{ old('project_id',$all_data->project_id) }}");
+                },
+            });
+        }
+
+
+    </script>
 
     <script>
         var saveClientUrl = "{{ route('admin.save_client_popup') }}";
@@ -511,7 +539,7 @@
             var clientName = $('#client_name').val();
             if (clientName) {
                 $.ajax({
-                    url: saveClientUrl, // ✅ Use the JS variable
+                    url: saveClientUrl,
                     type: 'POST',
                     data: {
                         name: clientName,

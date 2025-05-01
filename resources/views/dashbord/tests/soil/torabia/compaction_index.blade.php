@@ -71,7 +71,7 @@
                                 <div class="input-group flex-nowrap">
                                     <span class="input-group-text" id="basic-addon3">{!! form_icon('number') !!}</span>
                                     <input type="number" class="form-control" name="sample_number" id="sample_number"
-                                           value="{{ old('sample_number', 1) }}" min="1" oninput="calculateTotal()">
+                                           value="{{ old('sample_number', 1) }}" min="1" oninput="calculateTotal()" readonly>
                                 </div>
                                 @error('sample_number')
                                 <span class="invalid-feedback d-block" role="alert">{{ $message }}</span>

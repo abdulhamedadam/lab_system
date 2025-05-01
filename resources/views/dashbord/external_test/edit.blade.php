@@ -33,28 +33,30 @@
 
             <form action="{{ route('admin.external_test.update',$test['id']) }}" method="post" enctype="multipart/form-data"
                   id="store_form">
+                @method('PUT')
                 @csrf
                 <div class="card-body">
                     <div class="col-md-12 row" style="margin-top: 10px">
+
                         <div class="col-md-3">
-                            <label for="first_name" class="form-label">{{ trans('tests.test_code') }}</label>
+                            <label for="test_code" class="form-label">{{ trans('tests.test_code') }}</label>
                             <div class="input-group flex-nowrap">
                                 <span class="input-group-text" id="basic-addon3">{!! form_icon('text') !!}</span>
-                                <input type="text" class="form-control" name="test_code_st" id="test_code_st" value="{{old('test_code_st',$test['test_code_st'])}}">
+                                <input type="text" class="form-control" name="test_code_st" id="test_code_st" value="{{ $test['test_code_st'] }}" >
                             </div>
-                            @error('test_code_st')
+                            @error('test_code')
                             <span class="invalid-feedback d-block" role="alert">{{ $message }}</span>
                             @enderror
                         </div>
+
                         <div class="col-md-3">
-                            <label for="first_name" class="form-label">{{ trans('tests.client') }}</label>
+                            <label for="client_id" class="form-label">{{ trans('tests.client') }}</label>
                             <div class="input-group flex-nowrap">
                                 <span class="input-group-text" id="basic-addon3">{!! form_icon('select') !!}</span>
-                                <select class="form-select" data-control="select2" name="client_id" id="client_id">
-                                    <option value="">{{trans('clients.select')}}</option>
+                                <select class="form-select rounded-start-0" onchange="get_company(this.value)"  data-control="select2" name="client_id" id="client_id">
+                                    <option value="">{{trans('tests.select')}}</option>
                                     @foreach($clients as $item)
-                                        <option
-                                            value="{{$item->id}}" {{ old('client_id',$test['client_id']) == $item->id ? 'selected' : '' }}>{{$item->name}}</option>
+                                        <option value="{{$item->id}}" {{ old('client_id',$test['client_id']) == $item->id ? 'selected' : '' }}>{{$item->name}}</option>
                                     @endforeach
                                 </select>
                                 <button type="button" class="btn btn-primary" data-bs-toggle="modal"
@@ -67,36 +69,30 @@
                             @enderror
                         </div>
 
-
                         <div class="col-md-3">
-                            <label for="first_name" class="form-label">{{ trans('tests.company') }}</label>
+                            <label for="company_id" class="form-label">{{ trans('tests.company') }}</label>
                             <div class="input-group flex-nowrap">
                                 <span class="input-group-text" id="basic-addon3">{!! form_icon('select') !!}</span>
-                                <select class="form-select" data-control="select2" name="company_id" id="company_id">
-                                    <option value="">{{trans('clients.select')}}</option>
+                                <select class="form-select rounded-start-0" onchange="get_projects(this.value)"  data-control="select2" name="company_id" id="company_id">
+                                    <option value="">{{trans('tests.select')}}</option>
                                     @foreach($companies as $item)
-                                        <option
-                                            value="{{$item->id}}" {{ old('client_id',$test['company_id']) == $item->id ? 'selected' : '' }}>{{$item->name}}</option>
+                                        <option value="{{$item->id}}" {{ old('company_id',$test['company_id']) == $item->id ? 'selected' : '' }}>{{$item->name}}</option>
                                     @endforeach
                                 </select>
-                                <button type="button" class="btn btn-primary" data-bs-toggle="modal"
-                                        data-bs-target="#addCompanyModal">
-                                    <i class="fas fa-plus "></i>
-                                </button>
+                                {!! saveCompanyButtonWithModal() !!}
                             </div>
                             @error('company_id')
                             <span class="invalid-feedback d-block" role="alert">{{ $message }}</span>
                             @enderror
                         </div>
-
                         <div class="col-md-3">
-                            <label for="last_name" class="form-label">{{ trans('tests.project') }}</label>
+                            <label for="project_id" class="form-label">{{ trans('tests.project') }}</label>
                             <div class="input-group flex-nowrap">
-                                <select class="form-select" data-control="select2" name="project_id" id="project_id">
-                                    <option value="">{{trans('clients.select')}}</option>
+                                <span class="input-group-text" id="basic-addon3">{!! form_icon('select') !!}</span>
+                                <select class="form-select rounded-start-0" data-control="select2" name="project_id" id="project_id">
+                                    <option value="">{{trans('tests.select')}}</option>
                                     @foreach($projects as $item)
-                                        <option
-                                            value="{{$item->id}}" {{ old('client_id',$test['client_id']) == $item->id ? 'selected' : '' }}>{{$item->project_name}}</option>
+                                        <option value="{{$item->id}}" {{ old('project_id',$test['project_id']) == $item->id ? 'selected' : '' }}>{{$item->project_name}}</option>
                                     @endforeach
                                 </select>
                                 <button type="button" class="btn btn-primary" data-bs-toggle="modal"
@@ -198,71 +194,19 @@
                             @enderror
                         </div>
 
-                    </div>
-                    <div class="col-md-12 row" style="margin-top: 20px">
-                        <div class="col-md-2">
+                        <div class="col-md-3">
                             <label for="first_name" class="form-label">{{ trans('tests.sample_num') }}</label>
                             <div class="input-group flex-nowrap">
                                 <span class="input-group-text" id="basic-addon3">{!! form_icon('text') !!}</span>
-                                <input type="number" class="form-control" name="sample_num" id="sample_num" value="{{old('sample_num',$test['talab_end_date'])}}">
+                                <input type="number" class="form-control" name="sample_num" id="sample_num" value="{{old('sample_num',$test['sample_number'])}}">
                             </div>
                             @error('sample_num')
                             <span class="invalid-feedback d-block" role="alert">{{ $message }}</span>
                             @enderror
                         </div>
 
-                        <div class="col-md-3">
-                            <label for="first_name" class="form-label">{{ trans('tests.sample_cost') }}</label>
-                            <div class="input-group flex-nowrap">
-                                <span class="input-group-text" id="basic-addon3">{!! form_icon('text') !!}</span>
-                                <input type="number" class="form-control" name="sample_cost" id="sample_cost" value="{{old('sample_cost',$test['sample_cost'])}}">
-                            </div>
-                            @error('sample_cost')
-                            <span class="invalid-feedback d-block" role="alert">{{ $message }}</span>
-                            @enderror
-                        </div>
-                        @php
-                            $discount_type=['p'=>trans('tests.percentage'),'v'=>trans('tests.value')]
-                        @endphp
-                        <div class="col-md-2">
-                            <label for="first_name" class="form-label">{{ trans('tests.discount_type') }}</label>
-                            <div class="input-group flex-nowrap">
-                                <span class="input-group-text" id="basic-addon3">{!! form_icon('text') !!}</span>
-                                <select class="form-select" name="discount_type" id="discount_type">
-                                    <option value="">{{trans('clients.select')}}</option>
-                                    @foreach($discount_type as $index=>$value)
-                                        <option
-                                            value="{{$index}}" {{ old('discount_type',$test['discount_type']) == $index ? 'selected' : '' }}>{{$value}}</option>
-                                    @endforeach
-                                </select>
-                            </div>
-                            @error('discount_type')
-                            <span class="invalid-feedback d-block" role="alert">{{ $message }}</span>
-                            @enderror
-                        </div>
-
-                        <div class="col-md-2">
-                            <label for="first_name" class="form-label">{{ trans('tests.discount') }}</label>
-                            <div class="input-group flex-nowrap">
-                                <span class="input-group-text" id="basic-addon3">{!! form_icon('number') !!}</span>
-                                <input type="number" class="form-control" name="discount" id="discount" value="{{old('discount',$test['discount'])}}">
-                            </div>
-                            @error('discount')
-                            <span class="invalid-feedback d-block" role="alert">{{ $message }}</span>
-                            @enderror
-                        </div>
-
-                        <div class="col-md-3">
-                            <label for="first_name" class="form-label">{{ trans('tests.total_cost') }}</label>
-                            <div class="input-group flex-nowrap">
-                                <span class="input-group-text" id="basic-addon3">{!! form_icon('text') !!}</span>
-                                <input type="number" class="form-control" name="total_cost" id="total_cost" value="{{old('total_cost',$test['total_cost'])}}">
-                            </div>
-                            @error('total_cost')
-                            <span class="invalid-feedback d-block" role="alert">{{ $message }}</span>
-                            @enderror
-                        </div>
                     </div>
+
 
 
                     <div class="col-md-12 row" style="margin-top: 20px">
@@ -290,7 +234,7 @@
                             <div class="input-group flex-nowrap">
 
                                 <input type="text" class="form-control" name="test_sub_category" id="test_sub_category"
-                                       value="">
+                                       value="{{old('test_sub_category',$test['test_sub_category'])}}">
                             </div>
                             @error('test_sub_category')
                             <span class="invalid-feedback d-block" role="alert">{{ $message }}</span>
@@ -300,7 +244,7 @@
                             <label for="first_name" class="form-label">{{ trans('tests.test') }}</label>
                             <div class="input-group flex-nowrap">
                                 <span class="input-group-text" id="basic-addon3">{!! form_icon('text') !!}</span>
-                                <input type="text" class="form-control" name="test" id="test" value="{{$test['test']}}">
+                                <input type="text" class="form-control" name="test" id="test" value="{{old('test',$test['test'])}}">
                             </div>
                             @error('test')
                             <span class="invalid-feedback d-block" role="alert">{{ $message }}</span>
@@ -312,7 +256,7 @@
                             <label for="first_name" class="form-label">{{ trans('tests.sader_date') }}</label>
                             <div class="input-group flex-nowrap">
 
-                                <input type="date" class="form-control" name="sader_date" id="sader_date" value="{{old('sader_date',$test->sader->sader_date)}}">
+                                <input type="date" class="form-control" name="sader_date" id="sader_date" value="{{old('sader_date',optional($test->sader)->date)}}">
                             </div>
                             @error('sader_date')
                             <span class="invalid-feedback d-block" role="alert">{{ $message }}</span>
@@ -323,7 +267,7 @@
                             <label for="first_name" class="form-label">{{ trans('tests.sader_number') }}</label>
                             <div class="input-group flex-nowrap">
 
-                                <input type="number" class="form-control" name="sader_num" id="sader_num" value="{{old('sader_date',$test->sader->sader_num)}}">
+                                <input type="number" class="form-control" name="sader_num" id="sader_num" value="{{old('sader_num',optional($test->sader)->num)}}">
                             </div>
                             @error('sader_num')
                             <span class="invalid-feedback d-block" role="alert">{{ $message }}</span>
@@ -337,13 +281,14 @@
                             <label for="first_name" class="form-label">{{ trans('tests.notes') }}</label>
                             <div class="input-group flex-nowrap">
                                 <span class="input-group-text" id="basic-addon3">{!! form_icon('notes') !!}</span>
-                                <textarea name="notes" id="notes" class="form-control">{{old('notes')}}</textarea>
+                                <textarea name="notes" id="notes" class="form-control">{{old('notes',$test['notes'])}}</textarea>
                             </div>
                             @error('notes')
                             <span class="invalid-feedback d-block" role="alert">{{ $message }}</span>
                             @enderror
                         </div>
                     </div>
+
 
 
 

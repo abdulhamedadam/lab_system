@@ -57,7 +57,7 @@ class ExternalTestsService
             $client_test['test_id'] = $test->id;
             $client_test['test_type'] = $validated_data['test_category'];
             $client_test['test_name'] = $validated_data['test'];
-            $client_test['test_value'] = $validated_data['total_cost'];
+         //   $client_test['test_value'] = $validated_data['total_cost'];
             $client_test['month'] = now()->month;
             $client_test['year'] = now()->year;
             $client_test['created_by'] = auth()->user()->id;
@@ -84,5 +84,42 @@ class ExternalTestsService
     public function get_company_test($company_id)
     {
         return $this->externalTestsRepository->get_company_test($company_id);
+    }
+    /**********************************************************/
+    public function update($request,$id)
+    {
+        $validated_data = $request->validated();
+
+        $validated_data['sample_number'] = $validated_data['sample_num'];
+        $validated_data['month'] = now()->month;
+        $validated_data['year'] = now()->year;
+        $validated_data['test_type'] = 'external';
+        $validated_data['created_by'] = auth()->user()->id;
+        $repeated_from = $request->kt_docs_repeater_basic;
+
+        $sader_exist = TestSader::where('date', $validated_data['sader_date'])->first();
+        if ($sader_exist) {
+            $sader = $sader_exist;
+        } else {
+            $sader_data['num'] = $validated_data['sader_num'];
+            $sader_data['date'] = $validated_data['sader_date'];
+            $sader = TestSader::create($sader_data);
+        }
+        unset($validated_data['kt_docs_repeater_basic']);
+        unset($validated_data['sample_num']);
+        unset($validated_data['sader_date']);
+        unset($validated_data['sader_num']);
+        $validated_data['sader_id'] = $sader->id;
+        //  dd($validated_data);
+        $test=Test::find($id);
+       return $test->update($validated_data);
+       // $test = Test::create($validated_data);
+        //   dd($test);
+
+    }
+    /************************************************/
+    public function delete($id)
+    {
+        return $this->externalTestsRepository->delete($id);
     }
 }

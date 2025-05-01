@@ -58,23 +58,37 @@ class AllTestsController extends Controller
                     return $status_arr[$row->status];
                 })
                 ->addColumn('action', function ($row) {
+                    if ($row->test_category == 'soil' and $row->test_sub_category== 'hasa' and $row->test=='compaction')
+                    {
+                        $edit_action=route('admin.hasa_compaction_edit_soil_test', [$row->id]);
+                    }elseif ($row->test_category == 'soil' and $row->test_sub_category== 'soil' and $row->test=='compaction')
+                    {
+                        $edit_action=route('admin.soil_compaction_edit_soil_test', [$row->id]);
+                    }else{
+                        $edit_action=route('admin.external_test.edit', [$row->id]);
+                    }
                     return '
-                        <div class="btn-group btn-group-sm">
-                            <a href="' . route('admin.test.edit', $row->id) . '" class="btn btn-sm btn-primary" title="' . trans('tests.edit') . '" style="font-size: 16px;">
-                                <i class="bi bi-pencil-square"></i>
-                            </a>
-                            <a onclick="return confirm(\'Are You Sure To Delete?\')"  href="' . route('admin.delete_test', $row->id) . '"  class="btn btn-sm btn-danger" title="' . trans('tests.delete') . '" style="font-size: 16px;" onclick="return confirm(\'' . trans('masrofat.confirm_delete') . '\')">
-                                <i class="bi bi-trash3"></i>
-                            </a>
-                            <a href="' . route('admin.samples_test', $row->id) . '" class="btn btn-sm btn-success" title="' . trans('tests.samples_test') . '" style="font-size: 16px;">
-                                <i class="bi bi-clipboard-check"></i>
-                             </a>
+    <div class="dropdown">
+        <button class="btn btn-secondary dropdown-toggle" type="button" id="actionDropdown'.$row->id.'" data-bs-toggle="dropdown" aria-expanded="false">
+            <i class="bi bi-gear"></i> ' . trans('tests.actions') . '
+        </button>
+        <ul class="dropdown-menu" aria-labelledby="actionDropdown'.$row->id.'">
 
-                             <a href="' . route('admin.print_soil_sample_report', $row->id) . '" class="btn btn-sm btn-dark" title="' . trans('tests.print_samples_test') . '" style="font-size: 16px;">
-                                  <i class="bi bi-printer ms-1"></i>
-                             </a>
-                        </div>
-                    ';
+
+             <li>
+                <a class="dropdown-item test-cost-btn" href="#" data-bs-toggle="modal"  data-bs-target="#testCostModal" onclick="edit_test_cost(' . $row->id . ')">
+                    <i class="bi bi-currency-dollar me-2"></i> ' . trans('tests.test_cost') . '
+                </a>
+            </li>
+
+            <li>
+                <a class="dropdown-item" href="' . $edit_action . '">
+                    <i class="bi bi-pencil-square me-2"></i> ' . trans('tests.edit') . '
+                </a>
+            </li>
+
+        </ul>
+    </div>';
                 })
                 ->rawColumns(['action', 'talab_image'])
                 ->make(true);

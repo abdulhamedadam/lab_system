@@ -9,6 +9,7 @@ use App\Models\Admin\Test;
 use App\Models\Clients;
 use App\Models\ClientsCompanies;
 use App\Models\ClientsProjects;
+use App\Models\Companies;
 use App\Services\ExternalTestsService;
 use Illuminate\Http\Request;
 use Yajra\DataTables\Facades\DataTables;
@@ -74,19 +75,28 @@ class ExternalTestsController extends Controller
                     return $status_arr[$row->status];
                 })
                 ->addColumn('action', function ($row) {
+
                     return '
     <div class="dropdown">
         <button class="btn btn-secondary dropdown-toggle" type="button" id="actionDropdown'.$row->id.'" data-bs-toggle="dropdown" aria-expanded="false">
             <i class="bi bi-gear"></i> ' . trans('tests.actions') . '
         </button>
         <ul class="dropdown-menu" aria-labelledby="actionDropdown'.$row->id.'">
+
+
+             <li>
+                <a class="dropdown-item test-cost-btn" href="#" data-bs-toggle="modal"  data-bs-target="#testCostModal" onclick="edit_test_cost(' . $row->id . ')">
+                    <i class="bi bi-currency-dollar me-2"></i> ' . trans('tests.test_cost') . '
+                </a>
+            </li>
+
             <li>
                 <a class="dropdown-item" href="' . route('admin.external_test.edit', [$row->id]) . '">
                     <i class="bi bi-pencil-square me-2"></i> ' . trans('tests.edit') . '
                 </a>
             </li>
             <li>
-                <a class="dropdown-item text-danger" href="' . route('admin.delete_test', $row->id) . '"
+                <a class="dropdown-item text-danger" href="' . route('admin.delete_external_test', $row->id) . '"
                    onclick="return confirm(\'' . trans('masrofat.confirm_delete') . '\')">
                     <i class="bi bi-trash3 me-2"></i> ' . trans('tests.delete') . '
                 </a>
@@ -108,7 +118,7 @@ class ExternalTestsController extends Controller
         $data['test_code'] = $this->testsRepository->getLastFieldValue('test_code');
         //dd($data['test_code']);
         $data['clients'] = Clients::where('is_active', 1)->get();
-        $data['companies'] = ClientsCompanies::all();
+        $data['companies'] = Companies::all();
         $data['projects'] = ClientsProjects::all();
         $data['wared_number'] = $this->testsRepository->getLastFieldValue('wared_number');
         $data['talab_number'] = $this->testsRepository->getLastFieldValue('talab_number');
@@ -134,7 +144,7 @@ class ExternalTestsController extends Controller
         $data['test_code'] = $this->testsRepository->getLastFieldValue('test_code');
         //dd($data['test_code']);
         $data['clients'] = Clients::where('is_active', 1)->get();
-        $data['companies'] = ClientsCompanies::all();
+        $data['companies'] = Companies::all();
         $data['projects'] = ClientsProjects::all();
         $data['wared_number'] = $this->testsRepository->getLastFieldValue('wared_number');
         $data['talab_number'] = $this->testsRepository->getLastFieldValue('talab_number');
@@ -142,5 +152,31 @@ class ExternalTestsController extends Controller
         $data['test']        =$this->testsRepository->getById($id);
        // dd($data['test']);
         return view($this->root_view . 'edit', $data);
+    }
+    /***********************************************/
+    public function update(SaveRequest $request,$id)
+    {
+        try {
+
+            $this->externalTestsService->update($request,$id);
+            toastr()->addSuccess(trans('forms.success'));
+            return redirect()->route('admin.external_test.index');
+        } catch (\Exception $e) {
+            dd($e->getMessage());
+            return redirect()->back()->withErrors(['error' => $e->getMessage()]);
+        }
+    }
+    /************************************************/
+    public function delete_external_test($id)
+    {
+        try {
+
+            $this->externalTestsService->delete($id);
+            toastr()->addSuccess(trans('forms.success'));
+            return redirect()->route('admin.external_test.index');
+        } catch (\Exception $e) {
+            dd($e->getMessage());
+            return redirect()->back()->withErrors(['error' => $e->getMessage()]);
+        }
     }
 }
