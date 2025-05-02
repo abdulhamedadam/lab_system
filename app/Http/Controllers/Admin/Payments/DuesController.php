@@ -5,6 +5,8 @@ namespace App\Http\Controllers\Admin\Payments;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\payment\SaveDuesPaymentRequest;
 use App\Models\Admin\Employee;
+use App\Models\ClientTests;
+use App\Models\Companies;
 use App\Repositories\DuesRepository;
 use App\Services\Finance\AccountService;
 use App\Services\HelperService;
@@ -28,13 +30,20 @@ class DuesController extends Controller
     public function index(Request $request)
     {
         if ($request->ajax()) {
-            $allData = $this->duesService->get_all_dues();
+            $filters = [
+                'client_id' => $request->input('client_id'),
+                'test_code' => $request->input('test_code'),
+                'month' => $request->input('month'),
+                'year' => $request->input('year'),
+                'test_type' => $request->input('test_type'),
+            ];
+            $allData = $this->duesService->get_all_dues($filters);
             // dd($allData);
             return Datatables::of($allData)
                 ->editColumn('num', function ($row) {
                     return $row->id;
                 })->editColumn('client', function ($row) {
-                    return optional($row->client)->name;
+                    return optional($row->company)->name;
                 })->editColumn('test', function ($row) {
                     $test_code = optional($row->test_data)->test_code_st;
                     return $test_code;
@@ -85,8 +94,18 @@ class DuesController extends Controller
                 ->rawColumns(['action', 'name'])
                 ->make(true);
         }
+        $data['clients'] = Companies::all();
+        $data['testTypes'] = ClientTests::distinct()->pluck('test_type')->filter()->values()->toArray();
+        // $data['years'] = ClientTests::distinct()->pluck('year')->filter()->values()->toArray();
+        $currentYear = date('Y');
+        $data['years'] = range($currentYear - 10, $currentYear);
+        $data['months'] = [
+            '1' => 'January', '2' => 'February', '3' => 'March', '4' => 'April',
+            '5' => 'May', '6' => 'June', '7' => 'July', '8' => 'August',
+            '9' => 'September', '10' => 'October', '11' => 'November', '12' => 'December'
+        ];
 
-        return view($this->root_view . 'all_dues');
+        return view($this->root_view . 'all_dues', $data);
     }
     /********************************************************/
     public function create()
@@ -151,13 +170,18 @@ class DuesController extends Controller
     public function received_payments(Request $request, $type = null)
     {
         if ($request->ajax()) {
-            $allData = $this->duesService->get_received_payments($type);
+            $filters = [
+                'client_id' => $request->input('client_id'),
+                'test_code' => $request->input('test_code'),
+                'month' => $request->input('month'),
+            ];
+            $allData = $this->duesService->get_received_payments($type, $filters);
             // dd($allData);
             return Datatables::of($allData)
                 ->editColumn('num', function ($row) {
                     return $row->num;
                 })->editColumn('client', function ($row) {
-                    return '<a  href="' . route('admin.company_projects', $row->client_id) . '" class="text-primary fw-bold" style="color:red">' . optional(optional($row->client_test)->client)->name . '</a>';
+                    return '<a  href="' . route('admin.company_projects', $row->client_id) . '" class="text-primary fw-bold" style="color:red">' . optional(optional($row->client_test)->company)->name . '</a>';
 
                 })->editColumn('test', function ($row) {
                     if ($row->client_test->test == null) {
@@ -215,6 +239,12 @@ class DuesController extends Controller
                 ->make(true);
         }
         $data['type'] = $type;
+        $data['clients'] = Companies::all();
+        $data['months'] = [
+            '1' => 'January', '2' => 'February', '3' => 'March', '4' => 'April',
+            '5' => 'May', '6' => 'June', '7' => 'July', '8' => 'August',
+            '9' => 'September', '10' => 'October', '11' => 'November', '12' => 'December'
+        ];
         return view($this->root_view . 'received_payments', $data);
     }
 

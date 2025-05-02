@@ -21,9 +21,9 @@ class DuesService
     }
 
     /*****************************************************/
-    public function get_all_dues()
+    public function get_all_dues($filters)
     {
-        return $this->duesRepository->get_all_dues();
+        return $this->duesRepository->get_all_dues($filters);
     }
     /******************************************************/
     public function find($id)
@@ -62,9 +62,9 @@ class DuesService
     }
 
     /********************************************************/
-    public function get_received_payments($type)
+    public function get_received_payments($type, $filters)
     {
-        return $this->duesRepository->get_received_payments($type);
+        return $this->duesRepository->get_received_payments($type, $filters);
     }
     /*********************************************************/
     public function get_dues($client_id,$from_date,$to_date)
