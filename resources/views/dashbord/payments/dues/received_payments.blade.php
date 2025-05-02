@@ -70,6 +70,46 @@
 
     <div id="kt_app_content_container" class="app-container container-xxxl">
 
+        <div class="card-body">
+            <div class="col-md-12 row">
+                <div class="col-md-3" style="margin: 10px 0px;">
+                    <label for="client_id" class="form-label">{{ trans('reports.client_id') }}</label>
+                    <div class="input-group flex-nowrap">
+                        <span class="input-group-text">{!! form_icon('select1') !!}</span>
+                        <select class="form-select" name="client_id" id="client_id">
+                            <option value="">{{ trans('reports.select') }}</option>
+                            @foreach ($clients as $item)
+                                <option value="{{ $item->id }}">{{ $item->name }}</option>
+                            @endforeach
+                        </select>
+                    </div>
+                </div>
+
+                <div class="col-md-3" style="margin: 10px 0px;">
+                    <label for="test_code" class="form-label">{{ trans('reports.test_code') }}</label>
+                    <div class="input-group flex-nowrap">
+                        <span class="input-group-text">{!! form_icon('select1') !!}</span>
+                        <input type="text" class="form-control" name="test_code" id="test_code"
+                                placeholder="{{ trans('reports.test_code_placeholder') }}">
+                    </div>
+                </div>
+
+                <div class="col-md-3" style="margin: 10px 0px;">
+                    <label for="month" class="form-label">{{ trans('reports.month') }}</label>
+                    <div class="input-group flex-nowrap">
+                        <span class="input-group-text">{!! form_icon('select1') !!}</span>
+                        <select class="form-select" name="month" id="month">
+                            <option value="">{{ trans('reports.select') }}</option>
+                            @foreach($months as $key => $name)
+                                <option value="{{ $key }}">{{ $name }}</option>
+                            @endforeach
+                        </select>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
         <div class="card shadow-sm" style="border-top: 3px solid #007bff;">
 
             <div class="card-body pt-0">
@@ -123,7 +163,12 @@
                 "order": [],
                 "ajax": {
                     url: "{{ route('admin.payment.received_payments',$type) }}",
-                    type: 'GET'
+                    type: 'GET',
+                    data: function (d) {
+                        d.client_id = $('#client_id').val();
+                        d.test_code = $('#test_code').val();
+                        d.month = $('#month').val();
+                    }
                 },
                 "columns": [
                     { data: 'num', className: 'text-center' },
@@ -193,6 +238,10 @@
     </script>
 
     <script>
+        $('#client_id, #test_code, #month').on('change keyup', function() {
+            table.ajax.reload();
+        });
+
         function show_details(id) {
 
             blockUI.block();
