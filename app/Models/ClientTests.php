@@ -15,7 +15,7 @@ class ClientTests extends Model
     /************************************************/
     public function client()
     {
-        return $this->belongsTo(ClientsCompanies::class,'client_id','id');
+        return $this->belongsTo(Companies::class,'client_id','id');
     }
 
     /***********************************************/

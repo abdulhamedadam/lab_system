@@ -56,4 +56,10 @@ class DashboardController extends Controller
         $data['concrete_dues']=0;
         return view('dashbord.home',$data);
     }
+
+    /***********************************************************/
+    public function projects_dashboard()
+    {
+        return view('dashbord.projects_dashboard');
+    }
 }

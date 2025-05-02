@@ -319,6 +319,10 @@ Route::group(
             Route::resource('payroll', PayrollController::class);
             Route::get('get_payroll', [PayrollController::class,'get_payroll'])->name('get_payroll');
 
+
+
+            Route::get('projects/dashboard',[DashboardController::class,'projects_dashboard'])->name('projects_dashboard');
+
         });
     }
 );

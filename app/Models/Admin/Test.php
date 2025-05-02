@@ -6,6 +6,7 @@ use App\Models\Admin as AdminModel;
 use App\Models\Clients;
 use App\Models\ClientsCompanies;
 use App\Models\ClientsProjects;
+use App\Models\Companies;
 use App\Models\TestSader;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -25,7 +26,7 @@ class Test extends Model
 
     public function company()
     {
-        return $this->belongsTo(ClientsCompanies::class,'company_id','id');
+        return $this->belongsTo(Companies::class,'company_id','id');
     }
 
     public function project()

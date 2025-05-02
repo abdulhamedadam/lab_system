@@ -10,4 +10,5 @@
   'cbr' => 'cbr',
   'plasticity' => 'plasticity',
   'gradual' => 'gradual',
+  'project' => 'project',
 );

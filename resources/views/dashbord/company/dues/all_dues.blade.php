@@ -97,8 +97,8 @@
                                                 <td>{{ $record->test_value }}</td>
                                                 <td>{{ optional($record->test_data)->wared_number }}</td>
                                                 <td>{{ optional($record->test_data)->wared_date }}</td>
-                                                <td>{{ optional($record->test_data)->sader->num }}</td>
-                                                <td>{{ optional($record->test_data)->sader->date }}</td>
+                                                <td>{{ optional(optional($record->test_data)->sader)->num }}</td>
+                                                <td>{{ optional(optional($record->test_data)->sader)->date }}</td>
 
 
                                                 <td>

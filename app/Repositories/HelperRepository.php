@@ -63,7 +63,7 @@ class HelperRepository implements HelperInterface
     /************************************/
     public function get_companies()
     {
-        return ClientsCompanies::all();
+        return Companies::all();
     }
 
     /************************************/

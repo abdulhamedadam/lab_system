@@ -54,6 +54,11 @@ class DuesRepository implements DuesInterface
         return ClientTestPayment::with(['client_test','client_test.test','client_test.external_test'])->find($id);
     }
     /****************************************************/
+    public function get_test_account_statement($id)
+    {
+        return ClientTests::where('test_id', $id)->with(['client', 'client_test_payment', 'test'])->first();
+    }
+    /****************************************************/
     public function get_company_dues($id)
     {
         $clientTests = ClientTests::where('client_id', $id)->with(['client', 'client_test_payment', 'test'])->get();

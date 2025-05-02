@@ -34,6 +34,12 @@
             <tr>
                 <th style="text-align-last: center">{{trans('payment.test')}}</th>
                 <th style="text-align-last: center">{{trans('payment.client')}}</th>
+                <th style="text-align-last: center">{{trans('payment.company')}}</th>
+                <th style="text-align-last: center">{{trans('tests.project')}}</th>
+                <th style="text-align-last: center">{{trans('tests.wared_date')}}</th>
+                <th style="text-align-last: center">{{trans('tests.wared_number')}}</th>
+                <th style="text-align-last: center">{{trans('tests.sader_date')}}</th>
+                <th style="text-align-last: center">{{trans('tests.sader_number')}}</th>
                 <th style="text-align-last: center">{{trans('payment.paid_date')}}</th>
                 <th style="text-align-last: center">{{trans('payment.notes')}}</th>
                 <th style="text-align-last: center">{{trans('payment.amount')}}</th>
@@ -43,7 +49,13 @@
             @foreach($all_data as $record)
                 <tr style="background-color: #f8f9fa;">
                     <td style="text-align-last: center">{{  optional($record->test_data)->test_code_st }}</td>
+                    <td style="text-align-last: center">{{optional(optional($record->test_data)->client)->name}}</td>
                     <td style="text-align-last: center">{{optional(optional($record->test_data)->company)->name}}</td>
+                    <td style="text-align-last: center">{{optional(optional($record->test_data)->project)->project_name}}</td>
+                    <td style="text-align-last: center">{{  optional($record->test_data)->wared_date }}</td>
+                    <td style="text-align-last: center">{{  optional($record->test_data)->wared_number }}</td>
+                    <td style="text-align-last: center">{{  optional(optional($record->test_data)->sader)->date }}</td>
+                    <td style="text-align-last: center">{{  optional(optional($record->test_data)->sader)->num }}</td>
                     <td style="text-align-last: center">{{ $record->paid_date }}</td>
                     <td style="text-align-last: center">{{$record->notes}}</td>
                     <td style="color: #27ae60; font-weight: bold; text-align-last: center">{{ number_format($record->value, 2) }}</td>
@@ -52,7 +64,7 @@
             </tbody>
             <tfoot>
             <tr style="background-color: #34495e; color: #ffffff;">
-                <td colspan="4" class="text-end fw-bold">{{trans('payment.total_revenue')}}:</td>
+                <td colspan="10" class="text-end fw-bold">{{trans('payment.total_revenue')}}:</td>
                 <td class="fw-bold">{{ number_format($all_data->sum('value'), 2) }}</td>
             </tr>
             </tfoot>

@@ -156,6 +156,7 @@ class CompanyController extends Controller
         $data['project_code'] = $this->ProjectsRepository->getLastFieldValue('project_code');
         $data['clients_data'] = $this->ClientsRepository->getAll();
         $data['projects_data'] = $this->ProjectsRepository->getBywhere(['company_id' => $id]);
+        //dd($data['projects_data']);
         $data['company_clients'] = $this->ClientsRepository->getAll();
         $data['tests_data'] = $this->TestsRepository->getBywhere(['company_id' => $id]);
         $data['all_dues'] = ClientTests::where('client_id', $id)->sum('test_value');
