@@ -45,7 +45,9 @@
     <div id="kt_app_content_container" class="app-container container-xxxl">
 
         <div class="card-body">
+
             <div class="col-md-12 row" style="margin-bottom:20px">
+
                 <div class="col-md-3">
                     <label for="client_id" class="form-label">{{ trans('reports.client_id') }}</label>
                     <div class="input-group flex-nowrap">
@@ -94,6 +96,7 @@
                     </div>
                 </div>
 
+
                 <div class="col-md-3">
                     <label for="month" class="form-label">{{ trans('reports.month') }}</label>
                     <div class="input-group flex-nowrap">
@@ -102,6 +105,16 @@
                             <option value="">{{ trans('reports.select') }}</option>
                             @foreach($months as $key => $name)
                                 <option value="{{ $key }}">{{ $name }}</option>
+
+                <div class="col-md-3" style="margin: 10px 0px;">
+                    <label for="year" class="form-label">{{ trans('reports.year') }}</label>
+                    <div class="input-group flex-nowrap">
+                        <span class="input-group-text">{!! form_icon('select1') !!}</span>
+                        <select class="form-select" name="year" id="year">
+                            <option value="">{{ trans('reports.select') }}</option>
+                            @foreach($years as $y)
+                                <option value="{{ $y }}">{{ $y }}</option>
+
                             @endforeach
                         </select>
                     </div>

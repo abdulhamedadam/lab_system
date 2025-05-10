@@ -35,7 +35,10 @@ class DuesRepository implements DuesInterface
             if (isset($filters['test_type']) && $filters['test_type']) {
                 $query->where('test_type', $filters['test_type']);
             }
+<<<<<<< HEAD
 
+=======
+>>>>>>> cf63cffe12ddc1065e8d6c062fa3a04c32ca2d7c
         }
 
         $clientTests = $query->get();
