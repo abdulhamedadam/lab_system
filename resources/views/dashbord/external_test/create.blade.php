@@ -6,7 +6,7 @@
          $breadcrumbs = [
                   ['label' => trans('Toolbar.home'), 'link' => route('admin.company.index')],
                   ['label' => trans('Toolbar.external_test'), 'link' => ''],
-                  ['label' => trans('project.create_external_test'), 'link' => '']
+                  ['label' => trans('Toolbar.create_external_test'), 'link' => '']
                   ];
 
           PageTitle($title, $breadcrumbs);
@@ -27,7 +27,7 @@
 
         <div class="card shadow-sm" style="border-top: 3px solid #007bff;">
             @php
-                generateCardHeader('tests.create_external_test','admin.project.index',' ')
+                generateCardHeader('Toolbar.create_external_test','admin.project.index',' ')
             @endphp
 
 

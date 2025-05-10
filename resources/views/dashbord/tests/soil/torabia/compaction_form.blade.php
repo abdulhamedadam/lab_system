@@ -612,12 +612,16 @@
 
         function saveProject() {
             var projectName = $('#project_name').val();
+            var client_id = $('#client_id_modal').val();
+            var company_id = $('#company_id_modal').val();
             if (projectName) {
                 $.ajax({
                     url: saveProjectUrl,
                     type: 'POST',
                     data: {
                         project_name: projectName,
+                        client_id: client_id,
+                        company_id: company_id,
                         _token: $('meta[name="csrf-token"]').attr('content')
                     },
                     dataType: 'json',

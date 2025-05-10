@@ -55,4 +55,5 @@
   'company_reports' => 'تقارير الشركات',
   'Payments_received' => 'المدفوعات المستلمة',
   'unpaid_dues' => 'المستحقات غير المدفوعة',
+  'create_external_test' => 'انشاء فحص خارجي',
 );

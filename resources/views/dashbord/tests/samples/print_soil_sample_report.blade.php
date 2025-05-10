@@ -98,10 +98,10 @@ $imagePath = asset('images/' . get_print_image());
 
         <div class="row d-flex flex-wrap" style="margin-top: 10px">
             <div class="col-md-3 text-start">
-                <strong>رقم الصـــــــــــادر :</strong>&nbsp;&nbsp;&nbsp;&nbsp;{{$all_data->talab_number ?? 'N/A'}}
+                <strong>رقم الصـــــــــــادر :</strong>&nbsp;&nbsp;&nbsp;&nbsp;{{optional($all_data->sader)->num}}
             </div>
             <div class="col-md-3 text-end">
-                <strong>تاريخ الصـادر :</strong>&nbsp;&nbsp;&nbsp;&nbsp;{{$all_data->talab_date ?? 'N/A'}}
+                <strong>تاريخ الصـادر :</strong>&nbsp;&nbsp;&nbsp;&nbsp;{{optional($all_data->sader)->date}}
             </div>
         </div>
 
@@ -110,13 +110,13 @@ $imagePath = asset('images/' . get_print_image());
                 <strong>التاريــــــــــــــــــــخ :</strong>&nbsp;&nbsp;&nbsp;&nbsp;{{$all_data->talab_date ?? 'N/A'}}
             </div>
             <div class="col-md-3 text-end">
-                <strong>رقم الفاتــورة  :</strong>&nbsp;&nbsp;&nbsp;&nbsp;{{get_app_config_data('soil_prefix').$all_data->test_code}}
+                <strong>رقم الفاتــورة  :</strong>&nbsp;&nbsp;&nbsp;&nbsp;{{$all_data->test_code_st}}
             </div>
         </div>
 
         <div class="row ">
             <div class="col-12 text-start">
-                <strong>إلـــــــــــــــــــــــــــــي :</strong>&nbsp;&nbsp;&nbsp;&nbsp;
+                <strong>جهــــــــة العمـــل :</strong>&nbsp;&nbsp;&nbsp;&nbsp;
                 <span style="text-decoration: underline;">
             {{$all_data->company ? $all_data->company->name : 'N/A'}}
         </span>
@@ -176,15 +176,16 @@ $imagePath = asset('images/' . get_print_image());
     <table class="report-table"style="margin-top: 10px" dir="rtl">
         <thead>
         <tr>
-            <th>S.No</th>
-            <th>Point Location</th>
-            <th>Layer No</th>
-            <th>Moisture Content (%)</th>
-            <th>Dry Density (g/cm³)</th>
-            <th>Max Dry Density (g/cm³)</th>
-            <th>Compaction (%)</th>
-            <th>Evaluation</th>
+            <th>م.ت</th>
+            <th>موقع النقطة</th>
+            <th>رقم الطبقة</th>
+            <th>نسبة الرطوبة (%)</th>
+            <th>الكثافة الجافة (جم/سم³)</th>
+            <th>أقصى كثافة جافة (جم/سم³)</th>
+            <th>نسبة الدمك (%)</th>
+            <th>التقييم</th>
         </tr>
+
         </thead>
         <tbody>
         @if(!empty($compaction_test) && $compaction_test[0]->compaction_test_details->isNotEmpty())
@@ -197,7 +198,7 @@ $imagePath = asset('images/' . get_print_image());
             <td>{{$test->dry_density}}</td>
             <td>{{$test->max_dry_density}}</td>
             <td>{{$test->compaction}}</td>
-            <td class="text-success">{{$test->compaction > $test->req_compaction  ?  'pass' : 'failed'}}</td>
+            <td class="text-success">{{$test->compaction > $test->req_compaction  ?  'نجاح' : 'فشل'}}</td>
         </tr>
         @endforeach
         @endif

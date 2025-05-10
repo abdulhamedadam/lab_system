@@ -66,7 +66,7 @@
             </span>
                         </div>
                     </div>
-                    <a class="btn btn-primary" href="{{route('admin.payment.print_account_statement',$all_data->id)}}">
+                    <a class="btn btn-primary" href="{{route('admin.payment.print_account_statement',$all_data->test_id)}}">
                         <i class="bi bi-printer"></i> {{trans('payment.print_account_statement')}}
                     </a>
                 </div>

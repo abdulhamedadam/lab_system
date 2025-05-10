@@ -240,7 +240,7 @@
             </div>
         </div>
         <div class="statement-title-box">
-            <div class="statement-title">{{ trans('payment.payments_report') }}</div>
+            <div class="statement-title">{{ trans('payment.payments_report') }}   </div>
             @if($from_date || $to_date)
                 <div class="report-period">
                     {{ date('d/m/Y', strtotime($from_date)) }} - {{ date('d/m/Y', strtotime($to_date)) }}

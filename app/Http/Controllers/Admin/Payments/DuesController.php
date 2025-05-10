@@ -5,6 +5,8 @@ namespace App\Http\Controllers\Admin\Payments;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\payment\SaveDuesPaymentRequest;
 use App\Models\Admin\Employee;
+use App\Models\ClientTests;
+use App\Models\Companies;
 use App\Repositories\DuesRepository;
 use App\Services\Finance\AccountService;
 use App\Services\HelperService;
@@ -28,13 +30,21 @@ class DuesController extends Controller
     public function index(Request $request)
     {
         if ($request->ajax()) {
-            $allData = $this->duesService->get_all_dues();
+            $filters = [
+                'client_id' => $request->input('client_id'),
+                'test_code' => $request->input('test_code'),
+                'month' => $request->input('month'),
+                'year' => $request->input('year'),
+                'test_type' => $request->input('test_type'),
+                'sader_number' => $request->input('sader_number'),
+            ];
+            $allData = $this->duesService->get_all_dues($filters);
             // dd($allData);
             return Datatables::of($allData)
                 ->editColumn('num', function ($row) {
                     return $row->id;
                 })->editColumn('client', function ($row) {
-                    return optional($row->client)->name;
+                    return optional($row->company)->name;
                 })->editColumn('test', function ($row) {
                     $test_code = optional($row->test_data)->test_code_st;
                     return $test_code;
@@ -53,8 +63,11 @@ class DuesController extends Controller
                     return $row->year;
                 })->editColumn('month', function ($row) {
                     return \Carbon\Carbon::createFromFormat('m', $row->month)->format('F');
-                })->editColumn('created_date', function ($row) {
-                    return \Carbon\Carbon::parse($row->created_at)->format('Y-m-d');
+                })->editColumn('sader_date', function ($row) {
+                    return optional(optional($row->test_data)->sader)->date;
+                })
+                ->editColumn('sader_number', function ($row) {
+                    return optional(optional($row->test_data)->sader)->num;
                 })
                 ->addColumn('action', function ($row) {
                     return '
@@ -85,8 +98,18 @@ class DuesController extends Controller
                 ->rawColumns(['action', 'name'])
                 ->make(true);
         }
+        $data['clients'] = Companies::all();
+        $data['testTypes'] = ClientTests::distinct()->pluck('test_type')->filter()->values()->toArray();
+        // $data['years'] = ClientTests::distinct()->pluck('year')->filter()->values()->toArray();
+        $currentYear = date('Y');
+        $data['years'] = range($currentYear - 10, $currentYear);
+        $data['months'] = [
+            '1' => 'January', '2' => 'February', '3' => 'March', '4' => 'April',
+            '5' => 'May', '6' => 'June', '7' => 'July', '8' => 'August',
+            '9' => 'September', '10' => 'October', '11' => 'November', '12' => 'December'
+        ];
 
-        return view($this->root_view . 'all_dues');
+        return view($this->root_view . 'all_dues', $data);
     }
     /********************************************************/
     public function create()
@@ -134,6 +157,7 @@ class DuesController extends Controller
     public function account_statement($id)
     {
         $data['all_data'] = $this->duesService->find($id);
+       // dd($data['all_data']);
         $data['required_value'] = $data['all_data']->test_value - $data['all_data']->client_test_payment->sum('value');
         // dd(optional($data['all_data']->test_data)->client);
         return view($this->root_view . 'account_statement', $data);
@@ -143,7 +167,7 @@ class DuesController extends Controller
     public function print_account_statement($id)
     {
         $data['all_data'] = $this->duesService->get_test_account_statement($id);
-      //  dd($data['all_data']);
+       // dd($id);
         return view($this->root_view . 'print_account_statement', $data);
     }
 
@@ -151,27 +175,28 @@ class DuesController extends Controller
     public function received_payments(Request $request, $type = null)
     {
         if ($request->ajax()) {
-            $allData = $this->duesService->get_received_payments($type);
+            $filters = [
+                'client_id' => $request->input('client_id'),
+                'test_code' => $request->input('test_code'),
+                'month' => $request->input('month'),
+            ];
+            $allData = $this->duesService->get_received_payments($type, $filters);
             // dd($allData);
             return Datatables::of($allData)
                 ->editColumn('num', function ($row) {
                     return $row->num;
                 })->editColumn('client', function ($row) {
-                    return '<a  href="' . route('admin.company_projects', $row->client_id) . '" class="text-primary fw-bold" style="color:red">' . optional(optional($row->client_test)->client)->name . '</a>';
+                    return '<a  href="' . route('admin.company_projects', $row->client_id) . '" class="text-primary fw-bold" style="color:red">' . optional(optional($row->client_test)->company)->name . '</a>';
 
                 })->editColumn('test', function ($row) {
-                    if ($row->client_test->test == null) {
-                        $final_code = optional(optional($row->client_test)->external_test)->test_code;
-                    } else {
-                        $final_code = get_app_config_data('soil_prefix') . optional(optional($row->client_test)->test)->test_code;
-                        return '<a href="' . route('admin.samples_test', optional(optional($row->client_test)->test)->id) . '" class="text-primary fw-bold">' . $final_code . '</a>';
 
-                    }
+                        $final_code =  optional(optional($row->client_test)->test)->test_code_st;
+
                     return $final_code;
                 })->editColumn('test_type', function ($row) {
-                    return $row->client_test->test_type;
+                    return optional($row->client_test)->test_type;
                 })->editColumn('test_title', function ($row) {
-                    return $row->client_test->test_name;
+                    return optional($row->client_test)->test_name;
                 })->editColumn('value', function ($row) {
                     return $row->value;
                 })->editColumn('paid_date', function ($row) {
@@ -182,8 +207,10 @@ class DuesController extends Controller
                     return $row->notes;
                 })->editColumn('month', function ($row) {
                     return !empty($row->paid_date) ? \Carbon\Carbon::parse($row->paid_date)->format('F') : '-';
-                })->editColumn('created_date', function ($row) {
-                    return \Carbon\Carbon::parse($row->created_at)->format('Y-m-d');
+                })->editColumn('sader_date', function ($row) {
+                    return optional(optional(optional($row->client_test)->test)->sader)->date;
+                })->editColumn('sader_number', function ($row) {
+                    return optional(optional(optional($row->client_test)->test)->sader)->num;
                 })
                 ->addColumn('action', function ($row) {
                     return '
@@ -215,6 +242,12 @@ class DuesController extends Controller
                 ->make(true);
         }
         $data['type'] = $type;
+        $data['clients'] = Companies::all();
+        $data['months'] = [
+            '1' => 'January', '2' => 'February', '3' => 'March', '4' => 'April',
+            '5' => 'May', '6' => 'June', '7' => 'July', '8' => 'August',
+            '9' => 'September', '10' => 'October', '11' => 'November', '12' => 'December'
+        ];
         return view($this->root_view . 'received_payments', $data);
     }
 
@@ -328,7 +361,7 @@ class DuesController extends Controller
     }
 
     /********************************************************/
-    public function print_expense_report($band_id = false, $from_date = false, $to_date = false)
+    public function print_expense_report( $from_date = false, $to_date = false,$band_id = false)
     {
 
         $data['all_data'] = $this->duesService->get_expense_report($from_date, $to_date, $band_id);

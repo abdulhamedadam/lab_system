@@ -63,6 +63,7 @@
   'total_revenue' => 'إجمالي الإيرادات',
   'print_report' => 'طباعة التقرير',
   'revenue_report' => 'تقرير الإيرادات',
+  'expense_report' => 'تقرير المصروفات',
   'from_date  ' => 'من التاريخ',
   'to_date  ' => 'إلى التاريخ',
   'account_summary' => 'ملخص الحساب',
@@ -99,5 +100,6 @@
   'unpaid_amount' => 'المبلغ غير المدفوع',
   'sader_number' => 'رقم الصادر',
   'unpaid_dues_footer_note' => 'هذا التقرير يوضح تفاصيل جميع الاختبارات التي لم تُسدد بالكامل أو جزئياً.',
-  'project' => 'project',
+  'project' => 'المشروع',
+  'sader_date' => 'تاريخ الصادر',
 );

@@ -14,9 +14,39 @@ use Illuminate\Support\Facades\DB;
 class DuesRepository implements DuesInterface
 {
 
-    public function get_all_dues()
+    public function get_all_dues($filters = [])
     {
-        $clientTests = ClientTests::with(['client','client_test_payment'])->OrderBy('id','desc')->get();
+        $query = ClientTests::with(['client', 'client_test_payment'])
+                    ->orderBy('id', 'desc');
+
+        if (!empty($filters)) {
+            if (isset($filters['client_id']) && $filters['client_id']) {
+                $query->where('client_id', $filters['client_id']);
+            }
+
+            if (isset($filters['month']) && $filters['month']) {
+                $query->where('month', $filters['month']);
+            }
+
+            if (isset($filters['year']) && $filters['year']) {
+                $query->where('year', $filters['year']);
+            }
+
+            if (isset($filters['test_type']) && $filters['test_type']) {
+                $query->where('test_type', $filters['test_type']);
+            }
+
+        }
+
+        $clientTests = $query->get();
+
+        if (!empty($filters) && isset($filters['test_code']) && $filters['test_code']) {
+            $clientTests = $clientTests->filter(function($test) use ($filters) {
+                $testData = $test->belongsToDynamic();
+                // return $testData && $testData->test_code_st == $filters['test_code'];
+                return $testData && stripos($testData->test_code_st, $filters['test_code']) !== false;
+            });
+        }
 
         foreach ($clientTests as $test) {
             $test->test_data = $test->belongsToDynamic();
@@ -83,9 +113,14 @@ class DuesRepository implements DuesInterface
     }
 
     /******************************************************/
-    public function get_received_payments($type = null)
+    public function get_received_payments($type = null, $filters = [])
     {
-        $query = ClientTestPayment::with(['client_test', 'client_test.test', 'client_test.external_test']);
+        $query = ClientTestPayment::with([
+            'client_test',
+            'client_test.test',
+            'client_test.external_test',
+            'client_test.client'
+        ]);
 
         if ($type) {
             switch ($type) {
@@ -101,12 +136,34 @@ class DuesRepository implements DuesInterface
                 case 'yearly':
                     $query->whereBetween('paid_date', [now()->startOfYear(), now()->endOfYear()]);
                     break;
-                default:
-                    return response()->json(['error' => 'Invalid type'], 400);
             }
         }
-      //  dd();
-        return $query->get();
+
+        if (!empty($filters)) {
+            if (!empty($filters['client_id'])) {
+                $query->whereHas('client_test', function($q) use ($filters) {
+                    $q->where('client_id', $filters['client_id']);
+                });
+            }
+
+            if (!empty($filters['month'])) {
+                $query->whereMonth('paid_date', $filters['month']);
+            }
+        }
+
+        $payments = $query->orderBy('paid_date', 'desc')->get();
+
+        if (!empty($filters['test_code'])) {
+            $payments = $payments->filter(function($payment) use ($filters) {
+                if ($payment->client_test) {
+                    $testData = $payment->client_test->belongsToDynamic();
+                    return $testData && stripos($testData->test_code_st, $filters['test_code']) !== false;
+                }
+                return false;
+            });
+        }
+
+        return $payments;
     }
     /********************************************************/
     public function get_dues($client_id, $from_date = null, $to_date = null)

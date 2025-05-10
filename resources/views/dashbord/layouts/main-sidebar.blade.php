@@ -285,12 +285,12 @@
                     <div class="menu-item">
                         <a class="menu-link {{ request()->routeIs(['admin.external_test.index']) ? 'active' : '' }}"
                            href="{{ route('admin.external_test.create') }}">
-                            <span class="menu-icon">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
-                                    <path d="M5.5 7a.5.5 0 0 0 0 1h5a.5.5 0 0 0 0-1h-5zM5 9.5a.5.5 0 0 1 .5-.5h5a.5.5 0 0 1 0 1h-5a.5.5 0 0 1-.5-.5zm0 2a.5.5 0 0 1 .5-.5h2a.5.5 0 0 1 0 1h-2a.5.5 0 0 1-.5-.5z"/>
-                                    <path d="M9.5 0H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2V4.5L9.5 0zm0 1v2A1.5 1.5 0 0 0 11 4.5h2V14a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1h5.5z"/>
-                                </svg>
-                            </span>
+            <span class="menu-icon">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
+                    <path d="M5.5 7a.5.5 0 0 0 0 1h5a.5.5 0 0 0 0-1h-5zM5 9.5a.5.5 0 0 1 .5-.5h5a.5.5 0 0 1 0 1h-5a.5.5 0 0 1-.5-.5zm0 2a.5.5 0 0 1 .5-.5h2a.5.5 0 0 1 0 1h-2a.5.5 0 0 1-.5-.5z"/>
+                    <path d="M9.5 0H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2V4.5L9.5 0zm0 1v2A1.5 1.5 0 0 0 11 4.5h2V14a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1h5.5z"/>
+                </svg>
+            </span>
                             <span class="menu-title">{{ trans('sidebar.external_test') }}</span>
                         </a>
                     </div>
@@ -299,9 +299,12 @@
                     <div class="menu-item">
                         <a class="menu-link {{ request()->routeIs(['admin.add_sader']) ? 'active' : '' }}"
                            href="{{ route('admin.add_sader') }}">
-                        <span class="svg-icon svg-icon-2" style="margin-left: 5px">
-                            <i class="bi bi-clipboard-data text-default fs-5"></i>
-                        </span>
+            <span class="menu-icon">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
+                    <path d="M8 5a.5.5 0 0 1 .5.5V7H14a.5.5 0 0 1 0 1H8.5v1.5a.5.5 0 0 1-1 0V8H2a.5.5 0 0 1 0-1h5.5V5.5A.5.5 0 0 1 8 5z"/>
+                    <path d="M2 2a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V2zm10-1H4a1 1 0 0 0-1 1v12a1 1 0 0 0 1 1h8a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1z"/>
+                </svg>
+            </span>
                             <span class="menu-title">{{ trans('sidebar.test_sader') }}</span>
                         </a>
                     </div>
@@ -428,9 +431,12 @@
                     <div class="menu-item">
                         <a class="menu-link {{ request()->routeIs('admin.payment.dues.index') ? 'active' : '' }}"
                            href="{{ route('admin.payment.dues.index') }}">
-        <span class="svg-icon svg-icon-2" style="margin-left: 5px">
-            <i class="bi bi-credit-card text-default fs-5"></i>
-        </span>
+            <span class="menu-icon">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
+                    <path d="M0 4a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V4zm2-1a1 1 0 0 0-1 1v1h14V4a1 1 0 0 0-1-1H2zm13 4H1v5a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V7z"/>
+                    <path d="M2 10a1 1 0 0 1 1-1h1a1 1 0 0 1 1 1v1a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1v-1z"/>
+                </svg>
+            </span>
                             <span class="menu-title">{{ trans('sidebar.dues') }}</span>
                         </a>
                     </div>
@@ -439,9 +445,12 @@
                     <div class="menu-item">
                         <a class="menu-link {{ request()->routeIs('admin.payment.received_payments') ? 'active' : '' }}"
                            href="{{ route('admin.payment.received_payments') }}">
-        <span class="svg-icon svg-icon-2" style="margin-left: 5px">
-            <i class="bi bi-bank text-default fs-5"></i>
-        </span>
+            <span class="menu-icon">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
+                    <path d="M8 10a2 2 0 1 0 0-4 2 2 0 0 0 0 4z"/>
+                    <path d="M0 4a1 1 0 0 1 1-1h14a1 1 0 0 1 1 1v8a1 1 0 0 1-1 1H1a1 1 0 0 1-1-1V4zm3 0a2 2 0 0 1-2 2v4a2 2 0 0 1 2 2h10a2 2 0 0 1 2-2V6a2 2 0 0 1-2-2H3z"/>
+                </svg>
+            </span>
                             <span class="menu-title">{{ trans('sidebar.received_payments') }}</span>
                         </a>
                     </div>
@@ -450,67 +459,84 @@
                     <div class="menu-item">
                         <a class="menu-link {{ request()->routeIs('admin.payment.clients_account_statement') ? 'active' : '' }}"
                            href="{{ route('admin.payment.clients_account_statement') }}">
-        <span class="svg-icon svg-icon-2" style="margin-left: 5px">
-            <i class="bi bi-clipboard-data text-default fs-5"></i>
-        </span>
+            <span class="menu-icon">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
+                    <path d="M9.5 0a.5.5 0 0 1 .5.5.5.5 0 0 0 1 0A1.5 1.5 0 0 0 9.5-1h-3a1.5 1.5 0 0 0-1.5 1.5v12A1.5 1.5 0 0 0 6.5 14h3a1.5 1.5 0 0 0 1.5-1.5.5.5 0 0 0-1 0 .5.5 0 0 1-.5.5h-3a.5.5 0 0 1-.5-.5v-12a.5.5 0 0 1 .5-.5h3z"/>
+                    <path d="M3 2.5a.5.5 0 0 1 .5-.5H7a.5.5 0 0 1 0 1H3.5a.5.5 0 0 1-.5-.5zm0 2a.5.5 0 0 1 .5-.5H7a.5.5 0 0 1 0 1H3.5a.5.5 0 0 1-.5-.5zm0 2a.5.5 0 0 1 .5-.5H7a.5.5 0 0 1 0 1H3.5a.5.5 0 0 1-.5-.5zm0 2a.5.5 0 0 1 .5-.5H7a.5.5 0 0 1 0 1H3.5a.5.5 0 0 1-.5-.5zm0 2a.5.5 0 0 1 .5-.5H7a.5.5 0 0 1 0 1H3.5a.5.5 0 0 1-.5-.5z"/>
+                </svg>
+            </span>
                             <span class="menu-title">{{ trans('sidebar.clients_account_statement') }}</span>
                         </a>
                     </div>
-
-                    {{-- Expenses --}}
                 @endcan
+
+                {{-- Expenses --}}
                 <div class="menu-item">
                     <a class="menu-link {{ request()->routeIs(['admin.Payments_received', 'admin.unpaid_dues']) ? 'active' : '' }}"
-                        href="{{ route('admin.Payments_received') }}">
-                        <span class="svg-icon svg-icon-2" style="margin-left: 5px">
-                            <i class="bi bi-wallet2 text-default fs-5"></i>
-                        </span>
+                       href="{{ route('admin.Payments_received') }}">
+        <span class="menu-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
+                <path d="M12.136.326A1.5 1.5 0 0 1 14 1.78V3h.5A1.5 1.5 0 0 1 16 4.5v9a1.5 1.5 0 0 1-1.5 1.5h-13A1.5 1.5 0 0 1 0 13.5v-9a1.5 1.5 0 0 1 1.432-1.499L12.136.326zM5.562 3H13V1.78a.5.5 0 0 0-.621-.484L5.562 3zM1.5 4a.5.5 0 0 0-.5.5v9a.5.5 0 0 0 .5.5h13a.5.5 0 0 0 .5-.5v-9a.5.5 0 0 0-.5-.5h-13z"/>
+                <path d="M8 5a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-1 0v-1A.5.5 0 0 1 8 5zm0 2a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-1 0v-1A.5.5 0 0 1 8 7zm0 2a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-1 0v-1A.5.5 0 0 1 8 9zm0 2a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-1 0v-1a.5.5 0 0 1 .5-.5z"/>
+            </svg>
+        </span>
                         <span class="menu-title">{{ trans('sidebar.companies_reports') }}</span>
                     </a>
                 </div>
+
                 @can('masrofat')
                     <div class="menu-item">
                         <a class="menu-link {{ request()->routeIs('admin.masrofat.index') ? 'active' : '' }}"
                            href="{{ route('admin.masrofat.index') }}">
-        <span class="svg-icon svg-icon-2" style="margin-left: 5px">
-            <i class="bi bi-cash-coin text-default fs-5"></i>
-        </span>
+            <span class="menu-icon">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
+                    <path d="M1 3a1 1 0 0 1 1-1h12a1 1 0 0 1 1 1H1zm7 8a2 2 0 1 0 0-4 2 2 0 0 0 0 4z"/>
+                    <path d="M0 5a1 1 0 0 1 1-1h14a1 1 0 0 1 1 1v8a1 1 0 0 1-1 1H1a1 1 0 0 1-1-1V5zm3 0a2 2 0 0 1-2 2v4a2 2 0 0 1 2 2h10a2 2 0 0 1 2-2V7a2 2 0 0 1-2-2H3z"/>
+                </svg>
+            </span>
                             <span class="menu-title">{{ trans('sidebar.masrofat') }}</span>
                         </a>
                     </div>
-
-                    {{-- Financial Reports --}}
                 @endcan
+
                 @can('financial_reports')
                     <div class="menu-item">
                         <a class="menu-link {{ request()->routeIs('admin.payment.financial_reports') ? 'active' : '' }}"
                            href="{{ route('admin.payment.financial_reports') }}">
-        <span class="svg-icon svg-icon-2" style="margin-left: 5px">
-            <i class="bi bi-file-earmark-bar-graph text-default fs-5"></i>
-        </span>
+            <span class="menu-icon">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
+                    <path d="M4 0h5.293A1 1 0 0 1 10 .293L13.707 4a1 1 0 0 1 .293.707V14a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V2a2 2 0 0 1 2-2zm5.5 1.5v2a1 1 0 0 0 1 1h2l-3-3zM4.5 8a.5.5 0 0 0-.5.5v1a.5.5 0 0 0 .5.5h1a.5.5 0 0 0 .5-.5v-1a.5.5 0 0 0-.5-.5h-1zm3 0a.5.5 0 0 0-.5.5v1a.5.5 0 0 0 .5.5h1a.5.5 0 0 0 .5-.5v-1a.5.5 0 0 0-.5-.5h-1zm-6 3h1.5a.5.5 0 0 1 0 1H4a.5.5 0 0 1 0-1zm3.5 0a.5.5 0 0 0-.5.5v1a.5.5 0 0 0 .5.5h1a.5.5 0 0 0 .5-.5v-1a.5.5 0 0 0-.5-.5h-1zm-3.5.5a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 0 1H5a.5.5 0 0 1-.5-.5z"/>
+                </svg>
+            </span>
                             <span class="menu-title">{{ trans('sidebar.financial_reports') }}</span>
                         </a>
                     </div>
-
                 @endcan
+
                 @can('expense_report')
                     <div class="menu-item">
                         <a class="menu-link {{ request()->routeIs('admin.payment.expense_report') ? 'active' : '' }}"
                            href="{{ route('admin.payment.expense_report') }}">
-        <span class="svg-icon svg-icon-2" style="margin-left: 5px">
-            <i class="bi bi-cash-stack text-default fs-5"></i>
-        </span>
+            <span class="menu-icon">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
+                    <path d="M1 3a1 1 0 0 1 1-1h12a1 1 0 0 1 1 1H1zm7 8a2 2 0 1 0 0-4 2 2 0 0 0 0 4z"/>
+                    <path d="M0 5a1 1 0 0 1 1-1h14a1 1 0 0 1 1 1v8a1 1 0 0 1-1 1H1a1 1 0 0 1-1-1V5zm3 0a2 2 0 0 1-2 2v4a2 2 0 0 1 2 2h10a2 2 0 0 1 2-2V7a2 2 0 0 1-2-2H3z"/>
+                </svg>
+            </span>
                             <span class="menu-title">{{ trans('sidebar.expense_report') }}</span>
                         </a>
                     </div>
                 @endcan
+
                 @can('revenue_report')
                     <div class="menu-item">
                         <a class="menu-link {{ request()->routeIs('admin.payment.revenue_report') ? 'active' : '' }}"
                            href="{{ route('admin.payment.revenue_report') }}">
-        <span class="svg-icon svg-icon-2" style="margin-left: 5px">
-            <i class="bi bi-graph-up text-default fs-5"></i>
-        </span>
+            <span class="menu-icon">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
+                    <path fill-rule="evenodd" d="M0 0h1v15h15v1H0V0zm10 3.5a.5.5 0 0 1 .5-.5h4a.5.5 0 0 1 .5.5v4a.5.5 0 0 1-1 0V4.9l-3.613 4.417a.5.5 0 0 1-.74.037L7.06 6.767l-3.656 5.027a.5.5 0 0 1-.808-.588l4-5.5a.5.5 0 0 1 .758-.06l2.609 2.61L13.445 4H10.5a.5.5 0 0 1-.5-.5z"/>
+                </svg>
+            </span>
                             <span class="menu-title">{{ trans('sidebar.revenue_report') }}</span>
                         </a>
                     </div>

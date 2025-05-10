@@ -32,5 +32,5 @@
   'edit' => 'تعديل',
   'print' => 'طباعة',
   'all_dues' => 'كل المستحقات',
-  'test_code' => 'test_code',
+  'test_code' => 'كود الاختبار',
 );

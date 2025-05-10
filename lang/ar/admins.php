@@ -1,4 +1,4 @@
 <?php return array (
-  'active' => 'active',
-  'inactive' => 'inactive',
+  'active' => 'نشط',
+  'inactive' => 'غير نشط',
 );

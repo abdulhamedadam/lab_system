@@ -1,6 +1,6 @@
 <?php return array (
-  'add_new' => 'add_new',
-  'name' => 'name',
-  'client' => 'client',
-  'company' => 'company',
+  'add_new' => 'إضافة جديد',
+  'name' => 'الاسم ',
+  'client' => 'جهة العمل',
+  'company' => 'الشركة المنفذة',
 );

@@ -296,13 +296,13 @@ Route::group(
                 Route::get('dues/payment/print_account_statement/{id}', [DuesController::class, 'print_account_statement'])->name('print_account_statement');
                 Route::get('dues/payment/print_client_account_statment_invoice/{id}/{from_date?}/{to_date?}', [DuesController::class, 'print_client_account_statment_invoice'])->name('print_client_account_statment_invoice');
                 Route::get('print_revenue_report/{id}/{from_date?}/{to_date?}', [DuesController::class, 'print_revenue_report'])->name('print_revenue_report');
-                Route::get('print_expense_report/{id?}/{from_date?}/{to_date?}', [DuesController::class, 'print_expense_report'])->name('print_expense_report');
+                Route::get('print_expense_report/{from_date?}/{to_date?}/{id?}', [DuesController::class, 'print_expense_report'])->name('print_expense_report');
                 Route::get('print_financial_report/{from_date?}/{to_date?}', [DuesController::class, 'print_financial_report'])->name('print_financial_report');
             });
             /***********************************************************************************************************/
 
             Route::resource('external_test',ExternalTestsController::class);
-            Route::post('delete_external_test/{id}',[ExternalTestsController::class,'delete_external_test'])->name('delete_external_test');
+            Route::get('delete_external_test/{id}',[ExternalTestsController::class,'delete_external_test'])->name('delete_external_test');
             Route::post('save_client_popup',[HelperController::class,'save_client_popup'])->name('save_client_popup');
             Route::post('save_company_popup',[HelperController::class,'save_company_popup'])->name('save_company_popup');
             Route::post('save_project_popup',[HelperController::class,'save_project_popup'])->name('save_project_popup');

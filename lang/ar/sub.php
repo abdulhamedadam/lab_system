@@ -1,3 +1,3 @@
 <?php return array (
-  'Close' => 'Close',
+  'Close' => 'غلق',
 );

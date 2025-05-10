@@ -30,7 +30,7 @@ class PayrollController extends Controller
             return Datatables::of($payroll)
                 ->editColumn('from_date', function ($row) {
                     //  return optional($row->client)->name;
-                    return $row->form_date;
+                    return $row->from_date;
 
                 })
                 ->editColumn('to_date', function ($row) {

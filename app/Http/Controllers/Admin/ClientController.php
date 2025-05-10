@@ -222,9 +222,9 @@ class ClientController extends Controller
     {
         $data['all_data']     =  $this->ClientsRepository->getById($id);
         $data['project_code'] =  $this->ProjectsRepository->getLastFieldValue('project_code');
-        $data['companies_data']=$this->CompanyRepository->getBywhere(['client_id'=>$id]);
-        $data['projects_data']=$this->ProjectsRepository->getBywhere(['client_id'=>$id]);
-        $data['client_companies']=$this->CompanyRepository->getBywhere(['client_id'=>$id]);
+        $data['companies_data'] = ClientsCompanies::with('company')->where('client_id',$id)->get();
+        $data['projects_data'] = $this->ProjectsRepository->getBywhere(['client_id'=>$id]);
+        $data['client_companies'] = ClientsCompanies::with('company')->where('client_id',$id)->get();
        // dd($data['projects_data']);
         return view($this->admin_view . '.projects.clients_project', $data);
     }

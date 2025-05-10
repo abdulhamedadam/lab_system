@@ -46,7 +46,7 @@ class MasrofatController extends Controller
                     return $row->sarf_band ? $row->sarf_band->title : 'N/A';
                 })
                 ->editColumn('value', function ($row) {
-                    return $row->value;
+                    return number_format($row->value,2);
                 })
                 ->editColumn('sarf_date', function ($row) {
                     return $row->sarf_date ?? 'N\A';

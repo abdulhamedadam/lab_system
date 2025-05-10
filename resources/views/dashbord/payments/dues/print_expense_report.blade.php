@@ -3,7 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{{trans('payment.revenue_report')}}</title>
+
+    <title>{{trans('payment.expense_report')}}</title>
     <style>
         :root {
             --primary-color: #ff8c00;
@@ -264,10 +265,10 @@
             </div>
         </div>
         <div class="statement-title-box">
-            <div class="statement-title">{{ trans('payment.revenue_report') }}</div>
+            <div class="statement-title">{{ trans('payment.expense_report') }}</div>
             @if(isset($from_date) && isset($to_date))
                 <div class="client-name">
-                     {{ $from_date }} - {{ $to_date }}
+                   {{ $to_date }}     -   {{ $from_date }}
                 </div>
             @endif
         </div>
@@ -316,8 +317,8 @@
                 </tr>
             @endforeach
             <tr class="total-row">
-                <td colspan="6" class="text-right">Total{{trans('payment.Total')}}:</td>
-                <td class="amount-cell">${{ number_format($all_data->sum('value'), 2) }}</td>
+                <td colspan="6" class="text-right"> {{trans('payment.Total')}} </td>
+                <td class="amount-cell"> دينار {{ number_format($all_data->sum('value'), 2) }}</td>
             </tr>
             </tbody>
         </table>

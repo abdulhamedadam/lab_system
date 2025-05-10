@@ -64,7 +64,7 @@
     </div>
 
     <div class="text-center mt-4">
-        <a id="printButton" href="{{route('admin.payment.print_expense_report',[$band_id,$from_date,$to_date])}}" class="btn btn-primary print-button">
+        <a id="printButton" href="{{route('admin.payment.print_expense_report',[$from_date,$to_date,$band_id])}}" class="btn btn-primary print-button">
             <i class="fas fa-print"></i> {{trans('payment.print_report')}}
         </a>
     </div>
