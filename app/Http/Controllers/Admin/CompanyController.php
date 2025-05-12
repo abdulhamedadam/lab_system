@@ -159,7 +159,8 @@ class CompanyController extends Controller
         //dd($data['projects_data']);
         $data['company_clients'] = $this->ClientsRepository->getAll();
         $data['tests_data'] = $this->TestsRepository->getBywhere(['company_id' => $id]);
-        $data['all_dues'] = ClientTests::where('client_id', $id)->sum('test_value');
+        // $data['all_dues'] = ClientTests::where('client_id', $id)->sum('test_value');
+        $data['all_dues'] = $this->TestsRepository->getBywhere(['company_id' => $id])->sum('total_cost');
         $data['paid_dues'] = ClientTests::where('client_id', $id)
             ->with('client_test_payment')
             ->get()
@@ -236,7 +237,8 @@ class CompanyController extends Controller
         //  dd($data['external_test']);
         $data['dues_data'] = $this->duesService->get_company_dues($id);
         // dd( $data['dues_data']);
-        $data['all_dues'] = ClientTests::where('client_id', $id)->sum('test_value');
+        // $data['all_dues'] = ClientTests::where('client_id', $id)->sum('test_value');
+        $data['all_dues'] = $this->TestsRepository->getBywhere(['company_id' => $id])->sum('total_cost');
         $data['paid_dues'] = ClientTests::where('client_id', $id)
             ->with('client_test_payment')
             ->get()
@@ -259,7 +261,8 @@ class CompanyController extends Controller
         $data['tests_data'] = $this->TestsRepository->getBywhere(['company_id' => $id]);
         $data['dues_data'] = $this->duesService->get_company_dues($id);
         // dd( $data['dues_data']);
-        $data['all_dues'] = ClientTests::where('client_id', $id)->sum('test_value');
+        // $data['all_dues'] = ClientTests::where('client_id', $id)->sum('test_value');
+        $data['all_dues'] = $this->TestsRepository->getBywhere(['company_id' => $id])->sum('total_cost');
         $data['paid_dues'] = ClientTests::where('client_id', $id)
             ->with('client_test_payment')
             ->get()
@@ -292,7 +295,8 @@ class CompanyController extends Controller
         $data['tests_data'] = $this->TestsRepository->getBywhere(['company_id' => $id]);
         $data['dues_data'] = $this->duesService->get_company_dues($id);
         // dd( $data['dues_data']);
-        $data['all_dues'] = ClientTests::where('client_id', $id)->sum('test_value');
+        // $data['all_dues'] = ClientTests::where('client_id', $id)->sum('test_value');
+        $data['all_dues'] = $this->TestsRepository->getBywhere(['company_id' => $id])->sum('total_cost');
         $data['paid_dues'] = ClientTests::where('client_id', $id)
             ->with('client_test_payment')
             ->get()
@@ -362,7 +366,8 @@ class CompanyController extends Controller
         $data['company_clients'] = $this->ClientsRepository->getAll();
         $data['tests_data'] = $this->TestsRepository->getBywhere(['company_id' => $id]);
         $data['dues_data'] = $this->duesService->get_company_dues($id);
-        $data['all_dues'] = ClientTests::where('client_id', $id)->sum('test_value');
+        // $data['all_dues'] = ClientTests::where('client_id', $id)->sum('test_value');
+        $data['all_dues'] = $this->TestsRepository->getBywhere(['company_id' => $id])->sum('total_cost');
         $data['paid_dues'] = ClientTests::where('client_id', $id)
             ->with('client_test_payment')
             ->get()
@@ -383,7 +388,8 @@ class CompanyController extends Controller
         $data['company_clients'] = $this->ClientsRepository->getAll();
         $data['tests_data'] = $this->TestsRepository->getBywhere(['company_id' => $id]);
         $data['dues_data'] = $this->duesService->get_company_dues($id);
-        $data['all_dues'] = ClientTests::where('client_id', $id)->sum('test_value');
+        // $data['all_dues'] = ClientTests::where('client_id', $id)->sum('test_value');
+        $data['all_dues'] = $this->TestsRepository->getBywhere(['company_id' => $id])->sum('total_cost');
         $data['paid_dues'] = ClientTests::where('client_id', $id)
             ->with('client_test_payment')
             ->get()

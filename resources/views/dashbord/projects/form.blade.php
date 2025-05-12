@@ -55,7 +55,7 @@
                                         <option value="{{$item->id}}" {{ old('client_id') == $item->id ? 'selected' : '' }}>{{$item->name}}</option>
                                     @endforeach
                                 </select>
-                                {!! saveClientButtonWithModal() !!}
+                                {{-- {!! saveClientButtonWithModal() !!} --}}
                             </div>
                             @error('client_id')
                             <span class="invalid-feedback d-block" role="alert">{{ $message }}</span>
@@ -71,7 +71,7 @@
                                     <option value="">{{trans('clients.select')}}</option>
 
                                 </select>
-                                {!! saveCompanyButtonWithModal() !!}
+                                {{-- {!! saveCompanyButtonWithModal() !!} --}}
                             </div>
                             @error('company_id')
                             <span class="fv-plugins-message-container" role="alert">{{ $message }}</span>
@@ -132,11 +132,19 @@
                 url: "{{ route('admin.get_company', ['id' => '__id__']) }}".replace('__id__', id),
                 type: "get",
                 dataType: "html",
+                // success: function (html) {
+                //     // console.log(html);
+                //     $('#company_id').html(html);
+                //     $('#company_id').val(<?= old('company_id')?> );
+                // },
                 success: function (html) {
-                    // console.log(html);
                     $('#company_id').html(html);
-                    $('#company_id').val(<?= old('company_id')?> );
-                },
+
+                    let oldCompanyId = @json(old('company_id'));
+                    if (oldCompanyId) {
+                        $('#company_id').val(oldCompanyId);
+                    }
+                }
             });
         }
     </script>

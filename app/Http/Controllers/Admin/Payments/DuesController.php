@@ -36,10 +36,7 @@ class DuesController extends Controller
                 'month' => $request->input('month'),
                 'year' => $request->input('year'),
                 'test_type' => $request->input('test_type'),
-<<<<<<< HEAD
                 'sader_number' => $request->input('sader_number'),
-=======
->>>>>>> cf63cffe12ddc1065e8d6c062fa3a04c32ca2d7c
             ];
             $allData = $this->duesService->get_all_dues($filters);
             // dd($allData);

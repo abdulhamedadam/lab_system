@@ -50,7 +50,7 @@
                                         </option>
                                     @endforeach
                                 </select>
-                                {!! saveClientButtonWithModal() !!}
+                                {{-- {!! saveClientButtonWithModal() !!} --}}
                             </div>
                             @error('client_id')
                             <span class="invalid-feedback d-block" role="alert">{{ $message }}</span>

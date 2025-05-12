@@ -42,7 +42,7 @@
                                 <span class="input-group-text" id="basic-addon3">{!! form_icon('text') !!}</span>
                                 <input type="text" class="form-control" name="test_code_st" id="test_code_st" value="{{ get_app_config_data('soil_prefix').$test_code }}" >
                             </div>
-                            @error('test_code')
+                            @error('test_code_st')
                             <span class="invalid-feedback d-block" role="alert">{{ $message }}</span>
                             @enderror
                         </div>
@@ -57,10 +57,10 @@
                                         <option value="{{$item->id}}" {{ old('client_id') == $item->id ? 'selected' : '' }}>{{$item->name}}</option>
                                     @endforeach
                                 </select>
-                                <button type="button" class="btn btn-primary" data-bs-toggle="modal"
+                                {{-- <button type="button" class="btn btn-primary" data-bs-toggle="modal"
                                         data-bs-target="#addClientModal">
                                     <i class="fas fa-plus"></i>
-                                </button>
+                                </button> --}}
                             </div>
                             @error('client_id')
                             <span class="invalid-feedback d-block" role="alert">{{ $message }}</span>
@@ -77,7 +77,7 @@
                                         <option value="{{$item->id}}" {{ old('company_id') == $item->id ? 'selected' : '' }}>{{$item->name}}</option>
                                     @endforeach
                                 </select>
-                                {!! saveCompanyButtonWithModal() !!}
+                                {{-- {!! saveCompanyButtonWithModal() !!} --}}
                             </div>
                             @error('company_id')
                             <span class="invalid-feedback d-block" role="alert">{{ $message }}</span>
@@ -93,10 +93,10 @@
                                         <option value="{{$item->id}}" {{ old('project_id') == $item->id ? 'selected' : '' }}>{{$item->project_name}}</option>
                                     @endforeach
                                 </select>
-                                <button type="button" class="btn btn-primary" data-bs-toggle="modal"
+                                {{-- <button type="button" class="btn btn-primary" data-bs-toggle="modal"
                                         data-bs-target="#addProjectModal">
                                     <i class="fas fa-plus"></i>
-                                </button>
+                                </button> --}}
                             </div>
                             @error('project_id')
                             <span class="invalid-feedback d-block" role="alert">{{ $message }}</span>
@@ -196,7 +196,7 @@
                             <label for="first_name" class="form-label">{{ trans('tests.sample_num') }}</label>
                             <div class="input-group flex-nowrap">
                                 <span class="input-group-text" id="basic-addon3">{!! form_icon('text') !!}</span>
-                                <input type="number" class="form-control" name="sample_num" id="sample_num" value="">
+                                <input type="number" class="form-control" name="sample_num" id="sample_num" value="{{ old('sample_num') }}">
                             </div>
                             @error('sample_num')
                             <span class="invalid-feedback d-block" role="alert">{{ $message }}</span>
@@ -705,7 +705,8 @@
     <script>
         $(document).ready(function () {
             $('#kt_docs_repeater_basic').repeater({
-                initEmpty: false,
+                // initEmpty: false,
+                initEmpty: true,
                 show: function () {
                     $(this).slideDown();
                     calculateTotal();

@@ -27,7 +27,8 @@ class ExternalTestsService
     {
         DB::transaction(function () use ($request) {
             $validated_data = $request->validated();
-
+            $validated_data['test_code'] = explode('/', $validated_data['test_code_st'])[1] ?? null;
+            // dd($validated_data['test_code']);
             $validated_data['sample_number'] = $validated_data['sample_num'];
             $validated_data['month'] = now()->month;
             $validated_data['year'] = now()->year;
@@ -89,7 +90,8 @@ class ExternalTestsService
     public function update($request,$id)
     {
         $validated_data = $request->validated();
-
+        $validated_data['test_code'] = explode('/', $validated_data['test_code_st'])[1] ?? null;
+        // dd($validated_data['test_code']);
         $validated_data['sample_number'] = $validated_data['sample_num'];
         $validated_data['month'] = now()->month;
         $validated_data['year'] = now()->year;

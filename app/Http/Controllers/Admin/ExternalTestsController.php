@@ -33,10 +33,16 @@ class ExternalTestsController extends Controller
 
             $allData = Test::with(['company', 'client', 'project', 'user'])->where('test_type', 'external')->orderBy('id', 'desc')->get();
             return DataTables::of($allData)
-                ->editColumn('client', function ($row) {
-                    //  return optional($row->client)->name;
-                    return '<a href="'.route('admin.client_companies', $row->client_id).'" class="text-primary fw-bold">'.($row->client)->name.'</a>';
+                // ->editColumn('client', function ($row) {
+                //     //  return optional($row->client)->name;
+                //     return '<a href="'.route('admin.client_companies', $row->client_id).'" class="text-primary fw-bold">'.($row->client)->name.'</a>';
 
+                // })
+                ->editColumn('client', function ($row) {
+                    if ($row->client && $row->client->name) {
+                        return '<a href="'.route('admin.client_companies', $row->client_id).'" class="text-primary fw-bold">'.$row->client->name.'</a>';
+                    }
+                    return '<span class="text-muted">'.trans('tests.no_client').'</span>';
                 })
                 ->editColumn('test_code', function ($row) {
                     return  $row->test_code_st;
@@ -116,7 +122,7 @@ class ExternalTestsController extends Controller
     public function create()
     {
         $data['test_code'] = $this->testsRepository->getLastFieldValue('test_code');
-        //dd($data['test_code']);
+        // dd($data['test_code']);
         $data['clients'] = Clients::where('is_active', 1)->get();
         $data['companies'] = Companies::all();
         $data['projects'] = ClientsProjects::all();

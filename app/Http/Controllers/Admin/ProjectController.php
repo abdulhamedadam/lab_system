@@ -92,6 +92,7 @@ class ProjectController extends Controller
     public function store(SaveRequest $request)
     {
         try {
+            // dd($request->all());
             $this->projectsService->store($request);
             toastr()->addSuccess(trans('forms.success'));
             return redirect()->route('admin.project.index');

@@ -222,7 +222,7 @@
                 {{-- الجهات المستفيده--}}
                 @can('clients')
                     <div class="menu-item">
-                        <a class="menu-link {{ request()->routeIs(['admin.clients.index']) ? 'active' : '' }}"
+                        <a class="menu-link {{ request()->routeIs(['admin.clients.*']) ? 'active' : '' }}"
                            href="{{ route('admin.clients.index') }}">
                             <span class="menu-icon">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
@@ -237,7 +237,7 @@
                 {{-- الشركات--}}
                 @can('companies')
                     <div class="menu-item">
-                        <a class="menu-link {{ request()->routeIs(['admin.company.index']) ? 'active' : '' }}"
+                        <a class="menu-link {{ request()->routeIs(['admin.company.*']) ? 'active' : '' }}"
                            href="{{ route('admin.company.index') }}">
                             <span class="menu-icon">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
@@ -253,7 +253,7 @@
                 {{-- المشاريع--}}
                 @can('projects')
                     <div class="menu-item">
-                        <a class="menu-link {{ request()->routeIs(['admin.project.index']) ? 'active' : '' }}"
+                        <a class="menu-link {{ request()->routeIs(['admin.project.*']) ? 'active' : '' }}"
                            href="{{ route('admin.project.index') }}">
                             <span class="menu-icon">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
@@ -283,8 +283,8 @@
                 @endcan
                 @can('external_tests')
                     <div class="menu-item">
-                        <a class="menu-link {{ request()->routeIs(['admin.external_test.index']) ? 'active' : '' }}"
-                           href="{{ route('admin.external_test.create') }}">
+                        <a class="menu-link {{ request()->routeIs(['admin.external_test.*']) ? 'active' : '' }}"
+                           href="{{ route('admin.external_test.index') }}">
             <span class="menu-icon">
                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
                     <path d="M5.5 7a.5.5 0 0 0 0 1h5a.5.5 0 0 0 0-1h-5zM5 9.5a.5.5 0 0 1 .5-.5h5a.5.5 0 0 1 0 1h-5a.5.5 0 0 1-.5-.5zm0 2a.5.5 0 0 1 .5-.5h2a.5.5 0 0 1 0 1h-2a.5.5 0 0 1-.5-.5z"/>

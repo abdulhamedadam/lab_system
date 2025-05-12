@@ -79,7 +79,7 @@
                                         <option value="{{$item->id}}" {{ old('company_id') == $item->id ? 'selected' : '' }}>{{$item->name}}</option>
                                     @endforeach
                                 </select>
-                                {!! saveCompanyButtonWithModal() !!}
+                                {{-- {!! saveCompanyButtonWithModal() !!} --}}
                             </div>
                             @error('company_id')
                             <span class="invalid-feedback d-block" role="alert">{{ $message }}</span>

@@ -1,10 +1,10 @@
 <?php return array (
-  'Employee_ID' => 'Employee_ID',
-  'loan_type' => 'loan_type',
-  'value' => 'value',
-  'date_loan' => 'date_loan',
-  'date_deductions' => 'date_deductions',
-  'installments_num' => 'installments_num',
-  'Reason' => 'Reason',
-  'date_bonuses' => 'date_bonuses',
+  'Employee_ID' => 'رقم الموظف',
+  'loan_type' => 'نوع القرض',
+  'value' => 'القيمة',
+  'date_loan' => 'تاريخ القرض',
+  'date_deductions' => 'تاريخ الخصومات',
+  'installments_num' => 'عدد الأقساط',
+  'Reason' => 'السبب',
+  'date_bonuses' => 'تاريخ المكافآت',
 );

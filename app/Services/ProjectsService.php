@@ -29,7 +29,7 @@ class ProjectsService
         $validated_data['project_code'] = $request->project_code;
         $validated_data['created_by']= auth()->user()->id;
 
-        dd($validated_data);
+        // dd($validated_data);
         /* if ($request->hasFile('image')) {
              $file = $request->file('image');
              $dataX = $this->saveImage($file, 'clients');

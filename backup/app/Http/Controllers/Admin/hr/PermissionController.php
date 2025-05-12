@@ -112,37 +112,9 @@ class PermissionController extends Controller
             toastr()->addSuccess(trans('forms.success'));
             return redirect()->route('admin.hr.hr_permission.index');
 
-<<<<<<< HEAD
         } catch (\Exception $e) {
             return redirect()->back()->withErrors(['error' => $e->getMessage()]);
         }
-=======
-  /**
-   * Store a newly created resource in storage.
-   *
-   * @return Response
-   */
-  public function store(PermissionRequest $request)
-  {
-    try{
-   $permission=new Permission();
-   $permission->emp_id = $request->emp_id;
-   $permission->start_permission = $request->start_permission;
-    $permission->end_permission = $request->end_permission;    //time
-   $permission->date_permission = $request->date_permission;      //date
-   $permission->date_permission_int =strtotime($request->date_permission);
-   $permission->period = $request->period;
-   $permission->reason = $request->reason;
-   $permission->year =  Date('Y', strtotime($request->date_permission));
-   $permission->month = Date('n', strtotime ($request->date_permission));
-   $permission->save();
-   toastr()->addSuccess(trans('forms.success'));
-   return redirect()->route('admin.hr.hr_permission.index');
-
-} catch (\Exception $e) {
-   return redirect()->back()->withErrors(['error' => $e->getMessage()]);
-}
->>>>>>> b9d7dd9656453caa468658901b3eaff8e8c8ccd6
 
 
     }
@@ -179,7 +151,6 @@ class PermissionController extends Controller
 
     }
 
-<<<<<<< HEAD
     /**
      * Show the form for editing the specified resource.
      *
@@ -190,20 +161,6 @@ class PermissionController extends Controller
     {
         $permission = Permission::find($id);
         return view('dashbord.admin.hr.permission.edit')->with('permission', $permission);
-=======
-  /**
-   * Display the specified resource.
-   *
-   * @param  int  $id
-   * @return Response
-   */
-  public function show_load($id)
-  {
-    $permission = Permission::findOrFail($id);
-    // $permission = Permission::select('*');
-    // $permission=$this->prepare_data($permission);
-    return view('dashbord.admin.hr.permission.load_details',compact('permission'));
->>>>>>> b9d7dd9656453caa468658901b3eaff8e8c8ccd6
 
     }
 
