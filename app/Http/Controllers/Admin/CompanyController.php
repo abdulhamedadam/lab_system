@@ -345,10 +345,22 @@ class CompanyController extends Controller
     /*****************************************************/
     public function save_payment_pay_dues(Request $request, $id, ClientPaymentService $clientPaymentService)
     {
+        $request->validate([
+            'paid_date' => 'required|date',
+            'payment_type' => 'required',
+            'received_by' => 'required',
+            'num' => 'required|array',
+            'value' => 'required|array',
+            'client_test_id' => 'required|array',
+        ]);
+        // dd(count($request->num));
         try {
+            // dd($request->all());
+            // dd('55');
+
             $clientPaymentService->save_company_pay_dues($request, $id);
             toastr()->addSuccess(trans('forms.success'));
-            return redirect()->route('admin.company_projects', $id);
+            return redirect()->route('admin.company_account_statement', $id);
 
         } catch (\Exception $e) {
             dd($e->getMessage());

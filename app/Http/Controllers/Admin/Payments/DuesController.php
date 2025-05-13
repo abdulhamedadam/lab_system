@@ -13,6 +13,7 @@ use App\Services\HelperService;
 use App\Services\Payments\ClientPaymentService;
 use App\Services\Payments\DuesService;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 use Yajra\DataTables\DataTables;
 
 class DuesController extends Controller
@@ -38,6 +39,9 @@ class DuesController extends Controller
                 'test_type' => $request->input('test_type'),
                 'sader_number' => $request->input('sader_number'),
             ];
+
+            // Log::info('Month filter value: ' . $request->input('month'));
+
             $allData = $this->duesService->get_all_dues($filters);
             // dd($allData);
             return Datatables::of($allData)

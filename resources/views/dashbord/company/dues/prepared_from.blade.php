@@ -71,7 +71,7 @@
             <label class="required form-label">{{trans('dues.num')}}</label>
             <div class="input-group flex-nowrap">
                 <span class="input-group-text" id="basic-addon3">{!! form_icon('number') !!}</span>
-                <input type="text" name="num[]" class="form-control" value="{{$invoice_num + $index}}" />
+                <input type="text" name="num[]" class="form-control" value="{{$invoice_num + $index}}" readonly/>
             </div>
         </div>
 
@@ -89,7 +89,7 @@
             <label class="required form-label">{{trans('dues.value')}}</label>
             <div class="input-group flex-nowrap">
                 <span class="input-group-text" id="basic-addon3">{!! form_icon('number') !!}</span>
-                <input type="number" step="any" name="value[]" class="form-control" value="{{$due->pay_now}}" />
+                <input type="number" step="any" name="value[]" class="form-control" value="{{$due->pay_now}}" required/>
             </div>
         </div>
 

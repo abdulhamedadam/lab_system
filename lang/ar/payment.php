@@ -102,4 +102,6 @@
   'unpaid_dues_footer_note' => 'هذا التقرير يوضح تفاصيل جميع الاختبارات التي لم تُسدد بالكامل أو جزئياً.',
   'project' => 'المشروع',
   'sader_date' => 'تاريخ الصادر',
+  'please_prepare_first' => 'please_prepare_first',
+  'fill_required_fields' => 'fill_required_fields',
 );
