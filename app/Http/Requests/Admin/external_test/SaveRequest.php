@@ -3,6 +3,7 @@
 namespace App\Http\Requests\Admin\external_test;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
 class SaveRequest extends FormRequest
 {
@@ -22,7 +23,12 @@ class SaveRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'test_code_st' => 'required|string',
+            // 'test_code_st' => 'required|string|unique:tbl_tests,test_code_st,'.$this->id,
+            'test_code_st' => [
+                'required',
+                'string',
+                Rule::unique('tbl_tests', 'test_code_st')->ignore($this->route('external_test')),
+            ],
             'client_id' => 'required',
             'company_id' => 'required',
             'project_id' => 'required',

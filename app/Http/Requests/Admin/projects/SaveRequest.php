@@ -18,7 +18,8 @@ class SaveRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'company_id'                 => 'required|string|max:255',
+            'client_id'                 => 'required',
+            'company_id'                 => 'required',
             'project_name'                 => 'required|string|max:255',
 
         ];

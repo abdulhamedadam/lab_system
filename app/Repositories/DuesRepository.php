@@ -10,12 +10,15 @@ use App\Models\Admin\Test;
 use App\Models\ClientTestPayment;
 use App\Models\ClientTests;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 
 class DuesRepository implements DuesInterface
 {
 
     public function get_all_dues($filters = [])
     {
+        // Log::info('month' . $filters['month']);
+
         $query = ClientTests::with(['client', 'client_test_payment'])
                     ->orderBy('id', 'desc');
 
@@ -35,10 +38,6 @@ class DuesRepository implements DuesInterface
             if (isset($filters['test_type']) && $filters['test_type']) {
                 $query->where('test_type', $filters['test_type']);
             }
-<<<<<<< HEAD
-
-=======
->>>>>>> cf63cffe12ddc1065e8d6c062fa3a04c32ca2d7c
         }
 
         $clientTests = $query->get();

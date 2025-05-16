@@ -46,7 +46,7 @@
                                         <option value="{{$item->id}}" {{ old('client_id') == $item->id ? 'selected' : '' }}>{{$item->name}}</option>
                                     @endforeach
                                 </select>
-                                {!! saveClientButtonWithModal() !!}
+                                {{-- {!! saveClientButtonWithModal() !!} --}}
 
 
                             </div>

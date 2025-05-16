@@ -55,7 +55,7 @@
                 <div class="card-header">
                     <div class="card-title fs-3 fw-bold">{{trans('payment.pay_dues')}}</div>
                 </div>
-                <form method="post" action="{{ route('admin.save_payment_pay_dues',$all_data->id) }}" enctype="multipart/form-data">
+                <form method="post" action="{{ route('admin.save_payment_pay_dues',$all_data->id) }}" enctype="multipart/form-data" id="paymentForm">
                     @csrf
 
                     <div class="card-body">
@@ -126,6 +126,10 @@
     <script>
         function prepare() {
             var amount = $('#amount').val();
+            if (!amount || amount <= 0) {
+                toastr.error('Please enter a valid amount');
+                return;
+            }
             $.ajax({
                 url: "{{ route('admin.company_prepare_amount',$all_data->id) }}",
                 type: "GET",
@@ -140,6 +144,35 @@
                 }
             });
         }
+
+        document.getElementById('paymentForm').addEventListener('submit', function(e) {
+            if (document.getElementById('prepared_form').innerHTML.trim() === '') {
+                e.preventDefault();
+                toastr.error('{{ trans("payment.please_prepare_first") }}');
+                return false;
+            }
+
+            const requiredFields = ['payment_type', 'received_by', 'paid_date'];
+            let isValid = true;
+
+            requiredFields.forEach(field => {
+                const element = document.querySelector(`[name="${field}"]`);
+                if (!element.value) {
+                    element.classList.add('is-invalid');
+                    isValid = false;
+                } else {
+                    element.classList.remove('is-invalid');
+                }
+            });
+
+            if (!isValid) {
+                e.preventDefault();
+                toastr.error('{{ trans("payment.fill_required_fields") }}');
+                return false;
+            }
+
+            return true;
+        });
     </script>
 
 

@@ -1,3 +1,3 @@
 <?php return array (
-  'ID' => 'ID',
+  'ID' => '#',
 );
