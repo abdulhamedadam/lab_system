@@ -44,7 +44,7 @@
                                     <option value="">{{trans('clients.select')}}</option>
                                     @foreach($clients as $item)
                                         <option value="{{$item->id}}"
-                                            {{ (is_array(old('client_id')) && in_array($item->id, old('client_id'))) ? 'selected' : '') }}>
+                                            {{ (is_array(old('client_id')) && in_array($item->id, old('client_id'))) ? 'selected' : '' }}>
                                             {{$item->name}}
                                         </option>
                                     @endforeach
