@@ -40,7 +40,7 @@
                             <label for="test_code" class="form-label">{{ trans('tests.test_code') }}</label>
                             <div class="input-group flex-nowrap">
                                 <span class="input-group-text" id="basic-addon3">{!! form_icon('text') !!}</span>
-                                <input type="text" class="form-control" name="test_code_st" id="test_code_st" value="{{ get_app_config_data('soil_prefix').$test_code }}" >
+                                <input type="text" class="form-control" name="test_code_st" id="test_code_st" value="{{ get_app_config_data('soil_prefix').(string)$test_code }}" >
                             </div>
                             @error('test_code_st')
                             <span class="invalid-feedback d-block" role="alert">{{ $message }}</span>

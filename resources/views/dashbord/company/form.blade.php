@@ -43,12 +43,13 @@
                                 <select class="form-select rounded-start-0" data-control="select2" name="client_id[]" id="client_id" multiple>
                                     <option value="">{{trans('clients.select')}}</option>
                                     @foreach($clients as $item)
-                                        <option value="{{$item->id}}" {{ old('client_id') == $item->id ? 'selected' : '' }}>{{$item->name}}</option>
+                                        <option value="{{$item->id}}"
+                                            {{ (is_array(old('client_id')) && in_array($item->id, old('client_id'))) ? 'selected' : '') }}>
+                                            {{$item->name}}
+                                        </option>
                                     @endforeach
                                 </select>
                                 {{-- {!! saveClientButtonWithModal() !!} --}}
-
-
                             </div>
 
                             @error('client_id')
