@@ -51,14 +51,20 @@ class ProjectController extends Controller
                     return $row->project_name;
 
                 })
+                ->editColumn('project_name', function ($row) {
+                    return $row->project_name;
+                })
                 ->editColumn('client', function ($row) {
-
-                    return '<a href="' . route('admin.client_companies', $row->client_id) . '" class="text-primary fw-bold">' . optional($row->client)->name . '</a>';
-
+                    if ($row->client_id && optional($row->client)->name) {
+                        return '<a href="' . route('admin.client_companies', ['id' => $row->client_id]) . '" class="text-primary fw-bold">' . $row->client->name . '</a>';
+                    }
+                    return 'N/A';
                 })
                 ->editColumn('company', function ($row) {
-                    return '<a href="' . route('admin.company_projects', $row->company_id) . '" class="text-primary fw-bold">' . optional($row->company)->name . '</a>';
-
+                    if ($row->company_id && optional($row->company)->name) {
+                        return '<a href="' . route('admin.company_projects', $row->company_id) . '" class="text-primary fw-bold">' . $row->company->name . '</a>';
+                    }
+                    return 'N/A';
                 })
                 ->addColumn('action', function ($row) {
                     return '
